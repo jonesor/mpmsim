@@ -1,0 +1,6 @@
+^mpmsim\.Rproj$
+^\.Rproj\.user$
+^CONDUCT\.md$
+^README-.*\.png$
+^cran-comments\.md$
+README.Rmd
