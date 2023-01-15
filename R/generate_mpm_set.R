@@ -74,6 +74,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
       # increment the i value
       i <- i + 1
+      #set attempts back to 0
+      attempt <- 0
     }
     attempt <- attempt + 1
     if (attempt > 1000) {
