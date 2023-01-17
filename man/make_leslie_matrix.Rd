@@ -17,7 +17,7 @@ make_leslie_matrix(survival, fertility, n_stages)
 A matrix of size n_stages x n_stages representing the Leslie matrix
 }
 \description{
-The function creates a Leslie matrix from inputs of number of stages, fertility (the top row of the matrix), and survival probability (the value in the off diagonal).
+The function creates a Leslie matrix from inputs of number of stages, fertility (the top row of the matrix), and survival probability (the value in the sub-diagonal).
 }
 \examples{
 make_leslie_matrix(survival = 0.5, fertility = c(0.1, 0.2, 0.3), n_stages = 3)
