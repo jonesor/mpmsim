@@ -1,16 +1,16 @@
 Package: mpmsim
-Title: Simulates Matrix Population Models With Particular Life History Characteristics
+Title: Simulates Matrix Population Models with Particular Life History Characteristics
 Version: 0.0.0.9000
 Authors@R: 
     person("Owen", "Jones", , "jones@biology.sdu.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-5720-4686"))
-Description: Allows users to generate matrix population models (MPMs) with particular characteristics based on aspects of life history such as mortality trajectories and fertility trajectories.
-License: CC BY-SA 4.0 
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+Description: Allows users to generate matrix population models (MPMs) with
+    particular characteristics based on aspects of life history such as
+    mortality trajectories and fertility trajectories.
+License: CC BY-SA 4.0
 Imports: 
     MCMCpack,
     popdemo
-Suggests:
-    knitr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
