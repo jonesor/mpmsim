@@ -1,5 +1,5 @@
 #' @title Create a Leslie matrix
-#' @description The function creates a Leslie matrix from inputs of number of stages, fertility (the top row of the matrix), and survival probability (the value in the off diagonal).
+#' @description The function creates a Leslie matrix from inputs of number of stages, fertility (the top row of the matrix), and survival probability (the value in the sub-diagonal).
 #' @param survival a numeric value representing the survival probability of each stage along the lower off-diagonal of the matrix, with the final value being in the lower-right corner of the matrix. If only one value is provided, this is applied to all survival elements.
 #' @param fertility a numeric vector of length n_stages representing the fertility rate of each stage. If only one value is provided, this is applied to all fertility elements.
 #' @param n_stages a numeric value representing the number of stages in the matrix
