@@ -6,8 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-`mpmsim` is a tool for randomly generating matrix population models
-given a particular archetype, based on life history.
+`mpmsim` is a tool for generating random or semi-random matrix
+population models given a particular archetype, based on life history.
 
 ## Installation
 
@@ -33,14 +33,17 @@ library(mpmsim)
 Generate some MPMs.
 
 ``` r
-randomMPM(nStage = 2, Fec = 20, addFec = TRUE, archetype = 1)
-#>            [,1]        [,2]
-#> [1,] 0.06853215 16.51778569
-#> [2,] 0.45926855  0.04015291
-randomMPM(nStage = 2, Fec = 20, addFec = TRUE, archetype = 2)
-#>            [,1]       [,2]
-#> [1,] 0.26147678 22.2582935
-#> [2,] 0.04290753  0.2370174
+randomMPM(nStage = 4, Fec = 20, archetype = 1)
+#>            [,1]       [,2]       [,3]       [,4]
+#> [1,] 0.02567980 0.14405647 0.09177158 28.4245054
+#> [2,] 0.29585550 0.17424653 0.26756090  0.1034498
+#> [3,] 0.18349073 0.43855577 0.20959059  0.2421175
+#> [4,] 0.01802149 0.08671069 0.04776346  0.1444609
+randomMPM(nStage = 3, Fec = 20, archetype = 2)
+#>            [,1]      [,2]       [,3]
+#> [1,] 0.47034344 0.1506038 20.0682623
+#> [2,] 0.02261655 0.2984267  0.2472501
+#> [3,] 0.17466562 0.4482221  0.6671148
 ```
 
 ## Contributions
