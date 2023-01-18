@@ -43,8 +43,8 @@ library(mpmsim)
 Generate some MPMs.
 
 ```{r}
-randomMPM(nStage = 4, Fec = 20, archetype = 1)
-randomMPM(nStage = 3, Fec = 20, archetype = 2)
+randomMPM(n_stages = 4, fecundity = 20, archetype = 1)
+randomMPM(n_stages = 3, fecundity = 20, archetype = 2)
 ```
 
 ## Contributions

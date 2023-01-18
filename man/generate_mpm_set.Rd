@@ -10,7 +10,7 @@ generate_mpm_set(
   upper_lambda = 1.1,
   n_stages = 3,
   archetype = 1,
-  Fec = 1.5,
+  fecundity = 1.5,
   split = FALSE
 )
 
@@ -20,7 +20,7 @@ generate_mpm_set(
   upper_lambda = 1.1,
   n_stages = 3,
   archetype = 1,
-  Fec = 1.5,
+  fecundity = 1.5,
   split = FALSE
 )
 }
@@ -35,7 +35,7 @@ generate_mpm_set(
 
 \item{archetype}{The archetype of the MPMs. Default is 1.}
 
-\item{Fec}{A vector of fecundities for the MPMs. Default is 1.5.}
+\item{fecundity}{A vector of fecundities for the MPMs. Default is 1.5.}
 
 \item{split}{A logical indicating whether to split matrices. Default is FALSE.}
 }
@@ -56,12 +56,12 @@ The function attempts to find matrices that fulfil the lambda criteria, discardi
 \examples{
 generate_mpm_set(
   n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-  n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 )
 
 generate_mpm_set(
   n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-  n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 )
 
 }

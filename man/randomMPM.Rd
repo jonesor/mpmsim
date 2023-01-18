@@ -4,12 +4,12 @@
 \alias{randomMPM}
 \title{Generate random matrix population models (MPMs).}
 \usage{
-randomMPM(n_stages, Fec, archetype = 1, split = FALSE)
+randomMPM(n_stages, fecundity, archetype = 1, split = FALSE)
 }
 \arguments{
 \item{n_stages}{An integer defining the number of stages for the MPM.}
 
-\item{Fec}{Mean fecundity. This value is the lambda value for a Poisson distribution from which a value for fecundity is drawn. An integer of length 1 or a vector of integers of length equal to the number of stages. If there is no reproduction in a particular age class, use a value of 0.}
+\item{fecundity}{Mean fecundity. This value is the lambda value for a Poisson distribution from which a value for fecundity is drawn. An integer of length 1 or a vector of integers of length equal to the number of stages. If there is no reproduction in a particular age class, use a value of 0.}
 
 \item{archetype}{Indication of which life history archetype should be used, based on Takada et al. 2018. An integer between 1 and 4.}
 
@@ -35,11 +35,11 @@ note on elasticity analyses in a ternary plot using randomly generated populatio
 matrices. Population Ecology, 60(1), 37–47.
 }
 \examples{
-randomMPM(n_stages = 2, Fec = 20, archetype = 1, split = FALSE)
-randomMPM(n_stages = 2, Fec = 20, archetype = 2, split = TRUE)
-randomMPM(n_stages = 3, Fec = 20, archetype = 3, split = FALSE)
-randomMPM(n_stages = 4, Fec = 20, archetype = 4, split = TRUE)
-randomMPM(n_stages = 5, Fec = c(0,0,4,8,10), archetype = 4, split = TRUE)
+randomMPM(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
+randomMPM(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
+randomMPM(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
+randomMPM(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
+randomMPM(n_stages = 5, fecundity = c(0,0,4,8,10), archetype = 4, split = TRUE)
 
 }
 \author{

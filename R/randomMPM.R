@@ -13,7 +13,7 @@
 #' matrices. Population Ecology, 60(1), 37–47.
 #'
 #' @param n_stages An integer defining the number of stages for the MPM.
-#' @param Fec Mean fecundity. This value is the lambda value for a Poisson distribution from which a value for fecundity is drawn. An integer of length 1 or a vector of integers of length equal to the number of stages. If there is no reproduction in a particular age class, use a value of 0.
+#' @param fecundity Mean fecundity. This value is the lambda value for a Poisson distribution from which a value for fecundity is drawn. An integer of length 1 or a vector of integers of length equal to the number of stages. If there is no reproduction in a particular age class, use a value of 0.
 #' @param archetype Indication of which life history archetype should be used, based on Takada et al. 2018. An integer between 1 and 4.
 #' @param split TRUE/FALSE, indicating whether the matrix produced should be split into a survival matrix and a fertility matrix. Yeah true, then the output becomes a list with a matrix in each element. Otherwise, the output is a single matrix.
 #'
@@ -26,18 +26,18 @@
 #' @importFrom MCMCpack rdirichlet
 #'
 #' @examples
-#' randomMPM(n_stages = 2, Fec = 20, archetype = 1, split = FALSE)
-#' randomMPM(n_stages = 2, Fec = 20, archetype = 2, split = TRUE)
-#' randomMPM(n_stages = 3, Fec = 20, archetype = 3, split = FALSE)
-#' randomMPM(n_stages = 4, Fec = 20, archetype = 4, split = TRUE)
-#' randomMPM(n_stages = 5, Fec = c(0,0,4,8,10), archetype = 4, split = TRUE)
+#' randomMPM(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
+#' randomMPM(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
+#' randomMPM(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
+#' randomMPM(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
+#' randomMPM(n_stages = 5, fecundity = c(0,0,4,8,10), archetype = 4, split = TRUE)
 #'
 #' @export randomMPM
 #'
 
 
 randomMPM <- function(n_stages,
-                      Fec,
+                      fecundity,
                       archetype = 1,
                       split = FALSE) {
 
@@ -46,9 +46,9 @@ randomMPM <- function(n_stages,
     stop("n_stages must be an integer greater than 0.")
   }
 
-  # Check that Fec is a numeric vector of length 1 or n_stages
-  if (!is.numeric(Fec) || !(length(Fec) %in% c(1, n_stages))) {
-    stop("Fec must be a numeric vector of length 1 or n_stages.")
+  # Check that fecundity is a numeric vector of length 1 or n_stages
+  if (!is.numeric(fecundity) || !(length(fecundity) %in% c(1, n_stages))) {
+    stop("fecundity must be a numeric vector of length 1 or n_stages.")
   }
 
   # Check that split is a logical value
@@ -127,18 +127,18 @@ randomMPM <- function(n_stages,
 
   # Calculate Fecundity and place in top row.
   # In the Takada archetypes, fecundity is ONLY placed in the top right. Here,
-  # if the length of the fecundity vector (Fec) is 1, then that is exactly what
+  # if the length of the fecundity vector (fecundity) is 1, then that is exactly what
   # we do...
   matF <- matrix(0, nrow = n_stages, ncol = n_stages)
 
-  if (length(Fec) == 1) {
-    matF[1, n_stages] <- rpois(n = 1, lambda = Fec)
+  if (length(fecundity) == 1) {
+    matF[1, n_stages] <- rpois(n = 1, lambda = fecundity)
   }
 
   # ... if the length is >1, then the fecundity vector of length n_stages is added
   # to the top row.
-  if (length(Fec) > 1) {
-    fecVect <- rpois(n = n_stages, lambda = Fec)
+  if (length(fecundity) > 1) {
+    fecVect <- rpois(n = n_stages, lambda = fecundity)
     matF[1, ] <- fecVect
   }
 

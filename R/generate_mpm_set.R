@@ -9,7 +9,7 @@
 #' @param upper_lambda The upper bound for acceptable lambda values. Default is 1.1.
 #' @param n_stages The number of stages for the MPMs. Default is 3.
 #' @param archetype The archetype of the MPMs. Default is 1.
-#' @param Fec A vector of fecundities for the MPMs. Default is 1.5.
+#' @param fecundity A vector of fecundities for the MPMs. Default is 1.5.
 #' @param split A logical indicating whether to split matrices. Default is FALSE.
 #' @return A list of MPMs that meet the specified criteria.
 #'
@@ -18,13 +18,13 @@
 #' @examples
 #' generate_mpm_set(
 #'   n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-#'   n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+#'   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 #' )
 #'
 #' @export generate_mpm_set
 
 generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-                             n_stages = 3, archetype = 1, Fec = 1.5, split = FALSE) {
+                             n_stages = 3, archetype = 1, fecundity = 1.5, split = FALSE) {
 
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
@@ -54,7 +54,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
 
     # Generate an MPM
-    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype, Fec = Fec, split = split)
+    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype, fecundity = fecundity, split = split)
 
     # Get lambda value
     if (split == TRUE) {
@@ -100,7 +100,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 #' @param upper_lambda The upper bound for acceptable lambda values. Default is 1.1.
 #' @param n_stages The number of stages for the MPMs. Default is 3.
 #' @param archetype The archetype of the MPMs. Default is 1.
-#' @param Fec A vector of fecundities for the MPMs. Default is 1.5.
+#' @param fecundity A vector of fecundities for the MPMs. Default is 1.5.
 #' @param split A logical indicating whether to split matrices. Default is FALSE.
 #' @return A list of MPMs that meet the specified criteria.
 #'
@@ -109,13 +109,13 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 #' @examples
 #' generate_mpm_set(
 #'   n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-#'   n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+#'   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 #' )
 #'
 #' @export generate_mpm_set
 
 generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-                             n_stages = 3, archetype = 1, Fec = 1.5, split = FALSE) {
+                             n_stages = 3, archetype = 1, fecundity = 1.5, split = FALSE) {
 
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
@@ -145,7 +145,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
 
     # Generate an MPM
-    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype, Fec = Fec, split = split)
+    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype, fecundity = fecundity, split = split)
 
     # Get lambda value
     if (split == TRUE) {

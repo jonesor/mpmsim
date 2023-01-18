@@ -2,7 +2,7 @@
 testthat::expect_error(
   generate_mpm_set(
    n = 0, lower_lambda = 0.9, upper_lambda = 1.1,
-   n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
   )
 )
 
@@ -10,7 +10,7 @@ testthat::expect_error(
 testthat::expect_error(
   generate_mpm_set(
     n = 10, lower_lambda = -1, upper_lambda = 1.1,
-    n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+    n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
   )
 )
 
@@ -18,7 +18,7 @@ testthat::expect_error(
 testthat::expect_error(
   generate_mpm_set(
     n = 10, lower_lambda = 1.11, upper_lambda = 1.1,
-    n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+    n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
   )
 )
 
@@ -27,7 +27,7 @@ testthat::expect_error(
 testthat::expect_error(
   generate_mpm_set(
     n = 10, lower_lambda = 1.2, upper_lambda = -1.1,
-    n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+    n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
   )
 )
 
@@ -35,7 +35,7 @@ testthat::expect_error(
 testthat::expect_error(
   generate_mpm_set(
     n = 10, lower_lambda = 1.2, upper_lambda = 1.1,
-    n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+    n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
   )
 )
 
@@ -44,7 +44,7 @@ testthat::expect_error(
 testthat::expect_type(
   generate_mpm_set(
     n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-    n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+    n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
   ),
   "list"
 )
@@ -54,17 +54,17 @@ testthat::expect_type(
 testthat::expect_true(
  is.matrix(generate_mpm_set(
     n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-    n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = FALSE
+    n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = FALSE
   )[[1]])
   )
 
 
-#Expect an error when Fec is so high that finding an acceptable lambda is
+#Expect an error when fecundity is so high that finding an acceptable lambda is
 #impossible
 
 testthat::expect_error(
   generate_mpm_set(
     n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-    n_stages = 5, Fec = rep(100000,5), archetype = 4, split = TRUE
+    n_stages = 5, fecundity = rep(100000,5), archetype = 4, split = TRUE
   )
 )
