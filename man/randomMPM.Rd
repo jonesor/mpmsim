@@ -69,8 +69,10 @@ randomMPM(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
 randomMPM(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
 randomMPM(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
 randomMPM(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
-randomMPM(n_stages = 5, fecundity = c(0,0,4,8,10), archetype = 4,
-split = TRUE)
+randomMPM(
+  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4,
+  split = TRUE
+)
 
 }
 \author{
