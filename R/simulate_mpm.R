@@ -7,7 +7,6 @@
 #' simSurv(0.8, 100)
 #' simSurv(0.5, 1000)
 #' @export simSurv
-#' @noRd
 simSurv <- function(probSurv,sample_size){mean(rbinom(sample_size,1,probSurv))}
 
 #' Simulate reproduction (fecundity)
@@ -19,7 +18,6 @@ simSurv <- function(probSurv,sample_size){mean(rbinom(sample_size,1,probSurv))}
 #' simFec(2, 100)
 #' simFec(5, 1000)
 #' @export simFec
-#' @noRd
 simFec <- function(meanFec,sample_size){mean(rpois(sample_size,meanFec))}
 
 #' Simulate matrix population model
@@ -40,6 +38,35 @@ simFec <- function(meanFec,sample_size){mean(rpois(sample_size,meanFec))}
 #' @export simulate_mpm
 #'
 simulate_mpm <- function(matU, matF, sample_size, split = TRUE){
+
+  #Validation
+  if(!inherits(matU, "matrix")){
+    stop("matU needs to be a matrix")
+  }
+
+  if(!inherits(matF, "matrix")){
+    stop("matF needs to be a matrix")
+  }
+
+  if(!inherits(sample_size, "matrix")||length(sample_size) == 1){
+    stop("matF needs to be a matrix, or an integer with length 1")
+  }
+
+  if(!all(matU>=0)){
+    stop("matU must include only values >= 0")
+  }
+
+  if(!all(matF>=0)){
+    stop("matF must include only values >= 0")
+  }
+
+  if(!all(sample_size>0)){
+    stop("sample_size must include only values > 0")
+  }
+
+  if (!is.logical(split)) {
+    stop("split must be a logical value (TRUE/FALSE).")
+  }
 
   #Convert the matrix into a vector
   vectU <- as.vector(matU)
