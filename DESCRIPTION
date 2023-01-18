@@ -1,5 +1,6 @@
 Package: mpmsim
-Title: Simulates Matrix Population Models with Particular Life History Characteristics
+Title: Simulates Matrix Population Models with Particular Life History
+    Characteristics
 Version: 0.0.0.9000
 Authors@R: 
     person("Owen", "Jones", , "jones@biology.sdu.dk", role = c("aut", "cre"),
@@ -11,9 +12,9 @@ License: CC BY-SA 4.0
 Imports: 
     MCMCpack,
     popdemo
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
