@@ -2,17 +2,20 @@
 #'
 #' This function generates a set of n MPMs according to the specified criteria.
 #' Criteria include the archetype, and the acceptable lambda values.
-#' The function attempts to find matrices that fulfil the lambda criteria,
+#' The function attempts to find matrices that fulfill the lambda criteria,
 #' discarding unacceptable matrices. If it takes more than 1000 attempts to find
 #' a suitable matrix model, then an error is produced.
 #'
 #' @param n The number of MPMs to generate. Default is 10.
-#' @param lower_lambda The lower bound for acceptable lambda values. Default is 0.9.
-#' @param upper_lambda The upper bound for acceptable lambda values. Default is 1.1.
+#' @param lower_lambda The lower bound for acceptable lambda values. Default is
+#'   0.9.
+#' @param upper_lambda The upper bound for acceptable lambda values. Default is
+#'   1.1.
 #' @param n_stages The number of stages for the MPMs. Default is 3.
 #' @param archetype The archetype of the MPMs. Default is 1.
 #' @param fecundity A vector of fecundities for the MPMs. Default is 1.5.
-#' @param split A logical indicating whether to split matrices. Default is FALSE.
+#' @param split A logical indicating whether to split matrices. Default is
+#'   FALSE.
 #' @return A list of MPMs that meet the specified criteria.
 #'
 #' @importFrom popdemo eigs

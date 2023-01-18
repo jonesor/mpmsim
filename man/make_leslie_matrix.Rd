@@ -4,7 +4,7 @@
 \alias{make_leslie_matrix}
 \title{Create a Leslie matrix}
 \usage{
-make_leslie_matrix(survival, fertility, n_stages)
+make_leslie_matrix(survival, fertility, n_stages, split = FALSE)
 }
 \arguments{
 \item{survival}{a numeric value representing the survival probability of each
@@ -18,6 +18,9 @@ applied to all fertility elements.}
 
 \item{n_stages}{a numeric value representing the number of stages in the
 matrix}
+
+\item{split}{a logical argument indicating whether the output matrix should
+be split into separate U and F matrices.}
 }
 \value{
 A matrix of size n_stages x n_stages representing the Leslie matrix
@@ -28,13 +31,21 @@ stages, fertility (the top row of the matrix), and survival probability
 (the value in the sub-diagonal).
 }
 \examples{
-make_leslie_matrix(survival = 0.5, fertility = c(0.1, 0.2, 0.3),
-                   n_stages = 3)
-make_leslie_matrix(survival = c(0.5,0.6,0.7), fertility = c(0.1,0.2,0.3),
-                   n_stages = 3)
-make_leslie_matrix(survival = seq(0.1,0.7,length.out = 4), fertility = 0.1,
-                   n_stages = 4)
-make_leslie_matrix(survival = c(0.8,0.3,0.2,0.1,0.05), fertility = 0.2,
-                   n_stages = 5)
+make_leslie_matrix(
+  survival = 0.5, fertility = c(0.1, 0.2, 0.3),
+  n_stages = 3, split = FALSE
+)
+make_leslie_matrix(
+  survival = c(0.5, 0.6, 0.7), fertility = c(0.1, 0.2, 0.3),
+  n_stages = 3
+)
+make_leslie_matrix(
+  survival = seq(0.1, 0.7, length.out = 4), fertility = 0.1,
+  n_stages = 4
+)
+make_leslie_matrix(
+  survival = c(0.8, 0.3, 0.2, 0.1, 0.05), fertility = 0.2,
+  n_stages = 5
+)
 
 }
