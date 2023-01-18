@@ -3,8 +3,8 @@
 #' Generates random matrix population models (MPMs) with element values based on
 #' defined life history archetypes. Survival and transition/growth probabilities
 #' from any particular stage are restricted to be less than or equal to 1 by
-#' drawing from a Dirichlet distribution. The user can specify archetypes to
-#' restrict the MPMs in other ways:
+#' drawing from a Dirichlet distribution. The user can specify archetypes (from
+#' Takada et al. 2018) to restrict the MPMs in other ways:
 #' - Archetype 1: all elements are positive, although they may be very small.
 #' Therefore, transition from/to any stage is possible. This model describes a
 #' life history where individuals can progress and retrogress rapidly.
@@ -28,7 +28,7 @@
 #' top right of the matrix, if it is a single value. If it is a vector of length
 #' `n_stages` then the fertility vector spans the entire top row of the matrix.
 #'
-#' Based on the paper: Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A
+#' @reference Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A
 #' cautionary note on elasticity analyses in a ternary plot using randomly
 #' generated population matrices. Population Ecology, 60(1), 37–47.
 #'
