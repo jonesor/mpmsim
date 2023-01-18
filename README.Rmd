@@ -40,12 +40,19 @@ First remember to load the package.
 library(mpmsim)
 ```
 
-Generate some MPMs.
+Generate single MPMs.
 
 ```{r}
-randomMPM(n_stages = 4, fecundity = 20, archetype = 1)
 randomMPM(n_stages = 3, fecundity = 20, archetype = 2)
 ```
+
+Generate a set of MPMs.
+
+```{r}
+generate_mpm_set(n = 5, n_stages = 4, fecundity = 8, archetype = 1,
+                 lower_lambda = 0.9, upper_lambda = 1.1)
+```
+
 
 ## Contributions
 
