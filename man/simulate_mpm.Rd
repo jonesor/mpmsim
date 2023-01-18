@@ -22,7 +22,17 @@ list of matrices of survival and fecundity if split = TRUE, otherwise
 a single matrix of the sum of survival and fecundity
 }
 \description{
-Simulate matrix population model
+Simulates a matrix population model based on expected values in the transition matrix.
+The expected values are provided in two matrices \code{matU} for the
+growth/development and survival transitions and \code{matF} for the fecundity
+transitions.
+The \code{matU} values are simulated based on expected probabilities, assuming a
+binomial process with a sample size defined by \code{sample_size}. The \code{matF}
+values are simulated using a Poisson process with a sample size defined by
+\code{sample_size}.
+Thus users can expect that large sample sizes will result in simulated
+matrices that match closely with the expectations, while simulated matrices
+with small sample sizes will be more variable.
 }
 \examples{
 mats <- make_leslie_matrix(
