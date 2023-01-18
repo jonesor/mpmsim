@@ -4,10 +4,10 @@
 \alias{randomMPM}
 \title{Generate random matrix population models (MPMs).}
 \usage{
-randomMPM(nStage, Fec, archetype = 1, split = FALSE)
+randomMPM(n_stages, Fec, archetype = 1, split = FALSE)
 }
 \arguments{
-\item{nStage}{An integer defining the number of stages for the MPM.}
+\item{n_stages}{An integer defining the number of stages for the MPM.}
 
 \item{Fec}{Mean fecundity. This value is the lambda value for a Poisson distribution from which a value for fecundity is drawn. An integer of length 1 or a vector of integers of length equal to the number of stages. If there is no reproduction in a particular age class, use a value of 0.}
 
@@ -28,18 +28,18 @@ Generates random matrix population models (MPMs) with element values based on de
 }
 }
 \details{
-In all 4 of these Archetypes, fecundity is placed as a single element on the top right of the matrix, if it is a single value. If it is a vector of length \code{nStage} then the fertility vector spans the entire top row of the matrix.
+In all 4 of these Archetypes, fecundity is placed as a single element on the top right of the matrix, if it is a single value. If it is a vector of length \code{n_stages} then the fertility vector spans the entire top row of the matrix.
 
 Based on the paper: Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary
 note on elasticity analyses in a ternary plot using randomly generated population
 matrices. Population Ecology, 60(1), 37–47.
 }
 \examples{
-randomMPM(nStage = 2, Fec = 20, archetype = 1, split = FALSE)
-randomMPM(nStage = 2, Fec = 20, archetype = 2, split = TRUE)
-randomMPM(nStage = 3, Fec = 20, archetype = 3, split = FALSE)
-randomMPM(nStage = 4, Fec = 20, archetype = 4, split = TRUE)
-randomMPM(nStage = 5, Fec = c(0,0,4,8,10), archetype = 4, split = TRUE)
+randomMPM(n_stages = 2, Fec = 20, archetype = 1, split = FALSE)
+randomMPM(n_stages = 2, Fec = 20, archetype = 2, split = TRUE)
+randomMPM(n_stages = 3, Fec = 20, archetype = 3, split = FALSE)
+randomMPM(n_stages = 4, Fec = 20, archetype = 4, split = TRUE)
+randomMPM(n_stages = 5, Fec = c(0,0,4,8,10), archetype = 4, split = TRUE)
 
 }
 \author{

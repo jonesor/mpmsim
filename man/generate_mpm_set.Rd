@@ -8,7 +8,7 @@ generate_mpm_set(
   n = 10,
   lower_lambda = 0.9,
   upper_lambda = 1.1,
-  nStage = 3,
+  n_stages = 3,
   archetype = 1,
   Fec = 1.5,
   split = FALSE
@@ -18,7 +18,7 @@ generate_mpm_set(
   n = 10,
   lower_lambda = 0.9,
   upper_lambda = 1.1,
-  nStage = 3,
+  n_stages = 3,
   archetype = 1,
   Fec = 1.5,
   split = FALSE
@@ -31,7 +31,7 @@ generate_mpm_set(
 
 \item{upper_lambda}{The upper bound for acceptable lambda values. Default is 1.1.}
 
-\item{nStage}{The number of stages for the MPMs. Default is 3.}
+\item{n_stages}{The number of stages for the MPMs. Default is 3.}
 
 \item{archetype}{The archetype of the MPMs. Default is 1.}
 
@@ -56,12 +56,12 @@ The function attempts to find matrices that fulfil the lambda criteria, discardi
 \examples{
 generate_mpm_set(
   n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-  nStage = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+  n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 )
 
 generate_mpm_set(
   n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-  nStage = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+  n_stages = 5, Fec = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 )
 
 }
