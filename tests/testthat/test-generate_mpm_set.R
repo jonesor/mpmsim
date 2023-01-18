@@ -1,8 +1,8 @@
 # Check if n is a positive integer
 testthat::expect_error(
   generate_mpm_set(
-   n = 0, lower_lambda = 0.9, upper_lambda = 1.1,
-   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+    n = 0, lower_lambda = 0.9, upper_lambda = 1.1,
+    n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
   )
 )
 
@@ -23,7 +23,7 @@ testthat::expect_error(
 )
 
 
-#Check that upper lambda is positive
+# Check that upper lambda is positive
 testthat::expect_error(
   generate_mpm_set(
     n = 10, lower_lambda = 1.2, upper_lambda = -1.1,
@@ -31,7 +31,7 @@ testthat::expect_error(
   )
 )
 
-#Check that upper lambda greater than lower lambda
+# Check that upper lambda greater than lower lambda
 testthat::expect_error(
   generate_mpm_set(
     n = 10, lower_lambda = 1.2, upper_lambda = 1.1,
@@ -52,19 +52,19 @@ testthat::expect_type(
 # Check output is a list of matrices
 # Checks the first element only
 testthat::expect_true(
- is.matrix(generate_mpm_set(
+  is.matrix(generate_mpm_set(
     n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = FALSE
   )[[1]])
-  )
+)
 
 
-#Expect an error when fecundity is so high that finding an acceptable lambda is
-#impossible
+# Expect an error when fecundity is so high that finding an acceptable lambda is
+# impossible
 
 testthat::expect_error(
   generate_mpm_set(
     n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-    n_stages = 5, fecundity = rep(100000,5), archetype = 4, split = TRUE
+    n_stages = 5, fecundity = rep(100000, 5), archetype = 4, split = TRUE
   )
 )

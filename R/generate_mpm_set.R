@@ -59,8 +59,10 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
 
     # Generate an MPM
-    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype,
-                        fecundity = fecundity, split = split)
+    mpmOut <- randomMPM(
+      n_stages = n_stages, archetype = archetype,
+      fecundity = fecundity, split = split
+    )
 
     # Get lambda value
     if (split == TRUE) {
@@ -77,7 +79,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
       # do nothing)
 
       # If this is the first attempt, and the list is all NULL, then set i = 1
-      if (all(vapply(outputList, is.null,logical(1)))) {
+      if (all(vapply(outputList, is.null, logical(1)))) {
         i <- 1
       }
 
@@ -156,8 +158,10 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
 
     # Generate an MPM
-    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype,
-                        fecundity = fecundity, split = split)
+    mpmOut <- randomMPM(
+      n_stages = n_stages, archetype = archetype,
+      fecundity = fecundity, split = split
+    )
 
     # Get lambda value
     if (split == TRUE) {
@@ -174,7 +178,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
       # do nothing)
 
       # If this is the first attempt, and the list is all NULL, then set i = 1
-      if (all(vapply(outputList, is.null,logical(1)))) {
+      if (all(vapply(outputList, is.null, logical(1)))) {
         i <- 1
       }
 

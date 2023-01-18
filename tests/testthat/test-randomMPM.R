@@ -1,24 +1,24 @@
-#n_stages must be greater than 0
+# n_stages must be greater than 0
 testthat::expect_error(
   randomMPM(n_stages = -1, fecundity = 20, archetype = 1, split = FALSE)
-  )
+)
 
-#n_stages must be integer
+# n_stages must be integer
 testthat::expect_error(
   randomMPM(n_stages = 3.5, fecundity = 20, archetype = 1, split = FALSE)
 )
 
-#fecundity must be numeric
+# fecundity must be numeric
 testthat::expect_error(
   randomMPM(n_stages = 4, fecundity = "text", archetype = 1, split = FALSE)
 )
 
-#fecundity must be of length 1 or n_stages
+# fecundity must be of length 1 or n_stages
 testthat::expect_error(
-  randomMPM(n_stages = 4, fecundity = c(12,5), archetype = 1, split = FALSE)
+  randomMPM(n_stages = 4, fecundity = c(12, 5), archetype = 1, split = FALSE)
 )
 
-#Split must be logical
+# Split must be logical
 testthat::expect_error(
   randomMPM(n_stages = 4, fecundity = 5, archetype = 1, split = "text")
 )
@@ -39,6 +39,4 @@ testthat::expect_error(
 # Check that output is a matrix
 testthat::expect_true(
   is.matrix(randomMPM(n_stages = 4, fecundity = 5, archetype = 1, split = FALSE))
-  )
-
-
+)
