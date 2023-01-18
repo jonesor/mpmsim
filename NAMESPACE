@@ -3,8 +3,6 @@
 export(generate_mpm_set)
 export(make_leslie_matrix)
 export(randomMPM)
-export(simFec)
-export(simSurv)
 export(simulate_mpm)
 importFrom(MCMCpack,rdirichlet)
 importFrom(popdemo,eigs)
