@@ -59,7 +59,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
 
     # Generate an MPM
-    mpmOut <- randomMPM(
+    mpmOut <- random_mpm(
       n_stages = n_stages, archetype = archetype,
       fecundity = fecundity, split = split
     )
@@ -156,9 +156,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
   attempt <- 1
   while (any(vapply(outputList, is.null, logical(1)))) {
 
-
     # Generate an MPM
-    mpmOut <- randomMPM(
+    mpmOut <- random_mpm(
       n_stages = n_stages, archetype = archetype,
       fecundity = fecundity, split = split
     )
