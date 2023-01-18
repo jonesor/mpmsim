@@ -2,7 +2,9 @@
 #'
 #' This function generates a set of n MPMs according to the specified criteria.
 #' Criteria include the archetype, and the acceptable lambda values.
-#' The function attempts to find matrices that fulfil the lambda criteria, discarding unacceptable matrices. If it takes more than 1000 attempts to find a suitable matrix model, then an error is produced.
+#' The function attempts to find matrices that fulfil the lambda criteria,
+#' discarding unacceptable matrices. If it takes more than 1000 attempts to find
+#' a suitable matrix model, then an error is produced.
 #'
 #' @param n The number of MPMs to generate. Default is 10.
 #' @param lower_lambda The lower bound for acceptable lambda values. Default is 0.9.
@@ -54,7 +56,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
 
     # Generate an MPM
-    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype, fecundity = fecundity, split = split)
+    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype,
+                        fecundity = fecundity, split = split)
 
     # Get lambda value
     if (split == TRUE) {
@@ -67,7 +70,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     L_accepted <- L < upper_lambda & L > lower_lambda
 
     if (L_accepted) {
-      # if the lambda is acceptable, add the matrix to the outputList (otherwise do nothing)
+      # if the lambda is acceptable, add the matrix to the outputList (otherwise
+      # do nothing)
 
       # If this is the first attempt, and the list is all NULL, then set i = 1
       if (all(vapply(outputList, is.null,logical(1)))) {
@@ -84,7 +88,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     }
     attempt <- attempt + 1
     if (attempt > 1000) {
-      stop("It is taking a long time to find an acceptable matrix.\nConsider changing your criteria.")
+      stop("It is taking a long time to find an acceptable matrix.\n
+           Consider changing your criteria.")
     }
   }
   return(outputList)
@@ -93,7 +98,9 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 #'
 #' This function generates a set of n MPMs according to the specified criteria.
 #' Criteria include the archetype, and the acceptable lambda values.
-#' The function attempts to find matrices that fulfil the lambda criteria, discarding unacceptable matrices. If it takes more than 1000 attempts to find a suitable matrix model, then an error is produced.
+#' The function attempts to find matrices that fulfil the lambda criteria,
+#' discarding unacceptable matrices. If it takes more than 1000 attempts to find
+#' a suitable matrix model, then an error is produced.
 #'
 #' @param n The number of MPMs to generate. Default is 10.
 #' @param lower_lambda The lower bound for acceptable lambda values. Default is 0.9.
@@ -115,7 +122,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 #' @export generate_mpm_set
 
 generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-                             n_stages = 3, archetype = 1, fecundity = 1.5, split = FALSE) {
+                             n_stages = 3, archetype = 1, fecundity = 1.5,
+                             split = FALSE) {
 
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
@@ -145,7 +153,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
 
     # Generate an MPM
-    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype, fecundity = fecundity, split = split)
+    mpmOut <- randomMPM(n_stages = n_stages, archetype = archetype,
+                        fecundity = fecundity, split = split)
 
     # Get lambda value
     if (split == TRUE) {
@@ -158,7 +167,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     L_accepted <- L < upper_lambda & L > lower_lambda
 
     if (L_accepted) {
-      # if the lambda is acceptable, add the matrix to the outputList (otherwise do nothing)
+      # if the lambda is acceptable, add the matrix to the outputList (otherwise
+      # do nothing)
 
       # If this is the first attempt, and the list is all NULL, then set i = 1
       if (all(vapply(outputList, is.null,logical(1)))) {
@@ -175,7 +185,8 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     }
     attempt <- attempt + 1
     if (attempt > 1000) {
-      stop("It is taking a long time to find an acceptable matrix.\nConsider changing your criteria.")
+      stop("It is taking a long time to find an acceptable matrix.\n
+           Consider changing your criteria.")
     }
   }
   return(outputList)

@@ -1,16 +1,36 @@
 #' Generate random matrix population models (MPMs).
 #'
-#' Generates random matrix population models (MPMs) with element values based on defined life history archetypes. Survival and transition/growth probabilities from any particular stage are restricted to be less than or equal to 1 by drawing from a Dirichlet distribution. The user can specify archetypes to restrict the MPMs in other ways:
-#' - Archetype 1: all elements are positive, although they may be very small. Therefore, transition from/to any stage is possible. This model describes a life history where individuals can progress and retrogress rapidly.
-#' - Archetype 2: has the same form as archetype 1 (transition from/to any stage is possible), but the survival probability (column sums of the survival matrix) increases monotonously as the individuals advance to later stages. This model, as the one in the first archetype, also allows for rapid progression and retrogression, but is more realistic in that stage-specific survival probability increases with stage advancement.
-#' - Archetype 3: positive non-zero elements for survival are only allowed on the diagonal and lower sub-diagonal of the matrix This model represents the life cycle of a species where retrogression is not allowed, and progression can only happen to the immediately larger/more developed stage (slow progression, e.g., trees).
-#' - Archetype 4: This archetype has the same general form as archetype 3, but with the further assumption that stage-specific survival increases as individuals increase in size/developmental stage. In this respect it is similar to archetype 2.
+#' Generates random matrix population models (MPMs) with element values based on
+#' defined life history archetypes. Survival and transition/growth probabilities
+#' from any particular stage are restricted to be less than or equal to 1 by
+#' drawing from a Dirichlet distribution. The user can specify archetypes to
+#' restrict the MPMs in other ways:
+#' - Archetype 1: all elements are positive, although they may be very small.
+#' Therefore, transition from/to any stage is possible. This model describes a
+#' life history where individuals can progress and retrogress rapidly.
+#' - Archetype 2: has the same form as archetype 1 (transition from/to any stage
+#' is possible), but the survival probability (column sums of the survival
+#' matrix) increases monotonously as the individuals advance to later stages.
+#' This model, as the one in the first archetype, also allows for rapid
+#' progression and retrogression, but is more realistic in that stage-specific
+#' survival probability increases with stage advancement.
+#' - Archetype 3: positive non-zero elements for survival are only allowed on
+#' the diagonal and lower sub-diagonal of the matrix This model represents the
+#' life cycle of a species where retrogression is not allowed, and progression
+#' can only happen to the immediately larger/more developed stage (slow
+#' progression, e.g., trees).
+#' - Archetype 4: This archetype has the same general form as archetype 3, but
+#' with the further assumption that stage-specific survival increases as
+#' individuals increase in size/developmental stage. In this respect it is
+#' similar to archetype 2.
 #'
-#' In all 4 of these Archetypes, fecundity is placed as a single element on the top right of the matrix, if it is a single value. If it is a vector of length `n_stages` then the fertility vector spans the entire top row of the matrix.
+#' In all 4 of these Archetypes, fecundity is placed as a single element on the
+#' top right of the matrix, if it is a single value. If it is a vector of length
+#' `n_stages` then the fertility vector spans the entire top row of the matrix.
 #'
-#' Based on the paper: Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary
-#' note on elasticity analyses in a ternary plot using randomly generated population
-#' matrices. Population Ecology, 60(1), 37–47.
+#' Based on the paper: Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A
+#' cautionary note on elasticity analyses in a ternary plot using randomly
+#' generated population matrices. Population Ecology, 60(1), 37–47.
 #'
 #' @param n_stages An integer defining the number of stages for the MPM.
 #' @param fecundity Mean fecundity. This value is the lambda value for a Poisson distribution from which a value for fecundity is drawn. An integer of length 1 or a vector of integers of length equal to the number of stages. If there is no reproduction in a particular age class, use a value of 0.
@@ -30,7 +50,8 @@
 #' randomMPM(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
 #' randomMPM(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
 #' randomMPM(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
-#' randomMPM(n_stages = 5, fecundity = c(0,0,4,8,10), archetype = 4, split = TRUE)
+#' randomMPM(n_stages = 5, fecundity = c(0,0,4,8,10), archetype = 4,
+#' split = TRUE)
 #'
 #' @export randomMPM
 #'
@@ -127,16 +148,16 @@ randomMPM <- function(n_stages,
 
   # Calculate Fecundity and place in top row.
   # In the Takada archetypes, fecundity is ONLY placed in the top right. Here,
-  # if the length of the fecundity vector (fecundity) is 1, then that is exactly what
-  # we do...
+  # if the length of the fecundity vector (fecundity) is 1, then that is exactly
+  # what we do...
   matF <- matrix(0, nrow = n_stages, ncol = n_stages)
 
   if (length(fecundity) == 1) {
     matF[1, n_stages] <- rpois(n = 1, lambda = fecundity)
   }
 
-  # ... if the length is >1, then the fecundity vector of length n_stages is added
-  # to the top row.
+  # ... if the length is >1, then the fecundity vector of length n_stages is
+  # added to the top row.
   if (length(fecundity) > 1) {
     fecVect <- rpois(n = n_stages, lambda = fecundity)
     matF[1, ] <- fecVect

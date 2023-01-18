@@ -19,27 +19,48 @@ randomMPM(n_stages, fecundity, archetype = 1, split = FALSE)
 Returns a random matrix population model with characteristics determined by the archetype selected and fecundity vector. If split = TRUE, the matrix is split into separate fertility and a growth/survival matrices, returned as a list.
 }
 \description{
-Generates random matrix population models (MPMs) with element values based on defined life history archetypes. Survival and transition/growth probabilities from any particular stage are restricted to be less than or equal to 1 by drawing from a Dirichlet distribution. The user can specify archetypes to restrict the MPMs in other ways:
+Generates random matrix population models (MPMs) with element values based on
+defined life history archetypes. Survival and transition/growth probabilities
+from any particular stage are restricted to be less than or equal to 1 by
+drawing from a Dirichlet distribution. The user can specify archetypes to
+restrict the MPMs in other ways:
 \itemize{
-\item Archetype 1: all elements are positive, although they may be very small. Therefore, transition from/to any stage is possible. This model describes a life history where individuals can progress and retrogress rapidly.
-\item Archetype 2: has the same form as archetype 1 (transition from/to any stage is possible), but the survival probability (column sums of the survival matrix) increases monotonously as the individuals advance to later stages. This model, as the one in the first archetype, also allows for rapid progression and retrogression, but is more realistic in that stage-specific survival probability increases with stage advancement.
-\item Archetype 3: positive non-zero elements for survival are only allowed on the diagonal and lower sub-diagonal of the matrix This model represents the life cycle of a species where retrogression is not allowed, and progression can only happen to the immediately larger/more developed stage (slow progression, e.g., trees).
-\item Archetype 4: This archetype has the same general form as archetype 3, but with the further assumption that stage-specific survival increases as individuals increase in size/developmental stage. In this respect it is similar to archetype 2.
+\item Archetype 1: all elements are positive, although they may be very small.
+Therefore, transition from/to any stage is possible. This model describes a
+life history where individuals can progress and retrogress rapidly.
+\item Archetype 2: has the same form as archetype 1 (transition from/to any stage
+is possible), but the survival probability (column sums of the survival
+matrix) increases monotonously as the individuals advance to later stages.
+This model, as the one in the first archetype, also allows for rapid
+progression and retrogression, but is more realistic in that stage-specific
+survival probability increases with stage advancement.
+\item Archetype 3: positive non-zero elements for survival are only allowed on
+the diagonal and lower sub-diagonal of the matrix This model represents the
+life cycle of a species where retrogression is not allowed, and progression
+can only happen to the immediately larger/more developed stage (slow
+progression, e.g., trees).
+\item Archetype 4: This archetype has the same general form as archetype 3, but
+with the further assumption that stage-specific survival increases as
+individuals increase in size/developmental stage. In this respect it is
+similar to archetype 2.
 }
 }
 \details{
-In all 4 of these Archetypes, fecundity is placed as a single element on the top right of the matrix, if it is a single value. If it is a vector of length \code{n_stages} then the fertility vector spans the entire top row of the matrix.
+In all 4 of these Archetypes, fecundity is placed as a single element on the
+top right of the matrix, if it is a single value. If it is a vector of length
+\code{n_stages} then the fertility vector spans the entire top row of the matrix.
 
-Based on the paper: Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary
-note on elasticity analyses in a ternary plot using randomly generated population
-matrices. Population Ecology, 60(1), 37–47.
+Based on the paper: Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A
+cautionary note on elasticity analyses in a ternary plot using randomly
+generated population matrices. Population Ecology, 60(1), 37–47.
 }
 \examples{
 randomMPM(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
 randomMPM(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
 randomMPM(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
 randomMPM(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
-randomMPM(n_stages = 5, fecundity = c(0,0,4,8,10), archetype = 4, split = TRUE)
+randomMPM(n_stages = 5, fecundity = c(0,0,4,8,10), archetype = 4,
+split = TRUE)
 
 }
 \author{

@@ -47,11 +47,15 @@ A list of MPMs that meet the specified criteria.
 \description{
 This function generates a set of n MPMs according to the specified criteria.
 Criteria include the archetype, and the acceptable lambda values.
-The function attempts to find matrices that fulfil the lambda criteria, discarding unacceptable matrices. If it takes more than 1000 attempts to find a suitable matrix model, then an error is produced.
+The function attempts to find matrices that fulfil the lambda criteria,
+discarding unacceptable matrices. If it takes more than 1000 attempts to find
+a suitable matrix model, then an error is produced.
 
 This function generates a set of n MPMs according to the specified criteria.
 Criteria include the archetype, and the acceptable lambda values.
-The function attempts to find matrices that fulfil the lambda criteria, discarding unacceptable matrices. If it takes more than 1000 attempts to find a suitable matrix model, then an error is produced.
+The function attempts to find matrices that fulfil the lambda criteria,
+discarding unacceptable matrices. If it takes more than 1000 attempts to find
+a suitable matrix model, then an error is produced.
 }
 \examples{
 generate_mpm_set(
