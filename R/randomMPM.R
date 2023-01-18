@@ -33,11 +33,21 @@
 #' generated population matrices. Population Ecology, 60(1), 37–47.
 #'
 #' @param n_stages An integer defining the number of stages for the MPM.
-#' @param fecundity Mean fecundity. This value is the lambda value for a Poisson distribution from which a value for fecundity is drawn. An integer of length 1 or a vector of integers of length equal to the number of stages. If there is no reproduction in a particular age class, use a value of 0.
-#' @param archetype Indication of which life history archetype should be used, based on Takada et al. 2018. An integer between 1 and 4.
-#' @param split TRUE/FALSE, indicating whether the matrix produced should be split into a survival matrix and a fertility matrix. Yeah true, then the output becomes a list with a matrix in each element. Otherwise, the output is a single matrix.
+#' @param fecundity Mean fecundity. This value is the lambda value for a Poisson
+#'   distribution from which a value for fecundity is drawn. An integer of
+#'   length 1 or a vector of integers of length equal to the number of stages.
+#'   If there is no reproduction in a particular age class, use a value of 0.
+#' @param archetype Indication of which life history archetype should be used,
+#'   based on Takada et al. 2018. An integer between 1 and 4.
+#' @param split TRUE/FALSE, indicating whether the matrix produced should be
+#'   split into a survival matrix and a fertility matrix. Yeah true, then the
+#'   output becomes a list with a matrix in each element. Otherwise, the output
+#'   is a single matrix.
 #'
-#' @return Returns a random matrix population model with characteristics determined by the archetype selected and fecundity vector. If split = TRUE, the matrix is split into separate fertility and a growth/survival matrices, returned as a list.
+#' @return Returns a random matrix population model with characteristics
+#'   determined by the archetype selected and fecundity vector. If split = TRUE,
+#'   the matrix is split into separate fertility and a growth/survival matrices,
+#'   returned as a list.
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #'
