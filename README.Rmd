@@ -42,11 +42,11 @@ library(mpmsim)
 
 ### Generate single random MPMs
 
-To generate a random matrix population models (MPM) with element values based on defined life history archetypes you can use `randomMPM`. This function draws survival and transition/growth probabilities from a Dirichlet distribution to ensure that the column totals (including death) are less than or equal to 1.
+To generate a random matrix population models (MPM) with element values based on defined life history archetypes you can use `random_mpm`. This function draws survival and transition/growth probabilities from a Dirichlet distribution to ensure that the column totals (including death) are less than or equal to 1.
 
 Fecundity is included as a single value, or as a vector with a length equal to the dimensions of the matrix. If it is a single value, it is placed as a single element on the top right of the matrix. If it is a vector of length `n_stages` then the fertility vector spans the entire top row of the matrix.
 
-User can specify `archetype` to constrain the MPMs. For example, in archetype 2, the survival probability (column sums of the survival matrix) is constrained to increase monotonically as the individuals advance to later stages. See `?randomMPM` for details.
+User can specify `archetype` to constrain the MPMs. For example, in archetype 2, the survival probability (column sums of the survival matrix) is constrained to increase monotonically as the individuals advance to later stages. See `?random_mpm` for details, and also examine Takada et al. (2018).
 
 ```{r}
 random_mpm(n_stages = 3, fecundity = 20, archetype = 2)
