@@ -6,7 +6,7 @@
 #' @examples
 #' simSurv(0.8, 100)
 #' simSurv(0.5, 1000)
-#' @export simSurv
+#' @noRd
 simSurv <- function(probSurv,sample_size){mean(rbinom(sample_size,1,probSurv))}
 
 #' Simulate reproduction (fecundity)
@@ -17,7 +17,7 @@ simSurv <- function(probSurv,sample_size){mean(rbinom(sample_size,1,probSurv))}
 #' @examples
 #' simFec(2, 100)
 #' simFec(5, 1000)
-#' @export simFec
+#' @noRd
 simFec <- function(meanFec,sample_size){mean(rpois(sample_size,meanFec))}
 
 #' Simulate matrix population model
