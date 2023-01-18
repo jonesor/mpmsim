@@ -19,6 +19,11 @@ make_leslie_matrix <- function(survival, fertility, n_stages) {
   if (!is.numeric(survival) || min(survival) < 0 || max(survival) > 1) {
     stop("survival must be a numeric value between 0 and 1, of length n_stages, or of length 1")
   }
+
+  if(length(survival) != 1 && length(survival) != n_stages){
+    stop("survival must be of length n_stages, or of length 1")
+  }
+
   if (!is.numeric(fertility) || (length(fertility) != n_stages && length(fertility) != 1)) {
     stop("fertility must be a numeric vector of length n_stages, or of length 1")
   }
