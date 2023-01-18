@@ -11,12 +11,15 @@ simulate_mpm(matU, matF, sample_size, split = TRUE)
 
 \item{matF}{matrix of mean fecundity values}
 
-\item{sample_size}{sample size}
+\item{sample_size}{matrix of sample size for each element of the matrix, or a
+single value applied to the whole matrix}
 
-\item{split}{logical, whether to split the output into survival and fecundity matrices or not}
+\item{split}{logical, whether to split the output into survival and fecundity
+matrices or not}
 }
 \value{
-list of matrices of survival and fecundity if split = TRUE, otherwise a single matrix of the sum of survival and fecundity
+list of matrices of survival and fecundity if split = TRUE, otherwise
+a single matrix of the sum of survival and fecundity
 }
 \description{
 Simulate matrix population model
