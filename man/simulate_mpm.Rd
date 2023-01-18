@@ -22,11 +22,15 @@ list of matrices of survival and fecundity if split = TRUE, otherwise a single m
 Simulate matrix population model
 }
 \examples{
-mats <- make_leslie_matrix(survival = c(0.1,0.2,0.5),
-                           fertility = c(0,1.2, 2.4),
-                           n_stages = 3, split = TRUE)
+mats <- make_leslie_matrix(
+  survival = c(0.1, 0.2, 0.5),
+  fertility = c(0, 1.2, 2.4),
+  n_stages = 3, split = TRUE
+)
 ssMat <- matrix(10, nrow = 3, ncol = 3)
 
-simulate_mpm(matU = mats$matU, matF = mats$matF,
-             sample_size = ssMat, split = TRUE)
+simulate_mpm(
+  matU = mats$matU, matF = mats$matF,
+  sample_size = ssMat, split = TRUE
+)
 }
