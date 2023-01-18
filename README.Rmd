@@ -42,15 +42,52 @@ library(mpmsim)
 
 Generate single MPMs.
 
+To generate a random matrix population models (MPM) with element values based on defined life history archetypes you can use `randomMPM`. This function draws survival and transition/growth probabilities from a Dirichlet distribution to ensure that the column totals (including death) are less than or equal to 1.
+
+Fecundity is included as a single value, or as a vector with a length equal to the dimensions of the matrix. If it is a single value, it is placed as a single element on the top right of the matrix. If it is a vector of length `n_stages` then the fertility vector spans the entire top row of the matrix.
+
+User can specify `archetype` to constrain the MPMs. For example, in archetype 2, the survival probability (column sums of the survival matrix) is constrained to increase monotonically as the individuals advance to later stages. See `?randomMPM` for details.
+
 ```{r}
 randomMPM(n_stages = 3, fecundity = 20, archetype = 2)
 ```
 
 Generate a set of MPMs.
 
+Sets of MPMs generated using the above approach can be quickly generated using `generate_mpm_set`. For example, to generate 5 MPMs from archetype 1 we can use the following code. Users can specify acceptable population growth for the set of matrices by setting the lower and upper bounds using the `lower_lambda` and `upper_lambda` arguments. This in life history analyses because, theoretically, only life histories with lambda values close to 1 will persist in nature. 
+
 ```{r}
 generate_mpm_set(n = 5, n_stages = 4, fecundity = 8, archetype = 1,
                  lower_lambda = 0.9, upper_lambda = 1.1)
+```
+## Generate a Leslie matrix
+
+Generating a Leslie matrix (a matrix where the stages represent discrete age classes) is handled with the `make_leslie_matrix` function. In a Leslie matrix survival is always in the lower subdiagonal and the lower-right-hand corner element, while fertility is shown in the top row. Both survival and fertility thus have a length equal to the number of stages in the model.
+
+Users can specify both survival and fertility as either a single value or a vector of values of length equal to the dimensions of the matrix model. If these arguments are single values, the value is repeated along the survival/fertility sequence. 
+
+```{r}
+make_leslie_matrix(survival = seq(0.1, 0.45, length.out = 4), 
+                   fertility = c(0,0,2.4,5), n_stages = 4, split = FALSE)
+```
+
+Generating plausible sets of Leslie matrices can then be handled by repeating the `make_leslie_matrix` command in a loop.
+For example, in the following code I produce 10 Leslie matrices with increasing survival with age.
+
+```{r}
+juvSurv <- runif(n = 10, min = 0.0, max = 0.1)
+adultSurv <- runif(n = 10, min = 0.4, max = 0.8)
+adultFert <- rpois(10, 6)
+
+outputMPMs <- NULL
+for (i in 1:10) {
+  outputMPMs[[i]] <- make_leslie_matrix(
+    survival = seq(juvSurv[i], adultSurv[i], length.out = 6),
+    fertility = c(0, 0, rep(adultFert[i],4)), n_stages = 6, split = FALSE
+  )
+}
+
+outputMPMs
 ```
 
 
