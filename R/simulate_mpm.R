@@ -28,9 +28,12 @@ simFec <- function(meanFec, sample_size) {
 #'
 #' @param matU matrix of survival probabilities
 #' @param matF matrix of mean fecundity values
-#' @param sample_size sample size
-#' @param split logical, whether to split the output into survival and fecundity matrices or not
-#' @return list of matrices of survival and fecundity if split = TRUE, otherwise a single matrix of the sum of survival and fecundity
+#' @param sample_size matrix of sample size for each element of the matrix, or a
+#'   single value applied to the whole matrix
+#' @param split logical, whether to split the output into survival and fecundity
+#'   matrices or not
+#' @return list of matrices of survival and fecundity if split = TRUE, otherwise
+#'   a single matrix of the sum of survival and fecundity
 #' @examples
 #' mats <- make_leslie_matrix(
 #'   survival = c(0.1, 0.2, 0.5),
@@ -56,8 +59,8 @@ simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
     stop("matF needs to be a matrix")
   }
 
-  if (!inherits(sample_size, "matrix") || length(sample_size) == 1) {
-    stop("matF needs to be a matrix, or an integer with length 1")
+  if (!(inherits(sample_size, "matrix") || length(sample_size) == 1)) {
+    stop("sample_size needs to be a matrix, or an integer with length 1")
   }
 
   if (!all(matU >= 0)) {
@@ -76,9 +79,22 @@ simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
     stop("split must be a logical value (TRUE/FALSE).")
   }
 
+  if (!min(abs(c(sample_size %% 1, sample_size %% 1 - 1))) < .Machine$double.eps^0.5) {
+    stop("sample_size must be integer value(s)")
+  }
+
+  if (!min(sample_size) > 0) {
+    stop("sample_size must be > 0")
+  }
+
   # Convert the matrix into a vector
   vectU <- as.vector(matU)
   vectF <- as.vector(matF)
+
+  if (length(sample_size) == 1) {
+    sample_size <- matrix(sample_size, ncol = ncol(matU), nrow = nrow(matU))
+  }
+
   vectSampleSize <- as.vector(sample_size)
 
   # Simulate the matrix based on the information provided
@@ -87,10 +103,19 @@ simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
     sample_size = vectSampleSize
   )
 
-  fecResults <- mapply(FUN = simFec, meanFec = vectF, sample_size = vectSampleSize)
+  fecResults <- mapply(
+    FUN = simFec, meanFec = vectF,
+    sample_size = vectSampleSize
+  )
 
-  matU_out <- matrix(survResults, nrow = sqrt(length(vectU)), ncol = sqrt(length(vectU)))
-  matF_out <- matrix(fecResults, nrow = sqrt(length(vectF)), ncol = sqrt(length(vectU)))
+  matU_out <- matrix(survResults,
+    nrow = sqrt(length(vectU)),
+    ncol = sqrt(length(vectU))
+  )
+  matF_out <- matrix(fecResults,
+    nrow = sqrt(length(vectF)),
+    ncol = sqrt(length(vectU))
+  )
 
   if (split) {
     return(list(matU = matU_out, matF = matF_out))
