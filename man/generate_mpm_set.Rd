@@ -13,23 +13,15 @@ generate_mpm_set(
   fecundity = 1.5,
   split = FALSE
 )
-
-generate_mpm_set(
-  n = 10,
-  lower_lambda = 0.9,
-  upper_lambda = 1.1,
-  n_stages = 3,
-  archetype = 1,
-  fecundity = 1.5,
-  split = FALSE
-)
 }
 \arguments{
 \item{n}{The number of MPMs to generate. Default is 10.}
 
-\item{lower_lambda}{The lower bound for acceptable lambda values. Default is 0.9.}
+\item{lower_lambda}{The lower bound for acceptable lambda values. Default is
+0.9.}
 
-\item{upper_lambda}{The upper bound for acceptable lambda values. Default is 1.1.}
+\item{upper_lambda}{The upper bound for acceptable lambda values. Default is
+1.1.}
 
 \item{n_stages}{The number of stages for the MPMs. Default is 3.}
 
@@ -37,23 +29,16 @@ generate_mpm_set(
 
 \item{fecundity}{A vector of fecundities for the MPMs. Default is 1.5.}
 
-\item{split}{A logical indicating whether to split matrices. Default is FALSE.}
+\item{split}{A logical indicating whether to split matrices. Default is
+FALSE.}
 }
 \value{
-A list of MPMs that meet the specified criteria.
-
 A list of MPMs that meet the specified criteria.
 }
 \description{
 This function generates a set of n MPMs according to the specified criteria.
 Criteria include the archetype, and the acceptable lambda values.
 The function attempts to find matrices that fulfill the lambda criteria,
-discarding unacceptable matrices. If it takes more than 1000 attempts to find
-a suitable matrix model, then an error is produced.
-
-This function generates a set of n MPMs according to the specified criteria.
-Criteria include the archetype, and the acceptable lambda values.
-The function attempts to find matrices that fulfil the lambda criteria,
 discarding unacceptable matrices. If it takes more than 1000 attempts to find
 a suitable matrix model, then an error is produced.
 }
@@ -63,14 +48,7 @@ generate_mpm_set(
   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 )
 
-generate_mpm_set(
-  n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
-)
-
 }
 \author{
-Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
-
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
