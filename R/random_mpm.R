@@ -1,4 +1,4 @@
-#' Generate random matrix population models (MPMs).
+#' Generate random matrix population models (MPMs) based on life history archetypes
 #'
 #' Generates random matrix population models (MPMs) with element values based on
 #' defined life history archetypes. Survival and transition/growth probabilities

@@ -36,41 +36,38 @@ library(mpmsim)
 
 ### Generate single random MPMs
 
-To generate a random matrix population models (MPM) with element values
-based on defined life history archetypes you can use `random_mpm`. This
-function draws survival and transition/growth probabilities from a
-Dirichlet distribution to ensure that the column totals (including
-death) are less than or equal to 1.
-
-Fecundity is included as a single value, or as a vector with a length
-equal to the dimensions of the matrix. If it is a single value, it is
-placed as a single element on the top right of the matrix. If it is a
-vector of length `n_stages` then the fertility vector spans the entire
-top row of the matrix.
-
-User can specify `archetype` to constrain the MPMs. For example, in
-archetype 2, the survival probability (column sums of the survival
-matrix) is constrained to increase monotonically as the individuals
-advance to later stages. See `?random_mpm` for details, and also examine
-Takada et al. (2018).
+The `random_mpm` function can be used to generate a random matrix
+population model (MPM) with element values based on defined life history
+archetypes. The function draws survival and transition/growth
+probabilities from a Dirichlet distribution to ensure that the column
+totals, including death, are less than or equal to 1. Fecundity can be
+specified as a single value or as a vector with a length equal to the
+dimensions of the matrix. If specified as a single value, it is placed
+in the top-right corner of the matrix. If specified as a vector of
+length `n_stages`, it spans the entire top row of the matrix. The
+`archetype` argument can be used to constrain the MPMs, for example,
+`archetype = 2` constraints the survival probability to increase
+monotonically as individuals advance to later stages. For more
+information, see the documentation for `random_mpm` and Takada et
+al. (2018).
 
 ``` r
 random_mpm(n_stages = 3, fecundity = 20, archetype = 2)
-#>            [,1]      [,2]        [,3]
-#> [1,] 0.04297920 0.4203700 14.08999013
-#> [2,] 0.09928825 0.1338935  0.02894109
-#> [3,] 0.41494796 0.2994080  0.81189121
+#>           [,1]      [,2]       [,3]
+#> [1,] 0.0439475 0.6041381 19.1302650
+#> [2,] 0.3291956 0.2212507  0.5249632
+#> [3,] 0.2425926 0.0174448  0.2232077
 ```
 
 ### Generate a set of random MPMs
 
-Sets of MPMs generated using the above approach can be quickly generated
-using `generate_mpm_set`. For example, to generate 5 MPMs from archetype
-1 we can use the following code. Users can specify acceptable population
-growth for the set of matrices by setting the lower and upper bounds
-using the `lower_lambda` and `upper_lambda` arguments. This in life
-history analyses because, theoretically, only life histories with lambda
-values close to 1 will persist in nature.
+The `generate_mpm_set` function can be used to quickly generate large
+numbers of MPMs using the above approach. For example, the following
+code generates five MPMs with archetype 1. By using the `lower_lambda`
+and `upper_lambda` arguments, users can specify an acceptable population
+growth rate range for the set of matrices. This can be useful for life
+history analyses where we might assume that only life histories with
+lambda values close to 1 can persist in nature.
 
 ``` r
 generate_mpm_set(
@@ -78,54 +75,52 @@ generate_mpm_set(
   lower_lambda = 0.9, upper_lambda = 1.1
 )
 #> [[1]]
-#>             [,1]       [,2]       [,3]       [,4]
-#> [1,] 0.151954694 0.36618655 0.33066744 10.2294103
-#> [2,] 0.062273017 0.15389930 0.17461886  0.1289330
-#> [3,] 0.008823189 0.40898405 0.06367064  0.2562773
-#> [4,] 0.036605652 0.06590819 0.28215108  0.1150272
+#>            [,1]        [,2]        [,3]       [,4]
+#> [1,] 0.26069608 0.008581756 0.222077168 8.12345826
+#> [2,] 0.32967890 0.418495203 0.549735802 0.08264036
+#> [3,] 0.20105617 0.396947680 0.183791385 0.29850866
+#> [4,] 0.02426507 0.007671967 0.001383292 0.24038201
 #> 
 #> [[2]]
-#>            [,1]       [,2]        [,3]       [,4]
-#> [1,] 0.30003749 0.12527222 0.083178929 8.44836509
-#> [2,] 0.24229012 0.35584784 0.101020384 0.04424346
-#> [3,] 0.17545589 0.08580214 0.792182186 0.04514914
-#> [4,] 0.05171532 0.00551012 0.004394455 0.30836658
+#>            [,1]       [,2]       [,3]       [,4]
+#> [1,] 0.16948521 0.35504165 0.14706447 2.37137468
+#> [2,] 0.30123223 0.02995564 0.13817722 0.08666098
+#> [3,] 0.10526559 0.00358321 0.29183262 0.12223809
+#> [4,] 0.09669112 0.36744343 0.03204811 0.21799740
 #> 
 #> [[3]]
-#>            [,1]        [,2]       [,3]      [,4]
-#> [1,] 0.01325541 0.537288751 0.05495564 9.0527785
-#> [2,] 0.35748517 0.224135541 0.53844599 0.4332646
-#> [3,] 0.11854363 0.172158452 0.18878448 0.1952609
-#> [4,] 0.02309417 0.003925161 0.04142422 0.1368077
+#>              [,1]       [,2]       [,3]      [,4]
+#> [1,] 0.2926736060 0.06539588 0.34444416 5.0679812
+#> [2,] 0.5404181850 0.16550630 0.10968319 0.3005765
+#> [3,] 0.0007363151 0.33155625 0.32287918 0.1713006
+#> [4,] 0.0178612944 0.05276945 0.01413147 0.4517913
 #> 
 #> [[4]]
-#>            [,1]        [,2]        [,3]      [,4]
-#> [1,] 0.55972466 0.037491534 0.281607178 7.1822819
-#> [2,] 0.11018831 0.724953072 0.088460058 0.1424905
-#> [3,] 0.06685899 0.207605301 0.004231066 0.4065424
-#> [4,] 0.00917357 0.004517743 0.283362045 0.2415372
+#>            [,1]       [,2]       [,3]       [,4]
+#> [1,] 0.27218247 0.08694622 0.03308619 3.14609842
+#> [2,] 0.46523765 0.14721639 0.09716663 0.48633870
+#> [3,] 0.17169441 0.65324947 0.22460452 0.14188099
+#> [4,] 0.06532525 0.09936760 0.07377066 0.02785618
 #> 
 #> [[5]]
-#>             [,1]       [,2]        [,3]       [,4]
-#> [1,] 0.154545782 0.31506623 0.652869250 9.24470439
-#> [2,] 0.084404937 0.03783642 0.184604383 0.26139254
-#> [3,] 0.730747725 0.36420103 0.017552692 0.28101791
-#> [4,] 0.006981233 0.08112881 0.003401835 0.09804773
+#>            [,1]       [,2]       [,3]        [,4]
+#> [1,] 0.02483521 0.07413944 0.26268694 3.002234008
+#> [2,] 0.04099351 0.14979742 0.08030862 0.029431448
+#> [3,] 0.48333636 0.36179127 0.20963262 0.465826277
+#> [4,] 0.15335198 0.14189984 0.18359047 0.003202194
 ```
 
 ### Generate a Leslie matrix
 
-Generating a Leslie matrix (a matrix where the stages represent discrete
-age classes) is handled with the `make_leslie_matrix` function. In a
-Leslie matrix survival is always in the lower subdiagonal and the
+The `make_leslie_matrix` function can be used to generate a Leslie
+matrix, where the stages represent discrete age classes. In a Leslie
+matrix, survival is represented in the lower sub-diagonal and the
 lower-right-hand corner element, while fertility is shown in the top
-row. Both survival and fertility thus have a length equal to the number
-of stages in the model.
-
-Users can specify both survival and fertility as either a single value
-or a vector of values of length equal to the dimensions of the matrix
-model. If these arguments are single values, the value is repeated along
-the survival/fertility sequence.
+row. Both survival and fertility have a length equal to the number of
+stages in the model. Users can specify both survival and fertility as
+either a single value or a vector of values, with a length equal to the
+dimensions of the matrix model. If these arguments are single values,
+the value is repeated along the survival/fertility sequence.
 
 ``` r
 make_leslie_matrix(
@@ -139,10 +134,10 @@ make_leslie_matrix(
 #> [4,]  0.0 0.0000000 0.3333333 0.45
 ```
 
-Generating plausible sets of Leslie matrices can then be handled by
-repeating the `make_leslie_matrix` command in a loop. For example, in
-the following code I produce 10 Leslie matrices with increasing survival
-with age.
+Users can generate large numbers of plausible Leslie matrices by
+repeating the `make_leslie_matrix` command in a loop. For example, the
+following code produces a list of 10 Leslie matrices that have
+increasing survival with age.
 
 ``` r
 juvSurv <- runif(n = 10, min = 0.0, max = 0.1)
@@ -159,113 +154,116 @@ for (i in 1:10) {
 
 outputMPMs
 #> [[1]]
-#>           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.0000000 0.0000000 4.0000000 4.0000000 4.0000000 4.0000000
-#> [2,] 0.0231118 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.0000000 0.1441347 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.0000000 0.0000000 0.2651577 0.0000000 0.0000000 0.0000000
-#> [5,] 0.0000000 0.0000000 0.0000000 0.3861806 0.0000000 0.0000000
-#> [6,] 0.0000000 0.0000000 0.0000000 0.0000000 0.5072035 0.6282265
+#>            [,1]      [,2]      [,3]      [,4]      [,5]     [,6]
+#> [1,] 0.00000000 0.0000000 9.0000000 9.0000000 9.0000000 9.000000
+#> [2,] 0.02399914 0.0000000 0.0000000 0.0000000 0.0000000 0.000000
+#> [3,] 0.00000000 0.1663665 0.0000000 0.0000000 0.0000000 0.000000
+#> [4,] 0.00000000 0.0000000 0.3087339 0.0000000 0.0000000 0.000000
+#> [5,] 0.00000000 0.0000000 0.0000000 0.4511013 0.0000000 0.000000
+#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.5934687 0.735836
 #> 
 #> [[2]]
 #>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.00000000 0.0000000 4.0000000 4.0000000 4.0000000 4.0000000
-#> [2,] 0.09908685 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.00000000 0.1818381 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.00000000 0.0000000 0.2645893 0.0000000 0.0000000 0.0000000
-#> [5,] 0.00000000 0.0000000 0.0000000 0.3473406 0.0000000 0.0000000
-#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.4300918 0.5128431
+#> [1,] 0.00000000 0.0000000 5.0000000 5.0000000 5.0000000 5.0000000
+#> [2,] 0.09862958 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+#> [3,] 0.00000000 0.2218143 0.0000000 0.0000000 0.0000000 0.0000000
+#> [4,] 0.00000000 0.0000000 0.3449991 0.0000000 0.0000000 0.0000000
+#> [5,] 0.00000000 0.0000000 0.0000000 0.4681838 0.0000000 0.0000000
+#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.5913686 0.7145533
 #> 
 #> [[3]]
 #>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.00000000 0.0000000 6.0000000 6.0000000 6.0000000 6.0000000
-#> [2,] 0.09773877 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.00000000 0.2373579 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.00000000 0.0000000 0.3769771 0.0000000 0.0000000 0.0000000
-#> [5,] 0.00000000 0.0000000 0.0000000 0.5165962 0.0000000 0.0000000
-#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.6562154 0.7958345
+#> [1,] 0.00000000 0.0000000 5.0000000 5.0000000 5.0000000 5.0000000
+#> [2,] 0.06234883 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+#> [3,] 0.00000000 0.1810817 0.0000000 0.0000000 0.0000000 0.0000000
+#> [4,] 0.00000000 0.0000000 0.2998146 0.0000000 0.0000000 0.0000000
+#> [5,] 0.00000000 0.0000000 0.0000000 0.4185475 0.0000000 0.0000000
+#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.5372804 0.6560133
 #> 
 #> [[4]]
-#>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.00000000 0.0000000 4.0000000 4.0000000 4.0000000 4.0000000
-#> [2,] 0.02348222 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.00000000 0.1624863 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.00000000 0.0000000 0.3014905 0.0000000 0.0000000 0.0000000
-#> [5,] 0.00000000 0.0000000 0.0000000 0.4404946 0.0000000 0.0000000
-#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.5794987 0.7185028
+#>            [,1]      [,2]       [,3]       [,4]       [,5]       [,6]
+#> [1,] 0.00000000 0.0000000 13.0000000 13.0000000 13.0000000 13.0000000
+#> [2,] 0.02521585 0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+#> [3,] 0.00000000 0.1784043  0.0000000  0.0000000  0.0000000  0.0000000
+#> [4,] 0.00000000 0.0000000  0.3315928  0.0000000  0.0000000  0.0000000
+#> [5,] 0.00000000 0.0000000  0.0000000  0.4847813  0.0000000  0.0000000
+#> [6,] 0.00000000 0.0000000  0.0000000  0.0000000  0.6379698  0.7911583
 #> 
 #> [[5]]
-#>            [,1]     [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.00000000 0.000000 5.0000000 5.0000000 5.0000000 5.0000000
-#> [2,] 0.06741211 0.000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.00000000 0.165301 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.00000000 0.000000 0.2631899 0.0000000 0.0000000 0.0000000
-#> [5,] 0.00000000 0.000000 0.0000000 0.3610788 0.0000000 0.0000000
-#> [6,] 0.00000000 0.000000 0.0000000 0.0000000 0.4589677 0.5568565
+#>            [,1]      [,2]      [,3]      [,4]      [,5]     [,6]
+#> [1,] 0.00000000 0.0000000 7.0000000 7.0000000 7.0000000 7.000000
+#> [2,] 0.07846517 0.0000000 0.0000000 0.0000000 0.0000000 0.000000
+#> [3,] 0.00000000 0.1541393 0.0000000 0.0000000 0.0000000 0.000000
+#> [4,] 0.00000000 0.0000000 0.2298135 0.0000000 0.0000000 0.000000
+#> [5,] 0.00000000 0.0000000 0.0000000 0.3054877 0.0000000 0.000000
+#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.3811619 0.456836
 #> 
 #> [[6]]
-#>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.00000000 0.0000000 9.0000000 9.0000000 9.0000000 9.0000000
-#> [2,] 0.02063834 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.00000000 0.1100773 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.00000000 0.0000000 0.1995163 0.0000000 0.0000000 0.0000000
-#> [5,] 0.00000000 0.0000000 0.0000000 0.2889552 0.0000000 0.0000000
-#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.3783942 0.4678332
+#>            [,1]     [,2]      [,3]      [,4]      [,5]     [,6]
+#> [1,] 0.00000000 0.000000 7.0000000 7.0000000 7.0000000 7.000000
+#> [2,] 0.08783621 0.000000 0.0000000 0.0000000 0.0000000 0.000000
+#> [3,] 0.00000000 0.201466 0.0000000 0.0000000 0.0000000 0.000000
+#> [4,] 0.00000000 0.000000 0.3150957 0.0000000 0.0000000 0.000000
+#> [5,] 0.00000000 0.000000 0.0000000 0.4287255 0.0000000 0.000000
+#> [6,] 0.00000000 0.000000 0.0000000 0.0000000 0.5423552 0.655985
 #> 
 #> [[7]]
-#>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.00000000 0.0000000 2.0000000 2.0000000 2.0000000 2.0000000
-#> [2,] 0.02279723 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.00000000 0.1525209 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.00000000 0.0000000 0.2822445 0.0000000 0.0000000 0.0000000
-#> [5,] 0.00000000 0.0000000 0.0000000 0.4119681 0.0000000 0.0000000
-#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.5416917 0.6714153
+#>            [,1]      [,2]       [,3]       [,4]      [,5]       [,6]
+#> [1,] 0.00000000 0.0000000 10.0000000 10.0000000 10.000000 10.0000000
+#> [2,] 0.08165423 0.0000000  0.0000000  0.0000000  0.000000  0.0000000
+#> [3,] 0.00000000 0.2013594  0.0000000  0.0000000  0.000000  0.0000000
+#> [4,] 0.00000000 0.0000000  0.3210646  0.0000000  0.000000  0.0000000
+#> [5,] 0.00000000 0.0000000  0.0000000  0.4407698  0.000000  0.0000000
+#> [6,] 0.00000000 0.0000000  0.0000000  0.0000000  0.560475  0.6801802
 #> 
 #> [[8]]
-#>           [,1]      [,2]      [,3]      [,4]      [,5]     [,6]
-#> [1,] 0.0000000 0.0000000 5.0000000 5.0000000 5.0000000 5.000000
-#> [2,] 0.0754935 0.0000000 0.0000000 0.0000000 0.0000000 0.000000
-#> [3,] 0.0000000 0.1965598 0.0000000 0.0000000 0.0000000 0.000000
-#> [4,] 0.0000000 0.0000000 0.3176261 0.0000000 0.0000000 0.000000
-#> [5,] 0.0000000 0.0000000 0.0000000 0.4386924 0.0000000 0.000000
-#> [6,] 0.0000000 0.0000000 0.0000000 0.0000000 0.5597587 0.680825
+#>            [,1]    [,2]      [,3]     [,4]      [,5]      [,6]
+#> [1,] 0.00000000 0.00000 7.0000000 7.000000 7.0000000 7.0000000
+#> [2,] 0.01943044 0.00000 0.0000000 0.000000 0.0000000 0.0000000
+#> [3,] 0.00000000 0.16692 0.0000000 0.000000 0.0000000 0.0000000
+#> [4,] 0.00000000 0.00000 0.3144095 0.000000 0.0000000 0.0000000
+#> [5,] 0.00000000 0.00000 0.0000000 0.461899 0.0000000 0.0000000
+#> [6,] 0.00000000 0.00000 0.0000000 0.000000 0.6093886 0.7568781
 #> 
 #> [[9]]
-#>             [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.000000000 0.0000000 4.0000000 4.0000000 4.0000000 4.0000000
-#> [2,] 0.003620279 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.000000000 0.1068147 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.000000000 0.0000000 0.2100092 0.0000000 0.0000000 0.0000000
-#> [5,] 0.000000000 0.0000000 0.0000000 0.3132036 0.0000000 0.0000000
-#> [6,] 0.000000000 0.0000000 0.0000000 0.0000000 0.4163981 0.5195925
+#>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
+#> [1,] 0.00000000 0.0000000 8.0000000 8.0000000 8.0000000 8.0000000
+#> [2,] 0.07935611 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+#> [3,] 0.00000000 0.1722725 0.0000000 0.0000000 0.0000000 0.0000000
+#> [4,] 0.00000000 0.0000000 0.2651889 0.0000000 0.0000000 0.0000000
+#> [5,] 0.00000000 0.0000000 0.0000000 0.3581054 0.0000000 0.0000000
+#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.4510218 0.5439382
 #> 
 #> [[10]]
-#>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.00000000 0.0000000 4.0000000 4.0000000 4.0000000 4.0000000
-#> [2,] 0.08906701 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-#> [3,] 0.00000000 0.2145504 0.0000000 0.0000000 0.0000000 0.0000000
-#> [4,] 0.00000000 0.0000000 0.3400337 0.0000000 0.0000000 0.0000000
-#> [5,] 0.00000000 0.0000000 0.0000000 0.4655171 0.0000000 0.0000000
-#> [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.5910004 0.7164838
+#>           [,1]      [,2]    [,3]      [,4]      [,5]      [,6]
+#> [1,] 0.0000000 0.0000000 9.00000 9.0000000 9.0000000 9.0000000
+#> [2,] 0.0273763 0.0000000 0.00000 0.0000000 0.0000000 0.0000000
+#> [3,] 0.0000000 0.1704931 0.00000 0.0000000 0.0000000 0.0000000
+#> [4,] 0.0000000 0.0000000 0.31361 0.0000000 0.0000000 0.0000000
+#> [5,] 0.0000000 0.0000000 0.00000 0.4567268 0.0000000 0.0000000
+#> [6,] 0.0000000 0.0000000 0.00000 0.0000000 0.5998436 0.7429605
 ```
 
 ### Simulate an MPM using a particular sample size
 
-The idea here is that we can simulate an MPM based on expected
-transition rates (survival, fecundity) and the sample sizes. The
-expected transition rates are provided as matrices, and sample size is
-provided as either a matrix of sample sizes for each element of the
-matrix, or as a single value. The function returns a simulated MPM that
-has assumed a binomial process for the survival/growth elements, and a
-Poisson process for the fecundity elements.
+The function `simulate_mpm` can be used to simulate an MPM based on
+expected transition rates (survival and fecundity) and sample sizes. The
+expected transition rates must be provided as matrices. The sample
+size(s) can be given as either a matrix of sample sizes for each element
+of the matrix or as a single value which is then applied to all elements
+of the matrix.
 
-Users can thus expect the simulated MPM to closely reflect the expected
-transition rates when sample sizes are large, and that the simulated
-matrices become more variable when sample sizes are small.
+The function uses a binomial process to simulate survival/growth
+elements and a Poisson process to simulate the fecundity elements. As a
+result, when sample sizes are large, the simulated MPM will closely
+reflect the expected transition rates. In contrast, when sample sizes
+are small, the simulated matrices will become more variable.
 
-In this example, I first generate a 3-stage Leslie matrix using
-`make_leslie_matrix`. I then pass the U and F matrices from this Leslie
-matrix to the `simulate_mpm` function.
+To illustrate use of the function, the following code first generates a
+3-stage Leslie matrix using the `make_leslie_matrix` function. It then
+passes the U and F matrices from this Leslie matrix to the
+`simulate_mpm` function. Then, two matrices are simulated, first with a
+sample size of 1000, and then with a sample size of seven.
 
 ``` r
 mats <- make_leslie_matrix(
@@ -279,22 +277,22 @@ simulate_mpm(
   sample_size = 1000, split = FALSE
 )
 #>       [,1]  [,2]  [,3]
-#> [1,] 0.000 2.184 4.370
-#> [2,] 0.307 0.000 0.000
-#> [3,] 0.000 0.479 0.818
+#> [1,] 0.000 2.147 4.488
+#> [2,] 0.295 0.000 0.000
+#> [3,] 0.000 0.523 0.805
 
 simulate_mpm(
   matU = mats$matU, matF = mats$matF,
   sample_size = 7, split = FALSE
 )
 #>           [,1]      [,2]      [,3]
-#> [1,] 0.0000000 3.1428571 3.5714286
-#> [2,] 0.2857143 0.0000000 0.0000000
+#> [1,] 0.0000000 1.8571429 4.2857143
+#> [2,] 0.4285714 0.0000000 0.0000000
 #> [3,] 0.0000000 0.8571429 0.5714286
 ```
 
-A list of matrices using the same inputs can be generated easily using
-`replicate`.
+A list of an arbitrary number of matrices can be generated easily using
+`replicate`, as follows.
 
 ``` r
 replicate(
@@ -306,38 +304,38 @@ replicate(
 )
 #> , , 1
 #> 
-#>           [,1]      [,2]     [,3]
-#> [1,] 0.0000000 1.4285714 3.428571
-#> [2,] 0.1428571 0.0000000 0.000000
-#> [3,] 0.0000000 0.4285714 1.000000
+#>           [,1]      [,2]      [,3]
+#> [1,] 0.0000000 1.4285714 4.8571429
+#> [2,] 0.4285714 0.0000000 0.0000000
+#> [3,] 0.0000000 0.1428571 0.5714286
 #> 
 #> , , 2
 #> 
 #>           [,1]      [,2]      [,3]
-#> [1,] 0.0000000 2.4285714 4.8571429
-#> [2,] 0.1428571 0.0000000 0.0000000
-#> [3,] 0.0000000 0.5714286 0.8571429
+#> [1,] 0.0000000 3.0000000 3.8571429
+#> [2,] 0.2857143 0.0000000 0.0000000
+#> [3,] 0.0000000 0.4285714 0.7142857
 #> 
 #> , , 3
 #> 
-#>           [,1]      [,2]      [,3]
-#> [1,] 0.0000000 2.5714286 4.4285714
-#> [2,] 0.2857143 0.0000000 0.0000000
-#> [3,] 0.0000000 0.7142857 0.8571429
+#>           [,1]      [,2]     [,3]
+#> [1,] 0.0000000 1.8571429 5.571429
+#> [2,] 0.4285714 0.0000000 0.000000
+#> [3,] 0.0000000 0.7142857 1.000000
 #> 
 #> , , 4
 #> 
-#>           [,1]      [,2]      [,3]
-#> [1,] 0.0000000 1.8571429 4.7142857
-#> [2,] 0.4285714 0.0000000 0.0000000
-#> [3,] 0.0000000 0.4285714 0.8571429
+#>      [,1]      [,2]      [,3]
+#> [1,]    0 1.8571429 4.4285714
+#> [2,]    0 0.0000000 0.0000000
+#> [3,]    0 0.5714286 0.8571429
 #> 
 #> , , 5
 #> 
 #>           [,1]      [,2]      [,3]
-#> [1,] 0.0000000 2.4285714 5.1428571
-#> [2,] 0.2857143 0.0000000 0.0000000
-#> [3,] 0.0000000 0.8571429 0.7142857
+#> [1,] 0.0000000 2.4285714 3.4285714
+#> [2,] 0.4285714 0.0000000 0.0000000
+#> [3,] 0.0000000 0.7142857 0.7142857
 ```
 
 ## Contributions

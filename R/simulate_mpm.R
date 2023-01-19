@@ -24,19 +24,19 @@ simFec <- function(meanFec, sample_size) {
   mean(rpois(sample_size, meanFec))
 }
 
-#' Simulate matrix population model
+#' Simulate matrix population models (MPMs) based on expected transition rates
+#' and sample sizes
 #'
-#' Simulates a matrix population model based on expected values in the transition matrix.
-#' The expected values are provided in two matrices `matU` for the
-#' growth/development and survival transitions and `matF` for the fecundity
-#' transitions.
-#' The `matU` values are simulated based on expected probabilities, assuming a
-#' binomial process with a sample size defined by `sample_size`. The `matF`
-#' values are simulated using a Poisson process with a sample size defined by
-#' `sample_size`.
-#' Thus users can expect that large sample sizes will result in simulated
-#' matrices that match closely with the expectations, while simulated matrices
-#' with small sample sizes will be more variable.
+#' Simulates a matrix population model based on expected values in the
+#' transition matrix. The expected values are provided in two matrices `matU`
+#' for the growth/development and survival transitions and `matF` for the
+#' fecundity transitions.The `matU` values are simulated based on expected
+#' probabilities, assuming a binomial process with a sample size defined by
+#' `sample_size`. The `matF` values are simulated using a Poisson process with a
+#' sample size defined by `sample_size`.Thus users can expect that large sample
+#' sizes will result in simulated matrices that match closely with the
+#' expectations, while simulated matrices with small sample sizes will be more
+#' variable.
 #'
 #' @param matU matrix of survival probabilities
 #' @param matF matrix of mean fecundity values

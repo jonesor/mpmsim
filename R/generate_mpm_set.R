@@ -1,7 +1,7 @@
-#' Generate sets of MPMs
+#' Generate lists of matrix population models (MPMs) based on life history archetypes
 #'
-#' This function generates a set of n MPMs according to the specified criteria.
-#' Criteria include the archetype, and the acceptable lambda values.
+#' This function generates a list of `n` MPMs according to the specified criteria.
+#' Criteria include the `archetype`, and the acceptable lambda values.
 #' The function attempts to find matrices that fulfill the lambda criteria,
 #' discarding unacceptable matrices. If it takes more than 1000 attempts to find
 #' a suitable matrix model, then an error is produced.
