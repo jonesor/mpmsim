@@ -12,7 +12,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-# mpmsim
+# mpmsim  <img src="man/figures/logo_mpmsim.png" align="right" height="100" style="float:right; height:100px;">
+
 
 <!-- badges: start -->
 <!-- badges: end -->

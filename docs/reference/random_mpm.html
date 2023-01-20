@@ -169,35 +169,35 @@ generated population matrices. Population Ecology, 60(1), 37–47.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">random_mpm</span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">2</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">1</span>, split <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3424114 24.3165504</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1767583  0.1389066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2984756 27.2969294</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2537839  0.6615998</span>
 <span class="r-in"><span class="fu">random_mpm</span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">2</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">2</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $matU</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2531566 0.8481534</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.3178337 0.1116629</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.84510341 0.01902518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.07000758 0.93860341</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $matF</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0   12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0   14</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="fu">random_mpm</span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">3</span>, split <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.4193351 0.0000000 27.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1610783 0.5810629  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.1037784  0.9801293</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2867871 0.0000000 21.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1874512 0.5413517  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.2359574  0.3586191</span>
 <span class="r-in"><span class="fu">random_mpm</span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">4</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">4</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $matU</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]      [,4]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1529150 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.5256516 0.3599107 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.5594101 0.89372259 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.03805547 0.9878232</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]      [,4]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.4807813 0.00000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1638815 0.62392392 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.09984578 0.4402991 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.3907631 0.9473532</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $matF</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    0   19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    0   25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0</span>
@@ -207,16 +207,16 @@ generated population matrices. Population Ecology, 60(1), 37–47.</p>
 <span class="r-in">  split <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $matU</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.6228548 0.0000000 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2131941 0.3561231 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.5274806 0.4564556 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.5039721 0.1284204 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.8631842 0.9987048</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04714432 0.00000000 0.00000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.32531493 0.50692321 0.00000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.08024421 0.09605579 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.77135248 0.4709438 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.00000000 0.5169559 0.9927572</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $matF</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    7    7   10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    3    6    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
