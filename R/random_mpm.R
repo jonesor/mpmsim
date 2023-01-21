@@ -89,7 +89,6 @@ random_mpm <- function(n_stages,
     stop("split must be a logical value (TRUE/FALSE).")
   }
 
-
   # Check that archetype is an integer between 1 and 4
   if (!min(abs(c(archetype %% 1, archetype %% 1 - 1))) < .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
     stop("archetype must be an integer between 1 and 4.")
