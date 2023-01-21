@@ -2,11 +2,12 @@ library(showtext)
 library(ggplot2)
 library(reshape)
 library(RColorBrewer)
+library(hexSticker)
 
 myPalette <- colorRampPalette(rev(brewer.pal(10, "RdYlGn")), space="Lab")
 
 set.seed(12)
-m1<-mpmsim::random_mpm(n_stage = 6,fecundity =seq(.5,.6,length.out = 6))
+m1<-mpmsim::random_mpm(n_stage = 6,fecundity =seq(.5,.6,length.out = 6), archetype = 2)
 
 
 m1 <- m1[nrow(m1):1, ]
@@ -29,6 +30,6 @@ font_add_google("Montserrat", "montserrat")
 showtext_auto()
 
 ## use the ggplot2 example
-sticker(p, package="mpmsim", p_size=26, s_x=1, s_y=.75, s_width=1.1, s_height=.9,
+sticker(p, package="mpmsim", p_size=8.5, s_x=1, s_y=.75, s_width=1.1, s_height=.9,
         p_family = "montserrat",h_color="#45ba9b", h_fill="#16A085",filename="man/figures/logo_mpmsim.png")
 
