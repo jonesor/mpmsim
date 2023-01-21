@@ -71,8 +71,27 @@ simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
     stop("matF needs to be a matrix")
   }
 
+  if(nrow(matU)!=nrow(matF)){
+    stop("the dimensions of matU and matF are not equal")
+  }
+
+  if(nrow(matU)!=ncol(matU)){
+    stop("matU is not a square matrix")
+  }
+
+  if(nrow(matF)!=ncol(matF)){
+    stop("matU is not a square matrix")
+  }
+
+
   if (!(inherits(sample_size, "matrix") || length(sample_size) == 1)) {
     stop("sample_size needs to be a matrix, or an integer with length 1")
+  }
+
+  if(inherits(sample_size, "matrix")){
+    if(nrow(sample_size)!=nrow(matU)){
+      stop("if sample_size is a matrix, it needs to be of the same dimension as matU")
+    }
   }
 
   if (!all(matU >= 0)) {
