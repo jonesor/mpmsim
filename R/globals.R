@@ -1,4 +1,4 @@
 
 globalVariables(unique(c(
-  "runif", "rpois", "rbinom"
+  "runif", "rpois", "rbinom", "x", "y", "aes", "error", "value"
 )))
