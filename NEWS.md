@@ -1,3 +1,7 @@
+# mpmsim (development version)
+
+* added `plot_matrix` function to plot a matrix as a heatmap
+
 # mpmsim 0.1.0
 
 * Added a site for improved documentation
