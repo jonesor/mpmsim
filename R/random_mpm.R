@@ -70,9 +70,9 @@
 
 
 random_mpm <- function(n_stages,
-                      fecundity,
-                      archetype = 1,
-                      split = FALSE) {
+                       fecundity,
+                       archetype = 1,
+                       split = FALSE) {
 
   # Check that n_stages is an integer greater than 0
   if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) < .Machine$double.eps^0.5 || n_stages <= 0) {
