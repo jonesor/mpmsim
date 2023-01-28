@@ -1,45 +1,45 @@
 #' Simulate survival probability
 #'
-#' @param probSurv true survival probability
+#' @param prob_survival true survival probability
 #' @param sample_size sample size
 #' @return mean survival probability based on the simulated data
 #' @examples
-#' simSurv(0.8, 100)
-#' simSurv(0.5, 1000)
+#' simulate_survival(0.8, 100)
+#' simulate_survival(0.5, 1000)
 #' @noRd
-simSurv <- function(probSurv, sample_size) {
-  mean(rbinom(sample_size, 1, probSurv))
+simulate_survival <- function(prob_survival, sample_size) {
+  mean(rbinom(sample_size, 1, prob_survival))
 }
 
 #' Simulate reproduction (fecundity)
 #'
-#' @param meanFec mean value for reproductive output
+#' @param mean_fecundity mean value for reproductive output
 #' @param sample_size sample size
 #' @return mean fecundity based on the simulated data
 #' @examples
-#' simFec(2, 100)
-#' simFec(5, 1000)
+#' simulate_fecundity(2, 100)
+#' simulate_fecundity(5, 1000)
 #' @noRd
-simFec <- function(meanFec, sample_size) {
-  mean(rpois(sample_size, meanFec))
+simulate_fecundity <- function(mean_fecundity, sample_size) {
+  mean(rpois(sample_size, mean_fecundity))
 }
 
 #' Simulate matrix population models (MPMs) based on expected transition rates
 #' and sample sizes
 #'
 #' Simulates a matrix population model based on expected values in the
-#' transition matrix. The expected values are provided in two matrices `matU`
-#' for the growth/development and survival transitions and `matF` for the
-#' fecundity transitions.The `matU` values are simulated based on expected
+#' transition matrix. The expected values are provided in two matrices `mat_U`
+#' for the growth/development and survival transitions and `mat_F` for the
+#' fecundity transitions.The `mat_U` values are simulated based on expected
 #' probabilities, assuming a binomial process with a sample size defined by
-#' `sample_size`. The `matF` values are simulated using a Poisson process with a
-#' sample size defined by `sample_size`.Thus users can expect that large sample
-#' sizes will result in simulated matrices that match closely with the
+#' `sample_size`. The `mat_F` values are simulated using a Poisson process with
+#' a sample size defined by `sample_size`.Thus users can expect that large
+#' sample sizes will result in simulated matrices that match closely with the
 #' expectations, while simulated matrices with small sample sizes will be more
 #' variable.
 #'
-#' @param matU matrix of survival probabilities
-#' @param matF matrix of mean fecundity values
+#' @param mat_U matrix of survival probabilities
+#' @param mat_F matrix of mean fecundity values
 #' @param sample_size matrix of sample size for each element of the matrix, or a
 #'   single value applied to the whole matrix
 #' @param split logical, whether to split the output into survival and fecundity
@@ -55,31 +55,31 @@ simFec <- function(meanFec, sample_size) {
 #' ssMat <- matrix(10, nrow = 3, ncol = 3)
 #'
 #' simulate_mpm(
-#'   matU = mats$matU, matF = mats$matF,
+#'   mat_U = mats$mat_U, mat_F = mats$mat_F,
 #'   sample_size = ssMat, split = TRUE
 #' )
 #' @export simulate_mpm
 #'
-simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
+simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
   # Validation
-  if (!inherits(matU, "matrix")) {
-    stop("matU needs to be a matrix")
+  if (!inherits(mat_U, "matrix")) {
+    stop("mat_U needs to be a matrix")
   }
 
-  if (!inherits(matF, "matrix")) {
-    stop("matF needs to be a matrix")
+  if (!inherits(mat_F, "matrix")) {
+    stop("mat_F needs to be a matrix")
   }
 
-  if (nrow(matU) != nrow(matF)) {
-    stop("the dimensions of matU and matF are not equal")
+  if (nrow(mat_U) != nrow(mat_F)) {
+    stop("the dimensions of mat_U and mat_F are not equal")
   }
 
-  if (nrow(matU) != ncol(matU)) {
-    stop("matU is not a square matrix")
+  if (nrow(mat_U) != ncol(mat_U)) {
+    stop("mat_U is not a square matrix")
   }
 
-  if (nrow(matF) != ncol(matF)) {
-    stop("matU is not a square matrix")
+  if (nrow(mat_F) != ncol(mat_F)) {
+    stop("mat_U is not a square matrix")
   }
 
 
@@ -88,17 +88,18 @@ simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
   }
 
   if (inherits(sample_size, "matrix")) {
-    if (nrow(sample_size) != nrow(matU)) {
-      stop("if sample_size is a matrix, it needs to be of the same dimension as matU")
+    if (nrow(sample_size) != nrow(mat_U)) {
+      stop("if sample_size is a matrix,
+           it should be the same dimension as mat_U")
     }
   }
 
-  if (!all(matU >= 0)) {
-    stop("matU must include only values >= 0")
+  if (!all(mat_U >= 0)) {
+    stop("mat_U must include only values >= 0")
   }
 
-  if (!all(matF >= 0)) {
-    stop("matF must include only values >= 0")
+  if (!all(mat_F >= 0)) {
+    stop("mat_F must include only values >= 0")
   }
 
   if (!all(sample_size > 0)) {
@@ -109,7 +110,8 @@ simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
     stop("split must be a logical value (TRUE/FALSE).")
   }
 
-  if (!min(abs(c(sample_size %% 1, sample_size %% 1 - 1))) < .Machine$double.eps^0.5) {
+  if (!min(abs(c(sample_size %% 1, sample_size %% 1 - 1))) <
+    .Machine$double.eps^0.5) {
     stop("sample_size must be integer value(s)")
   }
 
@@ -118,38 +120,38 @@ simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
   }
 
   # Convert the matrix into a vector
-  vectU <- as.vector(matU)
-  vectF <- as.vector(matF)
+  u_matrix_vector <- as.vector(mat_U)
+  f_matrix_vector <- as.vector(mat_F)
 
   if (length(sample_size) == 1) {
-    sample_size <- matrix(sample_size, ncol = ncol(matU), nrow = nrow(matU))
+    sample_size <- matrix(sample_size, ncol = ncol(mat_U), nrow = nrow(mat_U))
   }
 
-  vectSampleSize <- as.vector(sample_size)
+  sample_size_vector <- as.vector(sample_size)
 
   # Simulate the matrix based on the information provided
-  survResults <- mapply(
-    FUN = simSurv, probSurv = vectU,
-    sample_size = vectSampleSize
+  survival_results <- mapply(
+    FUN = simulate_survival, prob_survival = u_matrix_vector,
+    sample_size = sample_size_vector
   )
 
-  fecResults <- mapply(
-    FUN = simFec, meanFec = vectF,
-    sample_size = vectSampleSize
+  fecundity_results <- mapply(
+    FUN = simulate_fecundity, mean_fecundity = f_matrix_vector,
+    sample_size = sample_size_vector
   )
 
-  matU_out <- matrix(survResults,
-    nrow = sqrt(length(vectU)),
-    ncol = sqrt(length(vectU))
+  mat_U_out <- matrix(survival_results,
+    nrow = sqrt(length(u_matrix_vector)),
+    ncol = sqrt(length(u_matrix_vector))
   )
-  matF_out <- matrix(fecResults,
-    nrow = sqrt(length(vectF)),
-    ncol = sqrt(length(vectU))
+  mat_F_out <- matrix(fecundity_results,
+    nrow = sqrt(length(f_matrix_vector)),
+    ncol = sqrt(length(u_matrix_vector))
   )
 
   if (split) {
-    return(list(matU = matU_out, matF = matF_out))
+    return(list(mat_U = mat_U_out, mat_F = mat_F_out))
   } else {
-    return(matU_out + matF_out)
+    return(mat_U_out + mat_F_out)
   }
 }

@@ -2,14 +2,15 @@
 #'
 #' Visualise a matrix, such as a matrix population model (MPM), as a heatmap.
 #'
-#' @param A A matrix, such as the A matrix of a matrix population model
-#' @param zeroNA Logical indicating whether zero values should be treated as NA
+#' @param mat A matrix, such as the A matrix of a matrix population model
+#' @param zero_na Logical indicating whether zero values should be treated as NA
 #' @param legend Logical indicating whether to include a legend
 #' @param na_colour Colour for NA values
 #' @param ... Additional arguments to be passed to ggplot
 #' @return A ggplot object
 #' @export
-#' @importFrom ggplot2 ggplot scale_colour_gradientn theme_void geom_tile theme scale_fill_viridis_c aes
+#' @importFrom ggplot2 ggplot scale_colour_gradientn theme_void geom_tile theme
+#'   scale_fill_viridis_c aes
 #' @importFrom reshape melt
 #' @importFrom dplyr mutate
 #' @examples
@@ -19,19 +20,20 @@
 #'   fertility = seq(0.1, 0.7, length.out = matDim),
 #'   n_stages = matDim
 #' )
-#' plot_matrix(A1, zeroNA = TRUE, na_colour = "black")
-#' plot_matrix(A1, zeroNA = TRUE, na_colour = NA)
+#' plot_matrix(A1, zero_na = TRUE, na_colour = "black")
+#' plot_matrix(A1, zero_na = TRUE, na_colour = NA)
 #'
-plot_matrix <- function(A, zeroNA = FALSE, legend = FALSE, na_colour = NA, ...) {
+plot_matrix <- function(mat, zero_na = FALSE, legend = FALSE,
+                        na_colour = NA, ...) {
   # Validation
-  # Check that A is a matrix
-  if (!inherits(A, "matrix")) {
-    stop("A must be a matrix")
+  # Check that mat is a matrix
+  if (!inherits(mat, "matrix")) {
+    stop("mat must be a matrix")
   }
 
-  # Check that zeroNA is a logical value
-  if (!is.logical(zeroNA)) {
-    stop("zeroNA must be a logical value")
+  # Check that zero_na is a logical value
+  if (!is.logical(zero_na)) {
+    stop("zero_na must be a logical value")
   }
 
   # Check that legend is a logical value
@@ -44,11 +46,10 @@ plot_matrix <- function(A, zeroNA = FALSE, legend = FALSE, na_colour = NA, ...) 
     stop("na_colour must be a valid colour, or NA")
   }
 
-
-  df <- melt(t(A))
+  df <- melt(t(mat))
   colnames(df) <- c("x", "y", "value")
 
-  if (zeroNA) {
+  if (zero_na) {
     df <- df |>
       mutate(value = ifelse(value == 0, NA, value))
   }
@@ -59,7 +60,6 @@ plot_matrix <- function(A, zeroNA = FALSE, legend = FALSE, na_colour = NA, ...) 
   p <- ggplot(df, aes(x = x, y = y, fill = value)) +
     geom_tile() +
     theme_void() +
-    # scale_fill_gradientn(colours = terrain.colors(sqrt(nrow(df))), na.value = na_colour)
     scale_fill_viridis_c(na.value = na_colour)
 
   if (legend) {
@@ -78,8 +78,8 @@ plot_matrix <- function(A, zeroNA = FALSE, legend = FALSE, na_colour = NA, ...) 
 
 
 is_colour <- function(x) {
-  sapply(x, function(X) {
-    tryCatch(is.matrix(col2rgb(X)),
+  sapply(x, function(z) {
+    tryCatch(is.matrix(col2rgb(z)),
       error = function(e) FALSE
     )
   })

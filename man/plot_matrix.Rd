@@ -4,12 +4,12 @@
 \alias{plot_matrix}
 \title{Plot a matrix as a heatmap}
 \usage{
-plot_matrix(A, zeroNA = FALSE, legend = FALSE, na_colour = NA, ...)
+plot_matrix(mat, zero_na = FALSE, legend = FALSE, na_colour = NA, ...)
 }
 \arguments{
-\item{A}{A matrix, such as the A matrix of a matrix population model}
+\item{mat}{A matrix, such as the A matrix of a matrix population model}
 
-\item{zeroNA}{Logical indicating whether zero values should be treated as NA}
+\item{zero_na}{Logical indicating whether zero values should be treated as NA}
 
 \item{legend}{Logical indicating whether to include a legend}
 
@@ -30,7 +30,7 @@ A1 <- make_leslie_matrix(
   fertility = seq(0.1, 0.7, length.out = matDim),
   n_stages = matDim
 )
-plot_matrix(A1, zeroNA = TRUE, na_colour = "black")
-plot_matrix(A1, zeroNA = TRUE, na_colour = NA)
+plot_matrix(A1, zero_na = TRUE, na_colour = "black")
+plot_matrix(A1, zero_na = TRUE, na_colour = NA)
 
 }

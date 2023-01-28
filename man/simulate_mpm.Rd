@@ -5,12 +5,12 @@
 \title{Simulate matrix population models (MPMs) based on expected transition rates
 and sample sizes}
 \usage{
-simulate_mpm(matU, matF, sample_size, split = TRUE)
+simulate_mpm(mat_U, mat_F, sample_size, split = TRUE)
 }
 \arguments{
-\item{matU}{matrix of survival probabilities}
+\item{mat_U}{matrix of survival probabilities}
 
-\item{matF}{matrix of mean fecundity values}
+\item{mat_F}{matrix of mean fecundity values}
 
 \item{sample_size}{matrix of sample size for each element of the matrix, or a
 single value applied to the whole matrix}
@@ -24,13 +24,13 @@ a single matrix of the sum of survival and fecundity
 }
 \description{
 Simulates a matrix population model based on expected values in the
-transition matrix. The expected values are provided in two matrices \code{matU}
-for the growth/development and survival transitions and \code{matF} for the
-fecundity transitions.The \code{matU} values are simulated based on expected
+transition matrix. The expected values are provided in two matrices \code{mat_U}
+for the growth/development and survival transitions and \code{mat_F} for the
+fecundity transitions.The \code{mat_U} values are simulated based on expected
 probabilities, assuming a binomial process with a sample size defined by
-\code{sample_size}. The \code{matF} values are simulated using a Poisson process with a
-sample size defined by \code{sample_size}.Thus users can expect that large sample
-sizes will result in simulated matrices that match closely with the
+\code{sample_size}. The \code{mat_F} values are simulated using a Poisson process with
+a sample size defined by \code{sample_size}.Thus users can expect that large
+sample sizes will result in simulated matrices that match closely with the
 expectations, while simulated matrices with small sample sizes will be more
 variable.
 }
@@ -43,7 +43,7 @@ mats <- make_leslie_matrix(
 ssMat <- matrix(10, nrow = 3, ncol = 3)
 
 simulate_mpm(
-  matU = mats$matU, matF = mats$matF,
+  mat_U = mats$mat_U, mat_F = mats$mat_F,
   sample_size = ssMat, split = TRUE
 )
 }

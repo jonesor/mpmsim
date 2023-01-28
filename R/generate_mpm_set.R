@@ -65,7 +65,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
 
     # Get lambda value
     if (split == TRUE) {
-      lambda_value <- eigs(mpm_out$matU + mpm_out$matF, what = "lambda")
+      lambda_value <- eigs(mpm_out$mat_U + mpm_out$mat_F, what = "lambda")
     } else {
       lambda_value <- eigs(mpm_out, what = "lambda")
     }
@@ -83,7 +83,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
         i <- 1
       }
 
-      # put the matrix (which may be split into matU and matF) into the list
+      # put the matrix (which may be split into mat_U and mat_F) into the list
       output_list[[i]] <- mpm_out
 
       # increment the i value

@@ -38,5 +38,8 @@ testthat::expect_error(
 
 # Check that output is a matrix
 testthat::expect_true(
-  is.matrix(random_mpm(n_stages = 4, fecundity = 5, archetype = 1, split = FALSE))
+  is.matrix(random_mpm(
+    n_stages = 4, fecundity = 5, archetype = 1,
+    split = FALSE
+  ))
 )
