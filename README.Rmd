@@ -10,6 +10,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   eval = TRUE
 )
+set.seed(42)
 ```
 
 # mpmsim  <img src="man/figures/logo_mpmsim.png" align="right" height="100" style="float:right; height:100px;">
@@ -52,7 +53,7 @@ make_leslie_matrix(
 )
 ```
 
-Users can generate large numbers of plausible Leslie matrices by repeating the `make_leslie_matrix` command in a loop. For example, the following code produces a list of 10 Leslie matrices that have increasing survival with age.
+Users can generate large numbers of plausible Leslie matrices by repeating the `make_leslie_matrix` command in a loop. For example, the following code produces a list of five Leslie matrices that have increasing survival with age.
 
 ```{r}
 juvSurv <- runif(n = 10, min = 0.0, max = 0.1)
@@ -60,7 +61,7 @@ adultSurv <- runif(n = 10, min = 0.4, max = 0.8)
 adultFert <- rpois(10, 6)
 
 outputMPMs <- NULL
-for (i in 1:10) {
+for (i in 1:5) {
   outputMPMs[[i]] <- make_leslie_matrix(
     survival = seq(juvSurv[i], adultSurv[i], length.out = 6),
     fertility = c(0, 0, rep(adultFert[i], 4)), n_stages = 6, split = FALSE

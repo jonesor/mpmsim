@@ -104,14 +104,14 @@
 <span><span class="co">#&gt; [2,]  0.1 0.0000000 0.0000000 0.00</span></span>
 <span><span class="co">#&gt; [3,]  0.0 0.2166667 0.0000000 0.00</span></span>
 <span><span class="co">#&gt; [4,]  0.0 0.0000000 0.3333333 0.45</span></span></code></pre></div>
-<p>Users can generate large numbers of plausible Leslie matrices by repeating the <code>make_leslie_matrix</code> command in a loop. For example, the following code produces a list of 10 Leslie matrices that have increasing survival with age.</p>
+<p>Users can generate large numbers of plausible Leslie matrices by repeating the <code>make_leslie_matrix</code> command in a loop. For example, the following code produces a list of five Leslie matrices that have increasing survival with age.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">juvSurv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, min <span class="op">=</span> <span class="fl">0.0</span>, max <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="va">adultSurv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, min <span class="op">=</span> <span class="fl">0.4</span>, max <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span><span class="va">adultFert</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">outputMPMs</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">outputMPMs</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_leslie_matrix.html">make_leslie_matrix</a></span><span class="op">(</span></span>
 <span>    survival <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">juvSurv</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">adultSurv</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>,</span>
 <span>    fertility <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">adultFert</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>, n_stages <span class="op">=</span> <span class="fl">6</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -120,94 +120,49 @@
 <span></span>
 <span><span class="va">outputMPMs</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 7.0000000 7.0000000 7.0000000 7.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.04118865 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.1673406 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.0000000 0.2934926 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.0000000 0.0000000 0.4196445 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.5457965 0.6719484</span></span>
+<span><span class="co">#&gt;           [,1]      [,2]     [,3]      [,4]      [,5]      [,6]</span></span>
+<span><span class="co">#&gt; [1,] 0.0000000 0.0000000 9.000000 9.0000000 9.0000000 9.0000000</span></span>
+<span><span class="co">#&gt; [2,] 0.0914806 0.0000000 0.000000 0.0000000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.1898038 0.000000 0.0000000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [4,] 0.0000000 0.0000000 0.288127 0.0000000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [5,] 0.0000000 0.0000000 0.000000 0.3864503 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [6,] 0.0000000 0.0000000 0.000000 0.0000000 0.4847735 0.5830967</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt;            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 5.0000000 5.0000000 5.0000000 5.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.01210159 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.1078452 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.0000000 0.2035889 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.0000000 0.0000000 0.2993325 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.3950761 0.4908198</span></span>
+<span><span class="co">#&gt;            [,1]     [,2]      [,3]    [,4]      [,5]      [,6]</span></span>
+<span><span class="co">#&gt; [1,] 0.00000000 0.000000 3.0000000 3.00000 3.0000000 3.0000000</span></span>
+<span><span class="co">#&gt; [2,] 0.09370754 0.000000 0.0000000 0.00000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.00000000 0.212495 0.0000000 0.00000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [4,] 0.00000000 0.000000 0.3312825 0.00000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [5,] 0.00000000 0.000000 0.0000000 0.45007 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [6,] 0.00000000 0.000000 0.0000000 0.00000 0.5688574 0.6876449</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
-<span><span class="co">#&gt;            [,1]      [,2]      [,3]       [,4]       [,5]       [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 12.000000 12.0000000 12.0000000 12.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.02930994 0.0000000  0.000000  0.0000000  0.0000000  0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.1542125  0.000000  0.0000000  0.0000000  0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.0000000  0.279115  0.0000000  0.0000000  0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.0000000  0.000000  0.4040176  0.0000000  0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.0000000  0.000000  0.0000000  0.5289202  0.6538227</span></span>
+<span><span class="co">#&gt;            [,1]      [,2]       [,3]       [,4]       [,5]       [,6]</span></span>
+<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 12.0000000 12.0000000 12.0000000 12.0000000</span></span>
+<span><span class="co">#&gt; [2,] 0.02861395 0.0000000  0.0000000  0.0000000  0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.00000000 0.1776649  0.0000000  0.0000000  0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [4,] 0.00000000 0.0000000  0.3267159  0.0000000  0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [5,] 0.00000000 0.0000000  0.0000000  0.4757669  0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [6,] 0.00000000 0.0000000  0.0000000  0.0000000  0.6248179  0.7738689</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[4]]</span></span>
-<span><span class="co">#&gt;            [,1]      [,2]      [,3]     [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 7.0000000 7.000000 7.0000000 7.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.08456303 0.0000000 0.0000000 0.000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.2207337 0.0000000 0.000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.0000000 0.3569044 0.000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.0000000 0.0000000 0.493075 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.0000000 0.0000000 0.000000 0.6292457 0.7654164</span></span>
+<span><span class="co">#&gt;            [,1]      [,2]       [,3]       [,4]       [,5]       [,6]</span></span>
+<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 10.0000000 10.0000000 10.0000000 10.0000000</span></span>
+<span><span class="co">#&gt; [2,] 0.08304476 0.0000000  0.0000000  0.0000000  0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.00000000 0.1668701  0.0000000  0.0000000  0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [4,] 0.00000000 0.0000000  0.2506955  0.0000000  0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [5,] 0.00000000 0.0000000  0.0000000  0.3345208  0.0000000  0.0000000</span></span>
+<span><span class="co">#&gt; [6,] 0.00000000 0.0000000  0.0000000  0.0000000  0.4183462  0.5021715</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[5]]</span></span>
-<span><span class="co">#&gt;            [,1]      [,2]      [,3]    [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 6.0000000 6.00000 6.0000000 6.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.05699084 0.0000000 0.0000000 0.00000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.1330206 0.0000000 0.00000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.0000000 0.2090503 0.00000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.0000000 0.0000000 0.28508 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.0000000 0.0000000 0.00000 0.3611097 0.4371395</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[6]]</span></span>
 <span><span class="co">#&gt;            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 2.0000000 2.0000000 2.0000000 2.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.01442993 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.1557757 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.0000000 0.2971214 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.0000000 0.0000000 0.4384672 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.5798129 0.7211587</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[7]]</span></span>
-<span><span class="co">#&gt;            [,1]     [,2]      [,3]      [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.000000 6.0000000 6.0000000 6.0000000 6.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.05752491 0.000000 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.140396 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.000000 0.2232671 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.000000 0.0000000 0.3061382 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.000000 0.0000000 0.0000000 0.3890093 0.4718804</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[8]]</span></span>
-<span><span class="co">#&gt;            [,1]      [,2]     [,3]      [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 7.000000 7.0000000 7.0000000 7.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.08203721 0.0000000 0.000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.1465071 0.000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.0000000 0.210977 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.0000000 0.000000 0.2754469 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.0000000 0.000000 0.0000000 0.3399168 0.4043867</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[9]]</span></span>
-<span><span class="co">#&gt;            [,1]      [,2]    [,3]      [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 5.00000 5.0000000 5.0000000 5.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.04716641 0.0000000 0.00000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.00000000 0.1214032 0.00000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.00000000 0.0000000 0.19564 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.00000000 0.0000000 0.00000 0.2698768 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.00000000 0.0000000 0.00000 0.0000000 0.3441136 0.4183503</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[10]]</span></span>
-<span><span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]</span></span>
-<span><span class="co">#&gt; [1,] 0.0000000 0.0000000 3.0000000 3.0000000 3.0000000 3.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.0917043 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.0000000 0.1815941 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [4,] 0.0000000 0.0000000 0.2714839 0.0000000 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [5,] 0.0000000 0.0000000 0.0000000 0.3613736 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.0000000 0.0000000 0.0000000 0.0000000 0.4512634 0.5411532</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 0.00000000 0.0000000 3.0000000 3.0000000 3.0000000 3.0000000</span></span>
+<span><span class="co">#&gt; [2,] 0.06417455 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.00000000 0.1683231 0.0000000 0.0000000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [4,] 0.00000000 0.0000000 0.2724716 0.0000000 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [5,] 0.00000000 0.0000000 0.0000000 0.3766201 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [6,] 0.00000000 0.0000000 0.0000000 0.0000000 0.4807686 0.5849171</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="simulate-an-mpm-using-a-particular-sample-size">Simulate an MPM using a particular sample size<a class="anchor" aria-label="anchor" href="#simulate-an-mpm-using-a-particular-sample-size"></a>
@@ -223,65 +178,65 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/simulate_mpm.html">simulate_mpm</a></span><span class="op">(</span></span>
-<span>  matU <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">matU</span>, matF <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">matF</span>,</span>
+<span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
 <span>  sample_size <span class="op">=</span> <span class="fl">1000</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;       [,1]  [,2]  [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.000 2.180 4.458</span></span>
-<span><span class="co">#&gt; [2,] 0.299 0.000 0.000</span></span>
-<span><span class="co">#&gt; [3,] 0.000 0.536 0.793</span></span>
+<span><span class="co">#&gt; [1,] 0.000 2.254 4.468</span></span>
+<span><span class="co">#&gt; [2,] 0.288 0.000 0.000</span></span>
+<span><span class="co">#&gt; [3,] 0.000 0.510 0.796</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/simulate_mpm.html">simulate_mpm</a></span><span class="op">(</span></span>
-<span>  matU <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">matU</span>, matF <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">matF</span>,</span>
+<span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
 <span>  sample_size <span class="op">=</span> <span class="fl">7</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;           [,1]      [,2]      [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.0000000 2.4285714 4.2857143</span></span>
-<span><span class="co">#&gt; [2,] 0.5714286 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.0000000 0.4285714 0.8571429</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 0.0000000 2.1428571 3.5714286</span></span>
+<span><span class="co">#&gt; [2,] 0.1428571 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.8571429 0.7142857</span></span></code></pre></div>
 <p>A list of an arbitrary number of matrices can be generated easily using <code>replicate</code>, as follows.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span></span>
 <span>  n <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  <span class="fu"><a href="reference/simulate_mpm.html">simulate_mpm</a></span><span class="op">(</span></span>
-<span>    matU <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">matU</span>, matF <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">matF</span>,</span>
+<span>    mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
 <span>    sample_size <span class="op">=</span> <span class="fl">7</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; , , 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           [,1]      [,2]      [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.0000000 1.1428571 4.7142857</span></span>
-<span><span class="co">#&gt; [2,] 0.2857143 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.0000000 0.5714286 0.8571429</span></span>
+<span><span class="co">#&gt;           [,1]      [,2]     [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.0000000 2.5714286 4.285714</span></span>
+<span><span class="co">#&gt; [2,] 0.1428571 0.0000000 0.000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.5714286 1.000000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; , , 2</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;           [,1]      [,2]      [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.0000000 2.4285714 4.8571429</span></span>
-<span><span class="co">#&gt; [2,] 0.1428571 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.0000000 0.7142857 0.8571429</span></span>
+<span><span class="co">#&gt; [1,] 0.0000000 1.8571429 4.2857143</span></span>
+<span><span class="co">#&gt; [2,] 0.2857143 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.4285714 0.7142857</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; , , 3</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           [,1]      [,2]      [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.0000000 2.2857143 4.2857143</span></span>
-<span><span class="co">#&gt; [2,] 0.1428571 0.0000000 0.0000000</span></span>
-<span><span class="co">#&gt; [3,] 0.0000000 0.2857143 0.7142857</span></span>
+<span><span class="co">#&gt;           [,1]      [,2]     [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.0000000 3.7142857 5.571429</span></span>
+<span><span class="co">#&gt; [2,] 0.4285714 0.0000000 0.000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.7142857 1.000000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; , , 4</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           [,1]      [,2]     [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.0000000 2.8571429 4.142857</span></span>
-<span><span class="co">#&gt; [2,] 0.2857143 0.0000000 0.000000</span></span>
-<span><span class="co">#&gt; [3,] 0.0000000 0.4285714 1.000000</span></span>
+<span><span class="co">#&gt;           [,1]      [,2]      [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.0000000 2.0000000 3.7142857</span></span>
+<span><span class="co">#&gt; [2,] 0.2857143 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.5714286 0.8571429</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; , , 5</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           [,1]      [,2]     [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.0000000 1.7142857 3.714286</span></span>
-<span><span class="co">#&gt; [2,] 0.1428571 0.0000000 0.000000</span></span>
-<span><span class="co">#&gt; [3,] 0.0000000 0.5714286 1.000000</span></span></code></pre></div>
+<span><span class="co">#&gt;           [,1]      [,2]      [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.0000000 2.4285714 4.1428571</span></span>
+<span><span class="co">#&gt; [2,] 0.4285714 0.0000000 0.0000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.2857143 0.8571429</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="generate-single-random-mpms">Generate single random MPMs<a class="anchor" aria-label="anchor" href="#generate-single-random-mpms"></a>
@@ -289,10 +244,10 @@
 <p>The <code>random_mpm</code> function can be used to generate a random matrix population model (MPM) with element values based on defined life history archetypes. The function draws survival and transition/growth probabilities from a Dirichlet distribution to ensure that the column totals, including death, are less than or equal to 1. Fecundity can be specified as a single value or as a vector with a length equal to the dimensions of the matrix. If specified as a single value, it is placed in the top-right corner of the matrix. If specified as a vector of length <code>n_stages</code>, it spans the entire top row of the matrix. The <code>archetype</code> argument can be used to constrain the MPMs, for example, <code>archetype = 2</code> constraints the survival probability to increase monotonically as individuals advance to later stages. For more information, see the documentation for <code>random_mpm</code> and Takada et al. (2018).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/random_mpm.html">random_mpm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt;           [,1]      [,2]        [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.1101680 0.3208383 17.25137614</span></span>
-<span><span class="co">#&gt; [2,] 0.3473225 0.2401982  0.09530453</span></span>
-<span><span class="co">#&gt; [3,] 0.1388808 0.1067494  0.61513722</span></span></code></pre></div>
+<span><span class="co">#&gt;           [,1]       [,2]       [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.4133773 0.35327506 34.1946023</span></span>
+<span><span class="co">#&gt; [2,] 0.1407397 0.54843293  0.2623188</span></span>
+<span><span class="co">#&gt; [3,] 0.1549665 0.08638207  0.5425563</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="generate-a-set-of-random-mpms">Generate a set of random MPMs<a class="anchor" aria-label="anchor" href="#generate-a-set-of-random-mpms"></a>
@@ -304,39 +259,39 @@
 <span>  lower_lambda <span class="op">=</span> <span class="fl">0.9</span>, upper_lambda <span class="op">=</span> <span class="fl">1.1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;            [,1]        [,2]       [,3]       [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.08396256 0.037471944 0.01241634 4.10140303</span></span>
-<span><span class="co">#&gt; [2,] 0.08832627 0.135231937 0.32492699 0.09943638</span></span>
-<span><span class="co">#&gt; [3,] 0.17614282 0.451050390 0.34655483 0.27178162</span></span>
-<span><span class="co">#&gt; [4,] 0.13430059 0.008556661 0.06383719 0.21419332</span></span>
+<span><span class="co">#&gt;            [,1]       [,2]        [,3]        [,4]</span></span>
+<span><span class="co">#&gt; [1,] 0.17965064 0.25104495 0.559523884 6.689126138</span></span>
+<span><span class="co">#&gt; [2,] 0.02662254 0.47968287 0.129292855 0.041311517</span></span>
+<span><span class="co">#&gt; [3,] 0.01886626 0.07455046 0.262429106 0.009530747</span></span>
+<span><span class="co">#&gt; [4,] 0.11444672 0.16316280 0.004452358 0.044294511</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt;             [,1]       [,2]       [,3]       [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.510553771 0.30487794 0.25680321 2.55432932</span></span>
-<span><span class="co">#&gt; [2,] 0.000873154 0.05833942 0.01095387 0.30554443</span></span>
-<span><span class="co">#&gt; [3,] 0.196608915 0.32738547 0.09796783 0.03961696</span></span>
-<span><span class="co">#&gt; [4,] 0.040965157 0.20692105 0.41945808 0.03440813</span></span>
+<span><span class="co">#&gt;            [,1]       [,2]      [,3]        [,4]</span></span>
+<span><span class="co">#&gt; [1,] 0.03464681 0.12182352 0.1345819 2.352397795</span></span>
+<span><span class="co">#&gt; [2,] 0.20989377 0.40623251 0.1928804 0.248668603</span></span>
+<span><span class="co">#&gt; [3,] 0.43853337 0.21736351 0.3651116 0.309936750</span></span>
+<span><span class="co">#&gt; [4,] 0.05497098 0.07191438 0.2534837 0.007908794</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
-<span><span class="co">#&gt;            [,1]       [,2]       [,3]      [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.12534995 0.08856549 0.50265568 5.0151634</span></span>
-<span><span class="co">#&gt; [2,] 0.09029332 0.53381851 0.22311129 0.2872258</span></span>
-<span><span class="co">#&gt; [3,] 0.13523087 0.20348139 0.01969804 0.0402803</span></span>
-<span><span class="co">#&gt; [4,] 0.03416139 0.06421989 0.24363340 0.2493481</span></span>
+<span><span class="co">#&gt;            [,1]        [,2]       [,3]       [,4]</span></span>
+<span><span class="co">#&gt; [1,] 0.06477820 0.114060884 0.16498562 8.72647650</span></span>
+<span><span class="co">#&gt; [2,] 0.65342581 0.633632098 0.32476768 0.07536428</span></span>
+<span><span class="co">#&gt; [3,] 0.17301635 0.083791098 0.22398663 0.09784590</span></span>
+<span><span class="co">#&gt; [4,] 0.03931067 0.003203861 0.08297216 0.04447663</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[4]]</span></span>
-<span><span class="co">#&gt;            [,1]        [,2]       [,3]       [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.04811155 0.488040514 0.14341295 7.43334320</span></span>
-<span><span class="co">#&gt; [2,] 0.12257546 0.114182140 0.58026218 0.16681269</span></span>
-<span><span class="co">#&gt; [3,] 0.73918175 0.206185854 0.08091527 0.30683555</span></span>
-<span><span class="co">#&gt; [4,] 0.01369368 0.005066602 0.04265726 0.07717937</span></span>
+<span><span class="co">#&gt;            [,1]       [,2]        [,3]       [,4]</span></span>
+<span><span class="co">#&gt; [1,] 0.23045134 0.30005703 0.004633533 8.48003549</span></span>
+<span><span class="co">#&gt; [2,] 0.18310129 0.05975363 0.155108149 0.25435636</span></span>
+<span><span class="co">#&gt; [3,] 0.01690222 0.05074014 0.056616172 0.01804106</span></span>
+<span><span class="co">#&gt; [4,] 0.06857838 0.10508779 0.153834415 0.01740904</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[5]]</span></span>
-<span><span class="co">#&gt;           [,1]       [,2]      [,3]      [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.2043390 0.35249341 0.2282437 3.5005028</span></span>
-<span><span class="co">#&gt; [2,] 0.2767119 0.44971373 0.1959247 0.1076575</span></span>
-<span><span class="co">#&gt; [3,] 0.1223184 0.11184164 0.1870900 0.1211524</span></span>
-<span><span class="co">#&gt; [4,] 0.1064033 0.05074229 0.1186717 0.1857593</span></span></code></pre></div>
+<span><span class="co">#&gt;             [,1]       [,2]       [,3]       [,4]</span></span>
+<span><span class="co">#&gt; [1,] 0.613665888 0.02062234 0.06546807 6.05738363</span></span>
+<span><span class="co">#&gt; [2,] 0.109387490 0.19737066 0.49630874 0.03287195</span></span>
+<span><span class="co">#&gt; [3,] 0.185451642 0.25070529 0.14293562 0.17412229</span></span>
+<span><span class="co">#&gt; [4,] 0.002160339 0.05510238 0.01734127 0.51050113</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
