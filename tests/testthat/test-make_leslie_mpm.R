@@ -1,4 +1,3 @@
-
 # n_stages should be integer
 testthat::expect_error(
   make_leslie_matrix(survival = 0.5, fertility = 10, n_stages = 3.5)

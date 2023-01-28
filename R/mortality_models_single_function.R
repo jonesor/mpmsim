@@ -1,8 +1,12 @@
-#' Utility function to calculate the cumulative area under the curve (AUC) from x and y data
+#' Utility function to calculate the cumulative area under the curve (AUC) from
+#' x and y data
 #'
-#' @param x Numeric or Integer vector representing the x-axis values. It must have the same length as y.
-#' @param y Numeric vector representing the y-axis values. It must have the same length as x.
-#' @return A numeric vector representing the cumulative AUC at each point along the x-axis. The first element of the vector will always be 0.
+#' @param x Numeric or Integer vector representing the x-axis values. It must
+#'   have the same length as y.
+#' @param y Numeric vector representing the y-axis values. It must have the same
+#'   length as x.
+#' @return A numeric vector representing the cumulative AUC at each point along
+#'   the x-axis. The first element of the vector will always be 0.
 #' @examples
 #' cumulative_auc(c(0, 1, 2, 3), c(0, 1, 2, 3))
 #' @noRd
@@ -19,7 +23,8 @@ cumulative_auc <- function(x, y) {
   }
 
   # calculate the trapezoidal area for each segment
-  areas <- (y[1:(length(y) - 1)] + y[2:length(y)]) * (x[2:length(x)] - x[1:(length(x) - 1)]) / 2
+  areas <- (y[1:(length(y) - 1)] + y[2:length(y)]) *
+    (x[2:length(x)] - x[1:(length(x) - 1)]) / 2
 
   # return the cumulative sum of the areas along the x-axis
   # Value is the cumulative area at point x.
@@ -27,14 +32,15 @@ cumulative_auc <- function(x, y) {
   return(c(0, cumsum(areas)))
 }
 
-#' Utility function to calculate the age-specific survival probability from a survivorship curve
+#' Utility function to calculate the age-specific survival probability from a
+#' survivorship curve
 #'
 #' @param Sx A numeric vector representing the survivorship curve.
 #' @return A numeric value representing the survival probability.
 #' @examples
-#' survival_probability_from_survivorship(c(1, 0.8, 0.6, 0.4, 0.2, 0.1))
+#' calculate_surv_prob(c(1, 0.8, 0.6, 0.4, 0.2, 0.1))
 #' @noRd
-survival_probability_from_survivorship <- function(Sx) {
+calculate_surv_prob <- function(Sx) {
   if (max(diff(Sx)) > 0) {
     stop("The survivorship curve (Sx) cannot increase. Check your data.")
   }
@@ -54,7 +60,8 @@ survival_probability_from_survivorship <- function(Sx) {
 #' Model survival data using a mortality model
 #'
 #' @param x Numeric vector representing age.
-#' @param params Numeric vector representing the parameters of the mortality model.
+#' @param params Numeric vector representing the parameters of the mortality
+#'   model.
 #' @param model Mortality model: `Gompertz`, `GompertzMakeham`, `Exponential`,
 #'   `Siler`.
 #' @return A data frame with columns for time (`x`), hazard (`hx`), cumulative
@@ -65,51 +72,62 @@ survival_probability_from_survivorship <- function(Sx) {
 #'   b1. For Gompertz-Makeham the parameters are b0, b1 and C. For Exponential,
 #'   the parameter is C. For Siler, the parameters are a0,a1, C, b0 and b1.
 #' @examples
-#' model_survival(0:10,c(0.1,0.2),"Gompertz")
+#' model_survival(0:10, c(0.1, 0.2), "Gompertz")
 #' @export
 model_survival <- function(x, params, model) {
-  #Validation
-  if(!(inherits(x, "integer")||inherits(x, "numeric"))){
+  # Validation
+  if (!(inherits(x, "integer") || inherits(x, "numeric"))) {
     stop("x must be integer or numeric")
   }
-  if(min(diff(x))<=0){
+  if (min(diff(x)) <= 0) {
     stop("x must be an increasing sequence (it represents advancing age)")
   }
-  if(!model %in% c("Gompertz", "GompertzMakeham", "Exponential", "Siler")){
+  if (!model %in% c("Gompertz", "GompertzMakeham", "Exponential", "Siler")) {
     stop("model type not recognised")
   }
 
   # hazard
-  if(model == "Gompertz"){
-    #Validate parameters
-    if(length(params)!=2){stop("For a Gompertz model, 2 parameters are required.")}
+  if (model == "Gompertz") {
+    # Validate parameters
+    if (length(params) != 2) {
+      stop("For a Gompertz model, 2 parameters are required.")
+    }
 
     b0 <- params[1]
     b1 <- params[2]
 
-    hx <- b0 * exp(b1 * x)}
+    hx <- b0 * exp(b1 * x)
+  }
 
-  if(model == "Exponential"){
-    #Validate parameters
-    if(length(params)!=1){stop("For an Exponential model, 1 parameter is required.")}
+  if (model == "Exponential") {
+    # Validate parameters
+    if (length(params) != 1) {
+      stop("For an Exponential model, 1 parameter is required.")
+    }
 
     b0 <- params[1]
 
-    hx <- rep(b0, length(x))}
+    hx <- rep(b0, length(x))
+  }
 
-  if(model == "GompertzMakeham"){
-    #Validate parameters
-    if(length(params)!=3){stop("For a Gompertz-Makeham model, 3 parameters are required.")}
+  if (model == "GompertzMakeham") {
+    # Validate parameters
+    if (length(params) != 3) {
+      stop("For a Gompertz-Makeham model, 3 parameters are required.")
+    }
 
     b0 <- params[1]
     b1 <- params[2]
     C <- params[3]
 
-    hx <- b0 * exp(b1 * x) + C}
+    hx <- b0 * exp(b1 * x) + C
+  }
 
-  if(model == "Siler"){
-    #Validate parameters
-    if(length(params)!=5){stop("For a Siler model, 5 parameters are required.")}
+  if (model == "Siler") {
+    # Validate parameters
+    if (length(params) != 5) {
+      stop("For a Siler model, 5 parameters are required.")
+    }
 
     a0 <- params[1]
     a1 <- params[2]
@@ -117,7 +135,8 @@ model_survival <- function(x, params, model) {
     b0 <- params[4]
     b1 <- params[5]
 
-    hx <- a0 * exp(-a1 * x) + C + b0 * exp(b1 * x)}
+    hx <- a0 * exp(-a1 * x) + C + b0 * exp(b1 * x)
+  }
 
   # Cumulative hazard (Hx)
   Hx <- cumulative_auc(x = x, y = hx)
@@ -126,9 +145,8 @@ model_survival <- function(x, params, model) {
   Sx <- exp(-Hx)
 
   # Survival probability within interval x[n], x[n+1]
-  gx <- survival_probability_from_survivorship(Sx)
+  gx <- calculate_surv_prob(Sx)
 
   out <- data.frame(x, hx, Hx, Sx, gx)
   return(out)
 }
-

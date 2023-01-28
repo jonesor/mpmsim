@@ -9,7 +9,8 @@ model_survival(x, params, model)
 \arguments{
 \item{x}{Numeric vector representing age.}
 
-\item{params}{Numeric vector representing the parameters of the mortality model.}
+\item{params}{Numeric vector representing the parameters of the mortality
+model.}
 
 \item{model}{Mortality model: \code{Gompertz}, \code{GompertzMakeham}, \code{Exponential},
 \code{Siler}.}

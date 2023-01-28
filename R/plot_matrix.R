@@ -23,7 +23,6 @@
 #' plot_matrix(A1, zeroNA = TRUE, na_colour = NA)
 #'
 plot_matrix <- function(A, zeroNA = FALSE, legend = FALSE, na_colour = NA, ...) {
-
   # Validation
   # Check that A is a matrix
   if (!inherits(A, "matrix")) {

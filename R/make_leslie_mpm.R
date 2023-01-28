@@ -35,7 +35,8 @@
 #'
 make_leslie_matrix <- function(survival, fertility, n_stages, split = FALSE) {
   # Validate input
-  if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) < .Machine$double.eps^0.5 || n_stages <= 1) {
+  if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
+    .Machine$double.eps^0.5 || n_stages <= 1) {
     stop("n_stages must be a positive integer > 1")
   }
 
@@ -44,11 +45,18 @@ make_leslie_matrix <- function(survival, fertility, n_stages, split = FALSE) {
   }
 
   if (!length(survival) %in% c(1, n_stages)) {
-    stop(paste0("survival must be of length n_stages (", n_stages, "), or of length 1"))
+    stop(paste0(
+      "survival must be of length n_stages (", n_stages,
+      "), or of length 1"
+    ))
   }
 
-  if (!is.numeric(fertility) || (length(fertility) != n_stages && length(fertility) != 1)) {
-    stop(paste0("fertility must be a numeric vector of length n_stages (", n_stages, "), or of length 1"))
+  if (!is.numeric(fertility) || (length(fertility) != n_stages &&
+    length(fertility) != 1)) {
+    stop(paste0(
+      "fertility must be a numeric vector of length n_stages (",
+      n_stages, "), or of length 1"
+    ))
   }
 
   if (any(fertility < 0)) {
@@ -66,18 +74,18 @@ make_leslie_matrix <- function(survival, fertility, n_stages, split = FALSE) {
   zero_matrix <- matrix(0, nrow = n_stages, ncol = n_stages)
 
   # Make the F matrix (fertility)
-  matF <- zero_matrix
-  matF[1, ] <- fertility
+  mat_F <- zero_matrix
+  mat_F[1, ] <- fertility
 
   # Make the U matrix (survival and growth)
-  matU <- zero_matrix
-  matU[sub_diagonal_elements] <- survival
+  mat_U <- zero_matrix
+  mat_U[sub_diagonal_elements] <- survival
 
   if (split) {
-    matA_split <- list(matU = matU, matF = matF)
-    return(matA_split)
+    mat_A_split <- list(mat_U = mat_U, mat_F = mat_F)
+    return(mat_A_split)
   } else {
-    matA <- matF + matU
-    return(matA)
+    mat_A <- mat_F + mat_U
+    return(mat_A)
   }
 }

@@ -61,7 +61,6 @@ simFec <- function(meanFec, sample_size) {
 #' @export simulate_mpm
 #'
 simulate_mpm <- function(matU, matF, sample_size, split = TRUE) {
-
   # Validation
   if (!inherits(matU, "matrix")) {
     stop("matU needs to be a matrix")
