@@ -86,12 +86,12 @@ mats <- make_leslie_matrix(
 )
 
 simulate_mpm(
-  matU = mats$matU, matF = mats$matF,
+  mat_U = mats$mat_U, mat_F = mats$mat_F,
   sample_size = 1000, split = FALSE
 )
 
 simulate_mpm(
-  matU = mats$matU, matF = mats$matF,
+  mat_U = mats$mat_U, mat_F = mats$mat_F,
   sample_size = 7, split = FALSE
 )
 ```
@@ -103,7 +103,7 @@ A list of an arbitrary number of matrices can be generated easily using `replica
 replicate(
   n = 5,
   simulate_mpm(
-    matU = mats$matU, matF = mats$matF,
+    mat_U = mats$mat_U, mat_F = mats$mat_F,
     sample_size = 7, split = FALSE
   )
 )
