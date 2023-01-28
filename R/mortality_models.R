@@ -4,7 +4,7 @@
 #' @param y Numeric vector representing the y-axis values. It must have the same length as x.
 #' @return A numeric vector representing the cumulative AUC at each point along the x-axis. The first element of the vector will always be 0.
 #' @examples
-#' cumulative_auc(c(1, 2, 3, 4), c(0, 1, 2, 3))
+#' cumulative_auc(c(0, 1, 2, 3), c(0, 1, 2, 3))
 #' @noRd
 
 cumulative_auc <- function(x, y) {
@@ -62,7 +62,7 @@ survival_probability_from_survivorship <- function(Sx) {
 #' @export
 gompertz <- function(x, b0, b1) {
   # hazard
-  hx <- A * exp(B * x)
+  hx <- b0 * exp(b1 * x)
 
   # Cumulative hazard (Hx)
   Hx <- cumulative_auc(x = x, y = hx)
@@ -84,7 +84,7 @@ gompertz <- function(x, b0, b1) {
 #' @param b0 Numeric value representing the hazard rate parameter.
 #' @return A data frame with columns for time (x), hazard (hx), cumulative hazard (Hx), survivorship (Sx) and survival probability within interval (gx).
 #' @examples
-#' exponential(c(1,2,3,4,5), 0.01)
+#' exponential(0:10, 0.01)
 #' @export
 exponential <- function(x, b0) {
   # hazard
@@ -112,7 +112,7 @@ exponential <- function(x, b0) {
 #' @param C Numeric value representing the Makeham constant.
 #' @return A data frame with columns for time (x), hazard (hx), cumulative hazard (Hx), survivorship (Sx) and survival probability within interval (gx).
 #' @examples
-#' gompertz_makeham(c(1,2,3,4,5), 0.01, 0.5, 0.1)
+#' gompertz_makeham(0:10, 0.01, 0.5, 0.1)
 #' @export
 gompertz_makeham <- function(x, b0, b1, C) {
   hx <- b0 * exp(b1 * x) + C
