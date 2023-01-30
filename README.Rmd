@@ -192,7 +192,7 @@ generate_mpm_set(
 
 ### Plot a matrix
 
-It can be helpful to visualise the matrices. This can be accomplished with the function `plot_matrix`. The output of `plot_matrix` is of class `ggplot` and as such the colour scheme can be modified in the usual way with, for example, `scale_fill_gradient` or similar.
+It can be helpful to visualise the matrices. This can be accomplished with the function `plot_matrix`. The output of `plot_matrix` is of class `ggplot` and as such the colour scheme can be modified in the usual way with, for example, `scale_fill_gradient` or similar. 
 
 Here's the matrix:
 
@@ -202,10 +202,19 @@ rMPM$mat_U
 
 And here's the plot:
 
-```{r,message=FALSE}
+```{r, message=FALSE}
 library(ggplot2)
 p <- plot_matrix(rMPM$mat_U)
 p + scale_fill_gradient(low="black", high="yellow")
+```
+
+
+```{r, include=FALSE}
+ggsave("man/figures/plot_a_matrix01.png",width = 300,height = 300,units = "px")
+```
+
+```{r echo=FALSE, fig.align='center', fig.cap=''}
+knitr::include_graphics('man/figures/plot_a_matrix01.png')
 ```
 
 

@@ -445,6 +445,8 @@ p + scale_fill_gradient(low="black", high="yellow")
 
 ![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
+<img src="man/figures/plot_a_matrix01.png" width="300" style="display: block; margin: auto;" />
+
 ## Contributions
 
 All contributions are welcome. Please note that this project is released
