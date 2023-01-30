@@ -14,6 +14,7 @@
 #' @param split a logical argument indicating whether the output matrix should
 #'   be split into separate U and F matrices.
 #' @return A matrix of size n_stages x n_stages representing the Leslie matrix
+#' @author Owen Jones <jones@biology.sdu.dk>
 #' @export
 #' @examples
 #' make_leslie_matrix(

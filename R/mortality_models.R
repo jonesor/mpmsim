@@ -7,6 +7,7 @@
 #'   length as x.
 #' @return A numeric vector representing the cumulative AUC at each point along
 #'   the x-axis. The first element of the vector will always be 0.
+#' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' cumulative_auc(c(0, 1, 2, 3), c(0, 1, 2, 3))
 #' @noRd
@@ -37,6 +38,7 @@ cumulative_auc <- function(x, y) {
 #'
 #' @param Sx A numeric vector representing the survivorship curve.
 #' @return A numeric value representing the survival probability.
+#' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' calculate_surv_prob(c(1, 0.8, 0.6, 0.4, 0.2, 0.1))
 #' @noRd
@@ -92,6 +94,7 @@ calculate_surv_prob <- function(Sx) {
 #'   the interval). It is not possible to estimate a value for this in the final
 #'   row of the life table (because there is no \eqn{x+1} value) and therefore the
 #'   input values of `x` may need to be extended to capture this final interval.
+#' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' model_survival(params = c(0.1, 0.2), model = "Gompertz")
 #' model_survival(params = c(0.1, 0.2, 0.1), model = "GompertzMakeham",

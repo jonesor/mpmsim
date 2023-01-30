@@ -7,3 +7,6 @@
 \description{
 Simulates Matrix Population Models with Particular Life History Characteristics
 }
+\author{
+Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
+}

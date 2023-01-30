@@ -13,6 +13,7 @@
 #'   scale_fill_viridis_c aes
 #' @importFrom reshape melt
 #' @importFrom dplyr mutate
+#' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' matDim <- 10
 #' A1 <- make_leslie_matrix(

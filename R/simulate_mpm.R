@@ -3,6 +3,7 @@
 #' @param prob_survival true survival probability
 #' @param sample_size sample size
 #' @return mean survival probability based on the simulated data
+#' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' simulate_survival(0.8, 100)
 #' simulate_survival(0.5, 1000)
@@ -16,6 +17,7 @@ simulate_survival <- function(prob_survival, sample_size) {
 #' @param mean_fecundity mean value for reproductive output
 #' @param sample_size sample size
 #' @return mean fecundity based on the simulated data
+#' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' simulate_fecundity(2, 100)
 #' simulate_fecundity(5, 1000)
@@ -46,6 +48,7 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #'   matrices or not
 #' @return list of matrices of survival and fecundity if split = TRUE, otherwise
 #'   a single matrix of the sum of survival and fecundity
+#' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' mats <- make_leslie_matrix(
 #'   survival = c(0.1, 0.2, 0.5),

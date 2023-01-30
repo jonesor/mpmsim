@@ -52,8 +52,6 @@
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #'
-#' @keywords utilities
-#'
 #' @importFrom MCMCpack rdirichlet
 #'
 #' @examples

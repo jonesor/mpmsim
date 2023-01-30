@@ -80,4 +80,3 @@ generated population matrices. Population Ecology, 60(1), 37–47.
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
-\keyword{utilities}

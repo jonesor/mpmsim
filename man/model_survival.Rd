@@ -59,3 +59,6 @@ truncate = 0.1)
 model_survival(0:10, 0.2, "Exponential")
 model_survival(0:10, c(0.1, 0.2, 0.1, 0.1, 0.2), "Siler")
 }
+\author{
+Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
+}

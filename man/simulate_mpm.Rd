@@ -47,3 +47,6 @@ simulate_mpm(
   sample_size = ssMat, split = TRUE
 )
 }
+\author{
+Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
+}
