@@ -182,13 +182,17 @@ fertility_values <- rnorm(n = sample_size, mean = 3, sd = 1)
 
 outputMPMs <- NULL
 for (i in 1:sample_size) {
-  surv_prob <- model_survival(params = c(b0_values[i], b1_values[i]), 
-                              model = "Gompertz")
+  surv_prob <- model_survival(
+    params = c(b0_values[i], b1_values[i]),
+    model = "Gompertz"
+  )
   survival <- surv_prob$gx
 
   maturity <- 2
-  fertility <- c(rep(0, maturity), 
-                 rep(fertility_values[i], length(survival) - maturity))
+  fertility <- c(
+    rep(0, maturity),
+    rep(fertility_values[i], length(survival) - maturity)
+  )
 
   outputMPMs[[i]] <- make_leslie_matrix(
     survival = survival, fertility = fertility,
@@ -352,8 +356,10 @@ the `U` and `F` matrices, which could be summed to create the `A`
 matrix.
 
 ``` r
-(rMPM <- random_mpm(n_stages = 3, fecundity = 20, 
-                    archetype = 2, split = TRUE))
+(rMPM <- random_mpm(
+  n_stages = 3, fecundity = 20,
+  archetype = 2, split = TRUE
+))
 #> $mat_U
 #>            [,1]        [,2]      [,3]
 #> [1,] 0.01566286 0.003962617 0.2372038
@@ -440,10 +446,8 @@ And here’s the plot:
 ``` r
 library(ggplot2)
 p <- plot_matrix(rMPM$mat_U)
-p + scale_fill_gradient(low="black", high="yellow")
+p + scale_fill_gradient(low = "black", high = "yellow")
 ```
-
-![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 <img src="man/figures/plot_a_matrix01.png" width="300" style="display: block; margin: auto;" />
 
