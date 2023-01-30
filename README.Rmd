@@ -53,15 +53,44 @@ make_leslie_matrix(
 )
 ```
 
+### Using a functional form for mortality
+
+Users can generate Leslie matrices with particular functional forms of mortality by first making a data frame of a simplified life table that includes age and survival probability within each age interval.
+
+```{r}
+(surv_prob <- model_survival(params = c(0.2, 0.4), model = "Gompertz"))
+```
+
+Age-specific survival probability is given by the `gx` column in the output from `model_survival`. Functional forms for fertility have not yet been implemented in `mpmsim` but users can specify an age at maturity, and assume fertility is constant with age from maturity.
+
+```{r}
+survival <- surv_prob$gx
+maturity <- 2
+fertility <- c(rep(0, maturity), rep(3, length(survival) - maturity))
+```
+
+Subsequently, these survival and fertility values can be applied to the Leslie matrix as follows.
+
+```{r}
+make_leslie_matrix(
+  survival = survival, fertility = fertility,
+  n_stages = length(survival), split = FALSE
+)
+```
+
+
+### Sets of Leslie matrices
+
 Users can generate large numbers of plausible Leslie matrices by repeating the `make_leslie_matrix` command in a loop. For example, the following code produces a list of five Leslie matrices that have increasing survival with age.
 
 ```{r}
-juvSurv <- runif(n = 10, min = 0.0, max = 0.1)
-adultSurv <- runif(n = 10, min = 0.4, max = 0.8)
-adultFert <- rpois(10, 6)
+sample_size <- 5
+juvSurv <- runif(n = sample_size, min = 0.0, max = 0.1)
+adultSurv <- runif(n = sample_size, min = 0.4, max = 0.8)
+adultFert <- rpois(sample_size, 6)
 
 outputMPMs <- NULL
-for (i in 1:5) {
+for (i in 1:sample_size) {
   outputMPMs[[i]] <- make_leslie_matrix(
     survival = seq(juvSurv[i], adultSurv[i], length.out = 6),
     fertility = c(0, 0, rep(adultFert[i], 4)), n_stages = 6, split = FALSE
@@ -70,6 +99,36 @@ for (i in 1:5) {
 
 outputMPMs
 ```
+
+Here's one way to do a similar thing with uncertainty applied to a Gompertz mortality.
+
+```{r}
+sample_size <- 5
+b0_values <- rnorm(n = sample_size, mean = 0.3, sd = 0.1)
+b1_values <- rnorm(n = sample_size, mean = 0.4, sd = 0.1)
+fertility_values <- rnorm(n = sample_size, mean = 3, sd = 1)
+
+outputMPMs <- NULL
+for (i in 1:sample_size) {
+  surv_prob <- model_survival(params = c(b0_values[i], b1_values[i]), 
+                              model = "Gompertz")
+  survival <- surv_prob$gx
+
+  maturity <- 2
+  fertility <- c(rep(0, maturity), 
+                 rep(fertility_values[i], length(survival) - maturity))
+
+  outputMPMs[[i]] <- make_leslie_matrix(
+    survival = survival, fertility = fertility,
+    n_stages = length(survival), split = FALSE
+  )
+}
+
+outputMPMs
+```
+
+
+
 
 ### Simulate an MPM using a particular sample size
 
