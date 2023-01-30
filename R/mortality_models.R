@@ -59,13 +59,21 @@ calculate_surv_prob <- function(Sx) {
 
 #' Model survival data using a mortality model
 #'
-#' @param x Numeric vector representing age.
+#' @param x Numeric vector representing age. The default is `NULL`, whereby the
+#'   survival trajectory is modelled from age 0 to the age at which the
+#'   survivorship of the synthetic cohort declines to a threshold defined by the
+#'   `truncate` argument, which has a default of 0.01 (i.e. 1% of the cohort
+#'   remaining alive).
 #' @param params Numeric vector representing the parameters of the mortality
 #'   model.
 #' @param model Mortality model: `Gompertz`, `GompertzMakeham`, `Exponential`,
 #'   `Siler`.
+#' @param truncate a value defining how the life table output should be
+#'   truncated. The default is `0.01`, indicating that the life table is
+#'   truncated so that survivorship, `Sx`, > 0.01 (i.e. the age at which 1% of
+#'   the cohort remains alive).
 #' @return A data frame with columns for time (`x`), hazard (`hx`), cumulative
-#'   hazard (`Hx`), survivorship (`Sx`) and survival probability within interval
+#'   hazard (`Hx`), survivorship (`Sx`) and mortality (`qx`) and survival probability within interval
 #'   (`gx`).
 #' @details The required parameters varies depending on the mortality model. The
 #'   parameters are provided as a vector. For Gompertz, the parameters are b0,
@@ -77,7 +85,12 @@ calculate_surv_prob <- function(Sx) {
 #' model_survival(0:10, 0.2, "Exponential")
 #' model_survival(0:10, c(0.1, 0.2, 0.1, 0.1, 0.2), "Siler")
 #' @export
-model_survival <- function(x, params, model) {
+model_survival <- function(x = NULL, params, model, truncate = 0.01) {
+
+  if (is.null(x)) {
+    x <- 0:1000
+  }
+
   # Validation
   if (!(inherits(x, "integer") || inherits(x, "numeric"))) {
     stop("x must be integer or numeric")
@@ -87,6 +100,12 @@ model_survival <- function(x, params, model) {
   }
   if (!model %in% c("Gompertz", "GompertzMakeham", "Exponential", "Siler")) {
     stop("model type not recognised")
+  }
+  if (!inherits(truncate, "numeric")) {
+    stop("truncate must be a numeric value")
+  }
+  if (truncate < 0 || truncate > 1){
+    stop("truncate must be between 0 and 1")
   }
 
   # hazard
@@ -149,7 +168,9 @@ model_survival <- function(x, params, model) {
 
   # Survival probability within interval x[n], x[n+1]
   gx <- calculate_surv_prob(Sx)
+  qx <- 1 - gx
 
-  out <- data.frame(x, hx, Hx, Sx, gx)
+  temp_df <- data.frame(x, hx, Hx, Sx, qx, gx)
+  out <- subset(temp_df, Sx >= truncate)
   return(out)
 }

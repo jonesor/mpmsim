@@ -4,20 +4,29 @@
 \alias{model_survival}
 \title{Model survival data using a mortality model}
 \usage{
-model_survival(x, params, model)
+model_survival(x = NULL, params, model, truncate = 0.01)
 }
 \arguments{
-\item{x}{Numeric vector representing age.}
+\item{x}{Numeric vector representing age. The default is \code{NULL}, whereby the
+survival trajectory is modelled from age 0 to the age at which the
+survivorship of the synthetic cohort declines to a threshold defined by the
+\code{truncate} argument, which has a default of 0.01 (i.e. 1\% of the cohort
+remaining alive).}
 
 \item{params}{Numeric vector representing the parameters of the mortality
 model.}
 
 \item{model}{Mortality model: \code{Gompertz}, \code{GompertzMakeham}, \code{Exponential},
 \code{Siler}.}
+
+\item{truncate}{a value defining how the life table output should be
+truncated. The default is \code{0.01}, indicating that the life table is
+truncated so that survivorship, \code{Sx}, > 0.01 (i.e. the age at which 1\% of
+the cohort remains alive).}
 }
 \value{
 A data frame with columns for time (\code{x}), hazard (\code{hx}), cumulative
-hazard (\code{Hx}), survivorship (\code{Sx}) and survival probability within interval
+hazard (\code{Hx}), survivorship (\code{Sx}) and mortality (\code{qx}) and survival probability within interval
 (\code{gx}).
 }
 \description{
