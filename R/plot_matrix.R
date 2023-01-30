@@ -42,9 +42,19 @@ plot_matrix <- function(mat, zero_na = FALSE, legend = FALSE,
   }
 
   # Check that na_colour is a valid colour
-  if (!(is.na(na_colour) || is_colour(na_colour))) {
-    stop("na_colour must be a valid colour, or NA")
+  if (is.null(na_colour)) {
+    stop("na_colour must be a valid colour, or NA.
+         Consider specifying zero values as NA, with `zero_NA`")
   }
+
+  # Check that na_colour is a valid colour
+  if (!(is.na(na_colour) || is_colour(na_colour))) {
+    stop("na_colour must be a valid colour, or NA.
+         Consider specifying zero values as NA, with `zero_NA`")
+
+  }
+
+
 
   df <- melt(t(mat))
   colnames(df) <- c("x", "y", "value")

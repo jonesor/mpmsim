@@ -341,13 +341,21 @@
 <div class="section level3">
 <h3 id="generate-single-random-mpms">Generate single random MPMs<a class="anchor" aria-label="anchor" href="#generate-single-random-mpms"></a>
 </h3>
-<p>The <code>random_mpm</code> function can be used to generate a random matrix population model (MPM) with element values based on defined life history archetypes. The function draws survival and transition/growth probabilities from a Dirichlet distribution to ensure that the column totals, including death, are less than or equal to 1. Fecundity can be specified as a single value or as a vector with a length equal to the dimensions of the matrix. If specified as a single value, it is placed in the top-right corner of the matrix. If specified as a vector of length <code>n_stages</code>, it spans the entire top row of the matrix. The <code>archetype</code> argument can be used to constrain the MPMs, for example, <code>archetype = 2</code> constraints the survival probability to increase monotonically as individuals advance to later stages. For more information, see the documentation for <code>random_mpm</code> and Takada et al. (2018).</p>
+<p>The <code>random_mpm</code> function can be used to generate a random matrix population model (MPM) with element values based on defined life history archetypes. The function draws survival and transition/growth probabilities from a Dirichlet distribution to ensure that the column totals, including death, are less than or equal to 1. Fecundity can be specified as a single value or as a vector with a length equal to the dimensions of the matrix. If specified as a single value, it is placed in the top-right corner of the matrix. If specified as a vector of length <code>n_stages</code>, it spans the entire top row of the matrix. The <code>archetype</code> argument can be used to constrain the MPMs, for example, <code>archetype = 2</code> constraints the survival probability to increase monotonically as individuals advance to later stages. For more information, see the documentation for <code>random_mpm</code> and Takada et al. (2018). In the following example, I split the output matrices into the <code>U</code> and <code>F</code> matrices, which could be summed to create the <code>A</code> matrix.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/random_mpm.html">random_mpm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            [,1]        [,2]       [,3]</span></span>
-<span><span class="co">#&gt; [1,] 0.01566286 0.003962617 18.2372038</span></span>
-<span><span class="co">#&gt; [2,] 0.19165445 0.447044844  0.1369993</span></span>
-<span><span class="co">#&gt; [3,] 0.25834510 0.111258159  0.3916082</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">rMPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/random_mpm.html">random_mpm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, </span>
+<span>                    archetype <span class="op">=</span> <span class="fl">2</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $mat_U</span></span>
+<span><span class="co">#&gt;            [,1]        [,2]      [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.01566286 0.003962617 0.2372038</span></span>
+<span><span class="co">#&gt; [2,] 0.19165445 0.447044844 0.1369993</span></span>
+<span><span class="co">#&gt; [3,] 0.25834510 0.111258159 0.3916082</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $mat_F</span></span>
+<span><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span><span class="co">#&gt; [1,]    0    0   18</span></span>
+<span><span class="co">#&gt; [2,]    0    0    0</span></span>
+<span><span class="co">#&gt; [3,]    0    0    0</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="generate-a-set-of-random-mpms">Generate a set of random MPMs<a class="anchor" aria-label="anchor" href="#generate-a-set-of-random-mpms"></a>
@@ -392,6 +400,24 @@
 <span><span class="co">#&gt; [2,] 0.109222906 0.01030503 0.359592193 0.17404735</span></span>
 <span><span class="co">#&gt; [3,] 0.007652419 0.39395405 0.491292690 0.51713935</span></span>
 <span><span class="co">#&gt; [4,] 0.011558679 0.29005229 0.074311694 0.01453069</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plot-a-matrix">Plot a matrix<a class="anchor" aria-label="anchor" href="#plot-a-matrix"></a>
+</h3>
+<p>It can be helpful to visualise the matrices. This can be accomplished with the function <code>plot_matrix</code>. The output of <code>plot_matrix</code> is of class <code>ggplot</code> and as such the colour scheme can be modified in the usual way with, for example, <code>scale_fill_gradient</code> or similar.</p>
+<p>Here’s the matrix:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rMPM</span><span class="op">$</span><span class="va">mat_U</span></span>
+<span><span class="co">#&gt;            [,1]        [,2]      [,3]</span></span>
+<span><span class="co">#&gt; [1,] 0.01566286 0.003962617 0.2372038</span></span>
+<span><span class="co">#&gt; [2,] 0.19165445 0.447044844 0.1369993</span></span>
+<span><span class="co">#&gt; [3,] 0.25834510 0.111258159 0.3916082</span></span></code></pre></div>
+<p>And here’s the plot:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plot_matrix.html">plot_matrix</a></span><span class="op">(</span><span class="va">rMPM</span><span class="op">$</span><span class="va">mat_U</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span>low<span class="op">=</span><span class="st">"black"</span>, high<span class="op">=</span><span class="st">"yellow"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="README_files/figure-gfm/unnamed-chunk-15-1.png"><!-- --></p>
 </div>
 </div>
 <div class="section level2">

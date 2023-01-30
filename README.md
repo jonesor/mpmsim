@@ -347,14 +347,24 @@ length `n_stages`, it spans the entire top row of the matrix. The
 `archetype = 2` constraints the survival probability to increase
 monotonically as individuals advance to later stages. For more
 information, see the documentation for `random_mpm` and Takada et
-al. (2018).
+al. (2018). In the following example, I split the output matrices into
+the `U` and `F` matrices, which could be summed to create the `A`
+matrix.
 
 ``` r
-random_mpm(n_stages = 3, fecundity = 20, archetype = 2)
-#>            [,1]        [,2]       [,3]
-#> [1,] 0.01566286 0.003962617 18.2372038
-#> [2,] 0.19165445 0.447044844  0.1369993
-#> [3,] 0.25834510 0.111258159  0.3916082
+(rMPM <- random_mpm(n_stages = 3, fecundity = 20, 
+                    archetype = 2, split = TRUE))
+#> $mat_U
+#>            [,1]        [,2]      [,3]
+#> [1,] 0.01566286 0.003962617 0.2372038
+#> [2,] 0.19165445 0.447044844 0.1369993
+#> [3,] 0.25834510 0.111258159 0.3916082
+#> 
+#> $mat_F
+#>      [,1] [,2] [,3]
+#> [1,]    0    0   18
+#> [2,]    0    0    0
+#> [3,]    0    0    0
 ```
 
 ### Generate a set of random MPMs
@@ -407,6 +417,33 @@ generate_mpm_set(
 #> [3,] 0.007652419 0.39395405 0.491292690 0.51713935
 #> [4,] 0.011558679 0.29005229 0.074311694 0.01453069
 ```
+
+### Plot a matrix
+
+It can be helpful to visualise the matrices. This can be accomplished
+with the function `plot_matrix`. The output of `plot_matrix` is of class
+`ggplot` and as such the colour scheme can be modified in the usual way
+with, for example, `scale_fill_gradient` or similar.
+
+Here’s the matrix:
+
+``` r
+rMPM$mat_U
+#>            [,1]        [,2]      [,3]
+#> [1,] 0.01566286 0.003962617 0.2372038
+#> [2,] 0.19165445 0.447044844 0.1369993
+#> [3,] 0.25834510 0.111258159 0.3916082
+```
+
+And here’s the plot:
+
+``` r
+library(ggplot2)
+p <- plot_matrix(rMPM$mat_U)
+p + scale_fill_gradient(low="black", high="yellow")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 ## Contributions
 
