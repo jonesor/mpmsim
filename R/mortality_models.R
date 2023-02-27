@@ -94,13 +94,20 @@ calculate_surv_prob <- function(Sx) {
 #'   the interval). It is not possible to estimate a value for this in the final
 #'   row of the life table (because there is no \eqn{x+1} value) and therefore the
 #'   input values of `x` may need to be extended to capture this final interval.
+#'
 #' @author Owen Jones <jones@biology.sdu.dk>
+#'
 #' @examples
 #' model_survival(params = c(0.1, 0.2), model = "Gompertz")
+#'
 #' model_survival(params = c(0.1, 0.2, 0.1), model = "GompertzMakeham",
 #' truncate = 0.1)
+#'
 #' model_survival(0:10, 0.2, "Exponential")
+#'
 #' model_survival(0:10, c(0.1, 0.2, 0.1, 0.1, 0.2), "Siler")
+#'
+#'
 #' @export
 model_survival <- function(x = NULL, params, model, truncate = 0.01) {
 
