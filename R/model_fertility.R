@@ -1,12 +1,12 @@
 #' Model fertility with age using set functional forms
 #'
 #' This function computes fertility based on the logistic, step, von
-#' Bertalanffy, and normal models. The logistic model assumes that fertility
+#' Bertalanffy, Hadwiger, and normal models. The logistic model assumes that fertility
 #' increases sigmoidally with age until a maximum fertility is reached, while
 #' the step model assumes that fertility is zero before the age of maturity and
 #' then remains constant. The von Bertalanffy model assumes that, after
 #' maturity, fertility increases asymptotically with age until a maximum
-#' fertility is reached. For all models, the output ensures that fertility is
+#' fertility is reached. The Hadwiger model For all models, the output ensures that fertility is
 #' zero before the age at maturity.
 #'
 #'
@@ -17,9 +17,28 @@
 #'   Whatever model is used, the fertility is forced to be 0 below the age of
 #'   maturity.
 #' @param model A character string specifying the model to use. Must be one of
-#'   "logistic", "step", or "vonbertalanffy".
+#'   "logistic", "step", "vonbertalanffy","normal" or "hadwiger".
 #'
 #' @return A numeric vector representing the computed fertility values.
+#' @details The required parameters varies depending on the fertility model. The
+#'   parameters are provided as a vector and the parameters must be provided in
+#'   the order mentioned here.
+#'
+#'   * Logistic: \eqn{f(x) = A / (1 + exp(-k  (x - x_m)))}
+#'   * Step: \eqn{f(x)=
+#'   \begin{cases}
+#'   A, x \geq m \\
+#'   A, x <  m
+#'   \end{cases}}
+#'   * von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))^\frac{1}{3}}
+#'   * Normal: \eqn{f(x) = A \times \exp\left(
+#'   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
+#'   * Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right ) ^\frac{3}{2}
+#'   \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2 \right ) \right \}}
+#' @references
+#'
+#' Peristera, P. & Kostaki, A.  (2007) Modeling fertility in modern populations.
+#' Demographic Research. 16. ARTICLE 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
 #'
 #' @examples
 #' # Compute fertility using the logistic model
@@ -47,9 +66,9 @@ model_fertility <- function(age = NULL, params, maturity = 0, model = "logistic"
   if (min(age) < 0) stop("Input 'age' must be non-negative.")
 
   # Check model parameter name
-  if (!model %in% c("vonbertalanffy", "logistic", "normal", "step")) {
+  if (!model %in% c("vonbertalanffy", "logistic", "normal", "step", "hadwiger")) {
     stop("Invalid model type (must be one of 'vonbertalanffy',
-         'logistic', 'normal' or 'step'")
+         'logistic', 'normal', 'hadwiger' or 'step'")
   }
 
   #Check model parameter count
@@ -63,6 +82,9 @@ model_fertility <- function(age = NULL, params, maturity = 0, model = "logistic"
     stop("Invalid number of parameters for selected model.")
   }
   if (model == "normal" && length(params) != 3) {
+    stop("Invalid number of parameters for selected model.")
+  }
+  if (model == "hadwiger" && length(params) != 3) {
     stop("Invalid number of parameters for selected model.")
   }
 
@@ -110,13 +132,22 @@ model_fertility <- function(age = NULL, params, maturity = 0, model = "logistic"
     mu <- params[2]
     sd <- params[3]
 
-    dens <- dnorm(age, mean = mu, sd = sd)
-    height_of_norm <- 0.3989 / sd
+    out <- max_fert * exp(-0.5 * ((age - mu)/sd)^2)
 
-    scaling_factor <- max_fert / height_of_norm
-    out <- dens * scaling_factor
     out[which(age < maturity)] <- 0
 
     return(out)
   }
+
+  if(model == "hadwiger"){
+    # params: a = 0.91; b = 3.85; c = 29.78 (Sweden 1996)
+    # http://www.demographic-research.org/Volumes/Vol16/6/
+    # DOI: 10.4054/DemRes.2007.16.6
+    a <- params[1]
+    b <- params[2]
+    c <- params[3]
+
+    out <- ((a * b)/c) * (c/age)^(3/2) * exp(-b^2 * ((c/age)+(age/c)-2))
+  }
+
 }
