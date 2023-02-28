@@ -17,20 +17,38 @@ Whatever model is used, the fertility is forced to be 0 below the age of
 maturity.}
 
 \item{model}{A character string specifying the model to use. Must be one of
-"logistic", "step", or "vonbertalanffy".}
+"logistic", "step", "vonbertalanffy","normal" or "hadwiger".}
 }
 \value{
 A numeric vector representing the computed fertility values.
 }
 \description{
 This function computes fertility based on the logistic, step, von
-Bertalanffy, and normal models. The logistic model assumes that fertility
+Bertalanffy, Hadwiger, and normal models. The logistic model assumes that fertility
 increases sigmoidally with age until a maximum fertility is reached, while
 the step model assumes that fertility is zero before the age of maturity and
 then remains constant. The von Bertalanffy model assumes that, after
 maturity, fertility increases asymptotically with age until a maximum
-fertility is reached. For all models, the output ensures that fertility is
+fertility is reached. The Hadwiger model For all models, the output ensures that fertility is
 zero before the age at maturity.
+}
+\details{
+The required parameters varies depending on the fertility model. The
+parameters are provided as a vector and the parameters must be provided in
+the order mentioned here.
+\itemize{
+\item Logistic: \eqn{f(x) = A / (1 + exp(-k  (x - x_m)))}
+\item Step: \eqn{f(x)=
+  \begin{cases}
+  A, x \geq m \\
+  A, x <  m
+  \end{cases}}
+\item von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))^\frac{1}{3}}
+\item Normal: \eqn{f(x) = A \times \exp\left(
+  -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
+\item Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right ) ^\frac{3}{2}
+  \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2 \right ) \right \}}
+}
 }
 \examples{
 # Compute fertility using the logistic model
@@ -45,6 +63,10 @@ model_fertility(age = 0:20, params = c(10, .3), maturity = 2, model = "vonbertal
 # Compute fertility using the normal model
 model_fertility(age = 0:20, params = c(10, 4, 2), maturity = 0, model = "normal")
 
+}
+\references{
+Peristera, P. & Kostaki, A.  (2007) Modeling fertility in modern populations.
+Demographic Research. 16. ARTICLE 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
