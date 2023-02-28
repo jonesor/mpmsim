@@ -26,8 +26,8 @@ the cohort remains alive).}
 }
 \value{
 A data frame with columns for time (\code{x}), hazard (\code{hx}), cumulative
-hazard (\code{Hx}), survivorship (\code{Sx}) and mortality (\code{qx}) and survival probability within interval
-(\code{gx}).
+hazard (\code{Hx}), survivorship (\code{Sx}) and mortality (\code{qx}) and survival
+probability within interval (\code{gx}).
 }
 \description{
 Model survival data using a mortality model
