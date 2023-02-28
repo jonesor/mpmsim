@@ -75,8 +75,8 @@ calculate_surv_prob <- function(Sx) {
 #'   truncated so that survivorship, `Sx`, > 0.01 (i.e. the age at which 1% of
 #'   the cohort remains alive).
 #' @return A data frame with columns for time (`x`), hazard (`hx`), cumulative
-#'   hazard (`Hx`), survivorship (`Sx`) and mortality (`qx`) and survival probability within interval
-#'   (`gx`).
+#'   hazard (`Hx`), survivorship (`Sx`) and mortality (`qx`) and survival
+#'   probability within interval (`gx`).
 #' @details The required parameters varies depending on the mortality model. The
 #'   parameters are provided as a vector. For Gompertz, the parameters are b0,
 #'   b1. For Gompertz-Makeham the parameters are b0, b1 and C. For Exponential,
