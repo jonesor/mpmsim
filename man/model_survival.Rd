@@ -39,7 +39,7 @@ b1. For Gompertz-Makeham the parameters are b0, b1 and C. For Exponential,
 the parameter is C. For Siler, the parameters are a0, a1, C, b0 and b1.
 Note that the parameters must be provided in the order mentioned here.
 \itemize{
-\item Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x})}
+\item Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
 \item Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 \item Exponential: \eqn{h_x = c}
 \item Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
@@ -53,16 +53,35 @@ row of the life table (because there is no \eqn{x+1} value) and therefore the
 input values of \code{x} may need to be extended to capture this final interval.
 }
 \examples{
-model_survival(params = c(0.1, 0.2), model = "Gompertz")
+model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 
-model_survival(params = c(0.1, 0.2, 0.1), model = "GompertzMakeham",
-truncate = 0.1)
+model_survival(
+  params = c(b_0 = 0.1, b_1 = 0.2, c = 0.1), model = "GompertzMakeham",
+  truncate = 0.1
+)
 
-model_survival(0:10, 0.2, "Exponential")
+model_survival(0:10, c(c = 0.2), "Exponential")
 
-model_survival(0:10, c(0.1, 0.2, 0.1, 0.1, 0.2), "Siler")
+model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, c = 0.1, b_0 = 0.1, b_1 = 0.2), "Siler")
+}
+\references{
+Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,
+London, UK.
 
+Pinder III, J.E., Wiener, J.G. & Smith, M.H. (1978) The Weibull distribution:
+a method of summarizing survivorship data. Ecology, 59, 175–179.
 
+Pletcher, S. (1999) Model fitting and hypothesis testing for age-specific
+mortality data. Journal of Evolutionary Biology, 12, 430–439.
+
+Siler, W. (1979) A competing-risk model for animal mortality. Ecology, 60,
+750–757.
+
+Vaupel, J., Manton, K. & Stallard, E. (1979) The impact of heterogeneity in
+individual frailty on the dynamics of mortality. Demography, 16, 439–454.
+}
+\seealso{
+\code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various functions.
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
