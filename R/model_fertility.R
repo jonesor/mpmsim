@@ -166,5 +166,6 @@ model_fertility <- function(age = NULL, params, maturity = 0, model = "logistic"
     c <- params[3]
 
     out <- ((a * b) / c) * (c / age)^(3 / 2) * exp(-b^2 * ((c / age) + (age / c) - 2))
+    return(out)
   }
 }
