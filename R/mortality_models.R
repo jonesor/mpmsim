@@ -83,7 +83,7 @@ calculate_surv_prob <- function(Sx) {
 #'   the parameter is C. For Siler, the parameters are a0, a1, C, b0 and b1.
 #'   Note that the parameters must be provided in the order mentioned here.
 #'
-#'   * Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x})}
+#'   * Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
 #'   * Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 #'   * Exponential: \eqn{h_x = c}
 #'   * Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
@@ -97,20 +97,36 @@ calculate_surv_prob <- function(Sx) {
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #'
+#' @references
+#' Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,
+#' London, UK.
+#'
+#' Pinder III, J.E., Wiener, J.G. & Smith, M.H. (1978) The Weibull distribution:
+#' a method of summarizing survivorship data. Ecology, 59, 175–179.
+#'
+#' Pletcher, S. (1999) Model fitting and hypothesis testing for age-specific
+#' mortality data. Journal of Evolutionary Biology, 12, 430–439.
+#'
+#' Siler, W. (1979) A competing-risk model for animal mortality. Ecology, 60,
+#' 750–757.
+#'
+#' Vaupel, J., Manton, K. & Stallard, E. (1979) The impact of heterogeneity in
+#' individual frailty on the dynamics of mortality. Demography, 16, 439–454.
+#'
 #' @examples
-#' model_survival(params = c(0.1, 0.2), model = "Gompertz")
+#' model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 #'
-#' model_survival(params = c(0.1, 0.2, 0.1), model = "GompertzMakeham",
-#' truncate = 0.1)
+#' model_survival(
+#'   params = c(b_0 = 0.1, b_1 = 0.2, c = 0.1), model = "GompertzMakeham",
+#'   truncate = 0.1
+#' )
 #'
-#' model_survival(0:10, 0.2, "Exponential")
+#' model_survival(0:10, c(c = 0.2), "Exponential")
 #'
-#' model_survival(0:10, c(0.1, 0.2, 0.1, 0.1, 0.2), "Siler")
-#'
-#'
+#' model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, c = 0.1, b_0 = 0.1, b_1 = 0.2), "Siler")
+#' @seealso [model_fertility()] to model age-specific fertility using various functions.
 #' @export
 model_survival <- function(x = NULL, params, model, truncate = 0.01) {
-
   if (is.null(x)) {
     x <- 0:1000
   }
@@ -128,7 +144,7 @@ model_survival <- function(x = NULL, params, model, truncate = 0.01) {
   if (!inherits(truncate, "numeric")) {
     stop("truncate must be a numeric value")
   }
-  if (truncate < 0 || truncate > 1){
+  if (truncate < 0 || truncate > 1) {
     stop("truncate must be between 0 and 1")
   }
 
