@@ -30,7 +30,7 @@ the matrix is split into separate fertility and a growth/survival matrices,
 returned as a list.
 }
 \description{
-Generates random matrix population models (MPMs) with element values based on
+Generates a random matrix population model (MPM) with element values based on
 defined life history archetypes. Survival and transition/growth probabilities
 from any particular stage are restricted to be less than or equal to 1 by
 drawing from a Dirichlet distribution. The user can specify archetypes (from
@@ -70,7 +70,6 @@ random_mpm(
   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4,
   split = TRUE
 )
-
 }
 \references{
 Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
@@ -79,12 +78,13 @@ Interpretation. Sinauer.
 Lefkovitch, L. P. (1965). The study of population growth in organisms grouped
 by stages. Biometrics, 21(1), 1.
 
-Leslie, P. H. (1945). On the use of matrices in certain population
-mathematics. Biometrika, 33 (3), 183–212.
-
 Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on
 elasticity analyses in a ternary plot using randomly generated population
 matrices. Population Ecology, 60(1), 37–47.
+}
+\seealso{
+\code{\link[=generate_mpm_set]{generate_mpm_set()}} which is a wrapper for this function allowing
+the generation of large numbers of random matrices of this type.
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
