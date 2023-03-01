@@ -24,13 +24,19 @@ A numeric vector representing the computed fertility values.
 }
 \description{
 This function computes fertility based on the logistic, step, von
-Bertalanffy, Hadwiger, and normal models. The logistic model assumes that fertility
-increases sigmoidally with age until a maximum fertility is reached, while
-the step model assumes that fertility is zero before the age of maturity and
-then remains constant. The von Bertalanffy model assumes that, after
-maturity, fertility increases asymptotically with age until a maximum
-fertility is reached. The Hadwiger model For all models, the output ensures that fertility is
-zero before the age at maturity.
+Bertalanffy, Hadwiger, and normal models.
+The logistic model assumes that fertility increases sigmoidally with age from
+maturity until a maximum fertility is reached.
+The step model assumes that fertility is zero before the age of maturity and
+then remains constant.
+The von Bertalanffy model assumes that, after maturity, fertility increases
+asymptotically with age until a maximum fertility is reached. In this
+formulation, the model is set up so that fertility is 0 at the 'age of
+maturity - 1', and increases from that point.
+The Hadwiger model is rather complex and is intended to model human fertility
+with a characteristic hump-shaped fertility.
+For all models, the output ensures that fertility is zero before the age at
+maturity.
 }
 \details{
 The required parameters varies depending on the fertility model. The
@@ -43,7 +49,7 @@ the order mentioned here.
   A, x \geq m \\
   A, x <  m
   \end{cases}}
-\item von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))^\frac{1}{3}}
+\item von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
 \item Normal: \eqn{f(x) = A \times \exp\left(
   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
 \item Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right ) ^\frac{3}{2}
@@ -51,22 +57,36 @@ the order mentioned here.
 }
 }
 \examples{
-# Compute fertility using the logistic model
-model_fertility(age = 0:20, params = c(10, 0.5, 8), maturity = 0, model = "logistic")
-
 # Compute fertility using the step model
-model_fertility(age = 0:20, params = 10, maturity = 2, model = "step")
+model_fertility(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
+
+# Compute fertility using the logistic model
+model_fertility(age = 0:20, params = c(A = 10, k = 0.5, x_m = 8), maturity =
+0, model = "logistic")
 
 # Compute fertility using the von Bertalanffy model
-model_fertility(age = 0:20, params = c(10, .3), maturity = 2, model = "vonbertalanffy")
+model_fertility(age = 0:20, params = c(A = 10, k = .3), maturity = 2, model =
+"vonbertalanffy")
 
 # Compute fertility using the normal model
-model_fertility(age = 0:20, params = c(10, 4, 2), maturity = 0, model = "normal")
+model_fertility(age = 0:20, params = c(A = 10, mu = 4, sd = 2), maturity = 0,
+model = "normal")
+
+# Compute fertility using the Hadwiger model
+model_fertility(age = 0:50, params = c(a = 0.91, b = 3.85, c = 29.78),
+maturity = 0, model = "hadwiger")
+
 
 }
 \references{
-Peristera, P. & Kostaki, A.  (2007) Modeling fertility in modern populations.
-Demographic Research. 16. ARTICLE 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
+Bertalanffy, L. von (1938) A quantitative theory of organic growth (inquiries
+on growth laws. II). Human Biology 10:181–213.
+
+Peristera, P. & Kostaki, A. (2007) Modeling fertility in modern populations.
+Demographic Research. 16. Article 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
+}
+\seealso{
+\code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality models.
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
