@@ -49,6 +49,22 @@ make_leslie_matrix(
 )
 
 }
+\references{
+Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
+Interpretation. Sinauer.
+
+Leslie, P. H. (1945). On the use of matrices in certain population
+mathematics. Biometrika, 33 (3), 183–212.
+
+Leslie, P. H. (1948). Some Further Notes on the Use of Matrices in Population
+Mathematics. Biometrika, 35(3-4), 213–245.
+}
+\seealso{
+\itemize{
+\item \code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality models.
+\item \code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various functions.
+}
+}
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
