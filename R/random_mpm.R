@@ -29,9 +29,20 @@
 #' top right of the matrix, if it is a single value. If it is a vector of length
 #' `n_stages` then the fertility vector spans the entire top row of the matrix.
 #'
-#' @references Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A
-#' cautionary note on elasticity analyses in a ternary plot using randomly
-#' generated population matrices. Population Ecology, 60(1), 37–47.
+#' @references
+#'
+#' Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
+#' Interpretation. Sinauer.
+#'
+#' Lefkovitch, L. P. (1965). The study of population growth in organisms grouped
+#' by stages. Biometrics, 21(1), 1.
+#'
+#' Leslie, P. H. (1945). On the use of matrices in certain population
+#' mathematics. Biometrika, 33 (3), 183–212.
+#'
+#' Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on
+#' elasticity analyses in a ternary plot using randomly generated population
+#' matrices. Population Ecology, 60(1), 37–47.
 #'
 #' @param n_stages An integer defining the number of stages for the MPM.
 #' @param fecundity Mean fecundity. This value is the lambda value for a Poisson
