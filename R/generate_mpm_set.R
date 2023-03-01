@@ -27,6 +27,7 @@
 #'   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 #' )
 #'
+#' @seealso [random_mpm()] which this function is essentially a wrapper for.
 #' @export generate_mpm_set
 
 generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
