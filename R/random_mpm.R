@@ -1,7 +1,7 @@
 #' Generate random matrix population models (MPMs) based on life history
 #' archetypes
 #'
-#' Generates random matrix population models (MPMs) with element values based on
+#' Generates a random matrix population model (MPM) with element values based on
 #' defined life history archetypes. Survival and transition/growth probabilities
 #' from any particular stage are restricted to be less than or equal to 1 by
 #' drawing from a Dirichlet distribution. The user can specify archetypes (from
@@ -37,9 +37,6 @@
 #' Lefkovitch, L. P. (1965). The study of population growth in organisms grouped
 #' by stages. Biometrics, 21(1), 1.
 #'
-#' Leslie, P. H. (1945). On the use of matrices in certain population
-#' mathematics. Biometrika, 33 (3), 183–212.
-#'
 #' Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on
 #' elasticity analyses in a ternary plot using randomly generated population
 #' matrices. Population Ecology, 60(1), 37–47.
@@ -74,7 +71,8 @@
 #'   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4,
 #'   split = TRUE
 #' )
-#'
+#' @seealso [generate_mpm_set()] which is a wrapper for this function allowing
+#'   the generation of large numbers of random matrices of this type.
 #' @export random_mpm
 #'
 
