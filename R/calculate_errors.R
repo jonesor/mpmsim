@@ -1,0 +1,98 @@
+#' Calculate errors in matrix values based on sample sizes.
+#'
+#' Given two matrices of proportions (`mat_U` and `mat_F`, the growth/survival
+#' matrix and the reproduction matrix respectively) and a sample size, or matrix
+#' of sample sizes, this function calculates the standard error or 95%
+#' confidence interval for each element of the matrix, depending on the
+#' specified type. These calculations assume that `mat_U` is the result of
+#' binomial processes (i.e., the survival (0/1) of individuals), while `mat_F`
+#' is the result of Poisson processes (i.e., counts of offspring).
+#'
+#' The output is a list containing the error estimates.
+#'
+#' @param mat_U A matrix of proportions.
+#' @param mat_F A matrix of proportions.
+#' @param sample_size A positive number indicating the sample size.
+#' @param type A character string indicating the type of error to calculate.
+#'   Must be one of "sem" (standard error), or "CI95" (95% confidence interval).
+#'
+#' @return A list containing the error estimates. If type is "`CI95`", the list
+#'   contains the upper and lower confidence intervals for both matrices
+#'   (`mat_U_upperCI`, `mat_U_lowerCI`, `mat_F_upperCI`, `mat_F_lowerCI`).
+#'   Otherwise, the list contains the standard error (`mat_U_error`,
+#'   `mat_F_error`) for both matrices.
+#'
+#' @examples
+#'
+#' matU <- matrix(c(
+#'   0.1, 0,
+#'   0.2, 0.4
+#' ), byrow = TRUE, nrow = 2)
+#' matF <- matrix(c(
+#'   0, 4,
+#'   0., 0.
+#' ), byrow = TRUE, nrow = 2)
+#'
+#' calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "CI95")
+#' @author Owen Jones <jones@biology.sdu.dk>
+#' @seealso [simulate_mpm()] which simulates matrices with known values and
+#'   sample sizes.
+#' @export calculate_errors
+#'
+calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem") {
+  # Validate inputs
+  if (!is.matrix(mat_U)) {
+    stop("mat_U must be a matrix.")
+  }
+  if (!is.matrix(mat_F)) {
+    stop("mat_F must be a matrix.")
+  }
+  if (!is.numeric(sample_size) || sample_size <= 0) {
+    stop("sample_size must be a positive number.")
+  }
+  if (type != "sem" && type != "CI95") {
+    stop("type must be one of 'sem', 'sd', or 'CI95'.")
+  }
+
+
+  # matU errors - assumes an underlying binomial processs
+  if (type == "sem") {
+    mat_U_error <- sqrt(mat_U * (1 - mat_U) / sample_size)
+  }
+
+  if (type == "CI95") {
+    interval <- 1.95 * (sqrt(mat_U * (1 - mat_U) / sample_size))
+    mat_U_upperCI <- mat_U + interval
+    mat_U_lowerCI <- mat_U - interval
+
+    # Constrain values to >0
+    mat_U_lowerCI[mat_U_lowerCI < 0] <- 0
+    mat_U_upperCI[mat_U_upperCI > 1] <- 1
+  }
+
+  # matF errors - assumes an underlying poisson processs
+  if (type == "sem") {
+    mat_F_error <- sqrt(mat_F / sample_size)
+  }
+  if (type == "CI95") {
+    interval <- 1.95 * sqrt(mat_F / sample_size)
+    mat_F_upperCI <- mat_F + interval
+    mat_F_lowerCI <- mat_F - interval
+
+    # Constrain values to >0
+    mat_F_lowerCI[mat_F_lowerCI < 0] <- 0
+  }
+
+  # Outputs
+  if (type != "CI95") {
+    out <- list("mat_U_error" = mat_U_error, "mat_F_error" = mat_F_error)
+  }
+  if (type == "CI95") {
+    out <- list(
+      "mat_F_upperCI" = mat_F_upperCI, "mat_F_lowerCI" = mat_F_lowerCI,
+      "mat_U_upperCI" = mat_U_upperCI, "mat_U_lowerCI" = mat_U_lowerCI
+    )
+  }
+
+  return(out)
+}
