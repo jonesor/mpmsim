@@ -34,6 +34,10 @@ sample sizes will result in simulated matrices that match closely with the
 expectations, while simulated matrices with small sample sizes will be more
 variable.
 }
+\details{
+if \code{sample_size} is 0, it is assumed that the estimate is known
+without error.
+}
 \examples{
 mats <- make_leslie_matrix(
   survival = c(0.1, 0.2, 0.5),

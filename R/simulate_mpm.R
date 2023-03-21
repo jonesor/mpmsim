@@ -4,12 +4,19 @@
 #' @param sample_size sample size
 #' @return mean survival probability based on the simulated data
 #' @author Owen Jones <jones@biology.sdu.dk>
+#' @details if `sample_size` is 0, the output is simply `prob_survival`. i.e.
+#'   it is assumed that the estimate is known without error.
 #' @examples
 #' simulate_survival(0.8, 100)
 #' simulate_survival(0.5, 1000)
 #' @noRd
 simulate_survival <- function(prob_survival, sample_size) {
-  mean(rbinom(sample_size, 1, prob_survival))
+  if (sample_size == 0) {
+    return(prob_survival)
+  }
+  if (sample_size > 0) {
+    return(mean(rbinom(sample_size, 1, prob_survival)))
+  }
 }
 
 #' Simulate reproduction (fecundity)
@@ -17,13 +24,20 @@ simulate_survival <- function(prob_survival, sample_size) {
 #' @param mean_fecundity mean value for reproductive output
 #' @param sample_size sample size
 #' @return mean fecundity based on the simulated data
+#' @details if `sample_size` is 0, the output is simply `mean_fecundity`. i.e.
+#'   it is assumed that the estimate is known without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' simulate_fecundity(2, 100)
 #' simulate_fecundity(5, 1000)
 #' @noRd
 simulate_fecundity <- function(mean_fecundity, sample_size) {
-  mean(rpois(sample_size, mean_fecundity))
+  if (sample_size == 0) {
+    return(mean_fecundity)
+  }
+  if (sample_size > 0) {
+    return(mean(rpois(sample_size, mean_fecundity)))
+  }
 }
 
 #' Simulate matrix population models (MPMs) based on expected transition rates
@@ -48,6 +62,8 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #'   matrices or not
 #' @return list of matrices of survival and fecundity if split = TRUE, otherwise
 #'   a single matrix of the sum of survival and fecundity
+#' @details if `sample_size` is 0, it is assumed that the estimate is known
+#'   without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' mats <- make_leslie_matrix(
@@ -85,17 +101,43 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
     stop("mat_U is not a square matrix")
   }
 
-
-  if (!(inherits(sample_size, "matrix") || length(sample_size) == 1)) {
-    stop("sample_size needs to be a matrix, or an integer with length 1")
+  # Sample size validation
+  if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") || length(sample_size) == 1)) {
+    stop("sample_size needs to be a matrix, a list of two matrices, or an integer with length 1")
   }
 
+  # When sample_size is a single matrix.
   if (inherits(sample_size, "matrix")) {
     if (nrow(sample_size) != nrow(mat_U)) {
       stop("if sample_size is a matrix,
            it should be the same dimension as mat_U")
     }
   }
+
+  # When sample_size is a list of two matrices.
+  if (inherits(sample_size, "list")) {
+    if (!identical(lapply(sample_size, dim)[[1]], lapply(sample_size, dim)[[2]])) {
+      stop("if sample_size is a list of matrices,
+           they should both be the same dimensions.")
+    }
+    if (!identical(lapply(sample_size, dim)[[1]], dim(mat_U))) {
+      stop("if sample_size is a list of matrices,
+           they should be the same dimension as mat_U")
+    }
+    if (!sum(names(sample_size) %in% c("mat_F_ss", "mat_U_ss")) == 2) {
+      stop("if sample_size is a list of matrices,
+           the names of the list entries need to be named 'mat_F_ss' and 'mat_U_ss'")
+    }
+  }
+  if (!min(abs(c(sample_size %% 1, sample_size %% 1 - 1))) <
+    .Machine$double.eps^0.5) {
+    stop("sample_size must be integer value(s)")
+  }
+  if (min(sample_size) < 0) {
+    stop("sample_size must be >= 0.")
+  }
+
+
 
   if (!all(mat_U >= 0)) {
     stop("mat_U must include only values >= 0")
@@ -105,42 +147,40 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
     stop("mat_F must include only values >= 0")
   }
 
-  if (!all(sample_size > 0)) {
-    stop("sample_size must include only values > 0")
-  }
-
   if (!is.logical(split)) {
     stop("split must be a logical value (TRUE/FALSE).")
-  }
-
-  if (!min(abs(c(sample_size %% 1, sample_size %% 1 - 1))) <
-    .Machine$double.eps^0.5) {
-    stop("sample_size must be integer value(s)")
-  }
-
-  if (!min(sample_size) > 0) {
-    stop("sample_size must be > 0")
   }
 
   # Convert the matrix into a vector
   u_matrix_vector <- as.vector(mat_U)
   f_matrix_vector <- as.vector(mat_F)
 
+  # If sample_size is a vector of length 1
   if (length(sample_size) == 1) {
     sample_size <- matrix(sample_size, ncol = ncol(mat_U), nrow = nrow(mat_U))
   }
 
-  sample_size_vector <- as.vector(sample_size)
+  # If sample_size is a single matrix
+  if (inherits(sample_size, "matrix")) {
+    sample_size_vector_U <- as.vector(sample_size)
+    sample_size_vector_F <- sample_size_vector_U
+  }
+
+  # If sample_size is a list of matrices
+  if (inherits(sample_size, "list")) {
+    sample_size_vector_U <- as.vector(sample_size_mat_list[["mat_U_ss"]])
+    sample_size_vector_F <- as.vector(sample_size_mat_list[["mat_F_ss"]])
+  }
 
   # Simulate the matrix based on the information provided
   survival_results <- mapply(
     FUN = simulate_survival, prob_survival = u_matrix_vector,
-    sample_size = sample_size_vector
+    sample_size = sample_size_vector_U
   )
 
   fecundity_results <- mapply(
     FUN = simulate_fecundity, mean_fecundity = f_matrix_vector,
-    sample_size = sample_size_vector
+    sample_size = sample_size_vector_F
   )
 
   mat_U_out <- matrix(survival_results,
