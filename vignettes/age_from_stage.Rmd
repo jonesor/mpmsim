@@ -4,7 +4,7 @@ author: "Owen Jones"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{The robustness of age from stage methods}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,50 +16,89 @@ knitr::opts_chunk$set(
 )
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+1) Lets simulate 5 matrices from a gompertz distribution with Gompertz parameters varying between 0.01 and 0.5
+2) Lets convert those to stage-based matrices with 3 stages (e.g. juv, ad, senes)
+3) Now lets use age-from-stage methods to calculate an age trajectory from these stage-based matrices.
+4) How well do these new computed age-trajectories match with the "true" trajectories?
+5) Is the ranking correct?
+6) If we estimate the gomperz parameter, do we get close?
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r}
+b_1_values <- seq(0.1, 0.9, 0.1)
+lifeTables <- list()
+for (i in 1:length(b_1_values)) {
+  lifeTables[[i]] <- model_survival(
+    params = c(b_0 = 0.1, b_1 = b_1_values[i]),
+    model = "Gompertz"
+  )
+}
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+Next we'll slice those life tables to turn the yearly entries into stages. We do this in an arbitrary way by dividing the vector of age into 3 parts: a quarter for juveniles, a half for adult and another quarter for old individuals.
 
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r}
+for (i in 1:length(lifeTables)) {
+  lifeTables[[i]] <- lifeTables[[i]] |>
+    mutate(stage = ifelse(x <= round(max(x) * 0.25), 1,
+      ifelse(x <= round(max(x) * 0.75), 2, 3)
+    ))
+}
 ```
 
-Also a quote using `>`:
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+Next we'll add fertility to those life tables.
+
+```{r}
+for (i in 1:length(lifeTables)) {
+  lifeTables[[i]] <- lifeTables[[i]] |>
+    mutate(fert = model_fertility(
+      age = x, params = c(A = 3),
+      maturity = min(x[stage == 2]),
+      model = "step"
+    ))
+}
+```
+
+
+Now we can turn these life tables into Leslie matrices:
+
+```{r}
+leslie_matrices <- list()
+for (i in 1:length(lifeTables)) {
+  leslie_matrices[[i]] <- make_leslie_matrix(
+    survival = lifeTables[[i]]$gx,
+    fertility = lifeTables[[i]]$fert,
+    n_stages = nrow(lifeTables[[i]]), split = TRUE
+  )
+}
+```
+
+From these information we build the stage-structured matrix models using `mpm_collapse()` from `Rage`
+
+```{r}
+collapsed_matrices <- list()
+for (i in 1:length(lifeTables)) {
+  stages <- lifeTables[[i]]$stage
+  matrices <- leslie_matrices[[i]]
+  collapse_list <- split(stages, stages)
+  # get the indices of each element in the original vector
+  collapse_list <- lapply(collapse_list, function(x) which(stages %in% x))
+
+  collapsed_matrices[[i]] <- Rage::mpm_collapse(
+    matU = matrices$mat_U,
+    matF = matrices$mat_F, collapse = collapse_list
+  )
+}
+```
+Next we can use age-from stage-approximation to recover the original Leslie matrix.
+
+```{r}
+i <- 9
+m1 <- collapsed_matrices[[i]]
+recoveredLeslie <- Rage::mpm_to_table(matU = m1$matU, matF = m1$matF)
+
+plot(0:(length(recoveredLeslie$lx) - 1), recoveredLeslie$lx, type = "l")
+lines(lifeTables[[i]]$x, lifeTables[[i]]$Sx, type = "l", col = "red")
+```
