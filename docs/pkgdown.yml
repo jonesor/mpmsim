@@ -1,8 +1,11 @@
 pandoc: '2.18'
 pkgdown: 2.0.7
 pkgdown_sha: ~
-articles: {}
-last_built: 2023-03-01T13:46Z
+articles:
+  age_from_stage: age_from_stage.html
+  pca: pca.html
+  sampling_error: sampling_error.html
+last_built: 2023-03-19T21:24Z
 urls:
   reference: https://jonesor.github.io/mpmsim/reference
   article: https://jonesor.github.io/mpmsim/articles
