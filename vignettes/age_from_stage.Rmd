@@ -24,6 +24,13 @@ knitr::opts_chunk$set(
 6) If we estimate the gomperz parameter, do we get close?
 
 ```{r}
+library(mpmsim)
+library(dplyr)
+library(Rage)
+```
+
+
+```{r}
 b_1_values <- seq(0.1, 0.9, 0.1)
 lifeTables <- list()
 for (i in 1:length(b_1_values)) {

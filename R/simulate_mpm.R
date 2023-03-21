@@ -40,13 +40,13 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
   }
 }
 
-#' Simulate matrix population models (MPMs) based on expected transition rates
-#' and sample sizes
+#' Simulate matrix population models (MPMs) based on expected values of
+#' transition rates and sample sizes
 #'
 #' Simulates a matrix population model based on expected values in the
 #' transition matrix. The expected values are provided in two matrices `mat_U`
 #' for the growth/development and survival transitions and `mat_F` for the
-#' fecundity transitions.The `mat_U` values are simulated based on expected
+#' fecundity transitions. The `mat_U` values are simulated based on expected
 #' probabilities, assuming a binomial process with a sample size defined by
 #' `sample_size`. The `mat_F` values are simulated using a Poisson process with
 #' a sample size defined by `sample_size`.Thus users can expect that large
@@ -136,8 +136,6 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
   if (min(sample_size) < 0) {
     stop("sample_size must be >= 0.")
   }
-
-
 
   if (!all(mat_U >= 0)) {
     stop("mat_U must include only values >= 0")

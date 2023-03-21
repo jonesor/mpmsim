@@ -2,8 +2,8 @@
 % Please edit documentation in R/simulate_mpm.R
 \name{simulate_mpm}
 \alias{simulate_mpm}
-\title{Simulate matrix population models (MPMs) based on expected transition rates
-and sample sizes}
+\title{Simulate matrix population models (MPMs) based on expected values of
+transition rates and sample sizes}
 \usage{
 simulate_mpm(mat_U, mat_F, sample_size, split = TRUE)
 }
@@ -26,7 +26,7 @@ a single matrix of the sum of survival and fecundity
 Simulates a matrix population model based on expected values in the
 transition matrix. The expected values are provided in two matrices \code{mat_U}
 for the growth/development and survival transitions and \code{mat_F} for the
-fecundity transitions.The \code{mat_U} values are simulated based on expected
+fecundity transitions. The \code{mat_U} values are simulated based on expected
 probabilities, assuming a binomial process with a sample size defined by
 \code{sample_size}. The \code{mat_F} values are simulated using a Poisson process with
 a sample size defined by \code{sample_size}.Thus users can expect that large

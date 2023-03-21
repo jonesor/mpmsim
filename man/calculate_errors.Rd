@@ -7,14 +7,15 @@
 calculate_errors(mat_U, mat_F, sample_size, type = "sem")
 }
 \arguments{
-\item{mat_U}{A matrix of proportions.}
+\item{mat_U}{matrix of mean survival probabilities}
 
-\item{mat_F}{A matrix of proportions.}
+\item{mat_F}{matrix of mean fecundity values}
 
-\item{sample_size}{A positive number indicating the sample size.}
+\item{sample_size}{A positive number indicating the sample size that was used
+to calculate the estimates in \code{mat_U} and \code{mat_F}.}
 
 \item{type}{A character string indicating the type of error to calculate.
-Must be one of "sem" (standard error), or "CI95" (95\% confidence interval).}
+Must be one of "\code{sem}" (standard error), or "\code{CI95}" (95\% confidence interval).}
 }
 \value{
 A list containing the error estimates. If type is "\code{CI95}", the list
@@ -27,13 +28,14 @@ Otherwise, the list contains the standard error (\code{mat_U_error},
 Given two matrices of proportions (\code{mat_U} and \code{mat_F}, the growth/survival
 matrix and the reproduction matrix respectively) and a sample size, or matrix
 of sample sizes, this function calculates the standard error or 95\%
-confidence interval for each element of the matrix, depending on the
-specified type. These calculations assume that \code{mat_U} is the result of
-binomial processes (i.e., the survival (0/1) of individuals), while \code{mat_F}
-is the result of Poisson processes (i.e., counts of offspring).
+confidence interval (95\%CI) for each element of the matrix. These
+calculations assume that \code{mat_U} is the result of binomial processes (i.e.,
+the survival (0/1) of individuals), while \code{mat_F} is the result of Poisson
+processes (i.e., counts of offspring).
 }
 \details{
-The output is a list containing the error estimates.
+The output is a list containing the original matrices and matrices showing
+error estimates or confidence intervals.
 }
 \examples{
 
@@ -47,6 +49,8 @@ matF <- matrix(c(
 ), byrow = TRUE, nrow = 2)
 
 calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "CI95")
+calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "sem")
+
 }
 \seealso{
 \code{\link[=simulate_mpm]{simulate_mpm()}} which simulates matrices with known values and

@@ -3,18 +3,20 @@
 #' Given two matrices of proportions (`mat_U` and `mat_F`, the growth/survival
 #' matrix and the reproduction matrix respectively) and a sample size, or matrix
 #' of sample sizes, this function calculates the standard error or 95%
-#' confidence interval for each element of the matrix, depending on the
-#' specified type. These calculations assume that `mat_U` is the result of
-#' binomial processes (i.e., the survival (0/1) of individuals), while `mat_F`
-#' is the result of Poisson processes (i.e., counts of offspring).
+#' confidence interval (95%CI) for each element of the matrix. These
+#' calculations assume that `mat_U` is the result of binomial processes (i.e.,
+#' the survival (0/1) of individuals), while `mat_F` is the result of Poisson
+#' processes (i.e., counts of offspring).
 #'
-#' The output is a list containing the error estimates.
+#' The output is a list containing the original matrices and matrices showing
+#' error estimates or confidence intervals.
 #'
-#' @param mat_U A matrix of proportions.
-#' @param mat_F A matrix of proportions.
-#' @param sample_size A positive number indicating the sample size.
+#' @param mat_U matrix of mean survival probabilities
+#' @param mat_F matrix of mean fecundity values
+#' @param sample_size A positive number indicating the sample size that was used
+#'   to calculate the estimates in `mat_U` and `mat_F`.
 #' @param type A character string indicating the type of error to calculate.
-#'   Must be one of "sem" (standard error), or "CI95" (95% confidence interval).
+#'   Must be one of "`sem`" (standard error), or "`CI95`" (95% confidence interval).
 #'
 #' @return A list containing the error estimates. If type is "`CI95`", the list
 #'   contains the upper and lower confidence intervals for both matrices
@@ -34,6 +36,8 @@
 #' ), byrow = TRUE, nrow = 2)
 #'
 #' calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "CI95")
+#' calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "sem")
+#'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @seealso [simulate_mpm()] which simulates matrices with known values and
 #'   sample sizes.
@@ -84,13 +88,16 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem") {
   }
 
   # Outputs
-  if (type != "CI95") {
-    out <- list("mat_U_error" = mat_U_error, "mat_F_error" = mat_F_error)
+  if (type == "sem") {
+    out <- list("mat_U" = mat_U, ",mat_U_error" = mat_U_error, "mat_F" = mat_F, "mat_F_error" = mat_F_error)
   }
+
   if (type == "CI95") {
     out <- list(
-      "mat_F_upperCI" = mat_F_upperCI, "mat_F_lowerCI" = mat_F_lowerCI,
-      "mat_U_upperCI" = mat_U_upperCI, "mat_U_lowerCI" = mat_U_lowerCI
+      "mat_F" = mat_F,
+      "mat_F_lowerCI" = mat_F_lowerCI,"mat_F_upperCI" = mat_F_upperCI,
+      "mat_U" = mat_U,
+       "mat_U_lowerCI" = mat_U_lowerCI,"mat_U_upperCI" = mat_U_upperCI
     )
   }
 
