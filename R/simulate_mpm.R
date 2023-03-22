@@ -40,7 +40,7 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
   }
 }
 
-#' Simulate matrix population models (MPMs) based on expected values of
+#' Simulate a matrix population model (MPM) based on expected values of
 #' transition rates and sample sizes
 #'
 #' Simulates a matrix population model based on expected values in the
@@ -54,16 +54,18 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #' expectations, while simulated matrices with small sample sizes will be more
 #' variable.
 #'
-#' @param mat_U matrix of survival probabilities
+#' @param mat_U matrix of mean survival/growth probabilities
 #' @param mat_F matrix of mean fecundity values
-#' @param sample_size matrix of sample size for each element of the matrix, or a
-#'   single value applied to the whole matrix
+#' @param sample_size either (1) a single matrix of sample sizes for each
+#'   element of the MPM, (2) a list of two named matrices ("`mat_F_ss`",
+#'   "`mat_U_ss`") containing sample sizes for the survival and fertility
+#'   submatrices of the MPM or (3) a single value applied to the whole matrix
 #' @param split logical, whether to split the output into survival and fecundity
 #'   matrices or not
-#' @return list of matrices of survival and fecundity if split = TRUE, otherwise
+#' @return list of matrices of survival and fecundity if `split = TRUE`, otherwise
 #'   a single matrix of the sum of survival and fecundity
-#' @details if `sample_size` is 0, it is assumed that the estimate is known
-#'   without error.
+#' @details if any `sample_size` input is 0, it is assumed that the estimate for
+#'   the element(s) concerned is known without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' mats <- make_leslie_matrix(
@@ -73,10 +75,29 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #' )
 #' ssMat <- matrix(10, nrow = 3, ncol = 3)
 #'
+#' # Sample size is a single matrix
 #' simulate_mpm(
 #'   mat_U = mats$mat_U, mat_F = mats$mat_F,
 #'   sample_size = ssMat, split = TRUE
 #' )
+#'
+#' # Sample size is a single value
+#' simulate_mpm(
+#'   mat_U = mats$mat_U, mat_F = mats$mat_F,
+#'   sample_size = 50, split = TRUE
+#' )
+#'
+#' # Sample size is a list of two matrices
+#' ssMats <- list(
+#'   "mat_F_ss" = matrix(10, nrow = 3, ncol = 3),
+#'   "mat_U_ss" = matrix(10, nrow = 3, ncol = 3)
+#' )
+#'
+#' simulate_mpm(
+#'   mat_U = mats$mat_U, mat_F = mats$mat_F,
+#'   sample_size = ssMats, split = TRUE
+#' )
+#'
 #' @export simulate_mpm
 #'
 simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
@@ -129,11 +150,15 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
            the names of the list entries need to be named 'mat_F_ss' and 'mat_U_ss'")
     }
   }
-  if (!min(abs(c(sample_size %% 1, sample_size %% 1 - 1))) <
+
+  unlisted_sample_size <- unlist(sample_size)
+
+  if (!min(abs(c(unlisted_sample_size %% 1, unlisted_sample_size %% 1 - 1))) <
     .Machine$double.eps^0.5) {
     stop("sample_size must be integer value(s)")
   }
-  if (min(sample_size) < 0) {
+
+  if (min(unlisted_sample_size) < 0) {
     stop("sample_size must be >= 0.")
   }
 
@@ -155,7 +180,9 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
 
   # If sample_size is a vector of length 1
   if (length(sample_size) == 1) {
-    sample_size <- matrix(sample_size, ncol = ncol(mat_U), nrow = nrow(mat_U))
+    sample_size_mat_U <- matrix(sample_size, ncol = ncol(mat_U), nrow = nrow(mat_U))
+    sample_size_vector_U <- as.vector(sample_size_mat_U)
+    sample_size_vector_F <- sample_size_vector_U
   }
 
   # If sample_size is a single matrix
@@ -166,8 +193,8 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
 
   # If sample_size is a list of matrices
   if (inherits(sample_size, "list")) {
-    sample_size_vector_U <- as.vector(sample_size_mat_list[["mat_U_ss"]])
-    sample_size_vector_F <- as.vector(sample_size_mat_list[["mat_F_ss"]])
+    sample_size_vector_U <- as.vector(sample_size[["mat_U_ss"]])
+    sample_size_vector_F <- as.vector(sample_size[["mat_F_ss"]])
   }
 
   # Simulate the matrix based on the information provided

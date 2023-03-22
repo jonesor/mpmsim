@@ -2,24 +2,26 @@
 % Please edit documentation in R/simulate_mpm.R
 \name{simulate_mpm}
 \alias{simulate_mpm}
-\title{Simulate matrix population models (MPMs) based on expected values of
+\title{Simulate a matrix population model (MPM) based on expected values of
 transition rates and sample sizes}
 \usage{
 simulate_mpm(mat_U, mat_F, sample_size, split = TRUE)
 }
 \arguments{
-\item{mat_U}{matrix of survival probabilities}
+\item{mat_U}{matrix of mean survival/growth probabilities}
 
 \item{mat_F}{matrix of mean fecundity values}
 
-\item{sample_size}{matrix of sample size for each element of the matrix, or a
-single value applied to the whole matrix}
+\item{sample_size}{either (1) a single matrix of sample sizes for each
+element of the MPM, (2) a list of two named matrices ("\code{mat_F_ss}",
+"\code{mat_U_ss}") containing sample sizes for the survival and fertility
+submatrices of the MPM or (3) a single value applied to the whole matrix}
 
 \item{split}{logical, whether to split the output into survival and fecundity
 matrices or not}
 }
 \value{
-list of matrices of survival and fecundity if split = TRUE, otherwise
+list of matrices of survival and fecundity if \code{split = TRUE}, otherwise
 a single matrix of the sum of survival and fecundity
 }
 \description{
@@ -35,8 +37,8 @@ expectations, while simulated matrices with small sample sizes will be more
 variable.
 }
 \details{
-if \code{sample_size} is 0, it is assumed that the estimate is known
-without error.
+if any \code{sample_size} input is 0, it is assumed that the estimate for
+the element(s) concerned is known without error.
 }
 \examples{
 mats <- make_leslie_matrix(
@@ -46,10 +48,29 @@ mats <- make_leslie_matrix(
 )
 ssMat <- matrix(10, nrow = 3, ncol = 3)
 
+# Sample size is a single matrix
 simulate_mpm(
   mat_U = mats$mat_U, mat_F = mats$mat_F,
   sample_size = ssMat, split = TRUE
 )
+
+# Sample size is a single value
+simulate_mpm(
+  mat_U = mats$mat_U, mat_F = mats$mat_F,
+  sample_size = 50, split = TRUE
+)
+
+# Sample size is a list of two matrices
+ssMats <- list(
+  "mat_F_ss" = matrix(10, nrow = 3, ncol = 3),
+  "mat_U_ss" = matrix(10, nrow = 3, ncol = 3)
+)
+
+simulate_mpm(
+  mat_U = mats$mat_U, mat_F = mats$mat_F,
+  sample_size = ssMats, split = TRUE
+)
+
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
