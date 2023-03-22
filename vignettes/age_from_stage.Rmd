@@ -102,10 +102,10 @@ for (i in 1:length(lifeTables)) {
 Next we can use age-from stage-approximation to recover the original Leslie matrix.
 
 ```{r}
-i <- 9
+i <- 2
 m1 <- collapsed_matrices[[i]]
 recoveredLeslie <- Rage::mpm_to_table(matU = m1$matU, matF = m1$matF)
 
-plot(0:(length(recoveredLeslie$lx) - 1), recoveredLeslie$lx, type = "l")
+plot(0:(length(recoveredLeslie$lx) - 1), recoveredLeslie$lx, type = "l", xlab = "age", ylab = "survivorship")
 lines(lifeTables[[i]]$x, lifeTables[[i]]$Sx, type = "l", col = "red")
 ```
