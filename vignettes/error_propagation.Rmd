@@ -1,8 +1,8 @@
 ---
-title: "Error propagation"
+title: "Sampling error and its propagation"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Error propagation}
+  %\VignetteIndexEntry{Sampling error and its propagation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,25 +12,38 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r setup}
 library(mpmsim)
 ```
 
+
 ## Introduction
 
-Uncertainty in the individual matrix elements of a matrix population model can lead to sampling errors, which propagate and affect the accuracy of estimates of MPM-derived metrics. These metrics may include population growth rate, generation time, and reactivity.
+Uncertainty in the individual matrix elements of a matrix population model can lead to sampling errors, which propagate and affect the accuracy of estimates of MPM-derived metrics. These metrics include population growth rate, generation time, reactivity and many others.
 
-One way to estimate this uncertainty is by resampling the matrix model multiple times, based on assumptions about the underlying processes in the matrix model and the uncertainties in the individual matrix elements. For example, we can assume that the fertility component of the matrix is the mean of multiple Poisson processes, and that survival can be modeled as a binomial process.
+One way to estimate this uncertainty is by using bootstrapping approach whereby a sampling distribution of the matrix model is generated, based on assumptions about the underlying processes in the matrix model and the uncertainties in the individual matrix elements. For example, we can assume that the fertility component of the matrix is the mean of multiple Poisson processes, and that survival can be modeled as a binomial process.
 
-The `compute_ci()` function allows users to estimate a 95% confidence interval for any metric typically derived from a matrix population model. This function resamples the matrix model based on the above assumptions and calculates the posterior distribution of the metric of interest. The lower and upper bounds of the 95% CI are then estimated from this distribution. The width of the CI reflects the precision of the estimate; a narrower CI indicates greater precision, while a wider CI indicates less precision.
+The `compute_ci()` function allows users to estimate a 95% confidence interval for any metric that can be derived from a matrix population model (**A**). This function generates a sampling distribution by resampling based on the above assumptions and calculates the posterior distribution of the metric of interest. The lower and upper bounds of the 95% CI are then estimated from this distribution. The width of the CI reflects the precision of the estimate; a narrower CI indicates greater precision, while a wider CI indicates less precision.
 
 Various factors can influence the width and shape of the CI, such as the sample size used to estimate the individual matrix elements, the structure of the matrix model, the underlying assumptions made by the `compute_ci()` function, and the distribution of uncertainties in the individual matrix elements. It is crucial to consider these factors when interpreting the results of a matrix population model and assessing the precision of the resulting estimates.
 
-## Estimate 95% CI
 
-Let's consider a matrix model **A** that is composed of submatrices **U** and **F**. We need a "split" **A** matrix because the undertlying statistical properties are different in reproduction and survival.
+
+## Estimate 95% CI of lambda
+
+We could estimate the 95% CI of any metric that can be calculated from a matrix model. In this example we focus on population growth rate, lambda. Let's consider a matrix model **A** that is composed of submatrices **U** and **F**. We need a "split" **A** matrix because the underlying processes are governed by distributions with different statistical properties. It is assumed that individual's survival is binary (0 = dies, 1 = survives) while an individual's reproduction is assumed to to be a Poisson process. 
+
+In this example, the matrix is simple, and it is only the top right element that represents reproduction, while the other elements all represent survival and/or growth.
+
+
+$$
+\mathbf{A} = \begin{bmatrix}
+0.1 & 3.0 \\
+0.2 & 0.4 \
+\end{bmatrix}
+$$
+
+Thus:
 
 ```{r}
 matU <- matrix(c(
@@ -80,6 +93,25 @@ hist(distLambda_20$estimates, xlim = c(0, 1.75))
 hist(distLambda_100$estimates, xlim = c(0, 1.75))
 ```
 
+One could use this approach to conduct a power analysis by simulation. For example one could ask, "What sample size would I require in order to detect a 20% change in population growth rate?" 
+
+```{r}
+observedLambda <- popdemo::eigs(matU + matF, what = "lambda")
+reducedLambda <- observedLambda*0.8
+
+
+simDist <- compute_ci(mat_U = matU, mat_F = matF, 
+                             sample_size = 50, FUN = popdemo::eigs, what = "lambda", 
+                             dist.out = TRUE)$estimates
+hist(simDist)
+abline(v = observedLambda,lty = 2, lwd = 2)
+abline(v = reducedLambda,lty = 2, lwd = 2, col= "red")
+sum(simDist<observedLambda)/length(simDist)
+
+```
+
+
+
 What if the sample size was higher for some elements than others? No problem, the `sample_size` argument accepts a matrix of sample sizes (or a list of matrices labelled as `mat_U_ss` and `mat_F_ss`).
 
 ```{r}
@@ -102,17 +134,7 @@ hist(distLambda_100$estimates, xlim = c(0, 1.75))
 hist(distLambda_variable$estimates, xlim = c(0, 1.75))
 ```
 
-If sample size is set to 0, the computation assumes that the estimate is known without error.
-
 ```{r}
-sample_size_mat <- matrix(c(
-  0, 0,
-  0, 0
-), byrow = TRUE, nrow = 2)
-
-distLambda_variable <- compute_ci(mat_U = matU, mat_F = matF, 
-                                  sample_size = sample_size_mat, 
-                                  FUN = popdemo::eigs, what = "lambda", 
-                                  dist.out = TRUE)
-hist(distLambda_variable$estimates)
+popdemo::elas(matU + matF)
 ```
+
