@@ -1,9 +1,10 @@
-#' Calculate errors in matrix values based on sample sizes.
+#' Calculate error (standard error or 95%CI) in elements of a matrix population
+#' model.
 #'
-#' Given two matrices of proportions (`mat_U` and `mat_F`, the growth/survival
-#' matrix and the reproduction matrix respectively) and a sample size, or matrix
-#' of sample sizes, this function calculates the standard error or 95%
-#' confidence interval (95%CI) for each element of the matrix. These
+#' Given two submatrices of a matrix population model (`mat_U` and `mat_F`, the
+#' growth/survival matrix and the reproduction matrix respectively) and a sample
+#' size, or matrix of sample sizes, this function calculates the standard error
+#' or 95% confidence interval (95%CI) for each element of the matrix. These
 #' calculations assume that `mat_U` is the result of binomial processes (i.e.,
 #' the survival (0/1) of individuals), while `mat_F` is the result of Poisson
 #' processes (i.e., counts of offspring).
@@ -56,6 +57,26 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem") {
   }
   if (type != "sem" && type != "CI95") {
     stop("type must be one of 'sem', 'sd', or 'CI95'.")
+  }
+
+  # Sample size matrices
+  # If sample_size is a vector of length 1
+  if (length(sample_size) == 1) {
+    sample_size_mat_U <- matrix(sample_size, ncol = ncol(mat_U), nrow = nrow(mat_U))
+    sample_size_vector_U <- as.vector(sample_size_mat_U)
+    sample_size_vector_F <- sample_size_vector_U
+  }
+
+  # If sample_size is a single matrix
+  if (inherits(sample_size, "matrix")) {
+    sample_size_vector_U <- as.vector(sample_size)
+    sample_size_vector_F <- sample_size_vector_U
+  }
+
+  # If sample_size is a list of matrices
+  if (inherits(sample_size, "list")) {
+    sample_size_vector_U <- as.vector(sample_size_mat_list[["mat_U_ss"]])
+    sample_size_vector_F <- as.vector(sample_size_mat_list[["mat_F_ss"]])
   }
 
 

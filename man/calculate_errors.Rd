@@ -2,7 +2,8 @@
 % Please edit documentation in R/calculate_errors.R
 \name{calculate_errors}
 \alias{calculate_errors}
-\title{Calculate errors in matrix values based on sample sizes.}
+\title{Calculate error (standard error or 95\%CI) in elements of a matrix population
+model.}
 \usage{
 calculate_errors(mat_U, mat_F, sample_size, type = "sem")
 }
@@ -25,10 +26,10 @@ Otherwise, the list contains the standard error (\code{mat_U_error},
 \code{mat_F_error}) for both matrices.
 }
 \description{
-Given two matrices of proportions (\code{mat_U} and \code{mat_F}, the growth/survival
-matrix and the reproduction matrix respectively) and a sample size, or matrix
-of sample sizes, this function calculates the standard error or 95\%
-confidence interval (95\%CI) for each element of the matrix. These
+Given two submatrices of a matrix population model (\code{mat_U} and \code{mat_F}, the
+growth/survival matrix and the reproduction matrix respectively) and a sample
+size, or matrix of sample sizes, this function calculates the standard error
+or 95\% confidence interval (95\%CI) for each element of the matrix. These
 calculations assume that \code{mat_U} is the result of binomial processes (i.e.,
 the survival (0/1) of individuals), while \code{mat_F} is the result of Poisson
 processes (i.e., counts of offspring).
