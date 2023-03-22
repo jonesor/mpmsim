@@ -449,7 +449,7 @@ p <- plot_matrix(rMPM$mat_U)
 p + scale_fill_gradient(low = "black", high = "yellow")
 ```
 
-<img src="man/figures/plot_a_matrix01.png" width="300" style="display: block; margin: auto;" />
+<img src="man/figures/plot_a_matrix01.png" style="display: block; margin: auto;" />
 
 ## Contributions
 
