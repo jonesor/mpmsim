@@ -5,34 +5,38 @@
 \title{Calculate error (standard error or 95\%CI) in elements of a matrix population
 model.}
 \usage{
-calculate_errors(mat_U, mat_F, sample_size, type = "sem")
+calculate_errors(mat_U, mat_F, sample_size, type = "sem", calculate_A = TRUE)
 }
 \arguments{
 \item{mat_U}{matrix of mean survival probabilities}
 
 \item{mat_F}{matrix of mean fecundity values}
 
-\item{sample_size}{A positive number indicating the sample size that was used
-to calculate the estimates in \code{mat_U} and \code{mat_F}.}
+\item{sample_size}{either (1) a single matrix of sample sizes for each
+element of the MPM, (2) a list of two named matrices ("\code{mat_F_ss}",
+"\code{mat_U_ss}") containing sample sizes for the survival and fertility
+submatrices of the MPM or (3) a single value applied to the whole matrix}
 
 \item{type}{A character string indicating the type of error to calculate.
 Must be one of "\code{sem}" (standard error), or "\code{CI95}" (95\% confidence interval).}
+
+\item{calculate_A}{A logical argument indicating whether the returned error
+information should include the A matrix and its error. Defaults to \code{TRUE}.}
 }
 \value{
-A list containing the error estimates. If type is "\code{CI95}", the list
-contains the upper and lower confidence intervals for both matrices
-(\code{mat_U_upperCI}, \code{mat_U_lowerCI}, \code{mat_F_upperCI}, \code{mat_F_lowerCI}).
-Otherwise, the list contains the standard error (\code{mat_U_error},
-\code{mat_F_error}) for both matrices.
+A list containing the original matrices and the error estimates (or
+upper and lower confidence intervals) for the U, F and (optionally) A
+matrices.
 }
 \description{
 Given two submatrices of a matrix population model (\code{mat_U} and \code{mat_F}, the
 growth/survival matrix and the reproduction matrix respectively) and a sample
-size, or matrix of sample sizes, this function calculates the standard error
-or 95\% confidence interval (95\%CI) for each element of the matrix. These
-calculations assume that \code{mat_U} is the result of binomial processes (i.e.,
-the survival (0/1) of individuals), while \code{mat_F} is the result of Poisson
-processes (i.e., counts of offspring).
+size, or matrix/matrices of sample sizes, this function calculates the
+standard error or 95\% confidence interval (95\%CI) for each element of the
+matrix. These calculations assume that \code{mat_U} is the result of binomial
+processes (i.e., the survival (0/1) of a sample of n individuals), while
+\code{mat_F} is the result of Poisson processes (i.e., counts of offspring from n
+individuals), where n is the sample size.
 }
 \details{
 The output is a list containing the original matrices and matrices showing
@@ -51,6 +55,18 @@ matF <- matrix(c(
 
 calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "CI95")
 calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "sem")
+
+# Sample size is a single matrix applied to both F and U matrices
+ssMat <- matrix(10, nrow = 2, ncol = 2)
+
+calculate_errors(mat_U = matU, mat_F = matF, sample_size = ssMat, type = "sem")
+
+# Sample size is a list of two matrices
+ssMats <- list(
+  "mat_F_ss" = matrix(10, nrow = 2, ncol = 2),
+  "mat_U_ss" = matrix(10, nrow = 2, ncol = 2)
+)
+calculate_errors(mat_U = matU, mat_F = matF, sample_size = ssMats, type = "sem")
 
 }
 \seealso{
