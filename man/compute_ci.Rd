@@ -12,8 +12,10 @@ compute_ci(mat_U, mat_F, sample_size, FUN, ..., n_sim = 1000, dist.out = FALSE)
 
 \item{mat_F}{A matrix that describes reproduction.}
 
-\item{sample_size}{An integer or a matrix of integers indicating the sample
-size(s) to use for the simulation.}
+\item{sample_size}{either (1) a single matrix of sample sizes for each
+element of the MPM, (2) a list of two named matrices ("\code{mat_F_ss}",
+"\code{mat_U_ss}") containing sample sizes for the survival and fertility
+submatrices of the MPM or (3) a single value applied to the whole matrix}
 
 \item{FUN}{A function to apply to each simulated matrix population model.
 This function must take, as input, a single matrix population model (i.e.,

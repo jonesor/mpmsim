@@ -17,8 +17,10 @@
 #'
 #' @param mat_U A matrix that describes the growth and survival process.
 #' @param mat_F A matrix that describes reproduction.
-#' @param sample_size An integer or a matrix of integers indicating the sample
-#'   size(s) to use for the simulation.
+#' @param sample_size either (1) a single matrix of sample sizes for each
+#'   element of the MPM, (2) a list of two named matrices ("`mat_F_ss`",
+#'   "`mat_U_ss`") containing sample sizes for the survival and fertility
+#'   submatrices of the MPM or (3) a single value applied to the whole matrix
 #' @param FUN A function to apply to each simulated matrix population model.
 #'   This function must take, as input, a single matrix population model (i.e.,
 #'   the A matrix).
@@ -96,15 +98,44 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
     stop("mat_U and mat_F must be square matrices.")
   }
 
-  # Check sample_size argument
-  if (!is.numeric(sample_size) || any(sample_size < 0)) {
-    stop("sample size must non-negatives")
+  # Sample size validation
+  if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") || length(sample_size) == 1)) {
+    stop("sample_size needs to be a matrix, a list of two matrices, or an integer with length 1")
   }
 
-  # Check that sample_size is an integer
-  if (!min(abs(c(sample_size %% 1, sample_size %% 1 - 1))) <
-    .Machine$double.eps^0.5) {
-    stop("sample_size must be an integer or a matrix of integers")
+  # When sample_size is a single matrix.
+  if (inherits(sample_size, "matrix")) {
+    if (nrow(sample_size) != nrow(mat_U)) {
+      stop("if sample_size is a matrix,
+           it should be the same dimension as mat_U")
+    }
+  }
+
+  # When sample_size is a list of two matrices.
+  if (inherits(sample_size, "list")) {
+    if (!identical(lapply(sample_size, dim)[[1]], lapply(sample_size, dim)[[2]])) {
+      stop("if sample_size is a list of matrices,
+           they should both be the same dimensions.")
+    }
+    if (!identical(lapply(sample_size, dim)[[1]], dim(mat_U))) {
+      stop("if sample_size is a list of matrices,
+           they should be the same dimension as mat_U")
+    }
+    if (!sum(names(sample_size) %in% c("mat_F_ss", "mat_U_ss")) == 2) {
+      stop("if sample_size is a list of matrices,
+           the names of the list entries need to be named 'mat_F_ss' and 'mat_U_ss'")
+    }
+  }
+
+  unlisted_sample_size <- unlist(sample_size)
+
+  if (!min(abs(c(unlisted_sample_size %% 1, unlisted_sample_size %% 1 - 1))) <
+      .Machine$double.eps^0.5) {
+    stop("sample_size must be integer value(s)")
+  }
+
+  if (min(unlisted_sample_size) < 0) {
+    stop("sample_size must be >= 0.")
   }
 
   # Check FUN argument
