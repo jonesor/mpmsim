@@ -185,7 +185,7 @@ random_mpm <- function(n_stages,
 
   # Output the results
   if (split) {
-    mat_A_split <- list(mat_U = mat_U, mat_F = mat_F)
+    mat_A_split <- list(mat_A = mat_U + mat_F, mat_U = mat_U, mat_F = mat_F)
     return(mat_A_split)
   } else {
     mat_A <- mat_U + mat_F
