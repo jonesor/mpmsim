@@ -14,7 +14,67 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
 ```
 
 1. Simulate 100 matrices with random life histories
 2. calculate key life history parameters
+
+Load the required packages
+```{r}
+library(mpmsim)
+library(Rcompadre)
+```
+
+
+```{r}
+mpm_set <- generate_mpm_set(
+  n = 1000, lower_lambda = 0.9, upper_lambda = 1.1,
+  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+)
+
+mpm_set[[1]]
+A_list <- lapply(mpm_set, function(x) x$mat_A)
+U_list <- lapply(mpm_set, function(x) x$mat_U)
+F_list <- lapply(mpm_set, function(x) x$mat_F)
+
+my_compadre <- cdb_build_cdb(mat_u = U_list, mat_f = F_list, version = "testrun", metadata = data.frame(ID = 1:length(U_list)))
+
+
+
+my_compadre$matA <- Rcompadre::matA(my_compadre)
+my_compadre$matU <- Rcompadre::matU(my_compadre)
+my_compadre$matF <- Rcompadre::matF(my_compadre)
+
+
+library(Rage)
+
+# derive trajectories of lx and mx, starting from stage 2
+lx <- mpm_to_lx(mpm1$matU, start = 2)
+mx <- mpm_to_mx(mpm1$matU, mpm1$matF, start = 2)
+
+# calculate Demetrius' entropy direct from matrix
+entropy_d_mat <- function(matU, matF, start = 1){
+  lx <- mpm_to_lx(matU, start = start)
+  mx <- mpm_to_mx(matU, matF, start = start)
+  return(entropy_d(lx, mx))
+}
+
+
+#Use a combination of sapply and mapply to calcualte the life history traits for each matrix.
+my_compadre$gt <- sapply(my_compadre$matA, popbio::generation.time)
+my_compadre$longevity <- sapply(my_compadre$matU, Rage::longevity)
+my_compadre$entropy_d <- mapply(entropy_d_mat, my_compadre$matU,my_compadre$matF)
+
+
+my_compadre_unconstrained <- my_compadre
+
+plot(my_compadre_unconstrained$gt,my_compadre_unconstrained$longevity, log = "xy", xlim = c(2,2100),ylim = c(2,1100))
+points(my_compadre$gt,my_compadre$longevity, log = "xy", col= 'red')
+
+
+pcData <- data.frame(gt=rep(NA,nmat),dent=NA,kentRage=NA,
+                     doakMax = NA,doakEta=NA,R0=NA,react=NA, dr =NA)
+
+```
+
