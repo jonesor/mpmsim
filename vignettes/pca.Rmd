@@ -70,7 +70,7 @@ my_compadre$entropy_d <- mapply(entropy_d_mat, my_compadre$matU,my_compadre$matF
 my_compadre_unconstrained <- my_compadre
 
 plot(my_compadre_unconstrained$gt,my_compadre_unconstrained$longevity, log = "xy", xlim = c(2,2100),ylim = c(2,1100))
-points(my_compadre$gt,my_compadre$longevity, log = "xy", col= 'red')
+points(my_compadre$gt,my_compadre$longevity, col= 'red')
 
 
 pcData <- data.frame(gt=rep(NA,nmat),dent=NA,kentRage=NA,
