@@ -15,8 +15,9 @@
 #' @param n_stages The number of stages for the MPMs. Default is 3.
 #' @param archetype The archetype of the MPMs. Default is 1.
 #' @param fecundity A vector of fecundities for the MPMs. Default is 1.5.
-#' @param split A logical indicating whether to split matrices. Default is
-#'   FALSE.
+#' @param split A logical indicating whether to split into submatrices. Default is
+#'   TRUE.
+#' @param by_type A logical indicating whether the matrices should be returned in a list
 #' @return A list of MPMs that meet the specified criteria.
 #'
 #' @importFrom popdemo eigs
@@ -32,7 +33,7 @@
 
 generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
                              n_stages = 3, archetype = 1, fecundity = 1.5,
-                             split = FALSE) {
+                             split = TRUE, by_type = TRUE) {
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
     stop("n must be a positive integer")
@@ -98,5 +99,18 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
            Consider changing your criteria.")
     }
   }
-  return(output_list)
+  if (by_type == TRUE) {
+    A_list <- lapply(output_list, function(x) x$mat_A)
+    U_list <- lapply(output_list, function(x) x$mat_U)
+    F_list <- lapply(output_list, function(x) x$mat_F)
+    output_list_by_type <- list(
+      "A_list" = A_list,
+      "U_list" = U_list,
+      "F_list" = F_list
+    )
+    return(output_list_by_type)
+  }
+  if (by_type == FALSE) {
+    return(output_list)
+  }
 }
