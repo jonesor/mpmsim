@@ -30,6 +30,7 @@ library(viridis)
 
 ```
 
+First use `generate_mpm_set()` to simulate 500 matrices with the archetype 1 life history from Takada et al. (2018). This life history archetype is one where transition from/to any stage is possible and where individuals can progress and retrogress rapidly. After simulating the matrices they can be placed into a `CompadreDB` object using `cdb_build_cdb()`.
 
 ```{r}
 set.seed(42)
@@ -39,11 +40,18 @@ mpm_set <- generate_mpm_set(
 )
 
 sim_life_hist_1 <- cdb_build_cdb(mat_u = mpm_set$U_list, mat_f = mpm_set$F_list)
+```
 
-# Identify irreducible matrices so they can be filtered out
+Some of these matrices will be reducible, which leads to analytical problems with some calculations tHese can be filtered out using `cdb_flag()` followed by `filter()`
+
+```{r}
 sim_life_hist_1 <- cdb_flag(sim_life_hist_1, checks = "check_irreducible") %>%
   filter(check_irreducible == TRUE)
+```
 
+For convenience, these matrices can be added to the `compadreDB` object like this, and turned into a regular data frame (tibble) like this.
+
+```{r}
 # Put the matrices into the metadata
 sim_life_hist_1$matA <- matA(sim_life_hist_1)
 sim_life_hist_1$matU <- matU(sim_life_hist_1)
@@ -52,7 +60,10 @@ sim_life_hist_1$matF <- matF(sim_life_hist_1)
 # Use cdb_metadata to turn this into a data frame
 sim_life_hist_1 <- cdb_metadata(sim_life_hist_1)
 head(sim_life_hist_1)
+```
+Before proceeding with the calculation of life history traits I make some new functions to calculate Demetrius' and Keyfitz entropy direct from MPM rather than from a lx/mx trajectory. THese will be added to `Rage` soon!
 
+```{r}
 # New functions to calculate Demetrius' and Keyfitz entropy direct from matrix
 # I should add these to Rage (or add the functionality to existing functions)
 entropy_d_mat <- function(matU, matF, start = 1) {
@@ -72,8 +83,9 @@ gt_lt <- function(matU, matF, start = 1, ...) {
   return(sum(tempLT$x * tempLT$lxmx) / sum(tempLT$lxmx))
 }
 
+Now we can use a combination of sapply and mapply to calcualte the life history traits for each matrix.
 
-# Use a combination of sapply and mapply to calcualte the life history traits for each matrix.
+```{r}
 sim_life_hist_1$gt <- sapply(sim_life_hist_1$matA, popbio::generation.time)
 sim_life_hist_1$gt_lt <- mapply(gt_lt, sim_life_hist_1$matU, sim_life_hist_1$matF)
 sim_life_hist_1$longevity <- sapply(sim_life_hist_1$matU, Rage::longevity, x_max = 1000, lx_crit = 0.01)

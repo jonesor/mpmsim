@@ -10,3 +10,4 @@ README.Rmd
 makeHexSticker.R
 .lintr
 README_files
+^codemeta\.json$
