@@ -12,7 +12,8 @@ generate_mpm_set(
   n_stages = 3,
   archetype = 1,
   fecundity = 1.5,
-  split = FALSE
+  split = TRUE,
+  by_type = TRUE
 )
 }
 \arguments{
@@ -30,8 +31,10 @@ generate_mpm_set(
 
 \item{fecundity}{A vector of fecundities for the MPMs. Default is 1.5.}
 
-\item{split}{A logical indicating whether to split matrices. Default is
-FALSE.}
+\item{split}{A logical indicating whether to split into submatrices. Default is
+TRUE.}
+
+\item{by_type}{A logical indicating whether the matrices should be returned in a list}
 }
 \value{
 A list of MPMs that meet the specified criteria.
