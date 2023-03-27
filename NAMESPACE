@@ -3,7 +3,7 @@
 export(calculate_errors)
 export(compute_ci)
 export(generate_mpm_set)
-export(make_leslie_matrix)
+export(make_leslie_mpm)
 export(model_fertility)
 export(model_survival)
 export(plot_matrix)

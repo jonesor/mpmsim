@@ -25,7 +25,7 @@ Visualise a matrix, such as a matrix population model (MPM), as a heatmap.
 }
 \examples{
 matDim <- 10
-A1 <- make_leslie_matrix(
+A1 <- make_leslie_mpm(
   survival = seq(0.1, 0.7, length.out = matDim),
   fertility = seq(0.1, 0.7, length.out = matDim),
   n_stages = matDim

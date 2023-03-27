@@ -36,9 +36,9 @@ library(mpmsim)
 
 ### Generate a Leslie matrix
 
-The `make_leslie_matrix` function can be used to generate a Leslie
-matrix, where the stages represent discrete age classes. In a Leslie
-matrix, survival is represented in the lower sub-diagonal and the
+The `make_leslie_mpm` function can be used to generate a Leslie matrix,
+where the stages represent discrete age classes. In a Leslie matrix,
+survival is represented in the lower sub-diagonal and the
 lower-right-hand corner element, while fertility is shown in the top
 row. Both survival and fertility have a length equal to the number of
 stages in the model. Users can specify both survival and fertility as
@@ -47,7 +47,7 @@ dimensions of the matrix model. If these arguments are single values,
 the value is repeated along the survival/fertility sequence.
 
 ``` r
-make_leslie_matrix(
+make_leslie_mpm(
   survival = seq(0.1, 0.45, length.out = 4),
   fertility = c(0, 0, 2.4, 5), n_stages = 4, split = FALSE
 )
@@ -75,27 +75,27 @@ includes age and survival probability within each age interval.
 #> 6 5 1.4778112 0.03928123 0.8413767 0.1586233
 ```
 
-Age-specific survival probability is given by the `gx` column in the
-output from `model_survival`. Functional forms for fertility have not
-yet been implemented in `mpmsim` but users can specify an age at
-maturity, and assume fertility is constant with age from maturity.
+Age-specific survival probability is given by the `px` column in the
+output from `model_survival`. Users can also use a functional form for
+fertility (see `model_fertility`) and here a simple step function is
+assumed.
 
 ``` r
 survival <- surv_prob$px
-maturity <- 2
-fertility <- c(rep(0, maturity), rep(3, length(survival) - maturity))
+fertility <- model_fertility(age = 0:(length(survival)-1), 
+                             params = c(A = 5), maturity = 2, model = "step")
 ```
 
 Subsequently, these survival and fertility values can be applied to the
 Leslie matrix as follows.
 
 ``` r
-make_leslie_matrix(
+make_leslie_mpm(
   survival = survival, fertility = fertility,
   n_stages = length(survival), split = FALSE
 )
 #>           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-#> [1,] 0.0000000 0.0000000 3.0000000 3.0000000 3.0000000 3.0000000
+#> [1,] 0.0000000 0.0000000 5.0000000 5.0000000 5.0000000 5.0000000
 #> [2,] 0.7794377 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
 #> [3,] 0.0000000 0.6895359 0.0000000 0.0000000 0.0000000 0.0000000
 #> [4,] 0.0000000 0.0000000 0.5743216 0.0000000 0.0000000 0.0000000
@@ -106,7 +106,7 @@ make_leslie_matrix(
 ### Sets of Leslie matrices
 
 Users can generate large numbers of plausible Leslie matrices by
-repeating the `make_leslie_matrix` command in a loop. For example, the
+repeating the `make_leslie_mpm` command in a loop. For example, the
 following code produces a list of five Leslie matrices that have
 increasing survival with age.
 
@@ -118,7 +118,7 @@ adultFert <- rpois(sample_size, 6)
 
 outputMPMs <- NULL
 for (i in 1:sample_size) {
-  outputMPMs[[i]] <- make_leslie_matrix(
+  outputMPMs[[i]] <- make_leslie_mpm(
     survival = seq(juvSurv[i], adultSurv[i], length.out = 6),
     fertility = c(0, 0, rep(adultFert[i], 4)), n_stages = 6, split = FALSE
   )
@@ -194,7 +194,7 @@ for (i in 1:sample_size) {
     rep(fertility_values[i], length(survival) - maturity)
   )
 
-  outputMPMs[[i]] <- make_leslie_matrix(
+  outputMPMs[[i]] <- make_leslie_mpm(
     survival = survival, fertility = fertility,
     n_stages = length(survival), split = FALSE
   )
@@ -258,13 +258,13 @@ reflect the expected transition rates. In contrast, when sample sizes
 are small, the simulated matrices will become more variable.
 
 To illustrate use of the function, the following code first generates a
-3-stage Leslie matrix using the `make_leslie_matrix` function. It then
+3-stage Leslie matrix using the `make_leslie_mpm` function. It then
 passes the U and F matrices from this Leslie matrix to the
 `simulate_mpm` function. Then, two matrices are simulated, first with a
 sample size of 1000, and then with a sample size of seven.
 
 ``` r
-mats <- make_leslie_matrix(
+mats <- make_leslie_mpm(
   survival = c(0.3, 0.5, 0.8),
   fertility = c(0, 2.2, 4.4),
   n_stages = 3, split = TRUE

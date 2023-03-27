@@ -84,12 +84,12 @@ The next step is to turn these life tables into matching pairs of (1) Leslie mat
 
 ### Leslie matrices
 
-First Now we can turn these life tables containing age-specific survival and fertility trajectories into Leslie matrices using the `make_leslie_matrix` function. These matrix models can be large or small depending on the maximum life span of the population: the life tables are, by default, constrained to extend to the age where the survivorship function falls below 0.01.
+First Now we can turn these life tables containing age-specific survival and fertility trajectories into Leslie matrices using the `make_leslie_mpm` function. These matrix models can be large or small depending on the maximum life span of the population: the life tables are, by default, constrained to extend to the age where the survivorship function falls below 0.01.
 
 ```{r}
 leslie_matrices <- list()
 for (i in 1:length(lifeTables)) {
-  leslie_matrices[[i]] <- make_leslie_matrix(
+  leslie_matrices[[i]] <- make_leslie_mpm(
     survival = lifeTables[[i]]$px,
     fertility = lifeTables[[i]]$fert,
     n_stages = nrow(lifeTables[[i]]), split = TRUE

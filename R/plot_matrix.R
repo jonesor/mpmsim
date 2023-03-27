@@ -16,7 +16,7 @@
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' matDim <- 10
-#' A1 <- make_leslie_matrix(
+#' A1 <- make_leslie_mpm(
 #'   survival = seq(0.1, 0.7, length.out = matDim),
 #'   fertility = seq(0.1, 0.7, length.out = matDim),
 #'   n_stages = matDim

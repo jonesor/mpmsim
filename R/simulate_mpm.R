@@ -68,7 +68,7 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #'   the element(s) concerned is known without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
-#' mats <- make_leslie_matrix(
+#' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
 #'   fertility = c(0, 1.2, 2.4),
 #'   n_stages = 3, split = TRUE
