@@ -64,7 +64,7 @@ Users can generate Leslie matrices with particular functional forms of mortality
 Age-specific survival probability is given by the `gx` column in the output from `model_survival`. Functional forms for fertility have not yet been implemented in `mpmsim` but users can specify an age at maturity, and assume fertility is constant with age from maturity.
 
 ```{r}
-survival <- surv_prob$gx
+survival <- surv_prob$px
 maturity <- 2
 fertility <- c(rep(0, maturity), rep(3, length(survival) - maturity))
 ```
@@ -114,7 +114,7 @@ for (i in 1:sample_size) {
     params = c(b0_values[i], b1_values[i]),
     model = "Gompertz"
   )
-  survival <- surv_prob$gx
+  survival <- surv_prob$px
 
   maturity <- 2
   fertility <- c(
@@ -209,14 +209,13 @@ rMPM$mat_U
 And here's the plot:
 
 ```{r, message=FALSE, fig.show='hide'}
-library(ggplot2)
 p <- plot_matrix(rMPM$mat_U)
-p + scale_fill_gradient(low = "black", high = "yellow")
+p + ggplot2::scale_fill_gradient(low = "black", high = "yellow")
 ```
 
 
 ```{r, include=FALSE}
-ggsave("man/figures/plot_a_matrix01.png", width = 300, height = 300, units = "px")
+ggplot2::ggsave("man/figures/plot_a_matrix01.png", width = 300, height = 300, units = "px")
 ```
 
 ```{r echo=FALSE, fig.align='center', fig.cap=''}
