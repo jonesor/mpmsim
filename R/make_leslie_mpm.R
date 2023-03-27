@@ -1,4 +1,4 @@
-#' @title Create a Leslie matrix
+#' @title Create a Leslie matrix population model
 #' @description The function creates a Leslie matrix from inputs of number of
 #'   stages, fertility (the top row of the matrix), and survival probability
 #'   (the value in the sub-diagonal).
@@ -12,7 +12,7 @@
 #' @param n_stages a numeric value representing the number of stages in the
 #'   matrix
 #' @param split a logical argument indicating whether the output matrix should
-#'   be split into separate U and F matrices.
+#'   be split into separate A, U and F matrices (where A = U + F).
 #' @return A matrix of size n_stages x n_stages representing the Leslie matrix
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @seealso
@@ -30,24 +30,24 @@
 #'
 #' @export
 #' @examples
-#' make_leslie_matrix(
+#' make_leslie_mpm(
 #'   survival = 0.5, fertility = c(0.1, 0.2, 0.3),
 #'   n_stages = 3, split = FALSE
 #' )
-#' make_leslie_matrix(
+#' make_leslie_mpm(
 #'   survival = c(0.5, 0.6, 0.7), fertility = c(0.1, 0.2, 0.3),
 #'   n_stages = 3
 #' )
-#' make_leslie_matrix(
+#' make_leslie_mpm(
 #'   survival = seq(0.1, 0.7, length.out = 4), fertility = 0.1,
 #'   n_stages = 4
 #' )
-#' make_leslie_matrix(
+#' make_leslie_mpm(
 #'   survival = c(0.8, 0.3, 0.2, 0.1, 0.05), fertility = 0.2,
 #'   n_stages = 5
 #' )
 #'
-make_leslie_matrix <- function(survival, fertility, n_stages, split = FALSE) {
+make_leslie_mpm <- function(survival, fertility, n_stages, split = FALSE) {
   # Validate input
   if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
     .Machine$double.eps^0.5 || n_stages <= 1) {
@@ -96,7 +96,7 @@ make_leslie_matrix <- function(survival, fertility, n_stages, split = FALSE) {
   mat_U[sub_diagonal_elements] <- survival
 
   if (split) {
-    mat_A_split <- list(mat_U = mat_U, mat_F = mat_F)
+    mat_A_split <- list(matA = mat_U + mat_F, mat_U = mat_U, mat_F = mat_F)
     return(mat_A_split)
   } else {
     mat_A <- mat_F + mat_U
