@@ -36,26 +36,26 @@ cumulative_auc <- function(x, y) {
 #' Utility function to calculate the age-specific survival probability from a
 #' survivorship curve
 #'
-#' @param Sx A numeric vector representing the survivorship curve.
+#' @param lx A numeric vector representing the survivorship curve.
 #' @return A numeric value representing the survival probability.
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' calculate_surv_prob(c(1, 0.8, 0.6, 0.4, 0.2, 0.1))
 #' @noRd
-calculate_surv_prob <- function(Sx) {
-  if (max(diff(Sx)) > 0) {
-    stop("The survivorship curve (Sx) cannot increase. Check your data.")
+calculate_surv_prob <- function(lx) {
+  if (max(diff(lx)) > 0) {
+    stop("The survivorship curve (lx) cannot increase. Check your data.")
   }
-  if (!inherits(Sx, "numeric")) {
-    stop("Sx must be numeric")
+  if (!inherits(lx, "numeric")) {
+    stop("lx must be numeric")
   }
-  if (length(Sx) < 2) {
-    stop("Sx must be a vector of length 2+")
+  if (length(lx) < 2) {
+    stop("lx must be a vector of length 2+")
   }
 
-  Sx_1 <- Sx[1:(length(Sx) - 1)]
-  Sx_2 <- Sx[2:length(Sx)]
-  return(c(Sx_2 / Sx_1, NA))
+  lx_1 <- lx[1:(length(lx) - 1)]
+  lx_2 <- lx[2:length(lx)]
+  return(c(lx_2 / lx_1, NA))
 }
 
 
@@ -72,15 +72,15 @@ calculate_surv_prob <- function(Sx) {
 #'   `Siler`.
 #' @param truncate a value defining how the life table output should be
 #'   truncated. The default is `0.01`, indicating that the life table is
-#'   truncated so that survivorship, `Sx`, > 0.01 (i.e. the age at which 1% of
+#'   truncated so that survivorship, `lx`, > 0.01 (i.e. the age at which 1% of
 #'   the cohort remains alive).
-#' @return A data frame with columns for time (`x`), hazard (`hx`), cumulative
-#'   hazard (`Hx`), survivorship (`Sx`) and mortality (`qx`) and survival
-#'   probability within interval (`gx`).
+#' @return A data frame with columns for age (`x`), hazard (`hx`),
+#'   survivorship (`lx`) and mortality (`qx`) and survival probability within
+#'   interval (`px`).
 #' @details The required parameters varies depending on the mortality model. The
-#'   parameters are provided as a vector. For Gompertz, the parameters are b0,
-#'   b1. For Gompertz-Makeham the parameters are b0, b1 and C. For Exponential,
-#'   the parameter is C. For Siler, the parameters are a0, a1, C, b0 and b1.
+#'   parameters are provided as a vector. For `Gompertz`, the parameters are `b0`,
+#'   `b1.` For `GompertzMakeham` the parameters are `b0`, `b1` and `C`. For `Exponential`,
+#'   the parameter is `C`. For `Siler`, the parameters are `a0`, `a1`, `C`, `b0` and `b1.`
 #'   Note that the parameters must be provided in the order mentioned here.
 #'
 #'   * Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
@@ -88,7 +88,7 @@ calculate_surv_prob <- function(Sx) {
 #'   * Exponential: \eqn{h_x = c}
 #'   * Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
 #'
-#'   In the output, the probability of survival (`gx`) (and death (`qx`))
+#'   In the output, the probability of survival (`px`) (and death (`qx`))
 #'   represent the probability of individuals that enter the age interval
 #'   \eqn{[x,x+1]} survive until the end of the interval (or die before the end of
 #'   the interval). It is not possible to estimate a value for this in the final
@@ -117,13 +117,13 @@ calculate_surv_prob <- function(Sx) {
 #' model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 #'
 #' model_survival(
-#'   params = c(b_0 = 0.1, b_1 = 0.2, c = 0.1), model = "GompertzMakeham",
+#'   params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1), model = "GompertzMakeham",
 #'   truncate = 0.1
 #' )
 #'
 #' model_survival(0:10, c(c = 0.2), "Exponential")
 #'
-#' model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, c = 0.1, b_0 = 0.1, b_1 = 0.2), "Siler")
+#' model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2), "Siler")
 #' @seealso [model_fertility()] to model age-specific fertility using various functions.
 #' @export
 model_survival <- function(x = NULL, params, model, truncate = 0.01) {
@@ -203,14 +203,14 @@ model_survival <- function(x = NULL, params, model, truncate = 0.01) {
   # Cumulative hazard (Hx)
   Hx <- cumulative_auc(x = x, y = hx)
 
-  # Survivorship (Sx)
-  Sx <- exp(-Hx)
+  # Survivorship (lx)
+  lx <- exp(-Hx)
 
   # Survival probability within interval x[n], x[n+1]
-  gx <- calculate_surv_prob(Sx)
-  qx <- 1 - gx
+  px <- calculate_surv_prob(lx)
+  qx <- 1 - px
 
-  temp_df <- data.frame(x, hx, Hx, Sx, qx, gx)
-  out <- subset(temp_df, Sx >= truncate)
+  temp_df <- data.frame(x, hx, lx, qx, px)
+  out <- subset(temp_df, lx >= truncate)
   return(out)
 }

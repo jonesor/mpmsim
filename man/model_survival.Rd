@@ -21,22 +21,22 @@ model.}
 
 \item{truncate}{a value defining how the life table output should be
 truncated. The default is \code{0.01}, indicating that the life table is
-truncated so that survivorship, \code{Sx}, > 0.01 (i.e. the age at which 1\% of
+truncated so that survivorship, \code{lx}, > 0.01 (i.e. the age at which 1\% of
 the cohort remains alive).}
 }
 \value{
-A data frame with columns for time (\code{x}), hazard (\code{hx}), cumulative
-hazard (\code{Hx}), survivorship (\code{Sx}) and mortality (\code{qx}) and survival
-probability within interval (\code{gx}).
+A data frame with columns for age (\code{x}), hazard (\code{hx}),
+survivorship (\code{lx}) and mortality (\code{qx}) and survival probability within
+interval (\code{px}).
 }
 \description{
 Model survival data using a mortality model
 }
 \details{
 The required parameters varies depending on the mortality model. The
-parameters are provided as a vector. For Gompertz, the parameters are b0,
-b1. For Gompertz-Makeham the parameters are b0, b1 and C. For Exponential,
-the parameter is C. For Siler, the parameters are a0, a1, C, b0 and b1.
+parameters are provided as a vector. For \code{Gompertz}, the parameters are \code{b0},
+\code{b1.} For \code{GompertzMakeham} the parameters are \code{b0}, \code{b1} and \code{C}. For \code{Exponential},
+the parameter is \code{C}. For \code{Siler}, the parameters are \code{a0}, \code{a1}, \code{C}, \code{b0} and \code{b1.}
 Note that the parameters must be provided in the order mentioned here.
 \itemize{
 \item Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
@@ -45,7 +45,7 @@ Note that the parameters must be provided in the order mentioned here.
 \item Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
 }
 
-In the output, the probability of survival (\code{gx}) (and death (\code{qx}))
+In the output, the probability of survival (\code{px}) (and death (\code{qx}))
 represent the probability of individuals that enter the age interval
 \eqn{[x,x+1]} survive until the end of the interval (or die before the end of
 the interval). It is not possible to estimate a value for this in the final
@@ -56,13 +56,13 @@ input values of \code{x} may need to be extended to capture this final interval.
 model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 
 model_survival(
-  params = c(b_0 = 0.1, b_1 = 0.2, c = 0.1), model = "GompertzMakeham",
+  params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1), model = "GompertzMakeham",
   truncate = 0.1
 )
 
 model_survival(0:10, c(c = 0.2), "Exponential")
 
-model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, c = 0.1, b_0 = 0.1, b_1 = 0.2), "Siler")
+model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2), "Siler")
 }
 \references{
 Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,
