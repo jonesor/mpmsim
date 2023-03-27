@@ -4,6 +4,21 @@
     <loc>https://jonesor.github.io/mpmsim/404.html</loc>
   </url>
   <url>
+    <loc>https://jonesor.github.io/mpmsim/articles/age_from_stage.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/articles/error_propagation.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/articles/pca.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/articles/sampling_error.html</loc>
+  </url>
+  <url>
     <loc>https://jonesor.github.io/mpmsim/authors.html</loc>
   </url>
   <url>
@@ -13,6 +28,12 @@
     <loc>https://jonesor.github.io/mpmsim/news/index.html</loc>
   </url>
   <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/calculate_errors.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/compute_ci.html</loc>
+  </url>
+  <url>
     <loc>https://jonesor.github.io/mpmsim/reference/generate_mpm_set.html</loc>
   </url>
   <url>
@@ -20,6 +41,9 @@
   </url>
   <url>
     <loc>https://jonesor.github.io/mpmsim/reference/make_leslie_matrix.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/make_leslie_mpm.html</loc>
   </url>
   <url>
     <loc>https://jonesor.github.io/mpmsim/reference/model_fertility.html</loc>
