@@ -13,7 +13,8 @@ generate_mpm_set(
   archetype = 1,
   fecundity = 1.5,
   split = TRUE,
-  by_type = TRUE
+  by_type = TRUE,
+  max_surv = 0.99
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ generate_mpm_set(
 TRUE.}
 
 \item{by_type}{A logical indicating whether the matrices should be returned in a list}
+
+\item{max_surv}{The maximum acceptable survival value. Defaults to 0.99.}
 }
 \value{
 A list of MPMs that meet the specified criteria.

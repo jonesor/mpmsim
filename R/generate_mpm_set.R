@@ -18,6 +18,7 @@
 #' @param split A logical indicating whether to split into submatrices. Default is
 #'   TRUE.
 #' @param by_type A logical indicating whether the matrices should be returned in a list
+#' @param max_surv The maximum acceptable survival value. Defaults to 0.99.
 #' @return A list of MPMs that meet the specified criteria.
 #'
 #' @importFrom popdemo eigs
@@ -33,7 +34,7 @@
 
 generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
                              n_stages = 3, archetype = 1, fecundity = 1.5,
-                             split = TRUE, by_type = TRUE) {
+                             split = TRUE, by_type = TRUE, max_surv = 0.99) {
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
     stop("n must be a positive integer")
@@ -76,7 +77,9 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     lambda_value_accepted <- lambda_value < upper_lambda &
       lambda_value > lower_lambda
 
-    if (lambda_value_accepted) {
+    survival_value_accepted <- max(colSums(mpm_out$mat_U)) < max_surv
+
+    if (lambda_value_accepted && survival_value_accepted) {
       # if the lambda is acceptable, add the matrix to the output_list
       # (otherwise do nothing)
 
@@ -92,6 +95,10 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
       i <- i + 1
       # set attempts back to 0
       attempt <- 0
+
+      #check survival values are acceptable.
+
+
     }
     attempt <- attempt + 1
     if (attempt > 1000) {
