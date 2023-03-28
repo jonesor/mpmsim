@@ -82,7 +82,8 @@ a suitable matrix model, then an error is produced.</p>
 <span>  archetype <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  fecundity <span class="op">=</span> <span class="fl">1.5</span>,</span>
 <span>  split <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  by_type <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  by_type <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  max_surv <span class="op">=</span> <span class="fl">0.99</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -122,6 +123,10 @@ TRUE.</p></dd>
 <dt>by_type</dt>
 <dd><p>A logical indicating whether the matrices should be returned in a list</p></dd>
 
+
+<dt>max_surv</dt>
+<dd><p>The maximum acceptable survival value. Defaults to 0.99.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -146,172 +151,172 @@ TRUE.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.08406612 0.00000000 4.0000000 5.0000000 8.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.20669133 0.03561627 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.38767493 0.1315684 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.3034208 0.2817810 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.2642514 0.8791604</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]      [,2]       [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.202340746 0.0000000 5.00000000 4.0000000 5.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.003716639 0.1123783 0.00000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.000000000 0.3497316 0.49105790 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.000000000 0.0000000 0.05471826 0.2963376 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.000000000 0.0000000 0.00000000 0.3985038 0.9459818</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]       [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.24630397 0.00000000 5.0000000 7.00000000 8.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.09343289 0.46081310 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.05060626 0.2497827 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.4191242 0.70598635 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.09712258 0.8357981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.19683756 0.0000000 1.0000000 6.0000000 5.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.03537017 0.1636587 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.1667347 0.5455549 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.1984403 0.2269822 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.6357139 0.9591515</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]       [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.29308962 0.0000000 4.00000000 4.0000000 5.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.01673647 0.4578758 0.00000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.3125445 0.88656542 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.04704555 0.3063487 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.00000000 0.6555767 0.9949944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.09493135 0.00000000 6.0000000 7.0000000 6.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.18631523 0.53394191 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.03167485 0.0979098 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.5496196 0.6419382 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.2728588 0.9401529</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1844297 0.00000000 4.0000000 9.0000000 15.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2211504 0.49760271 0.0000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.02283487 0.5030562 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.1824151 0.5326546  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.0000000 0.4623351  0.9977389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]       [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2078810 0.00000000 6.0000000 7.00000000 10.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1279678 0.53292405 0.0000000 0.00000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.04986383 0.3512287 0.00000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.2942105 0.08954527  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.0000000 0.64764664  0.8010677</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[5]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3356919 0.0000000 9.0000000 6.0000000 11.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0378977 0.3824298 0.0000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.1764402 0.4949150 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.1767051 0.0505027  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.8449470  0.9240002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]       [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04187711 0.00000000 1.0000000 8.00000000 7.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.15289423 0.29615298 0.0000000 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.09506744 0.1382293 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.4009224 0.68254424 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.05680463 0.9409587</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[6]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2810448 0.0000000 1.00000000 4.0000000 14.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1014773 0.3400761 0.00000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.1426181 0.66658369 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.04509492 0.4043196  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.00000000 0.3509684  0.7998701</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]       [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.038311777 0.00000000 6.0000000 7.0000000 7.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.002951738 0.07814344 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.000000000 0.25059722 0.5534203 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.000000000 0.00000000 0.1692322 0.5413409 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.000000000 0.00000000 0.0000000 0.3990726 0.9427458</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[7]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.12755407 0.0000000 3.0000000 8.0000000 5.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.02036622 0.1692137 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.4152229 0.4614509 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.1538901 0.4406283 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.1879739 0.9047152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.24568920 0.00000000 3.0000000 9.0000000 9.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.03772062 0.01564645 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.34489008 0.2061581 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.6405615 0.3473121 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.5806056 0.9384691</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[8]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]        [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.4775918 0.00000000 3.0000000 11.00000000 9.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1203152 0.65802893 0.0000000  0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.05756145 0.1954674  0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.5363555  0.06006875 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.0000000  0.86828675 0.9319601</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]       [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.01782931 0.00000000 3.00000000 8.00000000 9.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.34368416 0.31908514 0.00000000 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.04579386 0.54406118 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.03650706 0.57869640 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.00000000 0.03839084 0.9413531</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[9]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04554726 0.00000000 0.00000000 6.0000000 19.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.10676814 0.26211611 0.00000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.03230526 0.04381474 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.69626041 0.6909822  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.00000000 0.1485400  0.9998232</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.09010613 0.00000000 3.0000000 9.0000000 7.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.15872477 0.25040543 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.09891494 0.1447889 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.2818452 0.4577810 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.2468258 0.9817911</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[10]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.01909707 0.00000000 5.0000000 8.0000000 7.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.47079984 0.51377946 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.03859988 0.5554581 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.2861327 0.7347313 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.1570935 0.8936522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]         [,2]     [,3]       [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.02947349 0.0000000000 4.000000 11.0000000 9.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.17368081 0.2432731341 0.000000  0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.0008570823 0.217286  0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000000 0.200349  0.3360345 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000000 0.000000  0.6067448 0.9689789</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.08406612 0.00000000 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.20669133 0.03561627 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.38767493 0.1315684 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.3034208 0.2817810 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.2642514 0.8791604</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]      [,2]       [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.202340746 0.0000000 0.00000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.003716639 0.1123783 0.00000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.000000000 0.3497316 0.49105790 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.000000000 0.0000000 0.05471826 0.2963376 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.000000000 0.0000000 0.00000000 0.3985038 0.9459818</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]       [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.24630397 0.00000000 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.09343289 0.46081310 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.05060626 0.2497827 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.4191242 0.70598635 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.09712258 0.8357981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.19683756 0.0000000 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.03537017 0.1636587 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.1667347 0.5455549 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.1984403 0.2269822 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.6357139 0.9591515</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]       [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.29308962 0.0000000 0.00000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.01673647 0.4578758 0.00000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.3125445 0.88656542 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.04704555 0.3063487 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.00000000 0.6555767 0.9949944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.09493135 0.00000000 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.18631523 0.53394191 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.03167485 0.0979098 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.5496196 0.6419382 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.2728588 0.9401529</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1844297 0.00000000 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2211504 0.49760271 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.02283487 0.5030562 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.1824151 0.5326546 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.0000000 0.4623351 0.9977389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]       [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2078810 0.00000000 0.0000000 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1279678 0.53292405 0.0000000 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.04986383 0.3512287 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.2942105 0.08954527 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.0000000 0.64764664 0.8010677</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[5]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3356919 0.0000000 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0378977 0.3824298 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.1764402 0.4949150 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.1767051 0.0505027 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.8449470 0.9240002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]       [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04187711 0.00000000 0.0000000 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.15289423 0.29615298 0.0000000 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.09506744 0.1382293 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.4009224 0.68254424 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.05680463 0.9409587</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[6]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2810448 0.0000000 0.00000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1014773 0.3400761 0.00000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.1426181 0.66658369 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.04509492 0.4043196 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.00000000 0.3509684 0.7998701</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]       [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.038311777 0.00000000 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.002951738 0.07814344 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.000000000 0.25059722 0.5534203 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.000000000 0.00000000 0.1692322 0.5413409 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.000000000 0.00000000 0.0000000 0.3990726 0.9427458</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[7]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.12755407 0.0000000 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.02036622 0.1692137 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.4152229 0.4614509 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.1538901 0.4406283 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.1879739 0.9047152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.24568920 0.00000000 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.03772062 0.01564645 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.34489008 0.2061581 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.6405615 0.3473121 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.5806056 0.9384691</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[8]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]       [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.4775918 0.00000000 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1203152 0.65802893 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.05756145 0.1954674 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.5363555 0.06006875 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.0000000 0.86828675 0.9319601</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]       [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.01782931 0.00000000 0.00000000 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.34368416 0.31908514 0.00000000 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.04579386 0.54406118 0.00000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.03650706 0.57869640 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.00000000 0.03839084 0.9413531</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[9]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04554726 0.00000000 0.00000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.10676814 0.26211611 0.00000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.03230526 0.04381474 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.69626041 0.6909822 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.00000000 0.1485400 0.9998232</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.09010613 0.00000000 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.15872477 0.25040543 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.09891494 0.1447889 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.2818452 0.4577810 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.2468258 0.9817911</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $U_list[[10]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.01909707 0.00000000 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.47079984 0.51377946 0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.03859988 0.5554581 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.2861327 0.7347313 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.1570935 0.8936522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]         [,2]     [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.02947349 0.0000000000 0.000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.17368081 0.2432731341 0.000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.0008570823 0.217286 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000000 0.200349 0.3360345 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000000 0.000000 0.6067448 0.9689789</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    4    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    5    4    5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -319,7 +324,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    5    7    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    1    6    5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -327,7 +332,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[3]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    4    4    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    6    7    6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -335,7 +340,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[4]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    4    9   15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    6    7   10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -343,7 +348,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[5]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    9    6   11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    1    8    7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -351,7 +356,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[6]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    1    4   14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    6    7    7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -359,7 +364,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[7]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    3    8    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    3    9    9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -367,7 +372,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[8]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    3   11    9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    3    8    9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -375,7 +380,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[9]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    0    6   19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    3    9    7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
@@ -383,7 +388,7 @@ TRUE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F_list[[10]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    5    8    7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    4   11    9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
