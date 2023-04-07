@@ -96,7 +96,7 @@ calculate_surv_prob <- function(lx) {
 #'   input values of `x` may need to be extended to capture this final interval.
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
-#'
+#' @family trajectories
 #' @references
 #' Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,
 #' London, UK.
