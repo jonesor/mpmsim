@@ -37,6 +37,7 @@
 #'   is a numeric vector of the estimated measures.
 #' @references Chapter 12 in Caswell, H. (2001). Matrix Population Models.
 #'   Sinauer Associates Incorporated.
+#' @family error propagation
 #'
 #' @examples
 #' # Data for use in example
