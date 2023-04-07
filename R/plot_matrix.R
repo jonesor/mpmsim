@@ -14,6 +14,7 @@
 #' @importFrom reshape melt
 #' @importFrom dplyr mutate
 #' @author Owen Jones <jones@biology.sdu.dk>
+#' @family utility
 #' @examples
 #' matDim <- 10
 #' A1 <- make_leslie_mpm(
