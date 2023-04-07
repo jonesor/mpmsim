@@ -1,3 +1,29 @@
 url: https://jonesor.github.io/mpmsim/
 template:
   bootstrap: 5
+reference:
+  - title: "Simulation of Lefkovitch MPMs"
+    desc: "Functions for simulating Lefkovitch matrix models."
+    contents:
+      - has_concept("simulation")
+  - title: "Simulation of Leslie MPMs"
+    desc: "Functions for simulating Leslie matrix models."
+    contents:
+      - has_concept("Leslie matrices")
+  - title: "Model demographic trajectories"
+    desc: "Functions for modelling demographic trajectories."
+    contents:
+      - has_concept("trajectories")
+  - title: "Understanding error"
+    desc: "Functions for calculating and propagating error."
+    contents:
+      - has_concept("errors")
+  - title: "Utilities"
+    desc: "Utility functions."
+    contents:
+      - has_concept("utility")
+  - title: "All functions"
+    desc: "All functions listed alphabetically."
+    contents:
+      - starts_with("[a-zA-Z]")
+
