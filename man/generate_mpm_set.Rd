@@ -14,7 +14,9 @@ generate_mpm_set(
   fecundity = 1.5,
   split = TRUE,
   by_type = TRUE,
-  max_surv = 0.99
+  max_surv = 0.99,
+  constraint = NULL,
+  attempts = 1000
 )
 }
 \arguments{
@@ -41,6 +43,17 @@ also be \code{FALSE}.}
 
 \item{max_surv}{The maximum acceptable survival value. Defaults to 0.99. This
 is only used if \code{split = TRUE}.}
+
+\item{constraint}{An optional list specifying (1) a function that outputs a metric
+derived from an A matrix and (2) acceptable bounds that are used to
+constrain matrix outputs. E.g. \code{list("generation.time", c(5,10))} to
+specify that \code{generate_mpm_set} should only output MPMs with a generation
+time between 5 and 10. Default is \code{NULL}.}
+
+\item{attempts}{an integer indicating the number of attempts To be made when
+simulating matrix model. The default is 1000. If it takes more than 1000
+attempts to make a matrix that satisfies the conditions set by the other
+arguments, then a warning is produced.}
 }
 \value{
 A list of MPMs that meet the specified criteria.
@@ -56,6 +69,13 @@ a suitable matrix model, then an error is produced.
 generate_mpm_set(
   n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+)
+
+library(popbio)
+generate_mpm_set(
+  n = 1, lower_lambda = 0.9, upper_lambda = 1.1,
+  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE,
+  constraint = list("generation.time", c(40, 50))
 )
 
 }
