@@ -57,7 +57,7 @@
 #'   determined by the archetype selected and fecundity vector. If split = TRUE,
 #'   the matrix is split into separate fertility and a growth/survival matrices,
 #'   returned as a list.
-#'
+#' @family simulation
 #' @author Owen Jones <jones@biology.sdu.dk>
 #'
 #' @importFrom MCMCpack rdirichlet
