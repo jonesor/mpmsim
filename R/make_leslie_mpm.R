@@ -15,6 +15,7 @@
 #'   be split into separate A, U and F matrices (where A = U + F).
 #' @return A matrix of size n_stages x n_stages representing the Leslie matrix
 #' @author Owen Jones <jones@biology.sdu.dk>
+#' @family Leslie matrices
 #' @seealso
 #' * [model_survival()] to model age-specific survival using mortality models.
 #' * [model_fertility()] to model age-specific fertility using various functions.
