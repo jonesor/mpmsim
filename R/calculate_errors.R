@@ -28,7 +28,7 @@
 #' @return A list containing the original matrices and the error estimates (or
 #'   upper and lower confidence intervals) for the U, F and (optionally) A
 #'   matrices.
-#'
+#' @family utility
 #' @examples
 #'
 #' matU <- matrix(c(
