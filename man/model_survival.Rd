@@ -82,7 +82,11 @@ individual frailty on the dynamics of mortality. Demography, 16, 439–454.
 }
 \seealso{
 \code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various functions.
+
+Other trajectories: 
+\code{\link{model_fertility}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
+\concept{trajectories}

@@ -35,9 +35,12 @@ generate_mpm_set(
 \item{split}{A logical indicating whether to split into submatrices. Default is
 TRUE.}
 
-\item{by_type}{A logical indicating whether the matrices should be returned in a list}
+\item{by_type}{A logical indicating whether the matrices should be returned
+in a list by type (A, U, F, C). If split is \code{FALSE}, then \code{by_type} must
+also be \code{FALSE}.}
 
-\item{max_surv}{The maximum acceptable survival value. Defaults to 0.99.}
+\item{max_surv}{The maximum acceptable survival value. Defaults to 0.99. This
+is only used if \code{split = TRUE}.}
 }
 \value{
 A list of MPMs that meet the specified criteria.
@@ -58,7 +61,12 @@ generate_mpm_set(
 }
 \seealso{
 \code{\link[=random_mpm]{random_mpm()}} which this function is essentially a wrapper for.
+
+Other simulation: 
+\code{\link{random_mpm}()},
+\code{\link{simulate_mpm}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
+\concept{simulation}

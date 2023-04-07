@@ -72,6 +72,12 @@ simulate_mpm(
 )
 
 }
+\seealso{
+Other simulation: 
+\code{\link{generate_mpm_set}()},
+\code{\link{random_mpm}()}
+}
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
+\concept{simulation}

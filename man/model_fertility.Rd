@@ -76,7 +76,6 @@ model = "normal")
 model_fertility(age = 0:50, params = c(a = 0.91, b = 3.85, c = 29.78),
 maturity = 0, model = "hadwiger")
 
-
 }
 \references{
 Bertalanffy, L. von (1938) A quantitative theory of organic growth (inquiries
@@ -87,7 +86,11 @@ Demographic Research. 16. Article 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
 }
 \seealso{
 \code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality models.
+
+Other trajectories: 
+\code{\link{model_survival}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
+\concept{trajectories}
