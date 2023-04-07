@@ -22,6 +22,15 @@
 #'   also be `FALSE`.
 #' @param max_surv The maximum acceptable survival value. Defaults to 0.99. This
 #'   is only used if `split = TRUE`.
+#' @param constraint An optional list specifying (1) a function that outputs a metric
+#'   derived from an A matrix and (2) acceptable bounds that are used to
+#'   constrain matrix outputs. E.g. `list("generation.time", c(5,10))` to
+#'   specify that `generate_mpm_set` should only output MPMs with a generation
+#'   time between 5 and 10. Default is `NULL`.
+#' @param attempts an integer indicating the number of attempts To be made when
+#'   simulating matrix model. The default is 1000. If it takes more than 1000
+#'   attempts to make a matrix that satisfies the conditions set by the other
+#'   arguments, then a warning is produced.
 #' @return A list of MPMs that meet the specified criteria.
 #'
 #' @importFrom popdemo eigs
@@ -32,13 +41,21 @@
 #'   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
 #' )
 #'
+#' library(popbio)
+#' generate_mpm_set(
+#'   n = 1, lower_lambda = 0.9, upper_lambda = 1.1,
+#'   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE,
+#'   constraint = list("generation.time", c(40, 50))
+#' )
+#'
 #' @seealso [random_mpm()] which this function is essentially a wrapper for.
 #' @family simulation
 #' @export generate_mpm_set
 
 generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
                              n_stages = 3, archetype = 1, fecundity = 1.5,
-                             split = TRUE, by_type = TRUE, max_surv = 0.99) {
+                             split = TRUE, by_type = TRUE, max_surv = 0.99,
+                             constraint = NULL, attempts = 1000) {
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
     stop("n must be a positive integer")
@@ -83,13 +100,38 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     # Check whether lambda value is acceptable
     lambda_value_accepted <- lambda_value < upper_lambda &
       lambda_value > lower_lambda
+
+    # Check whether survival values are acceptable
     if (split == TRUE) {
       survival_value_accepted <- max(colSums(mpm_out$mat_U)) < max_surv
     } else {
       survival_value_accepted <- TRUE
     }
 
-    if (lambda_value_accepted && survival_value_accepted) {
+    # CHeck whehter optional function output is acceptavle
+
+    if (is.null(constraint)) {
+      fun_output_accepted <- TRUE
+    }
+
+    if (!is.null(constraint)) {
+      # Apply function to the A matrix
+      FUN <- match.fun(constraint[[1]])
+
+      if (split == TRUE) {
+        fun_output <- FUN(mpm_out$mat_U + mpm_out$mat_F)
+      } else {
+        fun_output <- FUN(mpm_out)
+      }
+      # Check the output is within the given bounds
+      lower_bound <- constraint[[2]][1]
+      upper_bound <- constraint[[2]][2]
+
+      fun_output_accepted <- fun_output < upper_bound &
+        fun_output > lower_bound
+    }
+
+    if (lambda_value_accepted && survival_value_accepted && fun_output_accepted) {
       # if the lambda is acceptable, add the matrix to the output_list
       # (otherwise do nothing)
 
@@ -109,7 +151,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
       # check survival values are acceptable.
     }
     attempt <- attempt + 1
-    if (attempt > 1000) {
+    if (attempt > attempts) {
       stop("It is taking a long time to find an acceptable matrix.\n
            Consider changing your criteria.")
     }
