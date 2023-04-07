@@ -90,7 +90,11 @@ hist(xx$estimates)
 Chapter 12 in Caswell, H. (2001). Matrix Population Models.
 Sinauer Associates Incorporated.
 }
+\seealso{
+Other errors: 
+\code{\link{simulate_mpm}()}
+}
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
-\concept{error propagation}
+\concept{errors}

@@ -2,8 +2,8 @@
 % Please edit documentation in R/generate_mpm_set.R
 \name{generate_mpm_set}
 \alias{generate_mpm_set}
-\title{Generate lists of matrix population models (MPMs) based on life history
-archetypes}
+\title{Generate lists of Lefkovitch matrix population models (MPMs) based on life
+history archetypes}
 \usage{
 generate_mpm_set(
   n = 10,
@@ -63,8 +63,7 @@ generate_mpm_set(
 \code{\link[=random_mpm]{random_mpm()}} which this function is essentially a wrapper for.
 
 Other simulation: 
-\code{\link{random_mpm}()},
-\code{\link{simulate_mpm}()}
+\code{\link{random_mpm}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

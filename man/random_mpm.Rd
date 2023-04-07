@@ -2,8 +2,8 @@
 % Please edit documentation in R/random_mpm.R
 \name{random_mpm}
 \alias{random_mpm}
-\title{Generate random matrix population models (MPMs) based on life history
-archetypes}
+\title{Generate random Lefkovitch matrix population models (MPMs) based on life
+history archetypes}
 \usage{
 random_mpm(n_stages, fecundity, archetype = 1, split = FALSE)
 }
@@ -87,8 +87,7 @@ matrices. Population Ecology, 60(1), 37–47.
 the generation of large numbers of random matrices of this type.
 
 Other simulation: 
-\code{\link{generate_mpm_set}()},
-\code{\link{simulate_mpm}()}
+\code{\link{generate_mpm_set}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

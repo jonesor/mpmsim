@@ -2,8 +2,8 @@
 % Please edit documentation in R/simulate_mpm.R
 \name{simulate_mpm}
 \alias{simulate_mpm}
-\title{Simulate a matrix population model (MPM) based on expected values of
-transition rates and sample sizes}
+\title{Simulate a matrix population model (MPM) with sampling error based on
+expected values of transition rates and sample sizes}
 \usage{
 simulate_mpm(mat_U, mat_F, sample_size, split = TRUE)
 }
@@ -73,11 +73,10 @@ simulate_mpm(
 
 }
 \seealso{
-Other simulation: 
-\code{\link{generate_mpm_set}()},
-\code{\link{random_mpm}()}
+Other errors: 
+\code{\link{compute_ci}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
-\concept{simulation}
+\concept{errors}
