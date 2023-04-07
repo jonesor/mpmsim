@@ -17,8 +17,11 @@
 #' @param fecundity A vector of fecundities for the MPMs. Default is 1.5.
 #' @param split A logical indicating whether to split into submatrices. Default is
 #'   TRUE.
-#' @param by_type A logical indicating whether the matrices should be returned in a list
-#' @param max_surv The maximum acceptable survival value. Defaults to 0.99.
+#' @param by_type A logical indicating whether the matrices should be returned
+#'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must
+#'   also be `FALSE`.
+#' @param max_surv The maximum acceptable survival value. Defaults to 0.99. This
+#'   is only used if `split = TRUE`.
 #' @return A list of MPMs that meet the specified criteria.
 #'
 #' @importFrom popdemo eigs
@@ -30,6 +33,7 @@
 #' )
 #'
 #' @seealso [random_mpm()] which this function is essentially a wrapper for.
+#' @family simulation
 #' @export generate_mpm_set
 
 generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
@@ -55,6 +59,9 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     stop("upper_lambda must greater than lower_lambda")
   }
 
+  if (split == FALSE && by_type == TRUE) {
+    stop("If split is FALSE, then by_type must also be FALSE")
+  }
   # Set up empty list of desired length
   output_list <- vector("list", n)
 
@@ -76,8 +83,11 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     # Check whether lambda value is acceptable
     lambda_value_accepted <- lambda_value < upper_lambda &
       lambda_value > lower_lambda
-
-    survival_value_accepted <- max(colSums(mpm_out$mat_U)) < max_surv
+    if (split == TRUE) {
+      survival_value_accepted <- max(colSums(mpm_out$mat_U)) < max_surv
+    } else {
+      survival_value_accepted <- TRUE
+    }
 
     if (lambda_value_accepted && survival_value_accepted) {
       # if the lambda is acceptable, add the matrix to the output_list
@@ -96,9 +106,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
       # set attempts back to 0
       attempt <- 0
 
-      #check survival values are acceptable.
-
-
+      # check survival values are acceptable.
     }
     attempt <- attempt + 1
     if (attempt > 1000) {
@@ -106,6 +114,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
            Consider changing your criteria.")
     }
   }
+
   if (by_type == TRUE) {
     A_list <- lapply(output_list, function(x) x$mat_A)
     U_list <- lapply(output_list, function(x) x$mat_U)
