@@ -1,5 +1,5 @@
-#' Generate lists of matrix population models (MPMs) based on life history
-#' archetypes
+#' Generate lists of Lefkovitch matrix population models (MPMs) based on life
+#' history archetypes
 #'
 #' This function generates a list of `n` MPMs according to the specified
 #' criteria. Criteria include the `archetype`, and the acceptable lambda values.
