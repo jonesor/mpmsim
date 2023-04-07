@@ -153,7 +153,7 @@ generate_mpm_set <- function(n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
     attempt <- attempt + 1
     if (attempt > attempts) {
       stop("It is taking a long time to find an acceptable matrix.\n
-           Consider changing your criteria.")
+           Consider changing your criteria, or increase `attempts` argument.")
     }
   }
 
