@@ -70,7 +70,7 @@
 #' model_fertility(age = 0:50, params = c(a = 0.91, b = 3.85, c = 29.78),
 #' maturity = 0, model = "hadwiger")
 #'
-#'
+#' @family trajectories
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @seealso [model_survival()] to model age-specific survival using mortality models.
 #' @export
