@@ -73,10 +73,11 @@ calculate_errors(mat_U = matU, mat_F = matF, sample_size = ssMats, type = "sem")
 \code{\link[=simulate_mpm]{simulate_mpm()}} which simulates matrices with known values and
 sample sizes.
 
-Other utility: 
-\code{\link{plot_matrix}()}
+Other errors: 
+\code{\link{compute_ci}()},
+\code{\link{simulate_mpm}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
-\concept{utility}
+\concept{errors}

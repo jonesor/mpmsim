@@ -34,10 +34,6 @@ plot_matrix(A1, zero_na = TRUE, na_colour = "black")
 plot_matrix(A1, zero_na = TRUE, na_colour = NA)
 
 }
-\seealso{
-Other utility: 
-\code{\link{calculate_errors}()}
-}
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }

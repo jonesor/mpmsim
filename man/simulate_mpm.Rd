@@ -74,6 +74,7 @@ simulate_mpm(
 }
 \seealso{
 Other errors: 
+\code{\link{calculate_errors}()},
 \code{\link{compute_ci}()}
 }
 \author{

@@ -92,6 +92,7 @@ Sinauer Associates Incorporated.
 }
 \seealso{
 Other errors: 
+\code{\link{calculate_errors}()},
 \code{\link{simulate_mpm}()}
 }
 \author{
