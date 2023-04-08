@@ -60,6 +60,8 @@ similar to archetype 2.
 In all 4 of these Archetypes, fecundity is placed as a single element on the
 top right of the matrix, if it is a single value. If it is a vector of length
 \code{n_stages} then the fertility vector spans the entire top row of the matrix.
+
+The function is constrained to only output ergodic matrices.
 }
 \examples{
 random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
