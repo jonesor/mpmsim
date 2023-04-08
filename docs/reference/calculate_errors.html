@@ -105,7 +105,8 @@ submatrices of the MPM or (3) a single value applied to the whole matrix</p></dd
 
 <dt>type</dt>
 <dd><p>A character string indicating the type of error to calculate.
-Must be one of "<code>sem</code>" (standard error), or "<code>CI95</code>" (95% confidence interval).</p></dd>
+Must be one of "<code>sem</code>" (standard error), or "<code>CI95</code>" (95% confidence
+interval).</p></dd>
 
 
 <dt>calculate_A</dt>
@@ -232,7 +233,10 @@ sample sizes.</p>
 <span class="r-in"><span><span class="co"># Sample size is a single matrix applied to both F and U matrices</span></span></span>
 <span class="r-in"><span><span class="va">ssMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">10</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">calculate_errors</span><span class="op">(</span>mat_U <span class="op">=</span> <span class="va">matU</span>, mat_F <span class="op">=</span> <span class="va">matF</span>, sample_size <span class="op">=</span> <span class="va">ssMat</span>, type <span class="op">=</span> <span class="st">"sem"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">calculate_errors</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  mat_U <span class="op">=</span> <span class="va">matU</span>, mat_F <span class="op">=</span> <span class="va">matF</span>, sample_size <span class="op">=</span> <span class="va">ssMat</span>, type <span class="op">=</span></span></span>
+<span class="r-in"><span>    <span class="st">"sem"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.1  0.0</span>
@@ -269,7 +273,10 @@ sample sizes.</p>
 <span class="r-in"><span>  <span class="st">"mat_F_ss"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">10</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"mat_U_ss"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">10</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">calculate_errors</span><span class="op">(</span>mat_U <span class="op">=</span> <span class="va">matU</span>, mat_F <span class="op">=</span> <span class="va">matF</span>, sample_size <span class="op">=</span> <span class="va">ssMats</span>, type <span class="op">=</span> <span class="st">"sem"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">calculate_errors</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  mat_U <span class="op">=</span> <span class="va">matU</span>, mat_F <span class="op">=</span> <span class="va">matF</span>, sample_size <span class="op">=</span> <span class="va">ssMats</span>, type <span class="op">=</span></span></span>
+<span class="r-in"><span>    <span class="st">"sem"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.1  0.0</span>

@@ -100,19 +100,21 @@ interval (<code>px</code>).</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The required parameters varies depending on the mortality model. The
-parameters are provided as a vector. For <code>Gompertz</code>, the parameters are <code>b0</code>,
-<code>b1.</code> For <code>GompertzMakeham</code> the parameters are <code>b0</code>, <code>b1</code> and <code>C</code>. For <code>Exponential</code>,
-the parameter is <code>C</code>. For <code>Siler</code>, the parameters are <code>a0</code>, <code>a1</code>, <code>C</code>, <code>b0</code> and <code>b1.</code>
-Note that the parameters must be provided in the order mentioned here.</p><ul><li><p>Gompertz: \(h_x = b_0 \mathrm{e}^{b_1  x}\)</p></li>
+parameters are provided as a vector. For <code>Gompertz</code>, the parameters are
+<code>b0</code>, <code>b1.</code> For <code>GompertzMakeham</code> the parameters are <code>b0</code>, <code>b1</code> and <code>C</code>.
+For <code>Exponential</code>, the parameter is <code>C</code>. For <code>Siler</code>, the parameters are
+<code>a0</code>, <code>a1</code>, <code>C</code>, <code>b0</code> and <code>b1.</code> Note that the parameters must be provided
+in the order mentioned here.</p><ul><li><p>Gompertz: \(h_x = b_0 \mathrm{e}^{b_1  x}\)</p></li>
 <li><p>Gompertz-Makeham: \(h_x = b_0 \mathrm{e}^{b_1  x} + c\)</p></li>
 <li><p>Exponential: \(h_x = c\)</p></li>
 <li><p>Siler: \(h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}\)</p></li>
 </ul><p>In the output, the probability of survival (<code>px</code>) (and death (<code>qx</code>))
 represent the probability of individuals that enter the age interval
-\([x,x+1]\) survive until the end of the interval (or die before the end of
-the interval). It is not possible to estimate a value for this in the final
-row of the life table (because there is no \(x+1\) value) and therefore the
-input values of <code>x</code> may need to be extended to capture this final interval.</p>
+\([x,x+1]\) survive until the end of the interval (or die before the end
+of the interval). It is not possible to estimate a value for this in the
+final row of the life table (because there is no \(x+1\) value) and
+therefore the input values of <code>x</code> may need to be extended to capture this
+final interval.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -129,7 +131,8 @@ individual frailty on the dynamics of mortality. Demography, 16, 439–454.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="model_fertility.html">model_fertility()</a></code> to model age-specific fertility using various functions.</p>
+    <div class="dont-index"><p><code><a href="model_fertility.html">model_fertility()</a></code> to model age-specific fertility using various
+functions.</p>
 <p>Other trajectories: 
 <code><a href="model_fertility.html">model_fertility</a>()</code></p></div>
     </div>
@@ -183,7 +186,8 @@ individual frailty on the dynamics of mortality. Demography, 16, 439–454.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  9 0.2 0.1652989 0.1812692 0.8187308</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 10 0.2 0.1353353        NA        NA</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">model_survival</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a_0 <span class="op">=</span> <span class="fl">0.1</span>, a_1 <span class="op">=</span> <span class="fl">0.2</span>, C <span class="op">=</span> <span class="fl">0.1</span>, b_0 <span class="op">=</span> <span class="fl">0.1</span>, b_1 <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>, <span class="st">"Siler"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">model_survival</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a_0 <span class="op">=</span> <span class="fl">0.1</span>, a_1 <span class="op">=</span> <span class="fl">0.2</span>, C <span class="op">=</span> <span class="fl">0.1</span>, b_0 <span class="op">=</span> <span class="fl">0.1</span>, b_1 <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="st">"Siler"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    x        hx         lx        qx        px</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  0 0.3000000 1.00000000 0.2606669 0.7393331</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1 0.3040134 0.73933313 0.2666366 0.7333634</span>
