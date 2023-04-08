@@ -7,8 +7,6 @@ history archetypes}
 \usage{
 generate_mpm_set(
   n = 10,
-  lower_lambda = 0.9,
-  upper_lambda = 1.1,
   n_stages = 3,
   archetype = 1,
   fecundity = 1.5,
@@ -21,12 +19,6 @@ generate_mpm_set(
 }
 \arguments{
 \item{n}{The number of MPMs to generate. Default is 10.}
-
-\item{lower_lambda}{The lower bound for acceptable lambda values. Default is
-0.9.}
-
-\item{upper_lambda}{The upper bound for acceptable lambda values. Default is
-1.1.}
 
 \item{n_stages}{The number of stages for the MPMs. Default is 3.}
 
@@ -44,11 +36,11 @@ also be \code{FALSE}.}
 \item{max_surv}{The maximum acceptable survival value. Defaults to 0.99. This
 is only used if \code{split = TRUE}.}
 
-\item{constraint}{An optional list specifying (1) a function that outputs a metric
-derived from an A matrix and (2) acceptable bounds that are used to
-constrain matrix outputs. E.g. \code{list("generation.time", c(5,10))} to
-specify that \code{generate_mpm_set} should only output MPMs with a generation
-time between 5 and 10. Default is \code{NULL}.}
+\item{constraint}{An optional data frame with 4 columns named \code{fun}, \code{arg},
+\code{lower} and \code{upper}. These columns specify (1) a function that outputs a
+metric derived from an A matrix and (2) an argument for the function (\code{NA},
+if no argument supplied) (3) the lower acceptable bound for the metric and
+(4) upper acceptable bound for the metric. This could be used to specify}
 
 \item{attempts}{an integer indicating the number of attempts To be made when
 simulating matrix model. The default is 1000. If it takes more than 1000
@@ -60,22 +52,52 @@ A list of MPMs that meet the specified criteria.
 }
 \description{
 This function generates a list of \code{n} MPMs according to the specified
-criteria. Criteria include the \code{archetype}, and the acceptable lambda values.
-The function attempts to find matrices that fulfill the lambda criteria,
-discarding unacceptable matrices. If it takes more than 1000 attempts to find
-a suitable matrix model, then an error is produced.
+criteria. Criteria include the \code{archetype}, and the acceptable constraining
+criteria, which could include lambda, generation time or any other metric
+derived from an A matrix.
+The function attempts to find matrices that fulfill the criteria, discarding
+unacceptable matrices. By default, if it takes more than 1000 attempts to
+find a suitable matrix model, then an error is produced. However, the number
+of attempts can be altered with the \code{attempts} parameter.
 }
 \examples{
+
+# Basic operation, without splitting matrices and with no constraints
 generate_mpm_set(
-  n = 10, lower_lambda = 0.9, upper_lambda = 1.1,
-  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE
+  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  archetype = 4, split = FALSE
 )
 
+# Constrain outputs to A matrices with lambda between 0.9 and 1.1
 library(popbio)
+constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 generate_mpm_set(
-  n = 1, lower_lambda = 0.9, upper_lambda = 1.1,
-  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4, split = TRUE,
-  constraint = list("generation.time", c(40, 50))
+  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  archetype = 4, constraint = constrain_df
+)
+
+# As above, but using popdemo::eigs function instead of popbio::lambda
+# to illustrate use of argument
+library(popdemo)
+constrain_df <- data.frame(fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1)
+generate_mpm_set(
+  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  archetype = 4, constraint = constrain_df
+)
+
+# Multiple constraints
+# Constrain outputs to A matrices with lambda between 0.9 and 1.1, generation
+# time between 3 and 5 and damping ratio between 1 and 7.
+library(popbio)
+constrain_df <- data.frame(
+  fun = c("lambda", "generation.time", "damping.ratio"),
+  arg = c(NA, NA, NA),
+  lower = c(0.9, 3.0, 1.0),
+  upper = c(1.1, 5.0, 7.0)
+)
+generate_mpm_set(
+  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  archetype = 4, constraint = constrain_df
 )
 
 }
