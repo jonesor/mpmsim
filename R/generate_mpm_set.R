@@ -14,8 +14,8 @@
 #' @param n_stages The number of stages for the MPMs. Default is 3.
 #' @param archetype The archetype of the MPMs. Default is 1.
 #' @param fecundity A vector of fecundities for the MPMs. Default is 1.5.
-#' @param split A logical indicating whether to split into submatrices. Default is
-#'   TRUE.
+#' @param split A logical indicating whether to split into submatrices. Default
+#'   is TRUE.
 #' @param by_type A logical indicating whether the matrices should be returned
 #'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must
 #'   also be `FALSE`.
@@ -43,7 +43,10 @@
 #'
 #' # Constrain outputs to A matrices with lambda between 0.9 and 1.1
 #' library(popbio)
-#' constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
+#' constrain_df <- data.frame(
+#'   fun = "lambda", arg = NA, lower = 0.9, upper =
+#'     1.1
+#' )
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df
@@ -52,7 +55,10 @@
 #' # As above, but using popdemo::eigs function instead of popbio::lambda
 #' # to illustrate use of argument
 #' library(popdemo)
-#' constrain_df <- data.frame(fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1)
+#' constrain_df <- data.frame(
+#'   fun = "eigs", arg = "lambda", lower = 0.9, upper =
+#'     1.1
+#' )
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df
@@ -77,7 +83,8 @@
 #' @family simulation
 #' @export generate_mpm_set
 
-generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1, fecundity = 1.5,
+generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
+                             fecundity = 1.5,
                              split = TRUE, by_type = TRUE, max_surv = 0.99,
                              constraint = NULL, attempts = 1000) {
   # Check if n is a positive integer

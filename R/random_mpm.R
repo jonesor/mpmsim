@@ -146,9 +146,9 @@ random_mpm <- function(n_stages,
     }
 
     # Archetype 4 - As in archetype 3, Fertility is in top right corner only.
-    # Non-zero transitions only on diagonal and subdiagonal. However in addiiton,
-    # there is also a rule of increasing survival from stage to stage as in
-    # Archetype 2.
+    # Non-zero transitions only on diagonal and subdiagonal. However in
+    # addition, there is also a rule of increasing survival from stage to stage
+    # as in Archetype 2.
     if (archetype == 4) {
       if (n_stages == 2) {
         stop("Archetype 4 does not exist for 2x2 MPMs")
@@ -172,8 +172,8 @@ random_mpm <- function(n_stages,
 
     # Calculate Fecundity and place in top row.
     # In the Takada archetypes, fecundity is ONLY placed in the top right. Here,
-    # if the length of the fecundity vector (fecundity) is 1, then that is exactly
-    # what we do...
+    # if the length of the fecundity vector (fecundity) is 1, then that is
+    # exactly what we do...
     mat_F <- matrix(0, nrow = n_stages, ncol = n_stages)
 
     if (length(fecundity) == 1) {

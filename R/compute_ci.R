@@ -100,8 +100,10 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
   }
 
   # Sample size validation
-  if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") || length(sample_size) == 1)) {
-    stop("sample_size needs to be a matrix, a list of two matrices, or an integer with length 1")
+  if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") ||
+        length(sample_size) == 1)) {
+    stop("sample_size needs to be a matrix, a list of two matrices,
+         or an integer with length 1")
   }
 
   # When sample_size is a single matrix.
@@ -114,7 +116,8 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
 
   # When sample_size is a list of two matrices.
   if (inherits(sample_size, "list")) {
-    if (!identical(lapply(sample_size, dim)[[1]], lapply(sample_size, dim)[[2]])) {
+    if (!identical(lapply(sample_size, dim)[[1]],
+                   lapply(sample_size, dim)[[2]])) {
       stop("if sample_size is a list of matrices,
            they should both be the same dimensions.")
     }
@@ -124,7 +127,8 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
     }
     if (!sum(names(sample_size) %in% c("mat_F_ss", "mat_U_ss")) == 2) {
       stop("if sample_size is a list of matrices,
-           the names of the list entries need to be named 'mat_F_ss' and 'mat_U_ss'")
+           the names of the list entries need to be named
+           'mat_F_ss' and 'mat_U_ss'")
     }
   }
 
@@ -159,7 +163,8 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
   # Check the estimates and use warnings if necessary
   if (any(is.infinite(estimates))) {
     warning("Some estimates are Inf. \n
-            Try running with argument `dist.out = TRUE` and examine the estimates.")
+            Try running with argument `dist.out = TRUE`
+            and examine the estimates.")
   }
 
   emp_quantiles <- quantile(estimates, c(0.025, 0.975), na.rm = TRUE)
@@ -168,7 +173,8 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
     return(emp_quantiles)
   }
   if (dist.out == TRUE) {
-    out <- list("quantiles" = emp_quantiles, "estimates" = estimates, "matrices" = sim_out)
+    out <- list("quantiles" = emp_quantiles, "estimates" = estimates,
+                "matrices" = sim_out)
     return(out)
   }
 }

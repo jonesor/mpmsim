@@ -78,10 +78,11 @@ calculate_surv_prob <- function(lx) {
 #'   survivorship (`lx`) and mortality (`qx`) and survival probability within
 #'   interval (`px`).
 #' @details The required parameters varies depending on the mortality model. The
-#'   parameters are provided as a vector. For `Gompertz`, the parameters are `b0`,
-#'   `b1.` For `GompertzMakeham` the parameters are `b0`, `b1` and `C`. For `Exponential`,
-#'   the parameter is `C`. For `Siler`, the parameters are `a0`, `a1`, `C`, `b0` and `b1.`
-#'   Note that the parameters must be provided in the order mentioned here.
+#'   parameters are provided as a vector. For `Gompertz`, the parameters are
+#'   `b0`, `b1.` For `GompertzMakeham` the parameters are `b0`, `b1` and `C`.
+#'   For `Exponential`, the parameter is `C`. For `Siler`, the parameters are
+#'   `a0`, `a1`, `C`, `b0` and `b1.` Note that the parameters must be provided
+#'   in the order mentioned here.
 #'
 #'   * Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
 #'   * Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
@@ -90,10 +91,11 @@ calculate_surv_prob <- function(lx) {
 #'
 #'   In the output, the probability of survival (`px`) (and death (`qx`))
 #'   represent the probability of individuals that enter the age interval
-#'   \eqn{[x,x+1]} survive until the end of the interval (or die before the end of
-#'   the interval). It is not possible to estimate a value for this in the final
-#'   row of the life table (because there is no \eqn{x+1} value) and therefore the
-#'   input values of `x` may need to be extended to capture this final interval.
+#'   \eqn{[x,x+1]} survive until the end of the interval (or die before the end
+#'   of the interval). It is not possible to estimate a value for this in the
+#'   final row of the life table (because there is no \eqn{x+1} value) and
+#'   therefore the input values of `x` may need to be extended to capture this
+#'   final interval.
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @family trajectories
@@ -123,8 +125,10 @@ calculate_surv_prob <- function(lx) {
 #'
 #' model_survival(0:10, c(c = 0.2), "Exponential")
 #'
-#' model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2), "Siler")
-#' @seealso [model_fertility()] to model age-specific fertility using various functions.
+#' model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
+#' "Siler")
+#' @seealso [model_fertility()] to model age-specific fertility using various
+#'   functions.
 #' @export
 model_survival <- function(x = NULL, params, model, truncate = 0.01) {
   if (is.null(x)) {

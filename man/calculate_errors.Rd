@@ -18,7 +18,8 @@ element of the MPM, (2) a list of two named matrices ("\code{mat_F_ss}",
 submatrices of the MPM or (3) a single value applied to the whole matrix}
 
 \item{type}{A character string indicating the type of error to calculate.
-Must be one of "\code{sem}" (standard error), or "\code{CI95}" (95\% confidence interval).}
+Must be one of "\code{sem}" (standard error), or "\code{CI95}" (95\% confidence
+interval).}
 
 \item{calculate_A}{A logical argument indicating whether the returned error
 information should include the A matrix and its error. Defaults to \code{TRUE}.}
@@ -59,14 +60,20 @@ calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "sem")
 # Sample size is a single matrix applied to both F and U matrices
 ssMat <- matrix(10, nrow = 2, ncol = 2)
 
-calculate_errors(mat_U = matU, mat_F = matF, sample_size = ssMat, type = "sem")
+calculate_errors(
+  mat_U = matU, mat_F = matF, sample_size = ssMat, type =
+    "sem"
+)
 
 # Sample size is a list of two matrices
 ssMats <- list(
   "mat_F_ss" = matrix(10, nrow = 2, ncol = 2),
   "mat_U_ss" = matrix(10, nrow = 2, ncol = 2)
 )
-calculate_errors(mat_U = matU, mat_F = matF, sample_size = ssMats, type = "sem")
+calculate_errors(
+  mat_U = matU, mat_F = matF, sample_size = ssMats, type =
+    "sem"
+)
 
 }
 \seealso{

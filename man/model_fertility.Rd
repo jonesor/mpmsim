@@ -52,8 +52,9 @@ the order mentioned here.
 \item von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
 \item Normal: \eqn{f(x) = A \times \exp\left(
   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
-\item Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right ) ^\frac{3}{2}
-  \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2 \right ) \right \}}
+\item Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right )
+   ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2
+   \right ) \right \}}
 }
 }
 \examples{
@@ -85,7 +86,8 @@ Peristera, P. & Kostaki, A. (2007) Modeling fertility in modern populations.
 Demographic Research. 16. Article 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
 }
 \seealso{
-\code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality models.
+\code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality
+models.
 
 Other trajectories: 
 \code{\link{model_survival}()}

@@ -62,8 +62,8 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #'   submatrices of the MPM or (3) a single value applied to the whole matrix
 #' @param split logical, whether to split the output into survival and fecundity
 #'   matrices or not
-#' @return list of matrices of survival and fecundity if `split = TRUE`, otherwise
-#'   a single matrix of the sum of survival and fecundity
+#' @return list of matrices of survival and fecundity if `split = TRUE`,
+#'   otherwise a single matrix of the sum of survival and fecundity
 #' @details if any `sample_size` input is 0, it is assumed that the estimate for
 #'   the element(s) concerned is known without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
@@ -124,8 +124,10 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
   }
 
   # Sample size validation
-  if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") || length(sample_size) == 1)) {
-    stop("sample_size needs to be a matrix, a list of two matrices, or an integer with length 1")
+  if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") ||
+        length(sample_size) == 1)) {
+    stop("sample_size needs to be a matrix, a list of two matrices,
+         or an integer with length 1")
   }
 
   # When sample_size is a single matrix.
@@ -138,7 +140,8 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
 
   # When sample_size is a list of two matrices.
   if (inherits(sample_size, "list")) {
-    if (!identical(lapply(sample_size, dim)[[1]], lapply(sample_size, dim)[[2]])) {
+    if (!identical(lapply(sample_size, dim)[[1]],
+                   lapply(sample_size, dim)[[2]])) {
       stop("if sample_size is a list of matrices,
            they should both be the same dimensions.")
     }
@@ -148,7 +151,8 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
     }
     if (!sum(names(sample_size) %in% c("mat_F_ss", "mat_U_ss")) == 2) {
       stop("if sample_size is a list of matrices,
-           the names of the list entries need to be named 'mat_F_ss' and 'mat_U_ss'")
+           the names of the list entries need to be named
+           'mat_F_ss' and 'mat_U_ss'")
     }
   }
 
@@ -181,7 +185,8 @@ simulate_mpm <- function(mat_U, mat_F, sample_size, split = TRUE) {
 
   # If sample_size is a vector of length 1
   if (length(sample_size) == 1) {
-    sample_size_mat_U <- matrix(sample_size, ncol = ncol(mat_U), nrow = nrow(mat_U))
+    sample_size_mat_U <- matrix(sample_size, ncol = ncol(mat_U),
+                                nrow = nrow(mat_U))
     sample_size_vector_U <- as.vector(sample_size_mat_U)
     sample_size_vector_F <- sample_size_vector_U
   }

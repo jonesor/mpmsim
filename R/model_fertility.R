@@ -39,8 +39,9 @@
 #'   * von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
 #'   * Normal: \eqn{f(x) = A \times \exp\left(
 #'   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
-#'   * Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right ) ^\frac{3}{2}
-#'   \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2 \right ) \right \}}
+#'   * Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right )
+#'    ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2
+#'    \right ) \right \}}
 #'
 #'
 #' @references
@@ -72,18 +73,21 @@
 #'
 #' @family trajectories
 #' @author Owen Jones <jones@biology.sdu.dk>
-#' @seealso [model_survival()] to model age-specific survival using mortality models.
+#' @seealso [model_survival()] to model age-specific survival using mortality
+#'   models.
 #' @export
 
 
-model_fertility <- function(age = NULL, params, maturity = 0, model = "logistic") {
+model_fertility <- function(age = NULL, params, maturity = 0,
+                            model = "logistic") {
 
   # Input validation and input error handling
   if (!is.numeric(age)) stop("Input 'age' must be a numeric vector.")
   if (min(age) < 0) stop("Input 'age' must be non-negative.")
 
   # Check model parameter name
-  if (!model %in% c("vonbertalanffy", "logistic", "normal", "step", "hadwiger")) {
+  if (!model %in% c("vonbertalanffy", "logistic", "normal", "step",
+                    "hadwiger")) {
     stop("Invalid model type (must be one of 'vonbertalanffy',
          'logistic', 'normal', 'hadwiger' or 'step'")
   }
@@ -114,7 +118,6 @@ model_fertility <- function(age = NULL, params, maturity = 0, model = "logistic"
     midpoint_age <- params[3]
 
     out <- max_fert / (1 + exp(-k * (age - midpoint_age + maturity)))
-    #out[which(age < maturity)] <- 0
 
     return(out)
   }
@@ -165,7 +168,8 @@ model_fertility <- function(age = NULL, params, maturity = 0, model = "logistic"
     b <- params[2]
     c <- params[3]
 
-    out <- ((a * b) / c) * (c / age)^(3 / 2) * exp(-b^2 * ((c / age) + (age / c) - 2))
+    out <- ((a * b) / c) * (c / age)^(3 / 2) * exp(-b^2 * ((c / age) +
+                                                             (age / c) - 2))
     return(out)
   }
 }

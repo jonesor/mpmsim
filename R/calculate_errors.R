@@ -21,7 +21,8 @@
 #'   "`mat_U_ss`") containing sample sizes for the survival and fertility
 #'   submatrices of the MPM or (3) a single value applied to the whole matrix
 #' @param type A character string indicating the type of error to calculate.
-#'   Must be one of "`sem`" (standard error), or "`CI95`" (95% confidence interval).
+#'   Must be one of "`sem`" (standard error), or "`CI95`" (95% confidence
+#'   interval).
 #' @param calculate_A A logical argument indicating whether the returned error
 #'   information should include the A matrix and its error. Defaults to `TRUE`.
 #'
@@ -46,21 +47,28 @@
 #' # Sample size is a single matrix applied to both F and U matrices
 #' ssMat <- matrix(10, nrow = 2, ncol = 2)
 #'
-#' calculate_errors(mat_U = matU, mat_F = matF, sample_size = ssMat, type = "sem")
+#' calculate_errors(
+#'   mat_U = matU, mat_F = matF, sample_size = ssMat, type =
+#'     "sem"
+#' )
 #'
 #' # Sample size is a list of two matrices
 #' ssMats <- list(
 #'   "mat_F_ss" = matrix(10, nrow = 2, ncol = 2),
 #'   "mat_U_ss" = matrix(10, nrow = 2, ncol = 2)
 #' )
-#' calculate_errors(mat_U = matU, mat_F = matF, sample_size = ssMats, type = "sem")
+#' calculate_errors(
+#'   mat_U = matU, mat_F = matF, sample_size = ssMats, type =
+#'     "sem"
+#' )
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @seealso [simulate_mpm()] which simulates matrices with known values and
 #'   sample sizes.
 #' @export calculate_errors
 #'
-calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem", calculate_A = TRUE) {
+calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem",
+                             calculate_A = TRUE) {
   # Validate inputs
   if (!is.matrix(mat_U)) {
     stop("mat_U must be a matrix.")
@@ -69,8 +77,10 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem", calculate_
     stop("mat_F must be a matrix.")
   }
   # Sample size validation
-  if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") || length(sample_size) == 1)) {
-    stop("sample_size needs to be a matrix, a list of two matrices, or an integer with length 1")
+  if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") ||
+        length(sample_size) == 1)) {
+    stop("sample_size needs to be a matrix, a list of two matrices,
+         or an integer with length 1")
   }
 
   # When sample_size is a single matrix.
@@ -83,7 +93,8 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem", calculate_
 
   # When sample_size is a list of two matrices.
   if (inherits(sample_size, "list")) {
-    if (!identical(lapply(sample_size, dim)[[1]], lapply(sample_size, dim)[[2]])) {
+    if (!identical(lapply(sample_size, dim)[[1]],
+                   lapply(sample_size, dim)[[2]])) {
       stop("if sample_size is a list of matrices,
            they should both be the same dimensions.")
     }
@@ -93,7 +104,8 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem", calculate_
     }
     if (!sum(names(sample_size) %in% c("mat_F_ss", "mat_U_ss")) == 2) {
       stop("if sample_size is a list of matrices,
-           the names of the list entries need to be named 'mat_F_ss' and 'mat_U_ss'")
+           the names of the list entries need to be named
+           'mat_F_ss' and 'mat_U_ss'")
     }
   }
 
@@ -115,11 +127,13 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem", calculate_
   # Sample size matrices
   # If sample_size is a vector of length 1, apply that to both U and F matrices
   if (length(sample_size) == 1) {
-    sample_size_mat_U <- matrix(sample_size, ncol = ncol(mat_U), nrow = nrow(mat_U))
+    sample_size_mat_U <- matrix(sample_size, ncol = ncol(mat_U),
+                                nrow = nrow(mat_U))
     sample_size_mat_F <- sample_size_mat_U
   }
 
-  # If sample_size is a single matrix, use the same matrix for both U and F Matrices
+  # If sample_size is a single matrix, use the same matrix for both U and F
+  # Matrices
   if (inherits(sample_size, "matrix")) {
     sample_size_mat_U <- sample_size
     sample_size_mat_F <- sample_size_mat_U
@@ -156,10 +170,11 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem", calculate_
     mat_F_upperCI <- mat_F + interval_F
     mat_F_lowerCI <- mat_F - interval_F
 
+
     # Constrain values to >0
     mat_F_lowerCI[mat_F_lowerCI < 0] <- 0
 
-    #Mat A
+    # Mat A
     mat_A <- mat_U + mat_F
     mat_A_error <- sqrt(mat_U_error^2 + mat_F_error^2)
     interval_A <- 1.96 * mat_A_error
@@ -169,9 +184,11 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem", calculate_
 
   # Outputs
   if (type == "sem") {
-    out <- list("mat_U" = mat_U, ",mat_U_error" = mat_U_error,
-                "mat_F" = mat_F, "mat_F_error" = mat_F_error,
-                "mat_A" = mat_F, "mat_A_error" = mat_A_error)
+    out <- list(
+      "mat_U" = mat_U, ",mat_U_error" = mat_U_error,
+      "mat_F" = mat_F, "mat_F_error" = mat_F_error,
+      "mat_A" = mat_F, "mat_A_error" = mat_A_error
+    )
   }
 
   if (type == "CI95") {

@@ -26,8 +26,8 @@ generate_mpm_set(
 
 \item{fecundity}{A vector of fecundities for the MPMs. Default is 1.5.}
 
-\item{split}{A logical indicating whether to split into submatrices. Default is
-TRUE.}
+\item{split}{A logical indicating whether to split into submatrices. Default
+is TRUE.}
 
 \item{by_type}{A logical indicating whether the matrices should be returned
 in a list by type (A, U, F, C). If split is \code{FALSE}, then \code{by_type} must
@@ -70,7 +70,10 @@ generate_mpm_set(
 
 # Constrain outputs to A matrices with lambda between 0.9 and 1.1
 library(popbio)
-constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
+constrain_df <- data.frame(
+  fun = "lambda", arg = NA, lower = 0.9, upper =
+    1.1
+)
 generate_mpm_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df
@@ -79,7 +82,10 @@ generate_mpm_set(
 # As above, but using popdemo::eigs function instead of popbio::lambda
 # to illustrate use of argument
 library(popdemo)
-constrain_df <- data.frame(fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1)
+constrain_df <- data.frame(
+  fun = "eigs", arg = "lambda", lower = 0.9, upper =
+    1.1
+)
 generate_mpm_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df

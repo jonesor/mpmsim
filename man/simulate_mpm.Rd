@@ -21,8 +21,8 @@ submatrices of the MPM or (3) a single value applied to the whole matrix}
 matrices or not}
 }
 \value{
-list of matrices of survival and fecundity if \code{split = TRUE}, otherwise
-a single matrix of the sum of survival and fecundity
+list of matrices of survival and fecundity if \code{split = TRUE},
+otherwise a single matrix of the sum of survival and fecundity
 }
 \description{
 Simulates a matrix population model based on expected values in the

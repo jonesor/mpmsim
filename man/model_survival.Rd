@@ -34,10 +34,11 @@ Model survival data using a mortality model
 }
 \details{
 The required parameters varies depending on the mortality model. The
-parameters are provided as a vector. For \code{Gompertz}, the parameters are \code{b0},
-\code{b1.} For \code{GompertzMakeham} the parameters are \code{b0}, \code{b1} and \code{C}. For \code{Exponential},
-the parameter is \code{C}. For \code{Siler}, the parameters are \code{a0}, \code{a1}, \code{C}, \code{b0} and \code{b1.}
-Note that the parameters must be provided in the order mentioned here.
+parameters are provided as a vector. For \code{Gompertz}, the parameters are
+\code{b0}, \code{b1.} For \code{GompertzMakeham} the parameters are \code{b0}, \code{b1} and \code{C}.
+For \code{Exponential}, the parameter is \code{C}. For \code{Siler}, the parameters are
+\code{a0}, \code{a1}, \code{C}, \code{b0} and \code{b1.} Note that the parameters must be provided
+in the order mentioned here.
 \itemize{
 \item Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
 \item Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
@@ -47,10 +48,11 @@ Note that the parameters must be provided in the order mentioned here.
 
 In the output, the probability of survival (\code{px}) (and death (\code{qx}))
 represent the probability of individuals that enter the age interval
-\eqn{[x,x+1]} survive until the end of the interval (or die before the end of
-the interval). It is not possible to estimate a value for this in the final
-row of the life table (because there is no \eqn{x+1} value) and therefore the
-input values of \code{x} may need to be extended to capture this final interval.
+\eqn{[x,x+1]} survive until the end of the interval (or die before the end
+of the interval). It is not possible to estimate a value for this in the
+final row of the life table (because there is no \eqn{x+1} value) and
+therefore the input values of \code{x} may need to be extended to capture this
+final interval.
 }
 \examples{
 model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
@@ -62,7 +64,8 @@ model_survival(
 
 model_survival(0:10, c(c = 0.2), "Exponential")
 
-model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2), "Siler")
+model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
+"Siler")
 }
 \references{
 Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,
@@ -81,7 +84,8 @@ Vaupel, J., Manton, K. & Stallard, E. (1979) The impact of heterogeneity in
 individual frailty on the dynamics of mortality. Demography, 16, 439–454.
 }
 \seealso{
-\code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various functions.
+\code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various
+functions.
 
 Other trajectories: 
 \code{\link{model_fertility}()}
