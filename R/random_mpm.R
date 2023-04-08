@@ -29,6 +29,8 @@
 #' top right of the matrix, if it is a single value. If it is a vector of length
 #' `n_stages` then the fertility vector spans the entire top row of the matrix.
 #'
+#' The function is constrained to only output ergodic matrices.
+#'
 #' @references
 #'
 #' Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
@@ -61,6 +63,7 @@
 #' @author Owen Jones <jones@biology.sdu.dk>
 #'
 #' @importFrom MCMCpack rdirichlet
+#' @importFrom popdemo isErgodic
 #'
 #' @examples
 #' random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
@@ -102,87 +105,92 @@ random_mpm <- function(n_stages,
     .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
     stop("archetype must be an integer between 1 and 4.")
   }
-
-  # Archetype 1: all elements are positive, allowing for rapid progression and
-  # retrogression
-  if (archetype == 1) {
-    mat_U <- t(rdirichlet(n_stages + 1, rep(1, n_stages + 1)))
-    # remove the "death" stage that is necessary when using the Dirichlet
-    # distribution.
-    mat_U <- mat_U[1:n_stages, 1:n_stages]
-  }
-
-  # Archetype 2 - when survival rates increase. i.e. where the column sums
-  # increase moving from left to right.
-  if (archetype == 2) {
-    mat_U <- t(rdirichlet(n_stages + 1, rep(1, n_stages + 1)))
-    # remove the "death" stage that is necessary when using the Dirichlet
-    # distribution.
-    mat_U <- mat_U[1:n_stages, 1:n_stages]
-    b <- mat_U
-    mat_U <- mat_U[, order(colSums(b))]
-  }
-  # Archetype 3 - Fertility is in top right corner only. Non-zero transitions
-  # only on diagonal and subdiagonal.
-  if (archetype == 3) {
-    if (n_stages == 2) {
-      stop("Archetype 3 does not exist for 2x2 MPMs")
+  ergodicity <- FALSE
+  while (ergodicity == FALSE) {
+    # Archetype 1: all elements are positive, allowing for rapid progression and
+    # retrogression
+    if (archetype == 1) {
+      mat_U <- t(rdirichlet(n_stages + 1, rep(1, n_stages + 1)))
+      # remove the "death" stage that is necessary when using the Dirichlet
+      # distribution.
+      mat_U <- mat_U[1:n_stages, 1:n_stages]
     }
 
-    x <- diag(n_stages + 1)
-    x[row(x) == col(x) + 1] <- 1
-    x[nrow(x), ] <- 1
-
-    mat_U <- matrix(ncol = n_stages + 1, nrow = n_stages + 1)
-    for (i in 1:(n_stages + 1)) {
-      mat_U[i, ] <- rdirichlet(1, x[, i])
+    # Archetype 2 - when survival rates increase. i.e. where the column sums
+    # increase moving from left to right.
+    if (archetype == 2) {
+      mat_U <- t(rdirichlet(n_stages + 1, rep(1, n_stages + 1)))
+      # remove the "death" stage that is necessary when using the Dirichlet
+      # distribution.
+      mat_U <- mat_U[1:n_stages, 1:n_stages]
+      b <- mat_U
+      mat_U <- mat_U[, order(colSums(b))]
     }
-    mat_U <- t(mat_U)
-    mat_U <- mat_U[1:n_stages, 1:n_stages]
-  }
+    # Archetype 3 - Fertility is in top right corner only. Non-zero transitions
+    # only on diagonal and subdiagonal.
+    if (archetype == 3) {
+      if (n_stages == 2) {
+        stop("Archetype 3 does not exist for 2x2 MPMs")
+      }
 
-  # Archetype 4 - As in archetype 3, Fertility is in top right corner only.
-  # Non-zero transitions only on diagonal and subdiagonal. However in addiiton,
-  # there is also a rule of increasing survival from stage to stage as in
-  # Archetype 2.
-  if (archetype == 4) {
-    if (n_stages == 2) {
-      stop("Archetype 4 does not exist for 2x2 MPMs")
+      x <- diag(n_stages + 1)
+      x[row(x) == col(x) + 1] <- 1
+      x[nrow(x), ] <- 1
+
+      mat_U <- matrix(ncol = n_stages + 1, nrow = n_stages + 1)
+      for (i in 1:(n_stages + 1)) {
+        mat_U[i, ] <- rdirichlet(1, x[, i])
+      }
+      mat_U <- t(mat_U)
+      mat_U <- mat_U[1:n_stages, 1:n_stages]
     }
 
-    x <- diag(n_stages + 1)
-    x[row(x) == col(x) + 1] <- 1
-    x[nrow(x), ] <- 1
-    surv <- t(rdirichlet(n_stages, rep(1, 3)))
-    surv <- surv[, 1:(n_stages - 1)]
+    # Archetype 4 - As in archetype 3, Fertility is in top right corner only.
+    # Non-zero transitions only on diagonal and subdiagonal. However in addiiton,
+    # there is also a rule of increasing survival from stage to stage as in
+    # Archetype 2.
+    if (archetype == 4) {
+      if (n_stages == 2) {
+        stop("Archetype 4 does not exist for 2x2 MPMs")
+      }
 
-    # Order by colsums for the first two rows.
-    surv <- surv[1:2, order(colSums(surv[1:2, ]))]
-    surv <- as.vector(surv)
-    last2 <- ((n_stages - 1) * 2 - 1):((n_stages - 1) * 2)
-    final_stage_surv <- runif(1, sum(surv[last2]), 1)
-    surv <- c(surv, final_stage_surv)
-    mat_U <- x[1:n_stages, 1:n_stages]
-    mat_U[mat_U == 1] <- surv
+      x <- diag(n_stages + 1)
+      x[row(x) == col(x) + 1] <- 1
+      x[nrow(x), ] <- 1
+      surv <- t(rdirichlet(n_stages, rep(1, 3)))
+      surv <- surv[, 1:(n_stages - 1)]
+
+      # Order by colsums for the first two rows.
+      surv <- surv[1:2, order(colSums(surv[1:2, ]))]
+      surv <- as.vector(surv)
+      last2 <- ((n_stages - 1) * 2 - 1):((n_stages - 1) * 2)
+      final_stage_surv <- runif(1, sum(surv[last2]), 1)
+      surv <- c(surv, final_stage_surv)
+      mat_U <- x[1:n_stages, 1:n_stages]
+      mat_U[mat_U == 1] <- surv
+    }
+
+    # Calculate Fecundity and place in top row.
+    # In the Takada archetypes, fecundity is ONLY placed in the top right. Here,
+    # if the length of the fecundity vector (fecundity) is 1, then that is exactly
+    # what we do...
+    mat_F <- matrix(0, nrow = n_stages, ncol = n_stages)
+
+    if (length(fecundity) == 1) {
+      mat_F[1, n_stages] <- rpois(n = 1, lambda = fecundity)
+    }
+
+    # ... if the length is >1, then the fecundity vector of length n_stages is
+    # added to the top row.
+    if (length(fecundity) > 1) {
+      fecundity_vector <- rpois(n = n_stages, lambda = fecundity)
+      mat_F[1, ] <- fecundity_vector
+    }
+
+    # Check ergodicity
+    mat_A_temp <- mat_U + mat_F
+    ergodicity <- isErgodic(mat_A_temp)
   }
-
-  # Calculate Fecundity and place in top row.
-  # In the Takada archetypes, fecundity is ONLY placed in the top right. Here,
-  # if the length of the fecundity vector (fecundity) is 1, then that is exactly
-  # what we do...
-  mat_F <- matrix(0, nrow = n_stages, ncol = n_stages)
-
-  if (length(fecundity) == 1) {
-    mat_F[1, n_stages] <- rpois(n = 1, lambda = fecundity)
-  }
-
-  # ... if the length is >1, then the fecundity vector of length n_stages is
-  # added to the top row.
-  if (length(fecundity) > 1) {
-    fecundity_vector <- rpois(n = n_stages, lambda = fecundity)
-    mat_F[1, ] <- fecundity_vector
-  }
-
   # Output the results
   if (split) {
     mat_A_split <- list(mat_A = mat_U + mat_F, mat_U = mat_U, mat_F = mat_F)
