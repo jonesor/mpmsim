@@ -336,11 +336,11 @@ replicate(
 #> [3,] 0.0000000 0.4285714 0.7142857
 ```
 
-### Generate single random MPMs
+### Generate single random Lefkovitch MPMs
 
-The `random_mpm` function can be used to generate a random matrix
-population model (MPM) with element values based on defined life history
-archetypes. The function draws survival and transition/growth
+The `random_mpm` function can be used to generate a random Lefkovitch
+matrix population model (MPM) with element values based on defined life
+history archetypes. The function draws survival and transition/growth
 probabilities from a Dirichlet distribution to ensure that the column
 totals, including death, are less than or equal to 1. Fecundity can be
 specified as a single value or as a vector with a length equal to the
@@ -379,20 +379,21 @@ matrix.
 #> [3,]    0    0    0
 ```
 
-### Generate a set of random MPMs
+### Generate a set of random Lefkovitch MPMs
 
 The `generate_mpm_set` function can be used to quickly generate large
-numbers of MPMs using the above approach. For example, the following
-code generates five MPMs with archetype 1. By using the `lower_lambda`
-and `upper_lambda` arguments, users can specify an acceptable population
-growth rate range for the set of matrices. This can be useful for life
-history analyses where we might assume that only life histories with
-lambda values close to 1 can persist in nature.
+numbers of Lefkovitch MPMs using the above approach. For example, the
+following code generates five MPMs with archetype 1. By using the
+`constraint` argument, users can specify an acceptable characteristics
+for the set of matrices. In this case, population growth rate range,
+which can be useful for life history analyses where we might assume that
+only life histories with lambda values close to 1 can persist in nature.
 
 ``` r
+library(popbio)
+constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 generate_mpm_set(
-  n = 5, n_stages = 4, fecundity = 8, archetype = 1,
-  lower_lambda = 0.9, upper_lambda = 1.1
+  n = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df
 )
 #> $A_list
 #> $A_list[[1]]
