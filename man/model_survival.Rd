@@ -64,8 +64,10 @@ model_survival(
 
 model_survival(0:10, c(c = 0.2), "Exponential")
 
-model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
-"Siler")
+model_survival(
+  0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
+  "Siler"
+)
 }
 \references{
 Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,

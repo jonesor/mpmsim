@@ -101,7 +101,7 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
 
   # Sample size validation
   if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") ||
-        length(sample_size) == 1)) {
+    length(sample_size) == 1)) {
     stop("sample_size needs to be a matrix, a list of two matrices,
          or an integer with length 1")
   }
@@ -116,8 +116,10 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
 
   # When sample_size is a list of two matrices.
   if (inherits(sample_size, "list")) {
-    if (!identical(lapply(sample_size, dim)[[1]],
-                   lapply(sample_size, dim)[[2]])) {
+    if (!identical(
+      lapply(sample_size, dim)[[1]],
+      lapply(sample_size, dim)[[2]]
+    )) {
       stop("if sample_size is a list of matrices,
            they should both be the same dimensions.")
     }
@@ -135,7 +137,7 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
   unlisted_sample_size <- unlist(sample_size)
 
   if (!min(abs(c(unlisted_sample_size %% 1, unlisted_sample_size %% 1 - 1))) <
-      .Machine$double.eps^0.5) {
+    .Machine$double.eps^0.5) {
     stop("sample_size must be integer value(s)")
   }
 
@@ -173,8 +175,10 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
     return(emp_quantiles)
   }
   if (dist.out == TRUE) {
-    out <- list("quantiles" = emp_quantiles, "estimates" = estimates,
-                "matrices" = sim_out)
+    out <- list(
+      "quantiles" = emp_quantiles, "estimates" = estimates,
+      "matrices" = sim_out
+    )
     return(out)
   }
 }

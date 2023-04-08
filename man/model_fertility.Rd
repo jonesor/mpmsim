@@ -62,20 +62,28 @@ the order mentioned here.
 model_fertility(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
 
 # Compute fertility using the logistic model
-model_fertility(age = 0:20, params = c(A = 10, k = 0.5, x_m = 8), maturity =
-0, model = "logistic")
+model_fertility(
+  age = 0:20, params = c(A = 10, k = 0.5, x_m = 8), maturity =
+    0, model = "logistic"
+)
 
 # Compute fertility using the von Bertalanffy model
-model_fertility(age = 0:20, params = c(A = 10, k = .3), maturity = 2, model =
-"vonbertalanffy")
+model_fertility(
+  age = 0:20, params = c(A = 10, k = .3), maturity = 2, model =
+    "vonbertalanffy"
+)
 
 # Compute fertility using the normal model
-model_fertility(age = 0:20, params = c(A = 10, mu = 4, sd = 2), maturity = 0,
-model = "normal")
+model_fertility(
+  age = 0:20, params = c(A = 10, mu = 4, sd = 2), maturity = 0,
+  model = "normal"
+)
 
 # Compute fertility using the Hadwiger model
-model_fertility(age = 0:50, params = c(a = 0.91, b = 3.85, c = 29.78),
-maturity = 0, model = "hadwiger")
+model_fertility(
+  age = 0:50, params = c(a = 0.91, b = 3.85, c = 29.78),
+  maturity = 0, model = "hadwiger"
+)
 
 }
 \references{

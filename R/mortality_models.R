@@ -125,8 +125,10 @@ calculate_surv_prob <- function(lx) {
 #'
 #' model_survival(0:10, c(c = 0.2), "Exponential")
 #'
-#' model_survival(0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
-#' "Siler")
+#' model_survival(
+#'   0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
+#'   "Siler"
+#' )
 #' @seealso [model_fertility()] to model age-specific fertility using various
 #'   functions.
 #' @export

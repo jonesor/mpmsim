@@ -78,7 +78,7 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem",
   }
   # Sample size validation
   if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") ||
-        length(sample_size) == 1)) {
+    length(sample_size) == 1)) {
     stop("sample_size needs to be a matrix, a list of two matrices,
          or an integer with length 1")
   }
@@ -93,8 +93,10 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem",
 
   # When sample_size is a list of two matrices.
   if (inherits(sample_size, "list")) {
-    if (!identical(lapply(sample_size, dim)[[1]],
-                   lapply(sample_size, dim)[[2]])) {
+    if (!identical(
+      lapply(sample_size, dim)[[1]],
+      lapply(sample_size, dim)[[2]]
+    )) {
       stop("if sample_size is a list of matrices,
            they should both be the same dimensions.")
     }
@@ -127,8 +129,10 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem",
   # Sample size matrices
   # If sample_size is a vector of length 1, apply that to both U and F matrices
   if (length(sample_size) == 1) {
-    sample_size_mat_U <- matrix(sample_size, ncol = ncol(mat_U),
-                                nrow = nrow(mat_U))
+    sample_size_mat_U <- matrix(sample_size,
+      ncol = ncol(mat_U),
+      nrow = nrow(mat_U)
+    )
     sample_size_mat_F <- sample_size_mat_U
   }
 
