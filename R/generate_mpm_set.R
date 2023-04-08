@@ -32,7 +32,6 @@
 #'   arguments, then a warning is produced.
 #' @return A list of MPMs that meet the specified criteria.
 #'
-#' @importFrom popdemo isErgodic
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #'
