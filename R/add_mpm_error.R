@@ -99,7 +99,6 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #'   sample_size = ssMats, split = TRUE
 #' )
 #'
-#' @export add_mpm_error_indiv
 #' @noRd
 #'
 add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
