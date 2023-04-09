@@ -44,7 +44,7 @@ The output is a list containing the original matrices and matrices showing
 error estimates or confidence intervals.
 }
 \examples{
-#Set up two submatrices
+# Set up two submatrices
 matU <- matrix(c(
   0.1, 0,
   0.2, 0.4
