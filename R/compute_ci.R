@@ -82,7 +82,6 @@
 #'
 compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
                        n_sim = 1000, dist.out = FALSE) {
-
   # Validation of inputs
   # Check input matrices
   if (!is.matrix(mat_U) || !is.matrix(mat_F)) {
