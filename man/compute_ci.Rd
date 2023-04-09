@@ -60,19 +60,19 @@ matU <- matrix(c(
 ), byrow = TRUE, nrow = 2)
 
 matF <- matrix(c(
-  0.0, 3.0,
+  0.0, 5.0,
   0.0, 0.0
 ), byrow = TRUE, nrow = 2)
 
 # Example of use to calculate 95\% CI of lambda
 compute_ci(
   mat_U = matU, mat_F = matF, sample_size = 10, FUN =
-    popdemo::eigs, what = "lambda"
+    popbio::lambda
 )
 
 # Example of use to calculate 95\% CI of generation time
 compute_ci(
-  mat_U = matU, mat_F = matF, sample_size = 10, FUN =
+  mat_U = matU, mat_F = matF, sample_size = 40, FUN =
     popbio::generation.time
 )
 

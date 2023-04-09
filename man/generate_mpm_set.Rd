@@ -31,7 +31,7 @@ is TRUE.}
 
 \item{by_type}{A logical indicating whether the matrices should be returned
 in a list by type (A, U, F, C). If split is \code{FALSE}, then \code{by_type} must
-also be \code{FALSE}.}
+also be \code{FALSE}. Defaults to \code{TRUE}.}
 
 \item{max_surv}{The maximum acceptable survival value. Defaults to 0.99. This
 is only used if \code{split = TRUE}.}
