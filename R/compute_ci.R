@@ -7,7 +7,7 @@
 #' taking a large number of random independent draws using the sampling
 #' distribution of each underlying transition rate. The approach rests on our
 #' assumption that survival-related processes are binomial, while reproduction
-#' is a Poisson process (see the function `simulate_mpm()` for details).
+#' is a Poisson process (see the function `add_mpm_error()` for details).
 #'
 #' The inputs are the U matrix, which describes the survival-related processes,
 #' and the F matrix which describes reproduction. The underlying assumption is
@@ -151,7 +151,7 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
   }
 
   # replicate the simulation of MPMs
-  sim_out <- replicate(n_sim, simulate_mpm(mat_U,
+  sim_out <- replicate(n_sim, add_mpm_error(mat_U,
     mat_F,
     sample_size,
     split = FALSE
