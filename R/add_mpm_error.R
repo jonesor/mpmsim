@@ -229,9 +229,11 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
   )
 
   if (split) {
-    return(list(mat_A = mat_U_out + mat_F_out,
-                mat_U = mat_U_out,
-                mat_F = mat_F_out))
+    return(list(
+      mat_A = mat_U_out + mat_F_out,
+      mat_U = mat_U_out,
+      mat_F = mat_F_out
+    ))
   } else {
     return(mat_U_out + mat_F_out)
   }
@@ -279,8 +281,10 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' ), archetype = 4, split = TRUE, by_type = TRUE)
 #'
 #' # Now apply sampling error to this set
-#' add_mpm_error(mat_U = mpm_set$U_list, mat_F = mpm_set$F_list,sample_size =
-#' 50)
+#' add_mpm_error(
+#'   mat_U = mpm_set$U_list, mat_F = mpm_set$F_list, sample_size =
+#'     50
+#' )
 #'
 #' # Also works with a single matrix.
 #' mats <- make_leslie_mpm(
@@ -305,10 +309,12 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' )
 #'
 #' # Add sampling error to the matrix models
-#' output <- add_mpm_error(mat_U = mpm_set$U_list, mat_F = mpm_set$F_list,
-#' sample_size = ssMats)
+#' output <- add_mpm_error(
+#'   mat_U = mpm_set$U_list, mat_F = mpm_set$F_list,
+#'   sample_size = ssMats
+#' )
 #'
-#' #Examine the outputs
+#' # Examine the outputs
 #' names(output)
 #' output
 #'

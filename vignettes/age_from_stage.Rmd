@@ -141,9 +141,11 @@ Next we can use age-from stage-approximation to see how well we can recover the 
 ```{r}
 recovered_life_tables <- list()
 for (i in 1:length(lifeTables)) {
-m1 <- collapsed_matrices[[i]]
-recovered_life_tables[[i]] <- Rage::mpm_to_table(matU = m1$matU, matF = m1$matF, 
-                                           remove_final = TRUE)
+  m1 <- collapsed_matrices[[i]]
+  recovered_life_tables[[i]] <- Rage::mpm_to_table(
+    matU = m1$matU, matF = m1$matF,
+    remove_final = TRUE
+  )
 }
 ```
 
@@ -153,9 +155,11 @@ recovered_life_tables[[i]] <- Rage::mpm_to_table(matU = m1$matU, matF = m1$matF,
 i <- 5
 recovered_lt <- recovered_life_tables[[i]]
 
-plot(0:(length(recovered_lt$lx) - 1), 
-     recovered_lt$lx, type = "l", 
-     xlab = "age", ylab = "survivorship", main ="Survivorship")
+plot(0:(length(recovered_lt$lx) - 1),
+  recovered_lt$lx,
+  type = "l",
+  xlab = "age", ylab = "survivorship", main = "Survivorship"
+)
 lines(lifeTables[[i]]$x, lifeTables[[i]]$lx, type = "l", col = "red")
 ```
 
@@ -164,9 +168,11 @@ lines(lifeTables[[i]]$x, lifeTables[[i]]$lx, type = "l", col = "red")
 We could also look at other life table trajectories such as mortality (hazard).
 
 ```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
-plot(0:(length(recovered_lt$lx) - 1), 
-     recovered_lt$hx, type = "l", 
-     xlab = "age", ylab = "mortality", main = "mortality", ylim = c(0,2))
+plot(0:(length(recovered_lt$lx) - 1),
+  recovered_lt$hx,
+  type = "l",
+  xlab = "age", ylab = "mortality", main = "mortality", ylim = c(0, 2)
+)
 lines(lifeTables[[i]]$x, lifeTables[[i]]$hx, type = "l", col = "red")
 ```
 
@@ -176,18 +182,20 @@ This plot clearly shows that mortality (hazard) is underestimated across most of
 We can now examine how the over-estimation of life span using age-from-stage methods is related to the Gompertz parameter like this.
 
 ```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
-df1 <- data.frame(b_1_values,lifespan_lt = NA, lifespan_afs = NA)
-for(i in 1:length(lifeTables)){
+df1 <- data.frame(b_1_values, lifespan_lt = NA, lifespan_afs = NA)
+for (i in 1:length(lifeTables)) {
   df1$lifespan_lt[i] <- max(lifeTables[[i]]$x)
   df1$lifespan_afs[i] <- max(recovered_life_tables[[i]]$x)
 }
 
-df1 <- df1 %>% 
-  mutate(lifespan_diff  = lifespan_afs-lifespan_lt) %>% 
-  mutate(lifespan_diff_perc  = 100*(lifespan_diff/lifespan_lt))
+df1 <- df1 %>%
+  mutate(lifespan_diff = lifespan_afs - lifespan_lt) %>%
+  mutate(lifespan_diff_perc = 100 * (lifespan_diff / lifespan_lt))
 
-plot(df1$b_1_values, df1$lifespan_diff_perc, type = "b", 
-     ylab = "Lifespan overestimation (%)", xlab = "Gompertz parameter")
+plot(df1$b_1_values, df1$lifespan_diff_perc,
+  type = "b",
+  ylab = "Lifespan overestimation (%)", xlab = "Gompertz parameter"
+)
 ```
 
 ## Further questions?
