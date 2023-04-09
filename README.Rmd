@@ -65,8 +65,10 @@ Age-specific survival probability is given by the `px` column in the output from
 
 ```{r}
 survival <- surv_prob$px
-fertility <- model_fertility(age = 0:(length(survival)-1), 
-                             params = c(A = 5), maturity = 2, model = "step")
+fertility <- model_fertility(
+  age = 0:(length(survival) - 1),
+  params = c(A = 5), maturity = 2, model = "step"
+)
 ```
 
 Subsequently, these survival and fertility values can be applied to the Leslie matrix as follows.
