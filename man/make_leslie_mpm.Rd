@@ -62,7 +62,8 @@ Mathematics. Biometrika, 35(3-4), 213–245.
 \seealso{
 \itemize{
 \item \code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality models.
-\item \code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various functions.
+\item \code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various
+functions.
 }
 }
 \author{
