@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Allows users to simulate matrix population models (MPMs) with
     particular characteristics based on aspects of life history such as
-    mortality trajectories and fertility trajectories. Also allows the exploration
-    of sampling error due to small sample size.">
+    mortality trajectories and fertility trajectories. Also allows the
+    exploration of sampling error due to small sample size.">
 <title>Simulates Matrix Population Models with Particular Life History
     Characteristics • mpmsim</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,8 +19,8 @@
     Characteristics">
 <meta property="og:description" content="Allows users to simulate matrix population models (MPMs) with
     particular characteristics based on aspects of life history such as
-    mortality trajectories and fertility trajectories. Also allows the exploration
-    of sampling error due to small sample size.">
+    mortality trajectories and fertility trajectories. Also allows the
+    exploration of sampling error due to small sample size.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -279,11 +279,11 @@
 <span><span class="co">#&gt; [4,] 0.0000000 0.0000000 0.2344795 0.1032486</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="simulate-an-mpm-using-a-particular-sample-size">Simulate an MPM using a particular sample size<a class="anchor" aria-label="anchor" href="#simulate-an-mpm-using-a-particular-sample-size"></a>
+<h3 id="simulate-sampling-error-for-an-mpm">Simulate sampling error for an MPM<a class="anchor" aria-label="anchor" href="#simulate-sampling-error-for-an-mpm"></a>
 </h3>
-<p>The function <code>simulate_mpm</code> can be used to simulate an MPM based on expected transition rates (survival and fecundity) and sample sizes. The expected transition rates must be provided as matrices. The sample size(s) can be given as either a matrix of sample sizes for each element of the matrix or as a single value which is then applied to all elements of the matrix.</p>
+<p>The function <code>add_mpm_error</code> can be used to simulate an MPM with sampling error, based on expected transition rates (survival and fecundity) and sample sizes. The expected transition rates must be provided as matrices. The sample size(s) can be given as either a matrix of sample sizes for each element of the matrix or as a single value which is then applied to all elements of the matrix.</p>
 <p>The function uses a binomial process to simulate survival/growth elements and a Poisson process to simulate the fecundity elements. As a result, when sample sizes are large, the simulated MPM will closely reflect the expected transition rates. In contrast, when sample sizes are small, the simulated matrices will become more variable.</p>
-<p>To illustrate use of the function, the following code first generates a 3-stage Leslie matrix using the <code>make_leslie_mpm</code> function. It then passes the U and F matrices from this Leslie matrix to the <code>simulate_mpm</code> function. Then, two matrices are simulated, first with a sample size of 1000, and then with a sample size of seven.</p>
+<p>To illustrate use of the function, the following code first generates a 3-stage Leslie matrix using the <code>make_leslie_mpm</code> function. It then passes the U and F matrices from this Leslie matrix to the <code>add_mpm_error</code> function. Then, two matrices are simulated, first with a sample size of 1000, and then with a sample size of seven.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mats</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_leslie_mpm.html">make_leslie_mpm</a></span><span class="op">(</span></span>
 <span>  survival <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span><span class="op">)</span>,</span>
@@ -291,7 +291,7 @@
 <span>  n_stages <span class="op">=</span> <span class="fl">3</span>, split <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/simulate_mpm.html">simulate_mpm</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="reference/add_mpm_error.html">add_mpm_error</a></span><span class="op">(</span></span>
 <span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
 <span>  sample_size <span class="op">=</span> <span class="fl">1000</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
@@ -300,7 +300,7 @@
 <span><span class="co">#&gt; [2,] 0.287 0.000 0.000</span></span>
 <span><span class="co">#&gt; [3,] 0.000 0.507 0.794</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/simulate_mpm.html">simulate_mpm</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="reference/add_mpm_error.html">add_mpm_error</a></span><span class="op">(</span></span>
 <span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
 <span>  sample_size <span class="op">=</span> <span class="fl">7</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
@@ -312,7 +312,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span></span>
 <span>  n <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>  <span class="fu"><a href="reference/simulate_mpm.html">simulate_mpm</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="reference/add_mpm_error.html">add_mpm_error</a></span><span class="op">(</span></span>
 <span>    mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
 <span>    sample_size <span class="op">=</span> <span class="fl">7</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span>

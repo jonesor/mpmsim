@@ -21,7 +21,7 @@ library(mpmsim)
 
 Uncertainty in the individual matrix elements of a matrix population model can lead to sampling errors, which propagate and affect the accuracy of estimates of MPM-derived metrics. These metrics include population growth rate, generation time, reactivity and many others.
 
-One way to estimate this uncertainty is by using bootstrapping approach whereby a sampling distribution of the matrix model is generated, based on assumptions about the underlying processes in the matrix model and the uncertainties in the individual matrix elements. For example, we can assume that the fertility component of the matrix is the mean of multiple Poisson processes, and that survival can be modeled as a binomial process.
+One way to estimate this uncertainty is by using bootstrapping approach whereby a sampling distribution of the matrix model is generated, based on assumptions about the underlying processes in the matrix model and the uncertainties in the individual matrix elements. For example, we can assume that the fertility component of the matrix is the mean of multiple Poisson processes, and that survival can be modelled as a binomial process.
 
 The `compute_ci()` function allows users to estimate a 95% confidence interval for any metric that can be derived from a matrix population model (**A**). This function generates a sampling distribution by resampling based on the above assumptions and calculates the posterior distribution of the metric of interest. The lower and upper bounds of the 95% CI are then estimated from this distribution. The width of the CI reflects the precision of the estimate; a narrower CI indicates greater precision, while a wider CI indicates less precision.
 

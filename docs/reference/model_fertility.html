@@ -172,22 +172,28 @@ models.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0  0 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute fertility using the logistic model</span></span></span>
-<span class="r-in"><span><span class="fu">model_fertility</span><span class="op">(</span>age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">20</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">10</span>, k <span class="op">=</span> <span class="fl">0.5</span>, x_m <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>, maturity <span class="op">=</span></span></span>
-<span class="r-in"><span><span class="fl">0</span>, model <span class="op">=</span> <span class="st">"logistic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">model_fertility</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">20</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">10</span>, k <span class="op">=</span> <span class="fl">0.5</span>, x_m <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>, maturity <span class="op">=</span></span></span>
+<span class="r-in"><span>    <span class="fl">0</span>, model <span class="op">=</span> <span class="st">"logistic"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.1798621 0.2931223 0.4742587 0.7585818 1.1920292 1.8242552 2.6894142</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8] 3.7754067 5.0000000 6.2245933 7.3105858 8.1757448 8.8079708 9.2414182</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [15] 9.5257413 9.7068777 9.8201379 9.8901306 9.9330715 9.9592986 9.9752738</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute fertility using the von Bertalanffy model</span></span></span>
-<span class="r-in"><span><span class="fu">model_fertility</span><span class="op">(</span>age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">20</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">10</span>, k <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span>, maturity <span class="op">=</span> <span class="fl">2</span>, model <span class="op">=</span></span></span>
-<span class="r-in"><span><span class="st">"vonbertalanffy"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">model_fertility</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">20</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">10</span>, k <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span>, maturity <span class="op">=</span> <span class="fl">2</span>, model <span class="op">=</span></span></span>
+<span class="r-in"><span>    <span class="st">"vonbertalanffy"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.000000 0.000000 2.591818 4.511884 5.934303 6.988058 7.768698 8.347011</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] 8.775436 9.092820 9.327945 9.502129 9.631168 9.726763 9.797581 9.850044</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [17] 9.888910 9.917703 9.939033 9.954834 9.966540</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute fertility using the normal model</span></span></span>
-<span class="r-in"><span><span class="fu">model_fertility</span><span class="op">(</span>age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">20</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">10</span>, mu <span class="op">=</span> <span class="fl">4</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, maturity <span class="op">=</span> <span class="fl">0</span>,</span></span>
-<span class="r-in"><span>model <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">model_fertility</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">20</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">10</span>, mu <span class="op">=</span> <span class="fl">4</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, maturity <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="st">"normal"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1.353353e+00 3.246525e+00 6.065307e+00 8.824969e+00 1.000000e+01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 8.824969e+00 6.065307e+00 3.246525e+00 1.353353e+00 4.393693e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] 1.110900e-01 2.187491e-02 3.354626e-03 4.006530e-04 3.726653e-05</span>
@@ -195,8 +201,10 @@ models.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21] 1.266417e-13</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute fertility using the Hadwiger model</span></span></span>
-<span class="r-in"><span><span class="fu">model_fertility</span><span class="op">(</span>age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">50</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">0.91</span>, b <span class="op">=</span> <span class="fl">3.85</span>, c <span class="op">=</span> <span class="fl">29.78</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>maturity <span class="op">=</span> <span class="fl">0</span>, model <span class="op">=</span> <span class="st">"hadwiger"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">model_fertility</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">50</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">0.91</span>, b <span class="op">=</span> <span class="fl">3.85</span>, c <span class="op">=</span> <span class="fl">29.78</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  maturity <span class="op">=</span> <span class="fl">0</span>, model <span class="op">=</span> <span class="st">"hadwiger"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]           NaN 1.722961e-178  2.632756e-83  7.775444e-52  2.900424e-36</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  4.854202e-27  5.511959e-21  9.752061e-17  1.285955e-13  3.012210e-11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11]  2.109246e-09  6.146616e-08  9.291611e-07  8.485057e-06  5.218334e-05</span>

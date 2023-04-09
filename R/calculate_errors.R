@@ -66,7 +66,7 @@
 #' )
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
-#' @seealso [simulate_mpm()] which simulates matrices with known values and
+#' @seealso [add_mpm_error()] which simulates matrices with known values and
 #'   sample sizes.
 #' @export calculate_errors
 #'

@@ -80,7 +80,7 @@ calculate_errors(
 
 }
 \seealso{
-\code{\link[=simulate_mpm]{simulate_mpm()}} which simulates matrices with known values and
+\code{\link[=add_mpm_error]{add_mpm_error()}} which simulates matrices with known values and
 sample sizes.
 
 Other errors: 

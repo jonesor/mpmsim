@@ -76,7 +76,7 @@
       <img src="" class="logo" alt=""><h1>Exploring PCA space</h1>
                         <h4 data-toc-skip class="author">Owen Jones</h4>
             
-            <h4 data-toc-skip class="date">2023-04-08</h4>
+            <h4 data-toc-skip class="date">2023-04-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/pca.Rmd" class="external-link"><code>vignettes/pca.Rmd</code></a></small>
       <div class="d-none name"><code>pca.Rmd</code></div>
@@ -109,7 +109,7 @@ of PCA space as an aid to understanding life history strategies.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sinhrks/ggfortify" class="external-link">ggfortify</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popbio</span><span class="op">)</span></span></code></pre></div>
-<p>First use <code><a href="../reference/generate_mpm_set.html">generate_mpm_set()</a></code> to simulate 500 matrices
+<p>First use <code><a href="../reference/generate_mpm_set.html">generate_mpm_set()</a></code> to simulate 50 matrices
 with the archetype 1 life history from Takada et al. (2018). This life
 history archetype is one where transition from/to any stage is possible
 and where individuals can progress and retrogress rapidly. After
@@ -119,7 +119,7 @@ simulating the matrices they can be placed into a
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">constrain_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="st">"lambda"</span>, arg <span class="op">=</span> <span class="cn">NA</span>, lower <span class="op">=</span> <span class="fl">0.9</span>, upper <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span></span>
 <span><span class="va">mpm_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_mpm_set.html">generate_mpm_set</a></span><span class="op">(</span></span>
-<span>  n <span class="op">=</span> <span class="fl">500</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">6</span>, <span class="fl">6</span><span class="op">)</span>, archetype <span class="op">=</span> <span class="fl">1</span>, split <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">50</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">6</span>, <span class="fl">6</span><span class="op">)</span>, archetype <span class="op">=</span> <span class="fl">1</span>, split <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  max_surv <span class="op">=</span> <span class="fl">0.95</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -128,7 +128,7 @@ simulating the matrices they can be placed into a
 <span><span class="co">#&gt; Metadata does not include a `SpeciesAccepted` column, so number of species not</span></span>
 <span><span class="co">#&gt; provided when viewing object.</span></span></code></pre></div>
 <p>Some of these matrices will be reducible, which leads to analytical
-problems with some calculations tHese can be filtered out using
+problems with some calculations. These can be filtered out using
 <code><a href="https://rdrr.io/pkg/Rcompadre/man/cdb_flag.html" class="external-link">cdb_flag()</a></code> followed by <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim_life_hist_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Rcompadre/man/cdb_flag.html" class="external-link">cdb_flag</a></span><span class="op">(</span><span class="va">sim_life_hist_1</span>, checks <span class="op">=</span> <span class="st">"check_irreducible"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -211,24 +211,15 @@ to the data frame for plotting purposes.</p>
 <p><img src="pca_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>The PCA loadings show two strong axes. One with evolutionary entropy,
 longevity, generation time and life expectancy aligned, and one with R0
-on its own. Life table entropy is aligned more or less equaly with both.
-This is a rather different pattern than can be observed with real data.
-Why?</p>
+on its own. Life table entropy is aligned more or less equally with
+both. This is a rather different pattern than can be observed with real
+data. Why?</p>
 </div>
 <div class="section level2">
 <h2 id="repeating-with-a-different-archetype">Repeating with a different archetype<a class="anchor" aria-label="anchor" href="#repeating-with-a-different-archetype"></a>
 </h2>
 <p>If we repeat the whole analysis with a different archetype (4) we get
 the following plot.</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   matrixID check_irreducible matA          matU          matF         </span></span>
-<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        1 TRUE              <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        2 TRUE              <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>        3 TRUE              <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>        4 TRUE              <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>        5 TRUE              <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>        6 TRUE              <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span> <span style="color: #949494;">&lt;dbl [3 × 3]&gt;</span></span></span></code></pre>
 <p><img src="pca_files/figure-html/unnamed-chunk-10-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

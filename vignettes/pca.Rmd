@@ -34,20 +34,20 @@ library(viridis)
 library(popbio)
 ```
 
-First use `generate_mpm_set()` to simulate 500 matrices with the archetype 1 life history from Takada et al. (2018). This life history archetype is one where transition from/to any stage is possible and where individuals can progress and retrogress rapidly. After simulating the matrices they can be placed into a `CompadreDB` object using `cdb_build_cdb()`.
+First use `generate_mpm_set()` to simulate 50 matrices with the archetype 1 life history from Takada et al. (2018). This life history archetype is one where transition from/to any stage is possible and where individuals can progress and retrogress rapidly. After simulating the matrices they can be placed into a `CompadreDB` object using `cdb_build_cdb()`.
 
 ```{r}
 set.seed(42)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 mpm_set <- generate_mpm_set(
-  n = 500, n_stages = 3, fecundity = c(0, 6, 6), archetype = 1, split = TRUE,
+  n = 50, n_stages = 3, fecundity = c(0, 6, 6), archetype = 1, split = TRUE,
   max_surv = 0.95, constraint = constrain_df
 )
 
 sim_life_hist_1 <- cdb_build_cdb(mat_u = mpm_set$U_list, mat_f = mpm_set$F_list)
 ```
 
-Some of these matrices will be reducible, which leads to analytical problems with some calculations tHese can be filtered out using `cdb_flag()` followed by `filter()`.
+Some of these matrices will be reducible, which leads to analytical problems with some calculations. These can be filtered out using `cdb_flag()` followed by `filter()`.
 
 ```{r}
 sim_life_hist_1 <- cdb_flag(sim_life_hist_1, checks = "check_irreducible") %>%
@@ -139,7 +139,7 @@ PCA_plot$layers <- c(
 PCA_plot
 ```
 
-The PCA loadings show two strong axes. One with evolutionary entropy, longevity, generation time and life expectancy aligned, and one with R0 on its own. Life table entropy is aligned more or less equaly with both. This is a rather different pattern than can be observed with real data. Why?
+The PCA loadings show two strong axes. One with evolutionary entropy, longevity, generation time and life expectancy aligned, and one with R0 on its own. Life table entropy is aligned more or less equally with both. This is a rather different pattern than can be observed with real data. Why?
 
 ## Repeating with a different archetype
 
@@ -151,7 +151,7 @@ set.seed(42)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 
 mpm_set <- generate_mpm_set(
-  n = 500, n_stages = 3, fecundity = c(0, 6, 6), archetype = 4, 
+  n = 50, n_stages = 3, fecundity = c(0, 6, 6), archetype = 4, 
   split = TRUE, constraint = constrain_df
 )
 
@@ -169,7 +169,6 @@ sim_life_hist_1$matF <- matF(sim_life_hist_1)
 
 # Use cdb_metadata to turn this into a data frame
 sim_life_hist_1 <- cdb_metadata(sim_life_hist_1)
-head(sim_life_hist_1)
 
 ## -----------------------------------------------------------------------------
 # New functions to calculate generation time from life table.

@@ -1,12 +1,8 @@
 # mpmsim (development version)
 
-* added `plot_matrix` function to plot a matrix as a heatmap
+### First release, with the following functionality.
 
-# mpmsim 0.1.0
-
-* Added a site for improved documentation
-
-# mpmsim 0.0.0.9000
-
-* Added a `NEWS.md` file to track changes to the package.
-* Added unit tests.
+- Functions for simulating Lefkovitch matrix models: `generate_mpm_set()` and`random_mpm()`.
+- A function for constructing Leslie matrix models: `make_leslie_mpm()`, which can make use of outputs from functions for describing demographic trajectories (`model_fertility()` and `model_survival()`).
+- Functions for calculating and propagating error: `add_mpm_error()`, `calculate_errors()` and `compute_ci()`.
+- A utility function: `plot_matrix()`

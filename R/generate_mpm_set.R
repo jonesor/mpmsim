@@ -5,7 +5,7 @@
 #' criteria. Criteria include the `archetype`, and the acceptable constraining
 #' criteria, which could include lambda, generation time or any other metric
 #' derived from an A matrix.
-#' The function attempts to find matrices that fulfill the criteria, discarding
+#' The function attempts to find matrices that fulfil the criteria, discarding
 #' unacceptable matrices. By default, if it takes more than 1000 attempts to
 #' find a suitable matrix model, then an error is produced. However, the number
 #' of attempts can be altered with the `attempts` parameter.
@@ -26,7 +26,7 @@
 #'   metric derived from an A matrix and (2) an argument for the function (`NA`,
 #'   if no argument supplied) (3) the lower acceptable bound for the metric and
 #'   (4) upper acceptable bound for the metric. This could be used to specify
-#' @param attempts an integer indicating the number of attempts To be made when
+#' @param attempts An integer indicating the number of attempts To be made when
 #'   simulating matrix model. The default is 1000. If it takes more than 1000
 #'   attempts to make a matrix that satisfies the conditions set by the other
 #'   arguments, then a warning is produced.

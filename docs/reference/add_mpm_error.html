@@ -9,8 +9,8 @@ a sample size defined by sample_size.Thus users can expect that large
 sample sizes will result in simulated matrices that match closely with the
 expectations, while simulated matrices with small sample sizes will be more
 variable."><title>Simulate a matrix population model (MPM) with sampling error based on
-expected values of transition rates and sample sizes — simulate_mpm • mpmsim</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simulate a matrix population model (MPM) with sampling error based on
-expected values of transition rates and sample sizes — simulate_mpm"><meta property="og:description" content="Simulates a matrix population model based on expected values in the
+expected values of transition rates and sample sizes — add_mpm_error • mpmsim</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simulate a matrix population model (MPM) with sampling error based on
+expected values of transition rates and sample sizes — add_mpm_error"><meta property="og:description" content="Simulates a matrix population model based on expected values in the
 transition matrix. The expected values are provided in two matrices mat_U
 for the growth/development and survival transitions and mat_F for the
 fecundity transitions. The mat_U values are simulated based on expected
@@ -70,8 +70,8 @@ variable."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/m
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Simulate a matrix population model (MPM) with sampling error based on
 expected values of transition rates and sample sizes</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/R/simulate_mpm.R" class="external-link"><code>R/simulate_mpm.R</code></a></small>
-      <div class="d-none name"><code>simulate_mpm.Rd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/R/add_mpm_error.R" class="external-link"><code>R/add_mpm_error.R</code></a></small>
+      <div class="d-none name"><code>add_mpm_error.Rd</code></div>
     </div>
 
     <div class="ref-description section level2">
@@ -89,7 +89,7 @@ variable.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_mpm</span><span class="op">(</span><span class="va">mat_U</span>, <span class="va">mat_F</span>, <span class="va">sample_size</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_mpm_error</span><span class="op">(</span><span class="va">mat_U</span>, <span class="va">mat_F</span>, <span class="va">sample_size</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -147,37 +147,37 @@ the element(s) concerned is known without error.</p>
 <span class="r-in"><span><span class="va">ssMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">10</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample size is a single matrix</span></span></span>
-<span class="r-in"><span><span class="fu">simulate_mpm</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu">add_mpm_error</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span></span>
 <span class="r-in"><span>  sample_size <span class="op">=</span> <span class="va">ssMat</span>, split <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.0  0.0  0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  0.1  0.0  0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.0  0.2  0.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0  0.0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0  0.0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0  0.2  0.7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_F</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0  1.6  2.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0  0.9  3.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0  0.0  0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0  0.0  0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample size is a single value</span></span></span>
-<span class="r-in"><span><span class="fu">simulate_mpm</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu">add_mpm_error</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span></span>
 <span class="r-in"><span>  sample_size <span class="op">=</span> <span class="fl">50</span>, split <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.0  0.0  0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  0.1  0.0  0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.0  0.2  0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.00 0.00  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.04 0.00  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00 0.24  0.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_F</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0 1.26 2.14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0 1.06 2.26</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0 0.00 0.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0 0.00 0.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -188,15 +188,15 @@ the element(s) concerned is known without error.</p>
 <span class="r-in"><span>  <span class="st">"mat_U_ss"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">10</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">simulate_mpm</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu">add_mpm_error</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span></span>
 <span class="r-in"><span>  sample_size <span class="op">=</span> <span class="va">ssMats</span>, split <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.0  0.0  0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  0.1  0.0  0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.0  0.1  0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0  0.0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0  0.0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0  0.2  0.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_F</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>

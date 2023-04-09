@@ -42,7 +42,7 @@ metric derived from an A matrix and (2) an argument for the function (\code{NA},
 if no argument supplied) (3) the lower acceptable bound for the metric and
 (4) upper acceptable bound for the metric. This could be used to specify}
 
-\item{attempts}{an integer indicating the number of attempts To be made when
+\item{attempts}{An integer indicating the number of attempts To be made when
 simulating matrix model. The default is 1000. If it takes more than 1000
 attempts to make a matrix that satisfies the conditions set by the other
 arguments, then a warning is produced.}
@@ -55,7 +55,7 @@ This function generates a list of \code{n} MPMs according to the specified
 criteria. Criteria include the \code{archetype}, and the acceptable constraining
 criteria, which could include lambda, generation time or any other metric
 derived from an A matrix.
-The function attempts to find matrices that fulfill the criteria, discarding
+The function attempts to find matrices that fulfil the criteria, discarding
 unacceptable matrices. By default, if it takes more than 1000 attempts to
 find a suitable matrix model, then an error is produced. However, the number
 of attempts can be altered with the \code{attempts} parameter.
