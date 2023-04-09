@@ -2,77 +2,96 @@
 % Please edit documentation in R/add_mpm_error.R
 \name{add_mpm_error}
 \alias{add_mpm_error}
-\title{Simulate a matrix population model (MPM) with sampling error based on
-expected values of transition rates and sample sizes}
+\title{Add sampling error to matrix population models (MPMs) based on expected
+values of transition rates and sample sizes}
 \usage{
-add_mpm_error(mat_U, mat_F, sample_size, split = TRUE)
+add_mpm_error(mat_U, mat_F, sample_size, split = TRUE, by_type = TRUE)
 }
 \arguments{
-\item{mat_U}{matrix of mean survival/growth probabilities}
+\item{mat_U}{A list of U submatrices, or a single U submatrix.}
 
-\item{mat_F}{matrix of mean fecundity values}
+\item{mat_F}{A list of F submatrices, or a single F submatrix.}
 
 \item{sample_size}{either (1) a single matrix of sample sizes for each
-element of the MPM, (2) a list of two named matrices ("\code{mat_F_ss}",
+element of every MPM, (2) a list of two named matrices ("\code{mat_F_ss}",
 "\code{mat_U_ss}") containing sample sizes for the survival and fertility
-submatrices of the MPM or (3) a single value applied to the whole matrix}
+submatrices of every MPM or (3) a single value applied to the every element
+of every matrix.}
 
 \item{split}{logical, whether to split the output into survival and fecundity
-matrices or not}
+matrices or not. Defaults to \code{TRUE}.}
+
+\item{by_type}{A logical indicating whether the matrices should be returned
+in a list by type (A, U, F, C). If split is \code{FALSE}, then \code{by_type} must
+also be \code{FALSE}. Defaults to \code{TRUE}.}
 }
 \value{
 list of matrices of survival and fecundity if \code{split = TRUE},
-otherwise a single matrix of the sum of survival and fecundity
+otherwise a single matrix of the sum of survival and fecundity.
 }
 \description{
-Simulates a matrix population model based on expected values in the
-transition matrix. The expected values are provided in two matrices \code{mat_U}
-for the growth/development and survival transitions and \code{mat_F} for the
-fecundity transitions. The \code{mat_U} values are simulated based on expected
-probabilities, assuming a binomial process with a sample size defined by
-\code{sample_size}. The \code{mat_F} values are simulated using a Poisson process with
-a sample size defined by \code{sample_size}.Thus users can expect that large
-sample sizes will result in simulated matrices that match closely with the
-expectations, while simulated matrices with small sample sizes will be more
-variable.
+Produces a list of matrix population models based on expected values in the
+transition matrix and sample size. The expected values are provided in lists
+of two submatrices: \code{mat_U} for the growth/development and survival
+transitions and \code{mat_F} for the fecundity transitions. The output \code{mat_U}
+values are simulated based on expected probabilities, assuming a binomial
+process with a sample size defined by \code{sample_size}. The output \code{mat_F}
+values are simulated using a Poisson process with a sample size defined by
+\code{sample_size}.Thus users can expect that large sample sizes will result in
+simulated matrices that match closely with the expectations, while simulated
+matrices with small sample sizes will be more variable.
 }
 \details{
 if any \code{sample_size} input is 0, it is assumed that the estimate for
 the element(s) concerned is known without error.
 }
 \examples{
+# First generate a set of MPMs
+mpm_set <- generate_mpm_set(n = 5, n_stages = 5, fecundity = c(
+  0, 0, 4, 8,
+  10
+), archetype = 4, split = TRUE, by_type = TRUE)
+
+# Now apply sampling error to this set
+add_mpm_error(mat_U = mpm_set$U_list, mat_F = mpm_set$F_list,sample_size =
+50)
+
+# Also works with a single matrix.
 mats <- make_leslie_mpm(
   survival = c(0.1, 0.2, 0.5),
   fertility = c(0, 1.2, 2.4),
   n_stages = 3, split = TRUE
 )
-ssMat <- matrix(10, nrow = 3, ncol = 3)
-
-# Sample size is a single matrix
-add_mpm_error(
-  mat_U = mats$mat_U, mat_F = mats$mat_F,
-  sample_size = ssMat, split = TRUE
-)
 
 # Sample size is a single value
-add_mpm_error(
-  mat_U = mats$mat_U, mat_F = mats$mat_F,
-  sample_size = 50, split = TRUE
-)
+add_mpm_error(mat_U = mats$mat_U, mat_F = mats$mat_F, sample_size = 20)
 
 # Sample size is a list of two matrices
+# here with a sample size of 20 for reproduction and 10 for growth/survival.
+mpm_set <- generate_mpm_set(
+  n = 5, n_stages = 3, fecundity = c(0, 2, 4),
+  archetype = 4, split = TRUE, by_type = TRUE
+)
+
 ssMats <- list(
-  "mat_F_ss" = matrix(10, nrow = 3, ncol = 3),
+  "mat_F_ss" = matrix(20, nrow = 3, ncol = 3),
   "mat_U_ss" = matrix(10, nrow = 3, ncol = 3)
 )
 
-add_mpm_error(
-  mat_U = mats$mat_U, mat_F = mats$mat_F,
-  sample_size = ssMats, split = TRUE
-)
+# Add sampling error to the matrix models
+output <- add_mpm_error(mat_U = mpm_set$U_list, mat_F = mpm_set$F_list,
+sample_size = ssMats)
+
+#Examine the outputs
+names(output)
+output
 
 }
 \seealso{
+Other errors: 
+\code{\link{calculate_errors}()},
+\code{\link{compute_ci}()}
+
 Other errors: 
 \code{\link{calculate_errors}()},
 \code{\link{compute_ci}()}
