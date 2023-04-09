@@ -18,7 +18,8 @@
 #' @family Leslie matrices
 #' @seealso
 #' * [model_survival()] to model age-specific survival using mortality models.
-#' * [model_fertility()] to model age-specific fertility using various functions.
+#' * [model_fertility()] to model age-specific fertility using various
+#' functions.
 #' @references
 #' Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
 #' Interpretation. Sinauer.
