@@ -127,11 +127,12 @@ PCA_plot <- autoplot(
 )
 
 PCA_plot$layers <- c(
-  geom_point(aes_(
-    x = pcData$PC1,
-    y = pcData$PC2
-  ),
-  size = 2, alpha = .5
+  geom_point(
+    aes_(
+      x = pcData$PC1,
+      y = pcData$PC2
+    ),
+    size = 2, alpha = .5
   ),
   PCA_plot$layers
 )
@@ -151,7 +152,7 @@ set.seed(42)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 
 mpm_set <- generate_mpm_set(
-  n = 50, n_stages = 3, fecundity = c(0, 6, 6), archetype = 4, 
+  n = 50, n_stages = 3, fecundity = c(0, 6, 6), archetype = 4,
   split = TRUE, constraint = constrain_df
 )
 
@@ -221,11 +222,12 @@ PCA_plot <- autoplot(
 )
 
 PCA_plot$layers <- c(
-  geom_point(aes_(
-    x = pcData$PC1,
-    y = pcData$PC2
-  ),
-  size = 2, alpha = .5
+  geom_point(
+    aes_(
+      x = pcData$PC1,
+      y = pcData$PC2
+    ),
+    size = 2, alpha = .5
   ),
   PCA_plot$layers
 )
