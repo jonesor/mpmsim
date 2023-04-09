@@ -27,4 +27,3 @@ testthat::expect_true(
     split = FALSE, by_type = FALSE
   )[[1]])
 )
-
