@@ -53,8 +53,10 @@ mpm_set <- generate_mpm_set(n = 5, n_stages = 5, fecundity = c(
 ), archetype = 4, split = TRUE, by_type = TRUE)
 
 # Now apply sampling error to this set
-add_mpm_error(mat_U = mpm_set$U_list, mat_F = mpm_set$F_list,sample_size =
-50)
+add_mpm_error(
+  mat_U = mpm_set$U_list, mat_F = mpm_set$F_list, sample_size =
+    50
+)
 
 # Also works with a single matrix.
 mats <- make_leslie_mpm(
@@ -79,10 +81,12 @@ ssMats <- list(
 )
 
 # Add sampling error to the matrix models
-output <- add_mpm_error(mat_U = mpm_set$U_list, mat_F = mpm_set$F_list,
-sample_size = ssMats)
+output <- add_mpm_error(
+  mat_U = mpm_set$U_list, mat_F = mpm_set$F_list,
+  sample_size = ssMats
+)
 
-#Examine the outputs
+# Examine the outputs
 names(output)
 output
 
