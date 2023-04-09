@@ -198,11 +198,12 @@ to the data frame for plotting purposes.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">PCA_plot</span><span class="op">$</span><span class="va">layers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_.html" class="external-link">aes_</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">pcData</span><span class="op">$</span><span class="va">PC1</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">pcData</span><span class="op">$</span><span class="va">PC2</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  size <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">.5</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_.html" class="external-link">aes_</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">pcData</span><span class="op">$</span><span class="va">PC1</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">pcData</span><span class="op">$</span><span class="va">PC2</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">.5</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  <span class="va">PCA_plot</span><span class="op">$</span><span class="va">layers</span></span>
 <span><span class="op">)</span></span>

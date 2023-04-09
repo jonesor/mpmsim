@@ -131,8 +131,10 @@
 <p>Age-specific survival probability is given by the <code>px</code> column in the output from <code>model_survival</code>. Users can also use a functional form for fertility (see <code>model_fertility</code>) and here a simple step function is assumed.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">survival</span> <span class="op">&lt;-</span> <span class="va">surv_prob</span><span class="op">$</span><span class="va">px</span></span>
-<span><span class="va">fertility</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/model_fertility.html">model_fertility</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">survival</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, </span>
-<span>                             params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, maturity <span class="op">=</span> <span class="fl">2</span>, model <span class="op">=</span> <span class="st">"step"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">fertility</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/model_fertility.html">model_fertility</a></span><span class="op">(</span></span>
+<span>  age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">survival</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, maturity <span class="op">=</span> <span class="fl">2</span>, model <span class="op">=</span> <span class="st">"step"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>Subsequently, these survival and fertility values can be applied to the Leslie matrix as follows.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/make_leslie_mpm.html">make_leslie_mpm</a></span><span class="op">(</span></span>
@@ -293,7 +295,7 @@
 <span></span>
 <span><span class="fu"><a href="reference/add_mpm_error.html">add_mpm_error</a></span><span class="op">(</span></span>
 <span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
-<span>  sample_size <span class="op">=</span> <span class="fl">1000</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  sample_size <span class="op">=</span> <span class="fl">1000</span>, split <span class="op">=</span> <span class="cn">FALSE</span>, by_type <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;       [,1]  [,2]  [,3]</span></span>
 <span><span class="co">#&gt; [1,] 0.000 2.255 4.482</span></span>
@@ -302,7 +304,7 @@
 <span></span>
 <span><span class="fu"><a href="reference/add_mpm_error.html">add_mpm_error</a></span><span class="op">(</span></span>
 <span>  mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
-<span>  sample_size <span class="op">=</span> <span class="fl">7</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  sample_size <span class="op">=</span> <span class="fl">7</span>, split <span class="op">=</span> <span class="cn">FALSE</span>, by_type <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;           [,1]      [,2]     [,3]</span></span>
 <span><span class="co">#&gt; [1,] 0.0000000 1.8571429 4.714286</span></span>
@@ -314,7 +316,7 @@
 <span>  n <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  <span class="fu"><a href="reference/add_mpm_error.html">add_mpm_error</a></span><span class="op">(</span></span>
 <span>    mat_U <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_U</span>, mat_F <span class="op">=</span> <span class="va">mats</span><span class="op">$</span><span class="va">mat_F</span>,</span>
-<span>    sample_size <span class="op">=</span> <span class="fl">7</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>    sample_size <span class="op">=</span> <span class="fl">7</span>, split <span class="op">=</span> <span class="cn">FALSE</span>, by_type <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; , , 1</span></span>

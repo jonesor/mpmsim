@@ -35,6 +35,18 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
+      "identifier": "ggfortify",
+      "name": "ggfortify",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggfortify"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "knitr",
       "name": "knitr",
       "provider": {
@@ -44,18 +56,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=knitr"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "rmarkdown",
-      "name": "rmarkdown",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
     },
     {
       "@type": "SoftwareApplication",
@@ -83,6 +83,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "version": ">= 3.0.0",
@@ -93,6 +105,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "viridis",
+      "name": "viridis",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=viridis"
     }
   ],
   "softwareRequirements": {
@@ -139,18 +163,6 @@
     },
     "5": {
       "@type": "SoftwareApplication",
-      "identifier": "popdemo",
-      "name": "popdemo",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=popdemo"
-    },
-    "6": {
-      "@type": "SoftwareApplication",
       "identifier": "popbio",
       "name": "popbio",
       "provider": {
@@ -160,6 +172,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=popbio"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
+      "identifier": "popdemo",
+      "name": "popdemo",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=popdemo"
     },
     "7": {
       "@type": "SoftwareApplication",
@@ -173,9 +197,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=reshape"
     },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
+    },
     "SystemRequirements": null
   },
-  "fileSize": "1129.467KB",
+  "fileSize": "729.736KB",
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
   "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md"
 }
