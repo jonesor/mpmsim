@@ -82,8 +82,10 @@ assumed.
 
 ``` r
 survival <- surv_prob$px
-fertility <- model_fertility(age = 0:(length(survival)-1), 
-                             params = c(A = 5), maturity = 2, model = "step")
+fertility <- model_fertility(
+  age = 0:(length(survival) - 1),
+  params = c(A = 5), maturity = 2, model = "step"
+)
 ```
 
 Subsequently, these survival and fertility values can be applied to the
@@ -272,7 +274,7 @@ mats <- make_leslie_mpm(
 
 add_mpm_error(
   mat_U = mats$mat_U, mat_F = mats$mat_F,
-  sample_size = 1000, split = FALSE
+  sample_size = 1000, split = FALSE, by_type = FALSE
 )
 #>       [,1]  [,2]  [,3]
 #> [1,] 0.000 2.255 4.482
@@ -281,7 +283,7 @@ add_mpm_error(
 
 add_mpm_error(
   mat_U = mats$mat_U, mat_F = mats$mat_F,
-  sample_size = 7, split = FALSE
+  sample_size = 7, split = FALSE, by_type = FALSE
 )
 #>           [,1]      [,2]     [,3]
 #> [1,] 0.0000000 1.8571429 4.714286
@@ -297,7 +299,7 @@ replicate(
   n = 5,
   add_mpm_error(
     mat_U = mats$mat_U, mat_F = mats$mat_F,
-    sample_size = 7, split = FALSE
+    sample_size = 7, split = FALSE, by_type = FALSE
   )
 )
 #> , , 1
