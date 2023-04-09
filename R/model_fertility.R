@@ -88,7 +88,6 @@
 
 model_fertility <- function(age = NULL, params, maturity = 0,
                             model = "logistic") {
-
   # Input validation and input error handling
   if (!is.numeric(age)) stop("Input 'age' must be a numeric vector.")
   if (min(age) < 0) stop("Input 'age' must be non-negative.")
