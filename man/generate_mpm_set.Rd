@@ -65,7 +65,7 @@ of attempts can be altered with the \code{attempts} parameter.
 # Basic operation, without splitting matrices and with no constraints
 generate_mpm_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, split = FALSE
+  archetype = 4, split = FALSE, by_type = FALSE
 )
 
 # Constrain outputs to A matrices with lambda between 0.9 and 1.1
