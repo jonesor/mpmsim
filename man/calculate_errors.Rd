@@ -44,7 +44,7 @@ The output is a list containing the original matrices and matrices showing
 error estimates or confidence intervals.
 }
 \examples{
-
+#Set up two submatrices
 matU <- matrix(c(
   0.1, 0,
   0.2, 0.4
@@ -54,7 +54,10 @@ matF <- matrix(c(
   0., 0.
 ), byrow = TRUE, nrow = 2)
 
+# errors as 95\% CI, with a sample size of 20 for all elements
 calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "CI95")
+
+# errors as sem, with a sample size of 20 for all elements
 calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "sem")
 
 # Sample size is a single matrix applied to both F and U matrices
@@ -65,7 +68,7 @@ calculate_errors(
     "sem"
 )
 
-# Sample size is a list of two matrices
+# Sample size is a list of two matrices, one for F and one for U.
 ssMats <- list(
   "mat_F_ss" = matrix(10, nrow = 2, ncol = 2),
   "mat_U_ss" = matrix(10, nrow = 2, ncol = 2)
@@ -81,8 +84,8 @@ calculate_errors(
 sample sizes.
 
 Other errors: 
-\code{\link{compute_ci}()},
-\code{\link{simulate_mpm}()}
+\code{\link{add_mpm_error}()},
+\code{\link{compute_ci}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
