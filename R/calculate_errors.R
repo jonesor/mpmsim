@@ -31,7 +31,7 @@
 #'   matrices.
 #' @family errors
 #' @examples
-#'
+#' #Set up two submatrices
 #' matU <- matrix(c(
 #'   0.1, 0,
 #'   0.2, 0.4
@@ -41,7 +41,10 @@
 #'   0., 0.
 #' ), byrow = TRUE, nrow = 2)
 #'
+#' # errors as 95% CI, with a sample size of 20 for all elements
 #' calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "CI95")
+#'
+#' # errors as sem, with a sample size of 20 for all elements
 #' calculate_errors(mat_U = matU, mat_F = matF, sample_size = 20, type = "sem")
 #'
 #' # Sample size is a single matrix applied to both F and U matrices
@@ -52,7 +55,7 @@
 #'     "sem"
 #' )
 #'
-#' # Sample size is a list of two matrices
+#' # Sample size is a list of two matrices, one for F and one for U.
 #' ssMats <- list(
 #'   "mat_F_ss" = matrix(10, nrow = 2, ncol = 2),
 #'   "mat_U_ss" = matrix(10, nrow = 2, ncol = 2)
@@ -184,6 +187,9 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem",
     interval_A <- 1.96 * mat_A_error
     mat_A_upperCI <- mat_A + interval_A
     mat_A_lowerCI <- mat_A - interval_A
+
+    # Constrain values to >0
+    mat_A_lowerCI[mat_A_lowerCI < 0] <- 0
   }
 
   # Outputs
