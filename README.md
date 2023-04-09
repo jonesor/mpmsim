@@ -242,14 +242,14 @@ outputMPMs
 #> [4,] 0.0000000 0.0000000 0.2344795 0.1032486
 ```
 
-### Simulate an MPM using a particular sample size
+### Simulate sampling error for an MPM
 
-The function `simulate_mpm` can be used to simulate an MPM based on
-expected transition rates (survival and fecundity) and sample sizes. The
-expected transition rates must be provided as matrices. The sample
-size(s) can be given as either a matrix of sample sizes for each element
-of the matrix or as a single value which is then applied to all elements
-of the matrix.
+The function `add_mpm_error` can be used to simulate an MPM with
+sampling error, based on expected transition rates (survival and
+fecundity) and sample sizes. The expected transition rates must be
+provided as matrices. The sample size(s) can be given as either a matrix
+of sample sizes for each element of the matrix or as a single value
+which is then applied to all elements of the matrix.
 
 The function uses a binomial process to simulate survival/growth
 elements and a Poisson process to simulate the fecundity elements. As a
@@ -260,7 +260,7 @@ are small, the simulated matrices will become more variable.
 To illustrate use of the function, the following code first generates a
 3-stage Leslie matrix using the `make_leslie_mpm` function. It then
 passes the U and F matrices from this Leslie matrix to the
-`simulate_mpm` function. Then, two matrices are simulated, first with a
+`add_mpm_error` function. Then, two matrices are simulated, first with a
 sample size of 1000, and then with a sample size of seven.
 
 ``` r
@@ -270,7 +270,7 @@ mats <- make_leslie_mpm(
   n_stages = 3, split = TRUE
 )
 
-simulate_mpm(
+add_mpm_error(
   mat_U = mats$mat_U, mat_F = mats$mat_F,
   sample_size = 1000, split = FALSE
 )
@@ -279,7 +279,7 @@ simulate_mpm(
 #> [2,] 0.287 0.000 0.000
 #> [3,] 0.000 0.507 0.794
 
-simulate_mpm(
+add_mpm_error(
   mat_U = mats$mat_U, mat_F = mats$mat_F,
   sample_size = 7, split = FALSE
 )
@@ -295,7 +295,7 @@ A list of an arbitrary number of matrices can be generated easily using
 ``` r
 replicate(
   n = 5,
-  simulate_mpm(
+  add_mpm_error(
     mat_U = mats$mat_U, mat_F = mats$mat_F,
     sample_size = 7, split = FALSE
   )
