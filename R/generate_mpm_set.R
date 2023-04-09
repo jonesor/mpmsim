@@ -18,7 +18,7 @@
 #'   is TRUE.
 #' @param by_type A logical indicating whether the matrices should be returned
 #'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must
-#'   also be `FALSE`.
+#'   also be `FALSE`. Defaults to `TRUE`.
 #' @param max_surv The maximum acceptable survival value. Defaults to 0.99. This
 #'   is only used if `split = TRUE`.
 #' @param constraint An optional data frame with 4 columns named `fun`, `arg`,
