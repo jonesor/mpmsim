@@ -1,4 +1,4 @@
-# mpmsim (development version)
+# mpmsim 1.0.0
 
 ### First release, with the following functionality.
 

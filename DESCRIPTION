@@ -1,11 +1,11 @@
 Package: mpmsim
 Title: Simulates Matrix Population Models with Particular Life History
     Characteristics
-Version: 0.1.0.9000
+Version: 1.0.0
 Authors@R: 
     person("Owen", "Jones", , "jones@biology.sdu.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-5720-4686"))
-Description: Allows users to simulate matrix population models (MPMs) with
+Description: Allows users to simulate matrix population models with
     particular characteristics based on aspects of life history such as
     mortality trajectories and fertility trajectories. Also allows the
     exploration of sampling error due to small sample size.
