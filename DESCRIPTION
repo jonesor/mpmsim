@@ -1,5 +1,5 @@
 Package: mpmsim
-Title: Simulates Matrix Population Models with Particular Life History
+Title: Simulation of Matrix Population Models with Defined Life History
     Characteristics
 Version: 1.0.0.9000
 Authors@R: 
