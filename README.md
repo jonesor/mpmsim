@@ -15,7 +15,7 @@ small (or unknown).
 
 ## Installation
 
-You can install the development version of `mpmsim` like this:
+You can install the latest GitHub version of `mpmsim` like this:
 
 ``` r
 # install package 'remotes' if necessary
@@ -25,6 +25,15 @@ install.packages("remotes")
 # argument 'build_opts = NULL' only needed if you want to build vignettes
 remotes::install_github("jonesor/mpmsim", build_opts = NULL)
 ```
+
+To install from the development branch, which may have additional
+functionality, use:
+
+``` r
+remotes::install_github("jonesor/mpmsim", ref = "dev")
+```
+
+Note, however, that this version is likely to be buggy.
 
 ## Usage
 
