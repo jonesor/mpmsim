@@ -51,6 +51,8 @@
 #'   0.0, 0.0
 #' ), byrow = TRUE, nrow = 2)
 #'
+#' set.seed(42)
+#'
 #' # Example of use to calculate 95% CI of lambda
 #' compute_ci(
 #'   mat_U = matU, mat_F = matF, sample_size = 10, FUN =
