@@ -169,13 +169,15 @@ Sinauer Associates Incorporated.</p>
 <span class="r-in"><span>  <span class="fl">0.0</span>, <span class="fl">0.0</span></span></span>
 <span class="r-in"><span><span class="op">)</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example of use to calculate 95% CI of lambda</span></span></span>
 <span class="r-in"><span><span class="fu">compute_ci</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  mat_U <span class="op">=</span> <span class="va">matU</span>, mat_F <span class="op">=</span> <span class="va">matF</span>, sample_size <span class="op">=</span> <span class="fl">10</span>, FUN <span class="op">=</span></span></span>
 <span class="r-in"><span>    <span class="fu">popbio</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/popbio/man/lambda.html" class="external-link">lambda</a></span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     2.5%    97.5% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.300000 1.870351 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.300000 1.824895 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example of use to calculate 95% CI of generation time</span></span></span>
 <span class="r-in"><span><span class="fu">compute_ci</span><span class="op">(</span></span></span>
@@ -183,7 +185,7 @@ Sinauer Associates Incorporated.</p>
 <span class="r-in"><span>    <span class="fu">popbio</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/popbio/man/generation.time.html" class="external-link">generation.time</a></span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     2.5%    97.5% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.395269 3.061479 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.386966 3.072293 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example of use to calculate 95% CI of generation time and show the</span></span></span>
 <span class="r-in"><span><span class="co"># distribution of those bootstrapped estimates</span></span></span>
@@ -193,7 +195,7 @@ Sinauer Associates Incorporated.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">quantiles</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2.474   2.583   2.692   2.692   2.801   2.909 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2.476   2.581   2.686   2.686   2.791   2.896 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">xx</span><span class="op">$</span><span class="va">estimates</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="compute_ci-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

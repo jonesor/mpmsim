@@ -200,48 +200,48 @@ the generation of large numbers of random matrices of this type.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">random_mpm</span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">2</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">1</span>, split <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]         [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.09734972 18.480505046</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.52296411  0.002027273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]        [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.5861768 23.78524996</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1729199  0.07513748</span>
 <span class="r-in"><span><span class="fu">random_mpm</span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">2</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">2</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1998574 15.6886741</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0768509  0.2923485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04332513 10.4499297</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.41164002  0.4187508</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_U</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1998574 0.6886741</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0768509 0.2923485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04332513 0.4499297</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.41164002 0.4187508</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_F</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0   15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0   10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">random_mpm</span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">3</span>, split <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]       [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3253898 0.00000000 16.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.6234029 0.48159495  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.09376948  0.5046673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1580808 0.0000000 21.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1617080 0.2036256  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.7569709  0.9401268</span>
 <span class="r-in"><span><span class="fu">random_mpm</span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">4</span>, fecundity <span class="op">=</span> <span class="fl">20</span>, archetype <span class="op">=</span> <span class="fl">4</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.18786362 0.0000000 0.0000000 21.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.09119456 0.1695133 0.0000000  0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.5521998 0.1505456  0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.6280268  0.930101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]       [,4]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.31039525 0.0000000 0.0000000 22.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.04828331 0.3731205 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.2188804 0.7151653  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.1842516  0.9882532</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_U</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]     [,4]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.18786362 0.0000000 0.0000000 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.09119456 0.1695133 0.0000000 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.5521998 0.1505456 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.6280268 0.930101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.31039525 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.04828331 0.3731205 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.2188804 0.7151653 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.1842516 0.9882532</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_F</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    0   21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    0   22</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0</span>
@@ -251,24 +251,24 @@ the generation of large numbers of random matrices of this type.</p>
 <span class="r-in"><span>  split <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]       [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1738809 0.0000000 4.0000000 7.00000000 8.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2489982 0.5528574 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.3029932 0.2018759 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.7542974 0.96879462 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.02978065 0.9989671</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.27593364 0.0000000 2.0000000 6.0000000 7.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.02246301 0.2195277 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.1937649 0.1561002 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.6472949 0.4783905 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.4720435 0.9773801</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_U</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]       [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1738809 0.0000000 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2489982 0.5528574 0.0000000 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.3029932 0.2018759 0.00000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.7542974 0.96879462 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.02978065 0.9989671</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.27593364 0.0000000 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.02246301 0.2195277 0.0000000 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.1937649 0.1561002 0.0000000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.6472949 0.4783905 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.4720435 0.9773801</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_F</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    4    7    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0    2    6    7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
