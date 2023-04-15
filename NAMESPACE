@@ -3,6 +3,7 @@
 export(add_mpm_error)
 export(calculate_errors)
 export(compute_ci)
+export(driven_vital_rate)
 export(generate_mpm_set)
 export(make_leslie_mpm)
 export(model_fertility)

@@ -89,6 +89,7 @@ matrices. Population Ecology, 60(1), 37–47.
 the generation of large numbers of random matrices of this type.
 
 Other simulation: 
+\code{\link{driven_vital_rate}()},
 \code{\link{generate_mpm_set}()}
 }
 \author{

@@ -111,6 +111,7 @@ generate_mpm_set(
 \code{\link[=random_mpm]{random_mpm()}} which this function is essentially a wrapper for.
 
 Other simulation: 
+\code{\link{driven_vital_rate}()},
 \code{\link{random_mpm}()}
 }
 \author{
