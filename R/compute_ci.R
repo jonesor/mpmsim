@@ -51,6 +51,8 @@
 #'   0.0, 0.0
 #' ), byrow = TRUE, nrow = 2)
 #'
+#' set.seed(42)
+#'
 #' # Example of use to calculate 95% CI of lambda
 #' compute_ci(
 #'   mat_U = matU, mat_F = matF, sample_size = 10, FUN =
@@ -100,7 +102,7 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
 
   # Sample size validation
   if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") ||
-    length(sample_size) == 1)) {
+        length(sample_size) == 1)) {
     stop("sample_size needs to be a matrix, a list of two matrices,
          or an integer with length 1")
   }
@@ -136,7 +138,7 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
   unlisted_sample_size <- unlist(sample_size)
 
   if (!min(abs(c(unlisted_sample_size %% 1, unlisted_sample_size %% 1 - 1))) <
-    .Machine$double.eps^0.5) {
+      .Machine$double.eps^0.5) {
     stop("sample_size must be integer value(s)")
   }
 
@@ -151,10 +153,10 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
 
   # replicate the simulation of MPMs
   sim_out <- replicate(n_sim, add_mpm_error(mat_U,
-    mat_F,
-    sample_size,
-    split = FALSE,
-    by_type = FALSE
+                                            mat_F,
+                                            sample_size,
+                                            split = FALSE,
+                                            by_type = FALSE
   ),
   simplify = FALSE
   )
