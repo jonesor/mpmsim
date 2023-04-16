@@ -17,6 +17,15 @@ set.seed(42)
 
 
 <!-- badges: start -->
+<!--- BE CAREFUL WITH THE FORMATTING --->
+
+| Project | Main branch | Devel branch  |
+|---------|:------------|:--------------|
+| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)  | [![R-CMD-check](https://github.com/jonesor/mpmsim/actions/workflows/main_check.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/main_check.yaml) | [![R-CMD-check](https://github.com/jonesor/mpmsim/actions/workflows/dev_build_check.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/dev_build_check.yaml) |
+| [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) | [![codecov](https://codecov.io/gh/jonesor/mpmsim/branch/main/graph/badge.svg?token=S9G2a5K9k9)](https://app.codecov.io/gh/jonesor/mpmsim)     |     |
+| ![](http://cranlogs.r-pkg.org/badges/grand-total/mpmsim) |[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/mpmsim)](https://cran.r-project.org/package=mpmsim)|
+| ![](http://cranlogs.r-pkg.org/badges/mpmsim)|  |     |
+
 <!-- badges: end -->
 
 `mpmsim` contains tools for generating random or semi-random matrix population models (MPMs) given a particular life history archetype. It also facilitates the generation of Leslie matrices, and the simulation of MPMs based on expected transition rates and sample sizes. This can be useful for exploring uncertainty in inferences when sample sizes are small (or unknown). 
