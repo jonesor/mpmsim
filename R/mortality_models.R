@@ -43,14 +43,14 @@ cumulative_auc <- function(x, y) {
 #' calculate_surv_prob(c(1, 0.8, 0.6, 0.4, 0.2, 0.1))
 #' @noRd
 calculate_surv_prob <- function(lx) {
-  if (max(diff(lx)) > 0) {
-    stop("The survivorship curve (lx) cannot increase. Check your data.")
+  if (length(lx) < 2) {
+    stop("lx must be a vector of length 2+")
   }
   if (!inherits(lx, "numeric")) {
     stop("lx must be numeric")
   }
-  if (length(lx) < 2) {
-    stop("lx must be a vector of length 2+")
+  if (max(diff(lx)) > 0) {
+    stop("The survivorship curve (lx) cannot increase. Check your data.")
   }
 
   lx_1 <- lx[1:(length(lx) - 1)]

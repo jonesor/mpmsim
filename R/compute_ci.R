@@ -94,10 +94,10 @@ compute_ci <- function(mat_U, mat_F, sample_size, FUN, ...,
   }
 
   if (!dim(mat_F)[1] == dim(mat_F)[2]) {
-    stop("mat_U and mat_F must be square matrices.")
+    stop("mat_F must be a square matrix.")
   }
   if (!dim(mat_U)[1] == dim(mat_U)[2]) {
-    stop("mat_U and mat_F must be square matrices.")
+    stop("mat_U must be square matrix.")
   }
 
   # Sample size validation
