@@ -88,11 +88,10 @@ matrices. Population Ecology, 60(1), 37–47.
 \code{\link[=generate_mpm_set]{generate_mpm_set()}} which is a wrapper for this function allowing
 the generation of large numbers of random matrices of this type.
 
-Other simulation: 
-\code{\link{driven_vital_rate}()},
+Other Lefkovitch matrices: 
 \code{\link{generate_mpm_set}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
-\concept{simulation}
+\concept{Lefkovitch matrices}

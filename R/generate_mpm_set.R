@@ -80,7 +80,7 @@
 #' )
 #'
 #' @seealso [random_mpm()] which this function is essentially a wrapper for.
-#' @family simulation
+#' @family Lefkovitch matrices
 #' @export generate_mpm_set
 
 generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,

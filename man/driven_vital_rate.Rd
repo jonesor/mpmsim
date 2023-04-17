@@ -23,16 +23,16 @@ variable (e.g. a climatic variable).}
 \item{slope}{A vector or matrix of slopes for the relationship between the
 driver variable and the vital rate being driven.}
 
-\item{baseline_driver}{The baseline_driver parameter is a single value
+\item{baseline_driver}{The \code{baseline_driver} parameter is a single value
 representing the baseline driver value. If the driver value is greater than
 this value and the slope is positive, then the resulting vital rate will be
 higher. Conversely, if the driver value is less than this variable and the
 slope is positive, then the resulting vital rate will be less than the
 baseline value.}
 
-\item{error_sd}{A vector or matrix of error standard deviations to be added
-to the driven value of the vital rate being modeled. If set to 0 (the
-default), no error is added.}
+\item{error_sd}{A vector or matrix of error standard deviations for random
+normal error to be added to the driven value of the vital rate being
+modelled. If set to 0 (the default), no error is added.}
 
 \item{link}{A character string indicating the type of link function to use.
 Valid values are "\code{logit}" (the default) and "\code{log}", which are appropriate
@@ -40,12 +40,12 @@ for survival (U submatrix) and reproduction (F submatrix) respectively.}
 }
 \value{
 Depending on the input types, either a single value, a vector or a
-list of matrices of driven values for the vital rate(s) being modeled. The
+list of matrices of driven values for the vital rate(s) being modelled. The
 list has a length equal to the length of the \code{driver} input parameter.
 }
 \description{
 This function calculates new values for a vital rate, such as survival or
-fecundity that is being influenced by a driver (e.g. weather). It does this
+fecundity that is being influenced by a driver (e.g., weather). It does this
 by using a driver variable and a baseline value, along with a specified slope
 for the relationship between the driver variable and the vital rate. The
 function works on a linearised scale, using logit for survival and log for
@@ -57,26 +57,26 @@ be linear:
 
 $$V = a * (d - d_b) + x + E$$
 
-Where $V$ is the new vital rate (on the scale of the linear predictor), $a$
-is the slope, $x$ is the baseline vital rate, $d$ is the driver, $d_b$ is the
-baseline driver and $E$ is the error.
+Where $$V$$ is the new vital rate (on the scale of the linear predictor), $$a$$
+is the slope, $$x$$ is the baseline vital rate, $$d$$ is the driver, $$d_b$$ is the
+baseline driver and $$E$$ is the error.
 
-The input vital rate(s) (baseline_value) can be a single-element vector
+The input vital rate(s) (\code{baseline_value}) can be a single-element vector
 representing a single vital rate (e.g., survival probability or fecundity), a
 longer vector representing a series of vital rates (e.g., several survival
 probabilities or fecundity values), or a matrix of values (e.g., a U or F
-submatrix of a matrix population model). The slopes of the relationship
-between the vital rate (baseline_value) and the driver can be provided as a
+submatrix of a matrix population model). The \code{slope}s of the relationship
+between the vital rate (\code{baseline_value}) and the driver can be provided as a
 single value, which is applied to all elements of the input vital rates, or
 as a matrix of values that map onto the matrix of vital rates. This allows
 users to simulate cases where different vital rates in a matrix model are
 affected in different ways by the same weather driver. For example, juvenile
 survival might be more affected by the driver than adult survival. The
-baseline_driver value represents the "normal" state of the driver. If the
-driver is greater than the baseline_driver and the slope is positive, then
+\code{baseline_driver} value represents the "normal" state of the driver. If the
+driver is greater than the \code{baseline_driver} and the \code{slope} is positive, then
 the outcome vital rate will be higher. If the driver is less than the
-baseline_driver variable and the slope is positive, then the outcome vital
-rate will be less than the baseline_value. The error_sd represents the error
+\code{baseline_driver} variable and the \code{slope} is positive, then the outcome vital
+rate will be less than the \code{baseline_value.} The \code{error_sd} represents the error
 in the linear relationship between the driver and the vital rate.
 }
 \examples{
@@ -129,12 +129,7 @@ driven_vital_rate(
 )
 
 }
-\seealso{
-Other simulation: 
-\code{\link{generate_mpm_set}()},
-\code{\link{random_mpm}()}
-}
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
-\concept{simulation}
+\concept{drivers}

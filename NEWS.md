@@ -1,6 +1,7 @@
 # mpmsim (development version)
 
 - added function to simulate the action of drivers such as weather on vital rates: `drive_vital_rate()`.
+- added full suite of unit tests using `testthat`. Test coverage 97.01%.
 
 # mpmsim 1.0.0
 
