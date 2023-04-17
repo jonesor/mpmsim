@@ -104,19 +104,25 @@ driven_vital_rate(
 # with a series of drivers, and matrices of slopes and errors
 
 lt1 <- model_survival(params = c(b_0 = 0.4, b_1 = 0.5), model = "Gompertz")
-lt1$fert <- model_fertility(age = 0:max(lt1$x), params = c(A = 10), maturity
-= 3, model = "step")
+lt1$fert <- model_fertility(
+  age = 0:max(lt1$x), params = c(A = 10),
+  maturity = 3, model = "step"
+)
 
-mats <- make_leslie_mpm(survival = lt1$px, fertility = lt1$fert, n_stages =
-nrow(lt1), split = TRUE)
+mats <- make_leslie_mpm(
+  survival = lt1$px, fertility = lt1$fert, n_stages =
+    nrow(lt1), split = TRUE
+)
 mats$mat_U
-mat_dim <- nrow (mats$mat_U)
+mat_dim <- nrow(mats$mat_U)
 
 driven_vital_rate(
   driver = runif(5, 5, 15),
   baseline_value = mats$mat_U,
-  slope = matrix(.4, nrow = mat_dim,
-  ncol = mat_dim),
+  slope = matrix(.4,
+    nrow = mat_dim,
+    ncol = mat_dim
+  ),
   baseline_driver = 10,
   error_sd = matrix(1, nrow = mat_dim, ncol = mat_dim),
   link = "logit"
