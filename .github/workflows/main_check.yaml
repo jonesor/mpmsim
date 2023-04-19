@@ -12,8 +12,8 @@ on:
 #  pull_request:
 #    branches:
 #      - main
-      
-      
+
+
 # Define job
 # What systems to run on (the matrix)
 
@@ -87,7 +87,7 @@ jobs:
         run: |
           wget https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.7.11/XQuartz-2.7.11.dmg
           sudo hdiutil attach XQuartz-2.7.11.dmg
-          sudo installer -package /Volumes/XQuartz-2.7.11/XQuartz.pkg -target / 
+          sudo installer -package /Volumes/XQuartz-2.7.11/XQuartz.pkg -target /
 
 #R script to install rcmdcheck and Rage
       - name: Install dependencies, rcmdcheck, Rage
@@ -117,5 +117,7 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
-          
-          
+
+# code coverage
+- name: Upload coverage reports to Codecov
+  uses: codecov/codecov-action@v3

@@ -1,5 +1,5 @@
 # This workflow does a build check with R-CMD-check
-# for the development version of R. 
+# for the development version of R.
 # It will often fail, but it is useful to know what the failures are
 # because we can fix them in advance of a new R release.
 
@@ -10,7 +10,7 @@ name: Weekly-build-check
 # Every Monday at 1PM UTC (9AM EST)
 # Use http://www.cronmaker.com/
 
-on:  
+on:
   schedule:
     - cron:  '0 0 * * SUN'
 
@@ -22,7 +22,6 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-
     strategy:
       fail-fast: false
       matrix:
@@ -87,7 +86,7 @@ jobs:
         run: |
           wget https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.7.11/XQuartz-2.7.11.dmg
           sudo hdiutil attach XQuartz-2.7.11.dmg
-          sudo installer -package /Volumes/XQuartz-2.7.11/XQuartz.pkg -target / 
+          sudo installer -package /Volumes/XQuartz-2.7.11/XQuartz.pkg -target /
 
 #R script to install rcmdcheck and Rage
       - name: Install dependencies, rcmdcheck, Rage
@@ -117,5 +116,8 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
-          
-          
+
+# code coverage
+- name: Upload coverage reports to Codecov
+  uses: codecov/codecov-action@v3
+
