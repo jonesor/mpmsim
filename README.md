@@ -24,7 +24,19 @@ small (or unknown).
 
 ## Installation
 
-You can install the latest GitHub version of `mpmsim` like this:
+You can install the latest stable version of `mpmsim` from CRAN like
+this:
+
+``` r
+# install package 'remotes' if necessary
+# will already be installed if 'devtools' is installed
+install.packages("mpmsim")
+```
+
+### Development version(s)
+
+The package is being developed (here) on GitHub. You can install the
+latest development version of `mpmsim` like this:
 
 ``` r
 # install package 'remotes' if necessary
@@ -35,14 +47,14 @@ install.packages("remotes")
 remotes::install_github("jonesor/mpmsim", build_opts = NULL)
 ```
 
-To install from the development branch, which may have additional
-functionality, use:
+During development there may be other versions, with additional
+functionality, available on different GitHub “branches”. To install from
+one of these branches, use the following syntax:
 
 ``` r
+# install from the 'dev' branch
 remotes::install_github("jonesor/mpmsim", ref = "dev")
 ```
-
-Note, however, that this version is likely to be buggy.
 
 ## Usage
 
