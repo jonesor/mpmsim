@@ -3,7 +3,7 @@
   "@type": "SoftwareSourceCode",
   "identifier": "mpmsim",
   "description": "Allows users to simulate matrix population models with particular characteristics based on aspects of life history such as mortality trajectories and fertility trajectories. Also allows the exploration of sampling error due to small sample size.",
-  "name": "mpmsim: Simulates Matrix Population Models with Particular Life History\n    Characteristics",
+  "name": "mpmsim: Simulation of Matrix Population Models with Defined Life History\n    Characteristics",
   "codeRepository": "https://github.com/jonesor/mpmsim",
   "issueTracker": "https://github.com/jonesor/mpmsim/issues",
   "license": "https://spdx.org/licenses/CC-BY-SA-4.0",
@@ -204,7 +204,6 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "729.708KB",
-  "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
-  "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md"
+  "fileSize": "669.185KB",
+  "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md"
 }

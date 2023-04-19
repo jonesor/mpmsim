@@ -11,3 +11,4 @@ makeHexSticker.R
 .lintr
 README_files
 ^codemeta\.json$
+^CRAN-SUBMISSION$
