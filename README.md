@@ -28,8 +28,6 @@ You can install the latest stable version of `mpmsim` from CRAN like
 this:
 
 ``` r
-# install package 'remotes' if necessary
-# will already be installed if 'devtools' is installed
 install.packages("mpmsim")
 ```
 

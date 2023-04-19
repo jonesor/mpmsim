@@ -35,8 +35,6 @@ set.seed(42)
 You can install the latest stable version of `mpmsim` from CRAN like this:
 
 ```{r, eval = FALSE}
-# install package 'remotes' if necessary
-# will already be installed if 'devtools' is installed
 install.packages("mpmsim")
 ```
 
