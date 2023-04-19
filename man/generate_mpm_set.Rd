@@ -110,10 +110,10 @@ generate_mpm_set(
 \seealso{
 \code{\link[=random_mpm]{random_mpm()}} which this function is essentially a wrapper for.
 
-Other simulation: 
+Other Lefkovitch matrices: 
 \code{\link{random_mpm}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
 }
-\concept{simulation}
+\concept{Lefkovitch matrices}

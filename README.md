@@ -4,6 +4,15 @@
 # mpmsim <img src="man/figures/logo_mpmsim.png" align="right" height="100" style="float:right; height:100px;">
 
 <!-- badges: start -->
+<!--- BE CAREFUL WITH THE FORMATTING --->
+
+| Project                                                                                                                                                                                                | Main branch                                                                                                                                                          | Devel branch                                                                                                                                                                   |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)                                                                                | [![R-CMD-check](https://github.com/jonesor/mpmsim/actions/workflows/main_check.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/main_check.yaml) | [![R-CMD-check](https://github.com/jonesor/mpmsim/actions/workflows/dev_build_check.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/dev_build_check.yaml) |
+| [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) | [![codecov](https://codecov.io/gh/jonesor/mpmsim/branch/main/graph/badge.svg?token=S9G2a5K9k9)](https://app.codecov.io/gh/jonesor/mpmsim)                            |                                                                                                                                                                                |
+| ![](http://cranlogs.r-pkg.org/badges/grand-total/mpmsim)                                                                                                                                               | [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/mpmsim)](https://cran.r-project.org/package=mpmsim)                                                       |                                                                                                                                                                                |
+| ![](http://cranlogs.r-pkg.org/badges/mpmsim)                                                                                                                                                           |                                                                                                                                                                      |                                                                                                                                                                                |
+
 <!-- badges: end -->
 
 `mpmsim` contains tools for generating random or semi-random matrix
@@ -15,7 +24,19 @@ small (or unknown).
 
 ## Installation
 
-You can install the development version of `mpmsim` like this:
+You can install the latest stable version of `mpmsim` from CRAN like
+this:
+
+``` r
+# install package 'remotes' if necessary
+# will already be installed if 'devtools' is installed
+install.packages("mpmsim")
+```
+
+### Development version(s)
+
+The package is being developed (here) on GitHub. You can install the
+latest development version of `mpmsim` like this:
 
 ``` r
 # install package 'remotes' if necessary
@@ -24,6 +45,15 @@ install.packages("remotes")
 
 # argument 'build_opts = NULL' only needed if you want to build vignettes
 remotes::install_github("jonesor/mpmsim", build_opts = NULL)
+```
+
+During development there may be other versions, with additional
+functionality, available on different GitHub “branches”. To install from
+one of these branches, use the following syntax:
+
+``` r
+# install from the 'dev' branch
+remotes::install_github("jonesor/mpmsim", ref = "dev")
 ```
 
 ## Usage

@@ -36,10 +36,63 @@ testthat::expect_error(
   random_mpm(n_stages = 4, fecundity = 5, archetype = 1.5, split = FALSE)
 )
 
+testthat::expect_error(
+  random_mpm(n_stages = 2, fecundity = 5, archetype = 3, split = FALSE)
+)
+
+testthat::expect_error(
+  random_mpm(n_stages = 2, fecundity = 5, archetype = 4, split = FALSE)
+)
+
+
 # Check that output is a matrix
 testthat::expect_true(
   is.matrix(random_mpm(
     n_stages = 4, fecundity = 5, archetype = 1,
     split = FALSE
   ))
+)
+
+x <- random_mpm(n_stages = 4, fecundity = 20, archetype = 1, split = TRUE)
+testthat::expect_true(
+  inherits(x, "list")
+)
+
+x <- random_mpm(n_stages = 4, fecundity = 20, archetype = 2, split = TRUE)
+testthat::expect_true(
+  inherits(x, "list")
+)
+x <- random_mpm(n_stages = 4, fecundity = 20, archetype = 3, split = TRUE)
+testthat::expect_true(
+  inherits(x, "list")
+)
+x <- random_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
+testthat::expect_true(
+  inherits(x, "list")
+)
+
+x <- random_mpm(n_stages = 4, fecundity = 20, archetype = 1, split = FALSE)
+testthat::expect_true(
+  inherits(x, "matrix")
+)
+
+x <- random_mpm(n_stages = 4, fecundity = 20, archetype = 2, split = FALSE)
+testthat::expect_true(
+  inherits(x, "matrix")
+)
+x <- random_mpm(n_stages = 4, fecundity = 20, archetype = 3, split = FALSE)
+testthat::expect_true(
+  inherits(x, "matrix")
+)
+x <- random_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = FALSE)
+testthat::expect_true(
+  inherits(x, "matrix")
+)
+
+x <- random_mpm(
+  n_stages = 4, fecundity = c(0, 2, 10, 20),
+  archetype = 4, split = FALSE
+)
+testthat::expect_true(
+  inherits(x, "matrix")
 )

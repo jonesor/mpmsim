@@ -120,7 +120,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
   }
 
   if (nrow(mat_F) != ncol(mat_F)) {
-    stop("mat_U is not a square matrix")
+    stop("mat_F is not a square matrix")
   }
 
   # Sample size validation
