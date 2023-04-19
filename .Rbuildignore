@@ -12,3 +12,5 @@ makeHexSticker.R
 README_files
 ^codemeta\.json$
 ^CRAN-SUBMISSION$
+^codecov\.yml$
+^\.github$
