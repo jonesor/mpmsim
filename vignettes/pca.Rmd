@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+set.seed(42)
 ```
 
 ## Introduction 
@@ -29,9 +30,8 @@ library(mpmsim)
 library(Rage)
 library(Rcompadre)
 library(dplyr)
-library(ggfortify)
-library(viridis)
 library(popbio)
+library(ggfortify)
 ```
 
 First use `generate_mpm_set()` to simulate 50 matrices with the archetype 1 life history from Takada et al. (2018). This life history archetype is one where transition from/to any stage is possible and where individuals can progress and retrogress rapidly. After simulating the matrices they can be placed into a `CompadreDB` object using `cdb_build_cdb()`.
@@ -80,15 +80,15 @@ gt_lt <- function(matU, matF, start = 1, ...) {
 Now we can use a combination of `sapply` and `mapply` to calculate the life history traits for each matrix model.
 
 ```{r}
-sim_life_hist_1$gt_lt <- mapply(gt_lt, sim_life_hist_1$matU, 
+sim_life_hist_1$gt_lt <- mapply(gt_lt, sim_life_hist_1$matU,
                                 sim_life_hist_1$matF)
-sim_life_hist_1$longevity <- sapply(sim_life_hist_1$matU, 
+sim_life_hist_1$longevity <- sapply(sim_life_hist_1$matU,
                                     Rage::longevity,
                                     x_max = 1000, lx_crit = 0.01
 )
-sim_life_hist_1$lifeExpect <- sapply(sim_life_hist_1$matU, 
+sim_life_hist_1$lifeExpect <- sapply(sim_life_hist_1$matU,
                                      Rage::life_expect_mean)
-sim_life_hist_1$entropy_d <- mapply(entropy_d, 
+sim_life_hist_1$entropy_d <- mapply(entropy_d,
                                     sim_life_hist_1$matU,
                                     sim_life_hist_1$matF)
 
@@ -135,7 +135,7 @@ PCA_plot$layers <- c(
       x = pcData$PC1,
       y = pcData$PC2
     ),
-    size = 2, alpha = .5
+    size = 2, alpha = 0.5
   ),
   PCA_plot$layers
 )
@@ -183,14 +183,14 @@ gt_lt <- function(matU, matF, start = 1, ...) {
 }
 
 ## -----------------------------------------------------------------------------
-sim_life_hist_1$gt <- sapply(sim_life_hist_1$matA, 
+sim_life_hist_1$gt <- sapply(sim_life_hist_1$matA,
                              popbio::generation.time)
-sim_life_hist_1$gt_lt <- mapply(gt_lt, sim_life_hist_1$matU, 
+sim_life_hist_1$gt_lt <- mapply(gt_lt, sim_life_hist_1$matU,
                                 sim_life_hist_1$matF)
 sim_life_hist_1$longevity <- sapply(sim_life_hist_1$matU, Rage::longevity,
   x_max = 1000, lx_crit = 0.01
 )
-sim_life_hist_1$lifeExpect <- sapply(sim_life_hist_1$matU, 
+sim_life_hist_1$lifeExpect <- sapply(sim_life_hist_1$matU,
                                      Rage::life_expect_mean)
 sim_life_hist_1$entropy_d <- mapply(entropy_d, sim_life_hist_1$matU,
                                     sim_life_hist_1$matF)
@@ -232,7 +232,7 @@ PCA_plot$layers <- c(
       x = pcData$PC1,
       y = pcData$PC2
     ),
-    size = 2, alpha = .5
+    size = 2, alpha = 0.5
   ),
   PCA_plot$layers
 )

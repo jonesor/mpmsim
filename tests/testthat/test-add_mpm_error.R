@@ -1,12 +1,12 @@
 
 
-testthat::expect_equal(
-  0.5, simulate_survival(0.5, 0)
+testthat::expect_identical(
+  simulate_survival(0.5, 0), 0.5
 )
 
 
-testthat::expect_equal(
-  0.5, simulate_fecundity(0.5, 0)
+testthat::expect_identical(
+  simulate_fecundity(0.5, 0), 0.5
 )
 
 
@@ -276,7 +276,7 @@ testthat::expect_error(
 )
 
 
-testthat::expect_equal(
+testthat::expect_identical(
   add_mpm_error(
     mat_U = mats$mat_U, mat_F = mats$mat_U,
     sample_size = 0
@@ -287,7 +287,7 @@ testthat::expect_equal(
   )
 )
 
-testthat::expect_equal(
+testthat::expect_identical(
   add_mpm_error(
     mat_U = mats$mat_U, mat_F = mats$mat_U,
     sample_size = 0, split = TRUE
@@ -298,7 +298,7 @@ testthat::expect_equal(
   )
 )
 
-testthat::expect_equal(
+testthat::expect_identical(
   add_mpm_error(
     mat_U = mats$mat_U, mat_F = mats$mat_U,
     sample_size = 0, split = FALSE, by_type = FALSE
@@ -311,7 +311,7 @@ testthat::expect_equal(
 
 
 
-testthat::expect_equal(
+testthat::expect_identical(
   add_mpm_error(
     mat_U = mats$mat_U, mat_F = mats$mat_U,
     sample_size = 0, split = TRUE, by_type = TRUE

@@ -61,6 +61,7 @@ find a suitable matrix model, then an error is produced. However, the number
 of attempts can be altered with the \code{attempts} parameter.
 }
 \examples{
+set.seed(42) #set seed for repeatability
 
 # Basic operation, without splitting matrices and with no constraints
 generate_mpm_set(

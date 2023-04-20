@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 )
 
 library(mpmsim)
+set.seed(42)
 ```
 
 
@@ -142,6 +143,3 @@ hist(distLambda_100$estimates, xlim = c(0, 1.75))
 hist(distLambda_variable$estimates, xlim = c(0, 1.75))
 ```
 
-```{r}
-popdemo::elas(matU + matF)
-```

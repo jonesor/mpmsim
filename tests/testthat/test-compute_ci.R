@@ -19,7 +19,6 @@ x <- compute_ci(
 
 testthat::expect_true(inherits(x, "numeric"))
 
-
 y <- compute_ci(
   mat_U = matU, mat_F = matF, sample_size = 10, FUN =
     popbio::lambda, dist.out = TRUE

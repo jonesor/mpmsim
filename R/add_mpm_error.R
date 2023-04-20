@@ -69,6 +69,8 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @family errors
 #' @examples
+#' set.seed(42) #set seed for repeatability
+#'
 #' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
 #'   fertility = c(0, 1.2, 2.4),
@@ -178,7 +180,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
   }
 
   if (!is.logical(split)) {
-    stop("split must be a logical value (TRUE/FALSE).")
+    stop("split must be a logical value.")
   }
 
   # Convert the matrix into a vector
@@ -273,6 +275,8 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' @family errors
 #'
 #' @examples
+#' set.seed(42) #set seed for repeatability
+#'
 #' # First generate a set of MPMs
 #' mpm_set <- generate_mpm_set(n = 5, n_stages = 5, fecundity = c(
 #'   0, 0, 4, 8,

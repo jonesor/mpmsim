@@ -4,13 +4,13 @@
 \alias{model_fertility}
 \title{Model fertility with age using set functional forms}
 \usage{
-model_fertility(age = NULL, params, maturity = 0, model = "logistic")
+model_fertility(params, age = NULL, maturity = 0, model = "logistic")
 }
 \arguments{
-\item{age}{A numeric vector representing age.}
-
 \item{params}{A numeric vector of parameters for the selected model. The
 number and meaning of parameters depend on the selected model.}
+
+\item{age}{A numeric vector representing age.}
 
 \item{maturity}{A non-negative numeric value indicating the age at maturity.
 Whatever model is used, the fertility is forced to be 0 below the age of

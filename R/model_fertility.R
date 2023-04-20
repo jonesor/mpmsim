@@ -16,9 +16,9 @@
 #' maturity.
 #'
 #'
-#' @param age A numeric vector representing age.
 #' @param params A numeric vector of parameters for the selected model. The
 #'   number and meaning of parameters depend on the selected model.
+#' @param age A numeric vector representing age.
 #' @param maturity A non-negative numeric value indicating the age at maturity.
 #'   Whatever model is used, the fertility is forced to be 0 below the age of
 #'   maturity.
@@ -86,7 +86,7 @@
 #' @export
 
 
-model_fertility <- function(age = NULL, params, maturity = 0,
+model_fertility <- function(params, age = NULL, maturity = 0,
                             model = "logistic") {
   # Input validation and input error handling
   if (!is.numeric(age)) stop("Input 'age' must be a numeric vector.")
@@ -170,9 +170,8 @@ model_fertility <- function(age = NULL, params, maturity = 0,
   }
 
   if (model == "hadwiger") {
-    # params: a = 0.91; b = 3.85; c = 29.78 (Sweden 1996)
+    # params: a of 0.91; b of 3.85; c of 29.78 (Sweden 1996)
     # http://www.demographic-research.org/Volumes/Vol16/6/
-    # DOI: 10.4054/DemRes.2007.16.6
     a <- params[1]
     b <- params[2]
     c <- params[3]

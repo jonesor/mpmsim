@@ -73,7 +73,7 @@ testthat::expect_type(
 
 testthat::expect_type(
   model_fertility(
-    age = 0:20, params = c(A = 10, k = .3), maturity = 2,
+    age = 0:20, params = c(A = 10, k = 0.3), maturity = 2,
     model = "vonbertalanffy"
   ),
   "double"

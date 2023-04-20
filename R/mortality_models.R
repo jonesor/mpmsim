@@ -61,15 +61,15 @@ calculate_surv_prob <- function(lx) {
 
 #' Model survival data using a mortality model
 #'
+#' @param params Numeric vector representing the parameters of the mortality
+#'   model.
+#' @param model Mortality model: `Gompertz`, `GompertzMakeham`, `Exponential`,
+#'   `Siler`.
 #' @param x Numeric vector representing age. The default is `NULL`, whereby the
 #'   survival trajectory is modelled from age 0 to the age at which the
 #'   survivorship of the synthetic cohort declines to a threshold defined by the
 #'   `truncate` argument, which has a default of 0.01 (i.e. 1% of the cohort
 #'   remaining alive).
-#' @param params Numeric vector representing the parameters of the mortality
-#'   model.
-#' @param model Mortality model: `Gompertz`, `GompertzMakeham`, `Exponential`,
-#'   `Siler`.
 #' @param truncate a value defining how the life table output should be
 #'   truncated. The default is `0.01`, indicating that the life table is
 #'   truncated so that survivorship, `lx`, > 0.01 (i.e. the age at which 1% of
@@ -119,20 +119,22 @@ calculate_surv_prob <- function(lx) {
 #' model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 #'
 #' model_survival(
-#'   params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1), model = "GompertzMakeham",
+#'   params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1),
+#'   model = "GompertzMakeham",
 #'   truncate = 0.1
 #' )
 #'
-#' model_survival(0:10, c(c = 0.2), "Exponential")
+#' model_survival(params = c(c = 0.2), model = "Exponential", x = 0:10)
 #'
 #' model_survival(
-#'   0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
-#'   "Siler"
+#'   params = c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
+#'   model = "Siler",
+#'   x = 0:10
 #' )
 #' @seealso [model_fertility()] to model age-specific fertility using various
 #'   functions.
 #' @export
-model_survival <- function(x = NULL, params, model, truncate = 0.01) {
+model_survival <- function(params, model, x = NULL, truncate = 0.01) {
   if (is.null(x)) {
     x <- 0:1000
   }

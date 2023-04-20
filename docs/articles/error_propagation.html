@@ -153,7 +153,7 @@ matrix was <code>20</code> individuals, we can estimate the downstream
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compute_ci.html">compute_ci</a></span><span class="op">(</span>mat_U <span class="op">=</span> <span class="va">matU</span>, mat_F <span class="op">=</span> <span class="va">matF</span>, sample_size <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>           FUN <span class="op">=</span> <span class="fu">popdemo</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/popdemo/man/eigs.html" class="external-link">eigs</a></span>, what <span class="op">=</span> <span class="st">"lambda"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      2.5%     97.5% </span></span>
-<span><span class="co">#&gt; 0.5910687 1.3902029</span></span></code></pre></div>
+<span><span class="co">#&gt; 0.5998425 1.4022317</span></span></code></pre></div>
 <p>Note that it is not necessary to use the same sample size for each
 element: the sample size information can be provided as a matrix of
 integers so that it can vary across the matrix.</p>
@@ -205,7 +205,7 @@ in order to detect a 20% change in population growth rate?”</p>
 <p><img src="error_propagation_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">simDist</span> <span class="op">&lt;</span> <span class="va">observedLambda</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">simDist</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.532</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.542</span></span></code></pre></div>
 <p>What if the sample size was higher for some elements than others? No
 problem, the <code>sample_size</code> argument accepts a matrix of
 sample sizes (or a list of matrices labelled as <code>mat_U_ss</code>
@@ -222,6 +222,8 @@ and <code>mat_F_ss</code>).</p>
 <span>  FUN <span class="op">=</span> <span class="fu">popdemo</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/popdemo/man/eigs.html" class="external-link">eigs</a></span>, what <span class="op">=</span> <span class="st">"lambda"</span>,</span>
 <span>  dist.out <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in FUN(X[[i]], ...): More than one eigenvalues have equal absolute</span></span>
+<span><span class="co">#&gt; magnitude</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">distLambda_variable</span><span class="op">$</span><span class="va">estimates</span><span class="op">)</span></span></code></pre></div>
 <p><img src="error_propagation_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -230,11 +232,6 @@ and <code>mat_F_ss</code>).</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">distLambda_100</span><span class="op">$</span><span class="va">estimates</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.75</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">distLambda_variable</span><span class="op">$</span><span class="va">estimates</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.75</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="error_propagation_files/figure-html/compareDist3-1.png" width="576" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">popdemo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/elas.html" class="external-link">elas</a></span><span class="op">(</span><span class="va">matU</span> <span class="op">+</span> <span class="va">matF</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            [,1]      [,2]</span></span>
-<span><span class="co">#&gt; [1,] 0.03897464 0.3659667</span></span>
-<span><span class="co">#&gt; [2,] 0.36596672 0.2290919</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

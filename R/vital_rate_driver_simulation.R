@@ -65,9 +65,9 @@ inverse_logit <- function(x) {
 #'
 #' $$V = a * (d - d_b) + x + E$$
 #'
-#' Where $$V$$ is the new vital rate (on the scale of the linear predictor), $$a$$
-#' is the slope, $$x$$ is the baseline vital rate, $$d$$ is the driver, $$d_b$$ is the
-#' baseline driver and $$E$$ is the error.
+#' Where $$V$$ is the new vital rate (on the scale of the linear predictor),
+#' $$a$$ is the slope, $$x$$ is the baseline vital rate, $$d$$ is the driver,
+#' $$d_b$$ is the baseline driver and $$E$$ is the error.
 #'
 #' The input vital rate(s) (`baseline_value`) can be a single-element vector
 #' representing a single vital rate (e.g., survival probability or fecundity), a
@@ -81,11 +81,11 @@ inverse_logit <- function(x) {
 #' affected in different ways by the same weather driver. For example, juvenile
 #' survival might be more affected by the driver than adult survival. The
 #' `baseline_driver` value represents the "normal" state of the driver. If the
-#' driver is greater than the `baseline_driver` and the `slope` is positive, then
-#' the outcome vital rate will be higher. If the driver is less than the
-#' `baseline_driver` variable and the `slope` is positive, then the outcome vital
-#' rate will be less than the `baseline_value.` The `error_sd` represents the error
-#' in the linear relationship between the driver and the vital rate.
+#' driver is greater than the `baseline_driver` and the `slope` is positive,
+#' then the outcome vital rate will be higher. If the driver is less than the
+#' `baseline_driver` variable and the `slope` is positive, then the outcome
+#' vital rate will be less than the `baseline_value.` The `error_sd` represents
+#' the error in the linear relationship between the driver and the vital rate.
 #'
 #'
 #' @param driver A vector of driver values.
@@ -114,8 +114,10 @@ inverse_logit <- function(x) {
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @family drivers
 #' @export driven_vital_rate
-#'
+#' @importFrom stats rnorm
 #' @examples
+#' set.seed(42) #set seed for repeatability
+#'
 #' # A single vital rate and a single driver
 #' driven_vital_rate(
 #'   driver = 14,
@@ -176,7 +178,7 @@ driven_vital_rate <- function(driver, # vector (can be a single element)
   if (!is.numeric(driver)) {
     stop("driver must be a vector of numeric values.")
   }
-  if (any(is.na(driver))) {
+  if (anyNA(driver)) {
     stop("driver must not have NA values.")
   }
 
@@ -185,7 +187,7 @@ driven_vital_rate <- function(driver, # vector (can be a single element)
     length(baseline_value) == 1)) {
     stop("baseline_value must be either a matrix or a vector of length 1.")
   }
-  if (any(is.na(baseline_value))) {
+  if (anyNA(baseline_value)) {
     stop("baseline_value must not have NA values.")
   }
   if (any(baseline_value < 0)) {
@@ -201,7 +203,7 @@ driven_vital_rate <- function(driver, # vector (can be a single element)
   if (!is.matrix(slope) && !(is.vector(slope) && length(slope) == 1)) {
     stop("slope must be either a matrix or a vector of length 1.")
   }
-  if (any(is.na(slope))) {
+  if (anyNA(slope)) {
     stop("slope must not have NA values.")
   }
 
@@ -215,7 +217,7 @@ driven_vital_rate <- function(driver, # vector (can be a single element)
     length(error_sd) == 1)) {
     stop("error_sd must be either a matrix or a vector of length 1.")
   }
-  if (any(is.na(error_sd))) {
+  if (anyNA(error_sd)) {
     stop("error_sd must not have NA values.")
   }
   if (any(error_sd < 0)) {
