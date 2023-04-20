@@ -102,7 +102,7 @@ testthat::expect_error(
   )
 )
 
-testthat::expect_equal(
+testthat::expect_identical(
   calculate_errors(
     mat_U = matrix(c(0.3, 0.2, 0.2, 0.1), nrow = 2, ncol = 2),
     mat_F = matrix(c(0.0, 2.2, 0.0, 0.0), nrow = 2, ncol = 2),
@@ -116,7 +116,7 @@ testthat::expect_equal(
 )
 
 
-testthat::expect_equal(
+testthat::expect_identical(
   calculate_errors(
     mat_U = matrix(c(0.3, 0.2, 0.2, 0.1), nrow = 2, ncol = 2),
     mat_F = matrix(c(0.0, 2.2, 0.0, 0.0), nrow = 2, ncol = 2),
@@ -130,7 +130,7 @@ testthat::expect_equal(
 )
 
 
-testthat::expect_equal(
+testthat::expect_identical(
   calculate_errors(
     mat_U = matrix(c(0.3, 0.2, 0.2, 0.1), nrow = 2, ncol = 2),
     mat_F = matrix(c(0.0, 2.2, 0.0, 0.0), nrow = 2, ncol = 2),

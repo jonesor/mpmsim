@@ -1,6 +1,6 @@
 # A must be a matrix
 testthat::expect_error(
-  plot_matrix(mat = c(1:10))
+  plot_matrix(mat = 1:10)
 )
 
 # zeroNA must be a logical value

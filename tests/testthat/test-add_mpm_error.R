@@ -1,12 +1,12 @@
 
 
 testthat::expect_identical(
-  0.5, simulate_survival(0.5, 0)
+  simulate_survival(0.5, 0), 0.5
 )
 
 
 testthat::expect_identical(
-  0.5, simulate_fecundity(0.5, 0)
+  simulate_fecundity(0.5, 0), 0.5
 )
 
 

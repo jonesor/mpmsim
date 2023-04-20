@@ -54,8 +54,10 @@ For this analysis we want to convert these age-based trajectories into stage-bas
 ```{r}
 for (i in 1:length(lifeTables)) {
   lifeTables[[i]] <- lifeTables[[i]] |>
-    mutate(stage = ifelse(x <= round(max(x) * 0.25), 1,
-      ifelse(x <= round(max(x) * 0.75), 2, 3)
+    mutate(stage = case_when(
+      x <= round(max(x) * 0.25) ~ 1,
+      x <= round(max(x) * 0.75) ~ 2,
+      TRUE ~ 3
     ))
 }
 ```

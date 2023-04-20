@@ -15,7 +15,7 @@ testthat::expect_true(
   inherits(x, "numeric")
 )
 
-testthat::expect_equal(
+testthat::expect_identical(
   sum(x), 7
 )
 
@@ -28,7 +28,7 @@ testthat::expect_error(
 )
 
 testthat::expect_error(
-  calculate_surv_prob(lx = c(0.5))
+  calculate_surv_prob(lx = 0.5)
 )
 
 testthat::expect_true(
@@ -45,7 +45,8 @@ testthat::expect_error(
 
 
 testthat::expect_error(
-  model_survival(x = 10:0, params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
+  model_survival(x = 10:0, params = c(b_0 = 0.1, b_1 = 0.2),
+                 model = "Gompertz")
 )
 
 testthat::expect_error(
@@ -71,7 +72,8 @@ testthat::expect_error(
 )
 
 testthat::expect_error(
-  model_survival(0:10, c(c = 0.2, d = 0.1), "Exponential")
+  model_survival(x = 0:10, params = c(c = 0.2, d = 0.1),
+                 model = "Exponential")
 )
 
 testthat::expect_error(
@@ -82,8 +84,8 @@ testthat::expect_error(
 
 testthat::expect_error(
   model_survival(
-    0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1),
-    "Siler"
+    params = c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1),
+    model ="Siler"
   )
 )
 
@@ -103,12 +105,13 @@ testthat::expect_true(
 )
 
 testthat::expect_true(
-  inherits(model_survival(0:10, c(c = 0.2), "Exponential"), "data.frame")
+  inherits(model_survival(params =  c(c = 0.2),
+                          model = "Exponential"), "data.frame")
 )
 
 testthat::expect_true(
   inherits(model_survival(
-    0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
-    "Siler"
+    params = c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
+    model = "Siler"
   ), "data.frame")
 )

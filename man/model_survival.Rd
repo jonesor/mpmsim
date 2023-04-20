@@ -4,20 +4,20 @@
 \alias{model_survival}
 \title{Model survival data using a mortality model}
 \usage{
-model_survival(x = NULL, params, model, truncate = 0.01)
+model_survival(params, model, x = NULL, truncate = 0.01)
 }
 \arguments{
-\item{x}{Numeric vector representing age. The default is \code{NULL}, whereby the
-survival trajectory is modelled from age 0 to the age at which the
-survivorship of the synthetic cohort declines to a threshold defined by the
-\code{truncate} argument, which has a default of 0.01 (i.e. 1\% of the cohort
-remaining alive).}
-
 \item{params}{Numeric vector representing the parameters of the mortality
 model.}
 
 \item{model}{Mortality model: \code{Gompertz}, \code{GompertzMakeham}, \code{Exponential},
 \code{Siler}.}
+
+\item{x}{Numeric vector representing age. The default is \code{NULL}, whereby the
+survival trajectory is modelled from age 0 to the age at which the
+survivorship of the synthetic cohort declines to a threshold defined by the
+\code{truncate} argument, which has a default of 0.01 (i.e. 1\% of the cohort
+remaining alive).}
 
 \item{truncate}{a value defining how the life table output should be
 truncated. The default is \code{0.01}, indicating that the life table is
@@ -58,15 +58,17 @@ final interval.
 model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 
 model_survival(
-  params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1), model = "GompertzMakeham",
+  params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1),
+  model = "GompertzMakeham",
   truncate = 0.1
 )
 
-model_survival(0:10, c(c = 0.2), "Exponential")
+model_survival(params = c(c = 0.2), model = "Exponential", x = 0:10)
 
 model_survival(
-  0:10, c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
-  "Siler"
+  params = c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
+  model = "Siler",
+  x = 0:10
 )
 }
 \references{
