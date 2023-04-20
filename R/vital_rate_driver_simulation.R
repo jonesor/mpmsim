@@ -114,7 +114,7 @@ inverse_logit <- function(x) {
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @family drivers
 #' @export driven_vital_rate
-#'
+#' @importFrom stats rnorm
 #' @examples
 #' set.seed(42) #set seed for repeatability
 #'
