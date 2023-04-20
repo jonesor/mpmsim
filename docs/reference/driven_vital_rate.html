@@ -135,9 +135,9 @@ list has a length equal to the length of the <code>driver</code> input parameter
     <p>The relationship between the driver variable and the vital rate is assumed to
 be linear:</p>
 <p>$$V = a * (d - d_b) + x + E$$</p>
-<p>Where $$V$$ is the new vital rate (on the scale of the linear predictor), $$a$$
-is the slope, $$x$$ is the baseline vital rate, $$d$$ is the driver, $$d_b$$ is the
-baseline driver and $$E$$ is the error.</p>
+<p>Where $$V$$ is the new vital rate (on the scale of the linear predictor),
+$$a$$ is the slope, $$x$$ is the baseline vital rate, $$d$$ is the driver,
+$$d_b$$ is the baseline driver and $$E$$ is the error.</p>
 <p>The input vital rate(s) (<code>baseline_value</code>) can be a single-element vector
 representing a single vital rate (e.g., survival probability or fecundity), a
 longer vector representing a series of vital rates (e.g., several survival
@@ -150,11 +150,11 @@ users to simulate cases where different vital rates in a matrix model are
 affected in different ways by the same weather driver. For example, juvenile
 survival might be more affected by the driver than adult survival. The
 <code>baseline_driver</code> value represents the "normal" state of the driver. If the
-driver is greater than the <code>baseline_driver</code> and the <code>slope</code> is positive, then
-the outcome vital rate will be higher. If the driver is less than the
-<code>baseline_driver</code> variable and the <code>slope</code> is positive, then the outcome vital
-rate will be less than the <code>baseline_value.</code> The <code>error_sd</code> represents the error
-in the linear relationship between the driver and the vital rate.</p>
+driver is greater than the <code>baseline_driver</code> and the <code>slope</code> is positive,
+then the outcome vital rate will be higher. If the driver is less than the
+<code>baseline_driver</code> variable and the <code>slope</code> is positive, then the outcome
+vital rate will be less than the <code>baseline_value.</code> The <code>error_sd</code> represents
+the error in the linear relationship between the driver and the vital rate.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
