@@ -85,7 +85,7 @@ testthat::expect_error(
 testthat::expect_error(
   model_survival(
     params = c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1),
-    model ="Siler"
+    model = "Siler"
   )
 )
 
