@@ -46,6 +46,8 @@ if any \code{sample_size} input is 0, it is assumed that the estimate for
 the element(s) concerned is known without error.
 }
 \examples{
+set.seed(42) #set seed for repeatability
+
 # First generate a set of MPMs
 mpm_set <- generate_mpm_set(n = 5, n_stages = 5, fecundity = c(
   0, 0, 4, 8,

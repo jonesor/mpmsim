@@ -61,27 +61,27 @@ make_leslie_mpm <- function(survival, fertility, n_stages, split = FALSE) {
   }
 
   if (!length(survival) %in% c(1, n_stages)) {
-    stop(paste0(
+    stop(
       "survival must be of length n_stages (", n_stages,
       "), or of length 1"
-    ))
+    )
   }
 
   if (!is.numeric(fertility) || (length(fertility) != n_stages &&
     length(fertility) != 1)) {
-    stop(paste0(
+    stop(
       "fertility must be a numeric vector of length n_stages (",
       n_stages, "), or of length 1"
-    ))
-  }
+    )
+    }
 
   if (any(fertility < 0)) {
-    stop("All values of fertility must be non-negative")
+    stop("All values of fertility must be non-negative.")
   }
 
   # Check that split is a logical value
   if (!is.logical(split)) {
-    stop("split must be a logical value (TRUE/FALSE).")
+    stop("split must be a logical value.")
   }
 
   id_col <- 1:n_stages

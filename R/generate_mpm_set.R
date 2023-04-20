@@ -34,6 +34,7 @@
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
+#' set.seed(42) #set seed for repeatability
 #'
 #' # Basic operation, without splitting matrices and with no constraints
 #' generate_mpm_set(

@@ -170,9 +170,8 @@ model_fertility <- function(age = NULL, params, maturity = 0,
   }
 
   if (model == "hadwiger") {
-    # params: a = 0.91; b = 3.85; c = 29.78 (Sweden 1996)
+    # params: a of 0.91; b of 3.85; c of 29.78 (Sweden 1996)
     # http://www.demographic-research.org/Volumes/Vol16/6/
-    # DOI: 10.4054/DemRes.2007.16.6
     a <- params[1]
     b <- params[2]
     c <- params[3]

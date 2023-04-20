@@ -80,6 +80,8 @@ rate will be less than the \code{baseline_value.} The \code{error_sd} represents
 in the linear relationship between the driver and the vital rate.
 }
 \examples{
+set.seed(42) #set seed for repeatability
+
 # A single vital rate and a single driver
 driven_vital_rate(
   driver = 14,

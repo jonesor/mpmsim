@@ -40,6 +40,8 @@
 #' @family errors
 #'
 #' @examples
+#' set.seed(42) #set seed for repeatability
+#'
 #' # Data for use in example
 #' matU <- matrix(c(
 #'   0.1, 0.0,

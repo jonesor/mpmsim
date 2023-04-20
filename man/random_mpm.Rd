@@ -64,6 +64,8 @@ top right of the matrix, if it is a single value. If it is a vector of length
 The function is constrained to only output ergodic matrices.
 }
 \examples{
+set.seed(42) #set seed for repeatability
+
 random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
 random_mpm(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
 random_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)

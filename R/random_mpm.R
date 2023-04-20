@@ -66,6 +66,8 @@
 #' @importFrom popdemo isErgodic
 #'
 #' @examples
+#' set.seed(42) #set seed for repeatability
+#'
 #' random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
 #' random_mpm(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
 #' random_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
@@ -97,7 +99,7 @@ random_mpm <- function(n_stages,
 
   # Check that split is a logical value
   if (!is.logical(split)) {
-    stop("split must be a logical value (TRUE/FALSE).")
+    stop("split must be a logical value.")
   }
 
   # Check that archetype is an integer between 1 and 4
