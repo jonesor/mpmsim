@@ -57,9 +57,9 @@ be linear:
 
 $$V = a * (d - d_b) + x + E$$
 
-Where $$V$$ is the new vital rate (on the scale of the linear predictor), $$a$$
-is the slope, $$x$$ is the baseline vital rate, $$d$$ is the driver, $$d_b$$ is the
-baseline driver and $$E$$ is the error.
+Where $$V$$ is the new vital rate (on the scale of the linear predictor),
+$$a$$ is the slope, $$x$$ is the baseline vital rate, $$d$$ is the driver,
+$$d_b$$ is the baseline driver and $$E$$ is the error.
 
 The input vital rate(s) (\code{baseline_value}) can be a single-element vector
 representing a single vital rate (e.g., survival probability or fecundity), a
@@ -73,11 +73,11 @@ users to simulate cases where different vital rates in a matrix model are
 affected in different ways by the same weather driver. For example, juvenile
 survival might be more affected by the driver than adult survival. The
 \code{baseline_driver} value represents the "normal" state of the driver. If the
-driver is greater than the \code{baseline_driver} and the \code{slope} is positive, then
-the outcome vital rate will be higher. If the driver is less than the
-\code{baseline_driver} variable and the \code{slope} is positive, then the outcome vital
-rate will be less than the \code{baseline_value.} The \code{error_sd} represents the error
-in the linear relationship between the driver and the vital rate.
+driver is greater than the \code{baseline_driver} and the \code{slope} is positive,
+then the outcome vital rate will be higher. If the driver is less than the
+\code{baseline_driver} variable and the \code{slope} is positive, then the outcome
+vital rate will be less than the \code{baseline_value.} The \code{error_sd} represents
+the error in the linear relationship between the driver and the vital rate.
 }
 \examples{
 set.seed(42) #set seed for repeatability
