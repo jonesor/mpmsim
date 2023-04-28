@@ -262,7 +262,7 @@ driven_vital_rate <- function(driver, # vector (can be a single element)
 
   output <- list()
 
-  for (i in 1:length(driver)) {
+  for (i in seq_along(driver)) {
     driver_i <- driver[i]
 
     # calculate a new value for survival on the logit scale
