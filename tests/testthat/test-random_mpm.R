@@ -220,22 +220,14 @@ fec_mat_upper <- matrix(c(
 
 # Place the two matrices in a list
 fec_mats <- list(fec_mat_lower, fec_mat_upper)
-
-
 temp <- random_mpm(n_stages = 3, fecundity = fec_mats, archetype = 1, split = FALSE)
-
 testthat::expect_true(inherits(temp, "matrix"))
 
 
-
-# Lower limit to fecundity
 fec_mat <- matrix(c(
   0, 5, 70,
   0, 0, 0,
   0, 0, 0
 ), ncol = 3, byrow = TRUE)
-
-
 temp <- random_mpm(n_stages = 3, fecundity = fec_mat, archetype = 1, split = FALSE)
-
 testthat::expect_true(inherits(temp, "matrix"))
