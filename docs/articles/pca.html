@@ -76,7 +76,7 @@
       <img src="" class="logo" alt=""><h1>Exploring PCA space</h1>
                         <h4 data-toc-skip class="author">Owen Jones</h4>
             
-            <h4 data-toc-skip class="date">2023-04-20</h4>
+            <h4 data-toc-skip class="date">2023-06-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/pca.Rmd" class="external-link"><code>vignettes/pca.Rmd</code></a></small>
       <div class="d-none name"><code>pca.Rmd</code></div>
@@ -123,9 +123,8 @@ simulating the matrices they can be placed into a
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sim_life_hist_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Rcompadre/man/cdb_build_cdb.html" class="external-link">cdb_build_cdb</a></span><span class="op">(</span>mat_u <span class="op">=</span> <span class="va">mpm_set</span><span class="op">$</span><span class="va">U_list</span>, mat_f <span class="op">=</span> <span class="va">mpm_set</span><span class="op">$</span><span class="va">F_list</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in cdb_build_cdb(mat_u = mpm_set$U_list, mat_f = mpm_set$F_list):</span></span>
-<span><span class="co">#&gt; Metadata does not include a `SpeciesAccepted` column, so number of species not</span></span>
-<span><span class="co">#&gt; provided when viewing object.</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in cdb_build_cdb(mat_u = mpm_set$U_list, mat_f = mpm_set$F_list): Metadata does not include a `SpeciesAccepted` column, so number</span></span>
+<span><span class="co">#&gt;               of species not provided when viewing object.</span></span></code></pre></div>
 <p>Some of these matrices will be reducible, which leads to analytical
 problems with some calculations. These can be filtered out using
 <code><a href="https://rdrr.io/pkg/Rcompadre/man/cdb_flag.html" class="external-link">cdb_flag()</a></code> followed by <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code>.</p>

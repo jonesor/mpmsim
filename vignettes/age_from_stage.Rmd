@@ -41,7 +41,7 @@ Next we will use the `model_survival()` function create a `list` of age-specific
 ```{r}
 b_1_values <- seq(0.1, 0.9, 0.1)
 lifeTables <- list()
-for (i in 1:length(b_1_values)) {
+for (i in seq_along(b_1_values)) {
   lifeTables[[i]] <- model_survival(
     params = c(b_0 = 0.1, b_1 = b_1_values[i]),
     model = "Gompertz"
@@ -52,7 +52,7 @@ for (i in 1:length(b_1_values)) {
 For this analysis we want to convert these age-based trajectories into stage-based matrix models. To do that we will divide the yearly age entries into stages. We do this in an arbitrary way by dividing the age vector into 3 parts: a quarter for juveniles, a half for adult, and another quarter for old individuals.
 
 ```{r}
-for (i in 1:length(lifeTables)) {
+for (i in seq_along(lifeTables)) {
   lifeTables[[i]] <- lifeTables[[i]] |>
     mutate(stage = case_when(
       x <= round(max(x) * 0.25) ~ 1,
@@ -66,7 +66,7 @@ for (i in 1:length(lifeTables)) {
 Next we'll add fertility to those life tables.
 
 ```{r}
-for (i in 1:length(lifeTables)) {
+for (i in seq_along(lifeTables)) {
   lifeTables[[i]] <- lifeTables[[i]] |>
     mutate(fert = model_fertility(
       age = x, params = c(A = 3),
@@ -91,7 +91,7 @@ First Now we can turn these life tables containing age-specific survival and fer
 
 ```{r}
 leslie_matrices <- list()
-for (i in 1:length(lifeTables)) {
+for (i in seq_along(lifeTables)) {
   leslie_matrices[[i]] <- make_leslie_mpm(
     survival = lifeTables[[i]]$px,
     fertility = lifeTables[[i]]$fert,
@@ -103,7 +103,7 @@ for (i in 1:length(lifeTables)) {
 Let's examine the Leslie matrix that matches the life table from the previous section.
 
 ```{r}
-leslie_matrices[[5]]$matA
+leslie_matrices[[5]]$mat_A
 ```
 
 
@@ -113,7 +113,7 @@ From these Leslie matrices we can now construct the stage-structured matrix mode
 
 ```{r}
 collapsed_matrices <- list()
-for (i in 1:length(lifeTables)) {
+for (i in seq_along(lifeTables)) {
   stages <- lifeTables[[i]]$stage
   matrices <- leslie_matrices[[i]]
   collapse_list <- split(stages, stages)
@@ -143,7 +143,7 @@ Next we can use age-from stage-approximation to see how well we can recover the 
 
 ```{r}
 recovered_life_tables <- list()
-for (i in 1:length(lifeTables)) {
+for (i in seq_along(lifeTables)) {
   m1 <- collapsed_matrices[[i]]
   recovered_life_tables[[i]] <- Rage::mpm_to_table(
     matU = m1$matU, matF = m1$matF,
@@ -186,7 +186,7 @@ We can now examine how the over-estimation of life span using age-from-stage met
 
 ```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
 df1 <- data.frame(b_1_values, lifespan_lt = NA, lifespan_afs = NA)
-for (i in 1:length(lifeTables)) {
+for (i in seq_along(lifeTables)) {
   df1$lifespan_lt[i] <- max(lifeTables[[i]]$x)
   df1$lifespan_afs[i] <- max(recovered_life_tables[[i]]$x)
 }

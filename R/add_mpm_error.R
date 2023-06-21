@@ -335,7 +335,7 @@ add_mpm_error <- function(mat_U, mat_F, sample_size, split = TRUE,
   }
 
   if (inherits(mat_U, "list")) {
-    for (i in 1:length(mat_U)) {
+    for (i in seq_along(mat_U)) {
       if (!inherits(mat_U[[i]], "matrix")) {
         stop("Each element of mat_U must be a matrix.")
       }
@@ -347,7 +347,7 @@ add_mpm_error <- function(mat_U, mat_F, sample_size, split = TRUE,
   }
 
   if (inherits(mat_F, "list")) {
-    for (i in 1:length(mat_F)) {
+    for (i in seq_along(mat_F)) {
       if (!inherits(mat_F[[i]], "matrix")) {
         stop("Each element of mat_F must be a matrix.")
       }
@@ -369,7 +369,7 @@ add_mpm_error <- function(mat_U, mat_F, sample_size, split = TRUE,
 
   # Make a blank list to hold the output
   output_list <- list()
-  for (i in 1:length(mat_U)) {
+  for (i in seq_along(mat_U)) {
     output_list[[i]] <- add_mpm_error_indiv(
       mat_U = mat_U[[i]],
       mat_F = mat_F[[i]],
