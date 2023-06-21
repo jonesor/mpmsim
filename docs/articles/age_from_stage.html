@@ -76,7 +76,7 @@
       <img src="" class="logo" alt=""><h1>The robustness of age from stage methods</h1>
                         <h4 data-toc-skip class="author">Owen Jones</h4>
             
-            <h4 data-toc-skip class="date">2023-04-20</h4>
+            <h4 data-toc-skip class="date">2023-06-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/age_from_stage.Rmd" class="external-link"><code>vignettes/age_from_stage.Rmd</code></a></small>
       <div class="d-none name"><code>age_from_stage.Rmd</code></div>
@@ -122,7 +122,7 @@ the basis for our life tables.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">b_1_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="va">lifeTables</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">b_1_values</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">b_1_values</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_survival.html">model_survival</a></span><span class="op">(</span></span>
 <span>    params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b_0 <span class="op">=</span> <span class="fl">0.1</span>, b_1 <span class="op">=</span> <span class="va">b_1_values</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>    model <span class="op">=</span> <span class="st">"Gompertz"</span></span>
@@ -134,7 +134,7 @@ entries into stages. We do this in an arbitrary way by dividing the age
 vector into 3 parts: a quarter for juveniles, a half for adult, and
 another quarter for old individuals.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>stage <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">x</span> <span class="op">&lt;=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,</span>
@@ -144,7 +144,7 @@ another quarter for old individuals.</p>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Next we’ll add fertility to those life tables.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>fert <span class="op">=</span> <span class="fu"><a href="../reference/model_fertility.html">model_fertility</a></span><span class="op">(</span></span>
 <span>      age <span class="op">=</span> <span class="va">x</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
@@ -181,7 +181,7 @@ tables are, by default, constrained to extend to the age where the
 survivorship function falls below 0.01.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">leslie_matrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">leslie_matrices</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_leslie_mpm.html">make_leslie_mpm</a></span><span class="op">(</span></span>
 <span>    survival <span class="op">=</span> <span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">px</span>,</span>
 <span>    fertility <span class="op">=</span> <span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">fert</span>,</span>
@@ -191,8 +191,15 @@ survivorship function falls below 0.01.</p>
 <p>Let’s examine the Leslie matrix that matches the life table from the
 previous section.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">leslie_matrices</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">matA</span></span>
-<span><span class="co">#&gt; NULL</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">leslie_matrices</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">mat_A</span></span>
+<span><span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]       [,7]</span></span>
+<span><span class="co">#&gt; [1,] 0.0000000 0.0000000 0.0000000 3.0000000 3.0000000 3.0000000 3.00000000</span></span>
+<span><span class="co">#&gt; [2,] 0.8759589 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.00000000</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000 0.8038439 0.0000000 0.0000000 0.0000000 0.0000000 0.00000000</span></span>
+<span><span class="co">#&gt; [4,] 0.0000000 0.0000000 0.6976773 0.0000000 0.0000000 0.0000000 0.00000000</span></span>
+<span><span class="co">#&gt; [5,] 0.0000000 0.0000000 0.0000000 0.5523699 0.0000000 0.0000000 0.00000000</span></span>
+<span><span class="co">#&gt; [6,] 0.0000000 0.0000000 0.0000000 0.0000000 0.3758454 0.0000000 0.00000000</span></span>
+<span><span class="co">#&gt; [7,] 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.1992088 0.06994476</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="lefkovitch-matrices">Lefkovitch matrices<a class="anchor" aria-label="anchor" href="#lefkovitch-matrices"></a>
@@ -202,7 +209,7 @@ matrix models (Lefkovitch models) using the <code><a href="https://rdrr.io/pkg/R
 function from <code>Rage</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">collapsed_matrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">stages</span> <span class="op">&lt;-</span> <span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">stage</span></span>
 <span>  <span class="va">matrices</span> <span class="op">&lt;-</span> <span class="va">leslie_matrices</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span></span>
 <span>  <span class="va">collapse_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">stages</span>, <span class="va">stages</span><span class="op">)</span></span>
@@ -234,7 +241,7 @@ from the life table and the black curve represents the estimation of
 survivorship using age-from-stage approximation.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">recovered_life_tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">m1</span> <span class="op">&lt;-</span> <span class="va">collapsed_matrices</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span></span>
 <span>  <span class="va">recovered_life_tables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">Rage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rage/man/mpm_to_table.html" class="external-link">mpm_to_table</a></span><span class="op">(</span></span>
 <span>    matU <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">matU</span>, matF <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">matF</span>,</span>
@@ -277,7 +284,7 @@ age-from-stage methods is related to the Gompertz parameter like
 this.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">b_1_values</span>, lifespan_lt <span class="op">=</span> <span class="cn">NA</span>, lifespan_afs <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">df1</span><span class="op">$</span><span class="va">lifespan_lt</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">lifeTables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
 <span>  <span class="va">df1</span><span class="op">$</span><span class="va">lifespan_afs</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">recovered_life_tables</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
