@@ -1,7 +1,8 @@
 # mpmsim (development version)
 
+- modified the simulation of fecundity in `random_mpm()`. Now the values are provided as mean fecundity and can be provided as a range of values, whereby a value is drawn from a random uniform distribution. This is the best way to create a set of models with different fecundity properties.
 - added function to simulate the action of drivers such as weather on vital rates: `drive_vital_rate()`.
-- added full suite of unit tests using `testthat`. Test coverage 97.01%.
+- added full suite of unit tests using `testthat`. Test coverage 97.17%.
 
 # mpmsim 1.0.0
 
