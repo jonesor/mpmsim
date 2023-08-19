@@ -1,9 +1,6 @@
-#' mpmsim
-#'
-#' Simulates Matrix Population Models with Particular Life History
-#' Characteristics
-#'
-#' @docType package
-#' @author Owen Jones <jones@biology.sdu.dk>
-#' @name mpmsim
+#' @keywords internal
+"_PACKAGE"
+
+## usethis namespace: start
+## usethis namespace: end
 NULL
