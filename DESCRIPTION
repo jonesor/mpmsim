@@ -20,13 +20,13 @@ Imports:
     popbio,
     popdemo,
     reshape,
+    Rcompadre,
     stats
 Suggests: 
     covr,
     ggfortify,
     knitr,
     Rage,
-    Rcompadre,
     rmarkdown,
     testthat (>= 3.0.0),
     viridis

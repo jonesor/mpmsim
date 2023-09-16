@@ -34,17 +34,15 @@ library(popbio)
 library(ggfortify)
 ```
 
-First use `generate_mpm_set()` to simulate 50 matrices with the archetype 1 life history from Takada et al. (2018). This life history archetype is one where transition from/to any stage is possible and where individuals can progress and retrogress rapidly. After simulating the matrices they can be placed into a `CompadreDB` object using `cdb_build_cdb()`.
+First use `generate_mpm_set()` to simulate 50 matrices with the archetype 1 life history from Takada et al. (2018). This life history archetype is one where transition from/to any stage is possible and where individuals can progress and retrogress rapidly. The function `generate_mpm_set` returns a `CompadreDB` object by default.
 
 ```{r}
 set.seed(42)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
-mpm_set <- generate_mpm_set(
+sim_life_hist_1 <- generate_mpm_set(
   n = 50, n_stages = 3, fecundity = c(0, 6, 6), archetype = 1, split = TRUE,
   max_surv = 0.95, constraint = constrain_df
 )
-
-sim_life_hist_1 <- cdb_build_cdb(mat_u = mpm_set$U_list, mat_f = mpm_set$F_list)
 ```
 
 Some of these matrices will be reducible, which leads to analytical problems with some calculations. These can be filtered out using `cdb_flag()` followed by `filter()`.
@@ -154,12 +152,11 @@ If we repeat the whole analysis with a different archetype (4) we get the follow
 set.seed(42)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 
-mpm_set <- generate_mpm_set(
+sim_life_hist_1 <- generate_mpm_set(
   n = 50, n_stages = 3, fecundity = c(0, 6, 6), archetype = 4,
   split = TRUE, constraint = constrain_df
 )
 
-sim_life_hist_1 <- cdb_build_cdb(mat_u = mpm_set$U_list, mat_f = mpm_set$F_list)
 
 ## -----------------------------------------------------------------------------
 sim_life_hist_1 <- cdb_flag(sim_life_hist_1, checks = "check_irreducible") %>%
