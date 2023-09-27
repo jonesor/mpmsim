@@ -19,6 +19,9 @@
 #' @param by_type A logical indicating whether the matrices should be returned
 #'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must
 #'   also be `FALSE`. Defaults to `TRUE`.
+#' @param as_compadre A logical indicating whether the matrices should be
+#'   returned as a `CompadreDB` object. Default is `TRUE`. This requires
+#'   argument `by_type` to be `TRUE`. If `FALSE`, the function returns a list.
 #' @param max_surv The maximum acceptable survival value. Defaults to 0.99. This
 #'   is only used if `split = TRUE`.
 #' @param constraint An optional data frame with 4 columns named `fun`, `arg`,
@@ -39,7 +42,7 @@
 #' # Basic operation, without splitting matrices and with no constraints
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, split = FALSE, by_type = FALSE
+#'   archetype = 4, split = FALSE, by_type = FALSE, as_compadre = FALSE
 #' )
 #'
 #' # Constrain outputs to A matrices with lambda between 0.9 and 1.1
@@ -50,7 +53,7 @@
 #' )
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df
+#'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
 #'
 #' # As above, but using popdemo::eigs function instead of popbio::lambda
@@ -62,7 +65,7 @@
 #' )
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df
+#'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
 #'
 #' # Multiple constraints
@@ -77,16 +80,17 @@
 #' )
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df
+#'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
 #'
 #' @seealso [random_mpm()] which this function is essentially a wrapper for.
 #' @family Lefkovitch matrices
+#' @importFrom Rcompadre cdb_build_cdb
 #' @export generate_mpm_set
 
 generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
                              fecundity = 1.5,
-                             split = TRUE, by_type = TRUE, max_surv = 0.99,
+                             split = TRUE, by_type = TRUE, as_compadre = TRUE, max_surv = 0.99,
                              constraint = NULL, attempts = 1000) {
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
@@ -96,6 +100,10 @@ generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
   if (split == FALSE && by_type == TRUE) {
     stop("If split is FALSE, then by_type must also be FALSE")
   }
+
+  if (as_compadre == TRUE && by_type == FALSE) {
+    stop("If as_compadre is TRUE, then by_type must also be TRUE")
+}
   # Set up empty list of desired length
   output_list <- vector("list", n)
 
@@ -187,7 +195,11 @@ generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
       "U_list" = U_list,
       "F_list" = F_list
     )
+    if(as_compadre == FALSE){
     return(output_list_by_type)
+    } else {
+      return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
+    }
   }
   if (by_type == FALSE) {
     return(output_list)

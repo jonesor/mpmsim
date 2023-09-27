@@ -69,7 +69,7 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @family errors
 #' @examples
-#' set.seed(42) #set seed for repeatability
+#' set.seed(42) # set seed for repeatability
 #'
 #' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
@@ -275,13 +275,12 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' @family errors
 #'
 #' @examples
-#' set.seed(42) #set seed for repeatability
+#' set.seed(42) # set seed for repeatability
 #'
 #' # First generate a set of MPMs
 #' mpm_set <- generate_mpm_set(n = 5, n_stages = 5, fecundity = c(
-#'   0, 0, 4, 8,
-#'   10
-#' ), archetype = 4, split = TRUE, by_type = TRUE)
+#'   0, 0, 4, 8, 10
+#' ), archetype = 4, split = TRUE, by_type = TRUE, as_compadre = FALSE)
 #'
 #' # Now apply sampling error to this set
 #' add_mpm_error(
@@ -303,7 +302,8 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' # here with a sample size of 20 for reproduction and 10 for growth/survival.
 #' mpm_set <- generate_mpm_set(
 #'   n = 5, n_stages = 3, fecundity = c(0, 2, 4),
-#'   archetype = 4, split = TRUE, by_type = TRUE
+#'   archetype = 4, split = TRUE, by_type = TRUE,
+#'   as_compadre = FALSE
 #' )
 #'
 #' ssMats <- list(
