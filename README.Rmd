@@ -211,14 +211,15 @@ The `random_mpm` function can be used to generate a random Lefkovitch matrix pop
 
 ### Generate a set of random Lefkovitch MPMs
 
-The `generate_mpm_set` function can be used to quickly generate large numbers of Lefkovitch MPMs using the above approach. For example, the following code generates five MPMs with archetype 1. By using the `constraint` argument, users can specify an acceptable characteristics for the set of matrices. In this case, population growth rate range, which can be useful for life history analyses where we might assume that only life histories with lambda values close to 1 can persist in nature.
+The `generate_mpm_set` function can be used to quickly generate large numbers of Lefkovitch MPMs using the above approach. For example, the following code generates five MPMs with archetype 1. By using the `constraint` argument, users can specify an acceptable characteristics for the set of matrices. In this case, population growth rate range, which can be useful for life history analyses where we might assume that only life histories with lambda values close to 1 can persist in nature. We set the argument `as_compadre = FALSE` to ensure that the function returns a `list` object rather than a `CompadreDB` object.
 
 
 ```{r}
 library(popbio)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 generate_mpm_set(
-  n = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df
+  n = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df,
+  as_compadre = FALSE
 )
 ```
 
