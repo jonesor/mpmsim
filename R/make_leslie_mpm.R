@@ -73,7 +73,7 @@ make_leslie_mpm <- function(survival, fertility, n_stages, split = FALSE) {
       "fertility must be a numeric vector of length n_stages (",
       n_stages, "), or of length 1"
     )
-    }
+  }
 
   if (any(fertility < 0)) {
     stop("All values of fertility must be non-negative.")

@@ -1,6 +1,3 @@
-
-
-
 testthat::expect_identical(simulate_survival(0.5, 0), 0.5)
 
 
@@ -84,16 +81,18 @@ testthat::expect_error(add_mpm_error_indiv(
   mat_U = mats$mat_U,
   mat_F = mats$mat_U,
   sample_size = list(matrix(10, nrow = 3, ncol = 3),
-                     matrix(10, nrow = 3, ncol = 4),
-                     split = TRUE)
+    matrix(10, nrow = 3, ncol = 4),
+    split = TRUE
+  )
 ))
 
 testthat::expect_error(add_mpm_error_indiv(
   mat_U = mats$mat_U,
   mat_F = mats$mat_U,
   sample_size = list(matrix(10, nrow = 4, ncol = 4),
-                     matrix(10, nrow = 4, ncol = 4),
-                     split = TRUE)
+    matrix(10, nrow = 4, ncol = 4),
+    split = TRUE
+  )
 ))
 
 testthat::expect_error(add_mpm_error_indiv(
@@ -215,16 +214,18 @@ testthat::expect_error(add_mpm_error(
   mat_U = mats$mat_U,
   mat_F = mats$mat_U,
   sample_size = list(matrix(10, nrow = 3, ncol = 3),
-                     matrix(10, nrow = 3, ncol = 4),
-                     split = TRUE)
+    matrix(10, nrow = 3, ncol = 4),
+    split = TRUE
+  )
 ))
 
 testthat::expect_error(add_mpm_error(
   mat_U = mats$mat_U,
   mat_F = mats$mat_U,
   sample_size = list(matrix(10, nrow = 4, ncol = 4),
-                     matrix(10, nrow = 4, ncol = 4),
-                     split = TRUE)
+    matrix(10, nrow = 4, ncol = 4),
+    split = TRUE
+  )
 ))
 
 testthat::expect_error(add_mpm_error(
@@ -377,8 +378,10 @@ testthat::expect_type(
 mpm_set <- generate_mpm_set(
   n = 5,
   n_stages = 5,
-  fecundity = c(0, 0, 4, 8,
-                10),
+  fecundity = c(
+    0, 0, 4, 8,
+    10
+  ),
   archetype = 4,
   split = TRUE,
   by_type = TRUE,
