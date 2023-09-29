@@ -53,7 +53,7 @@ the average of a Poisson process . The confidence interval will depend
 largely on the sample size used.
 }
 \examples{
-set.seed(42) #set seed for repeatability
+set.seed(42) # set seed for repeatability
 
 # Data for use in example
 matU <- matrix(c(

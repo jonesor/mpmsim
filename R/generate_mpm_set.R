@@ -37,7 +37,7 @@
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
-#' set.seed(42) #set seed for repeatability
+#' set.seed(42) # set seed for repeatability
 #'
 #' # Basic operation, without splitting matrices and with no constraints
 #' generate_mpm_set(
@@ -103,7 +103,7 @@ generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
 
   if (as_compadre == TRUE && by_type == FALSE) {
     stop("If as_compadre is TRUE, then by_type must also be TRUE")
-}
+  }
   # Set up empty list of desired length
   output_list <- vector("list", n)
 
@@ -195,8 +195,8 @@ generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
       "U_list" = U_list,
       "F_list" = F_list
     )
-    if(as_compadre == FALSE){
-    return(output_list_by_type)
+    if (as_compadre == FALSE) {
+      return(output_list_by_type)
     } else {
       return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
     }

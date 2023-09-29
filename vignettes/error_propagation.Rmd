@@ -62,8 +62,10 @@ If we know that the sample size used to estimate each element of the matrix was 
 
 
 ```{r}
-compute_ci(mat_U = matU, mat_F = matF, sample_size = 20,
-           FUN = popdemo::eigs, what = "lambda")
+compute_ci(
+  mat_U = matU, mat_F = matF, sample_size = 20,
+  FUN = popdemo::eigs, what = "lambda"
+)
 ```
 
 Note that it is not necessary to use the same sample size for each element: the sample size information can be provided as a matrix of integers so that it can vary across the matrix. 

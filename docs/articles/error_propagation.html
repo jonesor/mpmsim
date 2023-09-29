@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mpmsim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -150,8 +150,10 @@ represent survival and/or growth.</p>
 matrix was <code>20</code> individuals, we can estimate the downstream
 95% confidence intervals for, say lambda, as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/compute_ci.html">compute_ci</a></span><span class="op">(</span>mat_U <span class="op">=</span> <span class="va">matU</span>, mat_F <span class="op">=</span> <span class="va">matF</span>, sample_size <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>           FUN <span class="op">=</span> <span class="fu">popdemo</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/popdemo/man/eigs.html" class="external-link">eigs</a></span>, what <span class="op">=</span> <span class="st">"lambda"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/compute_ci.html">compute_ci</a></span><span class="op">(</span></span>
+<span>  mat_U <span class="op">=</span> <span class="va">matU</span>, mat_F <span class="op">=</span> <span class="va">matF</span>, sample_size <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  FUN <span class="op">=</span> <span class="fu">popdemo</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/popdemo/man/eigs.html" class="external-link">eigs</a></span>, what <span class="op">=</span> <span class="st">"lambda"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt;      2.5%     97.5% </span></span>
 <span><span class="co">#&gt; 0.5998425 1.4022317</span></span></code></pre></div>
 <p>Note that it is not necessary to use the same sample size for each

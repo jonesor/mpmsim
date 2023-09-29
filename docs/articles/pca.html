@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mpmsim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@
       <img src="" class="logo" alt=""><h1>Exploring PCA space</h1>
                         <h4 data-toc-skip class="author">Owen Jones</h4>
             
-            <h4 data-toc-skip class="date">2023-09-15</h4>
+            <h4 data-toc-skip class="date">2023-09-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/pca.Rmd" class="external-link"><code>vignettes/pca.Rmd</code></a></small>
       <div class="d-none name"><code>pca.Rmd</code></div>
@@ -154,17 +154,23 @@ life table.</p>
 <code>mapply</code> to calculate the life history traits for each matrix
 model.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">gt_lt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span><span class="va">gt_lt</span>, <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span>,</span>
-<span>                                <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matF</span><span class="op">)</span></span>
-<span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">longevity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span>,</span>
-<span>                                    <span class="fu">Rage</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Rage/man/longevity.html" class="external-link">longevity</a></span>,</span>
-<span>                                    x_max <span class="op">=</span> <span class="fl">1000</span>, lx_crit <span class="op">=</span> <span class="fl">0.01</span></span>
+<code class="sourceCode R"><span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">gt_lt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span></span>
+<span>  <span class="va">gt_lt</span>, <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span>,</span>
+<span>  <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matF</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">lifeExpect</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span>,</span>
-<span>                                     <span class="fu">Rage</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Rage/man/life_expect.html" class="external-link">life_expect_mean</a></span><span class="op">)</span></span>
-<span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">entropy_d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span><span class="va">entropy_d</span>,</span>
-<span>                                    <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span>,</span>
-<span>                                    <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matF</span><span class="op">)</span></span>
+<span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">longevity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span>,</span>
+<span>  <span class="fu">Rage</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Rage/man/longevity.html" class="external-link">longevity</a></span>,</span>
+<span>  x_max <span class="op">=</span> <span class="fl">1000</span>, lx_crit <span class="op">=</span> <span class="fl">0.01</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">lifeExpect</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span></span>
+<span>  <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span>,</span>
+<span>  <span class="fu">Rage</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Rage/man/life_expect.html" class="external-link">life_expect_mean</a></span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">entropy_d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span></span>
+<span>  <span class="va">entropy_d</span>,</span>
+<span>  <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span>,</span>
+<span>  <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matF</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">entropy_k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span><span class="va">entropy_k</span>, <span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">matU</span><span class="op">)</span></span>
 <span><span class="va">sim_life_hist_1</span><span class="op">$</span><span class="va">nrr_R0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span></span>

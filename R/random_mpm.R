@@ -143,15 +143,15 @@ random_mpm <- function(n_stages,
     stop("Invalid fecundity input. See ?random_mpm")
   }
 
-  if(inherits(fecundity, "list")){
-    if(!all(fecundity[[2]] - fecundity[[1]] >= 0)){
+  if (inherits(fecundity, "list")) {
+    if (!all(fecundity[[2]] - fecundity[[1]] >= 0)) {
       stop("Invalid matrix input: the values in the lower bound fecundity matrix should be less than or equal
            to the values in the upper bound fecundity matrix.")
     }
   }
 
-  if(inherits(fecundity, "matrix")){
-    if(!all(fecundity >= 0)){
+  if (inherits(fecundity, "matrix")) {
+    if (!all(fecundity >= 0)) {
       stop("Invalid matrix input: fecundity values must not be negative.")
     }
   }

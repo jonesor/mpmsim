@@ -116,7 +116,7 @@ inverse_logit <- function(x) {
 #' @export driven_vital_rate
 #' @importFrom stats rnorm
 #' @examples
-#' set.seed(42) #set seed for repeatability
+#' set.seed(42) # set seed for repeatability
 #'
 #' # A single vital rate and a single driver
 #' driven_vital_rate(
