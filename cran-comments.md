@@ -2,6 +2,12 @@
 
 * This is a minor update. Increased functionality and bug fixes.
 
+## Test environments
+- R-hub windows-x86_64-devel (r-devel)
+- R-hub ubuntu-gcc-release (r-release)
+- R-hub fedora-clang-devel (r-devel)
+
+
 ── mpmsim 1.1.0: NOTE
 
   Build ID:   mpmsim_1.1.0.tar.gz-3a1f4a3a6c71439f9f4d170284c2f0c7
