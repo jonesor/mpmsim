@@ -28,7 +28,12 @@
 #'   `lower` and `upper`. These columns specify (1) a function that outputs a
 #'   metric derived from an A matrix and (2) an argument for the function (`NA`,
 #'   if no argument supplied) (3) the lower acceptable bound for the metric and
-#'   (4) upper acceptable bound for the metric. This could be used to specify
+#'   (4) upper acceptable bound for the metric.
+#' @param impossible_transitions a matrix of the same dimension as defined by
+#'   `n_stages` to indicate impossible transitions. Impossible transitions are
+#'   indicated by 0 values in the matrix, which is otherwise composed of NA
+#'   values. Default is `NULL`. This argument should only be used with archetype
+#'   5.
 #' @param attempts An integer indicating the number of attempts To be made when
 #'   simulating matrix model. The default is 1000. If it takes more than 1000
 #'   attempts to make a matrix that satisfies the conditions set by the other
@@ -83,15 +88,35 @@
 #'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
 #'
+#' # Archetype 5, matrices with impossible transitions
+#' # first define the impossible transitions.
+#' notPossible <- matrix(NA, nrow = 3, ncol = 3)
+#' notPossible[1, 1] <- 0
+#' notPossible[1, 2] <- 0
+#' notPossible[3, 1] <- 0
+#' notPossible[2, 3] <- 0
+#' notPossible
+#' generate_mpm_set(
+#'   n = 10, n_stages = 3, fecundity = 2, archetype = 5, split = FALSE,
+#'   impossible_transitions = notPossible, as_compadre = FALSE, by_type = FALSE
+#' )
+#'
 #' @seealso [random_mpm()] which this function is essentially a wrapper for.
 #' @family Lefkovitch matrices
 #' @importFrom Rcompadre cdb_build_cdb
 #' @export generate_mpm_set
 
-generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
+generate_mpm_set <- function(n = 10,
+                             n_stages = 3,
+                             archetype = 1,
                              fecundity = 1.5,
-                             split = TRUE, by_type = TRUE, as_compadre = TRUE, max_surv = 0.99,
-                             constraint = NULL, attempts = 1000) {
+                             split = TRUE,
+                             by_type = TRUE,
+                             as_compadre = TRUE,
+                             max_surv = 0.99,
+                             constraint = NULL,
+                             impossible_transitions = NULL,
+                             attempts = 1000) {
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
     stop("n must be a positive integer")
@@ -112,7 +137,8 @@ generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
     # Generate an MPM
     mpm_out <- random_mpm(
       n_stages = n_stages, archetype = archetype,
-      fecundity = fecundity, split = split
+      fecundity = fecundity, split = split,
+      impossible_transitions = impossible_transitions
     )
 
     # Check whether survival values are acceptable
