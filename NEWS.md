@@ -1,3 +1,5 @@
+# mpmsim (development version)
+
 # mpmsim 1.1.0
 
 - modified the simulation of fecundity in `random_mpm()`. Now the values are provided as mean fecundity and can be provided as a range of values, whereby a value is drawn from a random uniform distribution. This is the best way to create a set of models with different fecundity properties.
