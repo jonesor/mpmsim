@@ -26,7 +26,7 @@ of attempts can be altered with the attempts parameter."><!-- mathjax --><script
     
     <a class="navbar-brand me-2" href="../index.html">mpmsim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,6 +93,7 @@ of attempts can be altered with the <code>attempts</code> parameter.</p>
 <span>  as_compadre <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  max_surv <span class="op">=</span> <span class="fl">0.99</span>,</span>
 <span>  constraint <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  impossible_transitions <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  attempts <span class="op">=</span> <span class="fl">1000</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -142,7 +143,15 @@ is only used if <code>split = TRUE</code>.</p></dd>
 <code>lower</code> and <code>upper</code>. These columns specify (1) a function that outputs a
 metric derived from an A matrix and (2) an argument for the function (<code>NA</code>,
 if no argument supplied) (3) the lower acceptable bound for the metric and
-(4) upper acceptable bound for the metric. This could be used to specify</p></dd>
+(4) upper acceptable bound for the metric.</p></dd>
+
+
+<dt>impossible_transitions</dt>
+<dd><p>a matrix of the same dimension as defined by
+<code>n_stages</code> to indicate impossible transitions. Impossible transitions are
+indicated by 0 values in the matrix, which is otherwise composed of NA
+values. Default is <code>NULL</code>. This argument should only be used with archetype
+5.</p></dd>
 
 
 <dt>attempts</dt>
@@ -1037,6 +1046,83 @@ arguments, then a warning is produced.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    0    0    0    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Archetype 5, matrices with impossible transitions</span></span></span>
+<span class="r-in"><span><span class="co"># first define the impossible transitions.</span></span></span>
+<span class="r-in"><span><span class="va">notPossible</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">notPossible</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="va">notPossible</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="va">notPossible</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="va">notPossible</span><span class="op">[</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="va">notPossible</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    0   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   NA   NA    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0   NA   NA</span>
+<span class="r-in"><span><span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">2</span>, archetype <span class="op">=</span> <span class="fl">5</span>, split <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  impossible_transitions <span class="op">=</span> <span class="va">notPossible</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span>, by_type <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]      [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.000000 0.0000000 2.3502198</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.304839 0.1740989 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.000000 0.7483380 0.5651762</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.00000000 2.0869513</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.5774672 0.23812803 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.07454068 0.9116905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.0000000 2.2419332</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.5418384 0.2312241 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.1950624 0.6173802</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.00000000 2.1054028</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2645616 0.21091154 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.04430196 0.6149427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.0000000 2.1777198</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.7217295 0.4983148 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.2321464 0.1280089</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.00000000 2.5842540</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.8541348 0.01892286 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.18048936 0.2988959</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.0000000 2.0572564</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.6195955 0.7495750 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.1253226 0.6796746</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.00000000 2.4406673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.6369313 0.02384863 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.14759392 0.1289461</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.00000000 2.4880204</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.3179089 0.02772303 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.23628788 0.4465798</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0000000 0.00000000 2.3544344</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.7535557 0.05621714 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.29005598 0.1620504</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
