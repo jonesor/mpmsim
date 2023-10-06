@@ -24,8 +24,12 @@
 #' with the further assumption that stage-specific survival increases as
 #' individuals increase in size/developmental stage. In this respect it is
 #' similar to archetype 2.
+#' - Archetype 5: This archetype has the same general form as archetype 1, but
+#' allows users to define impossible transitions for SURVIVAL/GROWTH, using a
+#' matrix of NA and 0 values to define possible and impossible transitions,
+#' respectively.
 #'
-#' In all 4 of these Archetypes, fecundity is placed as a single element on the
+#' In all of these Archetypes, fecundity is placed as a single element on the
 #' top right of the matrix, if it is a single value. If it is a vector of length
 #' `n_stages` then the fertility vector spans the entire top row of the matrix.
 #'
@@ -54,11 +58,16 @@
 #'   distribution for the defined range. If there is no reproduction in a
 #'   particular age class, use a value of 0 for both the lower and upper limit.
 #' @param archetype Indication of which life history archetype should be used,
-#'   based on Takada et al. 2018. An integer between 1 and 4.
+#'   largely based on Takada et al. 2018. An integer between 1 and 5.
 #' @param split TRUE/FALSE, indicating whether the matrix produced should be
 #'   split into a survival matrix and a fertility matrix. Yeah true, then the
 #'   output becomes a list with a matrix in each element. Otherwise, the output
 #'   is a single matrix.
+#' @param impossible_transitions a matrix of the same dimension as defined by
+#'   `n_stages` to indicate impossible transitions. Impossible transitions are
+#'   indicated by 0 values in the matrix, which is otherwise composed of NA
+#'   values. Default is `NULL`. This argument should only be used with archetype
+#'   5.
 #'
 #' @return Returns a random matrix population model with characteristics
 #'   determined by the archetype selected and fecundity vector. If split = TRUE,
@@ -84,6 +93,17 @@
 #' # Using a range of values for fecundity
 #' random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
 #'
+#' # a random matrix, where some transitions are labelled as impossible
+#' # first define the impossible transitions.
+#' notPossible <- matrix(NA, nrow = 3, ncol = 3)
+#' notPossible[1, 1] <- 0
+#' notPossible[1, 2] <- 0
+#' notPossible[3, 1] <- 0
+#' notPossible[2, 3] <- 0
+#' notPossible
+#' random_mpm(n_stages = 3, fecundity = 2, archetype = 5, split = TRUE,
+#' impossible_transitions = notPossible)
+#'
 #' @seealso [generate_mpm_set()] which is a wrapper for this function allowing
 #'   the generation of large numbers of random matrices of this type.
 #' @export random_mpm
@@ -93,7 +113,8 @@
 random_mpm <- function(n_stages,
                        fecundity,
                        archetype = 1,
-                       split = FALSE) {
+                       split = FALSE,
+                       impossible_transitions = NULL) {
   # Check that n_stages is an integer greater than 0
   if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
     .Machine$double.eps^0.5 || n_stages <= 0) {
@@ -105,10 +126,18 @@ random_mpm <- function(n_stages,
     stop("split must be a logical value.")
   }
 
-  # Check that archetype is an integer between 1 and 4
+  # Check that archetype is an integer between 1 and 5
   if (!min(abs(c(archetype %% 1, archetype %% 1 - 1))) <
-    .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
-    stop("archetype must be an integer between 1 and 4.")
+    .Machine$double.eps^0.5 || archetype < 1 || archetype > 5) {
+    stop("archetype must be an integer between 1 and 5.")
+  }
+
+  if (archetype == 5 && is.null(impossible_transitions)) {
+    stop("archetype 5 must include a matrix of impossible transitions")
+  }
+
+  if (archetype != 5 && !is.null(impossible_transitions)) {
+    stop("impossible transitions are only valid for archetype 5")
   }
 
   # Function to validate fecundity argument
@@ -219,6 +248,38 @@ random_mpm <- function(n_stages,
       surv <- c(surv, final_stage_surv)
       mat_U <- x[1:n_stages, 1:n_stages]
       mat_U[mat_U == 1] <- surv
+    }
+    # Archetype 5: all elements are positive, allowing for rapid progression and
+    # retrogression. However, some transitions are defined as impossible
+    if (archetype == 5) {
+      # Validate the impossible_transitions matrix
+      if (any(impossible_transitions != 0 & !is.na(impossible_transitions))) {
+        stop("the impossible_transitions matrix should only include NA or 0 values")
+      }
+
+      # Generate random samples from Dirichlet distribution
+      mat_U <- t(rdirichlet(n_stages + 1, rep(1, n_stages + 1)))
+      mat_U
+
+      # expand impossible_transitions to include the death col/row
+      impossible_transitions <- rbind(cbind(impossible_transitions, NA), NA)
+
+      # Fix specific elements to desired values
+      impossible_transitions_indices <- which(!is.na(impossible_transitions),
+                                              arr.ind = TRUE)
+      impossible_transitions_indices <- cbind(
+        impossible_transitions_indices[, "row"],
+        impossible_transitions_indices[, "col"]
+      )
+
+      mat_U[impossible_transitions_indices] <- 0
+
+      # Rescale the matrix so the columns sum to 1
+      mat_U <- apply(mat_U, 2, function(x) x / sum(x))
+
+      # remove the "death" stage that is necessary when using the Dirichlet
+      # distribution.
+      mat_U <- mat_U[1:n_stages, 1:n_stages]
     }
 
     # Fecundity

@@ -5,7 +5,13 @@
 \title{Generate random Lefkovitch matrix population models (MPMs) based on life
 history archetypes}
 \usage{
-random_mpm(n_stages, fecundity, archetype = 1, split = FALSE)
+random_mpm(
+  n_stages,
+  fecundity,
+  archetype = 1,
+  split = FALSE,
+  impossible_transitions = NULL
+)
 }
 \arguments{
 \item{n_stages}{An integer defining the number of stages for the MPM.}
@@ -23,12 +29,18 @@ particular age class, use a value of 0 for both the lower and upper limit.
 }}
 
 \item{archetype}{Indication of which life history archetype should be used,
-based on Takada et al. 2018. An integer between 1 and 4.}
+largely based on Takada et al. 2018. An integer between 1 and 5.}
 
 \item{split}{TRUE/FALSE, indicating whether the matrix produced should be
 split into a survival matrix and a fertility matrix. Yeah true, then the
 output becomes a list with a matrix in each element. Otherwise, the output
 is a single matrix.}
+
+\item{impossible_transitions}{a matrix of the same dimension as defined by
+\code{n_stages} to indicate impossible transitions. Impossible transitions are
+indicated by 0 values in the matrix, which is otherwise composed of NA
+values. Default is \code{NULL}. This argument should only be used with archetype
+5.}
 }
 \value{
 Returns a random matrix population model with characteristics
@@ -61,10 +73,14 @@ progression, e.g., trees).
 with the further assumption that stage-specific survival increases as
 individuals increase in size/developmental stage. In this respect it is
 similar to archetype 2.
+\item Archetype 5: This archetype has the same general form as archetype 1, but
+allows users to define impossible transitions for SURVIVAL/GROWTH, using a
+matrix of NA and 0 values to define possible and impossible transitions,
+respectively.
 }
 }
 \details{
-In all 4 of these Archetypes, fecundity is placed as a single element on the
+In all of these Archetypes, fecundity is placed as a single element on the
 top right of the matrix, if it is a single value. If it is a vector of length
 \code{n_stages} then the fertility vector spans the entire top row of the matrix.
 
@@ -83,6 +99,17 @@ random_mpm(
 )
 # Using a range of values for fecundity
 random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
+
+# a random matrix, where some transitions are labelled as impossible
+# first define the impossible transitions.
+notPossible <- matrix(NA, nrow = 3, ncol = 3)
+notPossible[1, 1] <- 0
+notPossible[1, 2] <- 0
+notPossible[3, 1] <- 0
+notPossible[2, 3] <- 0
+notPossible
+random_mpm(n_stages = 3, fecundity = 2, archetype = 5, split = TRUE,
+impossible_transitions = notPossible)
 
 }
 \references{
