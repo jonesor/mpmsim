@@ -67,8 +67,8 @@
 #' @family Lefkovitch matrices
 #' @author Owen Jones <jones@biology.sdu.dk>
 #'
-#' @importFrom MCMCpack rdirichlet
 #' @importFrom popdemo isErgodic
+#' @importFrom stats rgamma
 #'
 #' @examples
 #' set.seed(42) # set seed for repeatability
@@ -96,7 +96,7 @@ random_mpm <- function(n_stages,
                        split = FALSE) {
   # Check that n_stages is an integer greater than 0
   if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
-    .Machine$double.eps^0.5 || n_stages <= 0) {
+      .Machine$double.eps^0.5 || n_stages <= 0) {
     stop("n_stages must be an integer greater than 0.")
   }
 
@@ -107,7 +107,7 @@ random_mpm <- function(n_stages,
 
   # Check that archetype is an integer between 1 and 4
   if (!min(abs(c(archetype %% 1, archetype %% 1 - 1))) <
-    .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
+      .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
     stop("archetype must be an integer between 1 and 4.")
   }
 
@@ -130,8 +130,8 @@ random_mpm <- function(n_stages,
 
     # Check if fecundity is a list of two matrices, each with dimension n_stages
     if (is.list(fecundity) && length(fecundity) == 2 &&
-      is.matrix(fecundity[[1]]) && all(dim(fecundity[[1]]) == c(n_stages, n_stages)) &&
-      is.matrix(fecundity[[2]]) && all(dim(fecundity[[2]]) == c(n_stages, n_stages))) {
+        is.matrix(fecundity[[1]]) && all(dim(fecundity[[1]]) == c(n_stages, n_stages)) &&
+        is.matrix(fecundity[[2]]) && all(dim(fecundity[[2]]) == c(n_stages, n_stages))) {
       return(TRUE)
     }
 
@@ -143,15 +143,15 @@ random_mpm <- function(n_stages,
     stop("Invalid fecundity input. See ?random_mpm")
   }
 
-  if (inherits(fecundity, "list")) {
-    if (!all(fecundity[[2]] - fecundity[[1]] >= 0)) {
+  if(inherits(fecundity, "list")){
+    if(!all(fecundity[[2]] - fecundity[[1]] >= 0)){
       stop("Invalid matrix input: the values in the lower bound fecundity matrix should be less than or equal
            to the values in the upper bound fecundity matrix.")
     }
   }
 
-  if (inherits(fecundity, "matrix")) {
-    if (!all(fecundity >= 0)) {
+  if(inherits(fecundity, "matrix")){
+    if(!all(fecundity >= 0)){
       stop("Invalid matrix input: fecundity values must not be negative.")
     }
   }
@@ -161,7 +161,7 @@ random_mpm <- function(n_stages,
     # Archetype 1: all elements are positive, allowing for rapid progression and
     # retrogression
     if (archetype == 1) {
-      mat_U <- t(rdirichlet(n_stages + 1, rep(1, n_stages + 1)))
+      mat_U <- t(r_dirichlet(n_stages + 1, rep(1, n_stages + 1)))
       # remove the "death" stage that is necessary when using the Dirichlet
       # distribution.
       mat_U <- mat_U[1:n_stages, 1:n_stages]
@@ -170,7 +170,7 @@ random_mpm <- function(n_stages,
     # Archetype 2 - when survival rates increase. i.e. where the column sums
     # increase moving from left to right.
     if (archetype == 2) {
-      mat_U <- t(rdirichlet(n_stages + 1, rep(1, n_stages + 1)))
+      mat_U <- t(r_dirichlet(n_stages + 1, rep(1, n_stages + 1)))
       # remove the "death" stage that is necessary when using the Dirichlet
       # distribution.
       mat_U <- mat_U[1:n_stages, 1:n_stages]
@@ -190,7 +190,7 @@ random_mpm <- function(n_stages,
 
       mat_U <- matrix(ncol = n_stages + 1, nrow = n_stages + 1)
       for (i in 1:(n_stages + 1)) {
-        mat_U[i, ] <- rdirichlet(1, x[, i])
+        mat_U[i, ] <- r_dirichlet(1, x[, i])
       }
       mat_U <- t(mat_U)
       mat_U <- mat_U[1:n_stages, 1:n_stages]
@@ -208,7 +208,7 @@ random_mpm <- function(n_stages,
       x <- diag(n_stages + 1)
       x[row(x) == col(x) + 1] <- 1
       x[nrow(x), ] <- 1
-      surv <- t(rdirichlet(n_stages, rep(1, 3)))
+      surv <- t(r_dirichlet(n_stages, rep(1, 3)))
       surv <- surv[, 1:(n_stages - 1)]
 
       # Order by colsums for the first two rows.
@@ -246,8 +246,8 @@ random_mpm <- function(n_stages,
     if (inherits(fecundity, "list")) {
       mat_F <- matrix(
         runif(n_stages^2,
-          min = fecundity[[1]],
-          max = fecundity[[2]]
+              min = fecundity[[1]],
+              max = fecundity[[2]]
         ),
         nrow = n_stages, ncol = n_stages
       )
@@ -271,4 +271,46 @@ random_mpm <- function(n_stages,
     mat_A <- mat_U + mat_F
     return(mat_A)
   }
+}
+
+
+#' Generate Samples from a Dirichlet Distribution
+#'
+#' This function generates random samples from a Dirichlet distribution.
+#' The Dirichlet distribution is a multivariate generalization of the beta distribution,
+#' defined by a vector of positive concentration parameters (alpha). These parameters
+#' influence the shape and concentration of the distribution across its dimensions.
+#' Specifically, an alpha value of 1 signifies a uniform distribution over the simplex,
+#' indicating equal likelihood for all outcomes and a lack of prior bias or information.
+#'
+#' @param n Integer, the number of samples to generate.
+#' @param alpha Numeric vector, the concentration parameters for the Dirichlet
+#'   distribution. Each element must be positive. The length of the vector
+#'   determines the dimensionality of the Dirichlet distribution. Higher values
+#'   in the alpha vector indicate a higher concentration of the distribution
+#'   towards the corresponding dimension, while lower values indicate less
+#'   concentration. An alpha value of 1 for all parameters implies a uniform
+#'   distribution over the simplex, reflecting equal likelihood for all
+#'   combinations of outcomes that sum to 1. This represents a state of complete
+#'   ignorance or lack of prior information in Bayesian terms, akin to a
+#'   non-informative prior.
+#'
+#' @return A matrix with n rows and length(alpha) columns, where each row is a sample
+#'         from the Dirichlet distribution.
+#'
+#' @examples
+#' n <- 5  # Size of the sample
+#' alpha <- c(1, 1, 1)  # Example concentration parameters
+#' r_dirichlet(n, alpha)
+#'
+#' @noRd
+r_dirichlet <- function(n, alpha) {
+  result <- matrix(NA, nrow = n, ncol = length(alpha))
+
+  for (i in 1:n) {
+    gamma_samples <- rgamma(length(alpha), shape = alpha, rate = 1)
+    result[i, ] <- gamma_samples / sum(gamma_samples)
+  }
+
+  return(result)
 }
