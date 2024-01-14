@@ -7,13 +7,13 @@
   "codeRepository": "https://github.com/jonesor/mpmsim",
   "issueTracker": "https://github.com/jonesor/mpmsim/issues",
   "license": "https://spdx.org/licenses/CC-BY-SA-4.0",
-  "version": "1.1.0",
+  "version": "1.1.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.1 (2023-06-16)",
+  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -157,18 +157,6 @@
     },
     "4": {
       "@type": "SoftwareApplication",
-      "identifier": "MCMCpack",
-      "name": "MCMCpack",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=MCMCpack"
-    },
-    "5": {
-      "@type": "SoftwareApplication",
       "identifier": "popbio",
       "name": "popbio",
       "provider": {
@@ -179,7 +167,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=popbio"
     },
-    "6": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "popdemo",
       "name": "popdemo",
@@ -191,7 +179,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=popdemo"
     },
-    "7": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "reshape",
       "name": "reshape",
@@ -203,7 +191,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=reshape"
     },
-    "8": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "Rcompadre",
       "name": "Rcompadre",
@@ -215,16 +203,15 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rcompadre"
     },
-    "9": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
     "SystemRequirements": null
   },
-  "fileSize": "714.475KB",
+  "fileSize": "716.596KB",
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
-  "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md",
   "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main"],
   "developmentStatus": "https://www.repostatus.org/#active",
   "relatedLink": "https://CRAN.R-project.org/package=mpmsim"
