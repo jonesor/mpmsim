@@ -1,4 +1,4 @@
-# mpmsim (development version)
+# mpmsim 2.0.0
 
 - removed dependency on `MCMCpack`, which is reportedly being archived from CRAN. This change means that previous versions of `mpmsim` may not function correctly and it is advisable to update to the new version.
 
