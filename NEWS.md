@@ -1,6 +1,6 @@
-# mpmsim (development version)
+# mpmsim 2.0.0
 
-- added an additional archetype to `random_mpm()` and `generate_mpm_set()` (archetype 5), which allows users to specify impossible transitions within the random generation framework. 
+- removed dependency on `MCMCpack`, which is reportedly being archived from CRAN. This change means that previous versions of `mpmsim` may not function correctly and it is advisable to update to the new version.
 
 # mpmsim 1.1.0
 

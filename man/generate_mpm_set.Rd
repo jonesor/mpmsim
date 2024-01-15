@@ -15,7 +15,6 @@ generate_mpm_set(
   as_compadre = TRUE,
   max_surv = 0.99,
   constraint = NULL,
-  impossible_transitions = NULL,
   attempts = 1000
 )
 }
@@ -46,13 +45,7 @@ is only used if \code{split = TRUE}.}
 \code{lower} and \code{upper}. These columns specify (1) a function that outputs a
 metric derived from an A matrix and (2) an argument for the function (\code{NA},
 if no argument supplied) (3) the lower acceptable bound for the metric and
-(4) upper acceptable bound for the metric.}
-
-\item{impossible_transitions}{a matrix of the same dimension as defined by
-\code{n_stages} to indicate impossible transitions. Impossible transitions are
-indicated by 0 values in the matrix, which is otherwise composed of NA
-values. Default is \code{NULL}. This argument should only be used with archetype
-5.}
+(4) upper acceptable bound for the metric. This could be used to specify}
 
 \item{attempts}{An integer indicating the number of attempts To be made when
 simulating matrix model. The default is 1000. If it takes more than 1000
@@ -117,19 +110,6 @@ constrain_df <- data.frame(
 generate_mpm_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df, as_compadre = FALSE
-)
-
-# Archetype 5, matrices with impossible transitions
-# first define the impossible transitions.
-notPossible <- matrix(NA, nrow = 3, ncol = 3)
-notPossible[1, 1] <- 0
-notPossible[1, 2] <- 0
-notPossible[3, 1] <- 0
-notPossible[2, 3] <- 0
-notPossible
-generate_mpm_set(
-  n = 10, n_stages = 3, fecundity = 2, archetype = 5, split = FALSE,
-  impossible_transitions = notPossible, as_compadre = FALSE, by_type = FALSE
 )
 
 }
