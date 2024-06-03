@@ -234,14 +234,12 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
   # Calculate column sums
   col_sums <- colSums(mat_U_out)
 
-  # Rescale columns if any column sum exceeds 1
-  if (any(col_sums > 1)) {
-    mat_U_out <- mat_U_out / col_sums  # Divide each column by its sum
-    # Perform a secondary check for precision issues
-    col_sums_updated <- colSums(mat_U_out)
-    scaling_factors <- ifelse(col_sums_updated > 1, col_sums_updated, 1)
-    mat_U_out <- mat_U_out / scaling_factors
+  # Rescale columns where column sum exceeds 1
+  over_one <- col_sums > 1
+  if (any(over_one)) {
+    mat_U_out[, over_one] <- mat_U_out[, over_one] / col_sums[over_one]
   }
+  mat_U_out
 
 
   if (split) {

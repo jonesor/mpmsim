@@ -20,12 +20,12 @@ Imports:
     popdemo,
     reshape,
     Rcompadre,
+    Rage,
     stats
 Suggests: 
     covr,
     ggfortify,
     knitr,
-    Rage,
     rmarkdown,
     testthat (>= 3.0.0),
     viridis

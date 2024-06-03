@@ -60,8 +60,18 @@ matU <- matrix(c(
 # Example of use to calculate 95\% CI of life expectancy
 compute_ci_U(
   mat_U = matU, sample_size = 10, FUN =
-    popbio::lambda
+    Rage::life_expect_mean
 )
+
+# Example of use to calculate 95\% CI of generation time and show the
+# distribution of those bootstrapped estimates
+xx <- compute_ci_U(
+  mat_U = matU, sample_size = 100, FUN =
+    Rage::life_expect_mean, dist.out = TRUE
+)
+
+summary(xx$quantiles)
+hist(xx$estimates)
 
 }
 \references{
