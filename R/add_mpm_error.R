@@ -229,6 +229,21 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
     ncol = sqrt(length(u_matrix_vector))
   )
 
+  #Check that column sums of the simulated U matrix
+  # do not exceed 1. If they do, rescale them to sum to 1.
+  # Calculate column sums
+  col_sums <- colSums(mat_U_out)
+
+  # Rescale columns if any column sum exceeds 1
+  if (any(col_sums > 1)) {
+    mat_U_out <- mat_U_out / col_sums  # Divide each column by its sum
+    # Perform a secondary check for precision issues
+    col_sums_updated <- colSums(mat_U_out)
+    scaling_factors <- ifelse(col_sums_updated > 1, col_sums_updated, 1)
+    mat_U_out <- mat_U_out / scaling_factors
+  }
+
+
   if (split) {
     return(list(
       mat_A = mat_U_out + mat_F_out,

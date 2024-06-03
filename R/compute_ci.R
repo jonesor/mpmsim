@@ -23,7 +23,8 @@
 #'   submatrices of the MPM or (3) a single value applied to the whole matrix
 #' @param FUN A function to apply to each simulated matrix population model.
 #'   This function must take, as input, a single matrix population model (i.e.,
-#'   the A matrix).
+#'   the A matrix). For functions that require only the U matrix, use
+#'   `compute_ci_U`.
 #' @param ... Additional arguments to be passed to `FUN`.
 #' @param n_sim An integer indicating the number of simulations to run. Default
 #'   is 1000.
