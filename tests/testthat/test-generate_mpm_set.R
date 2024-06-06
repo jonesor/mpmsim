@@ -95,7 +95,7 @@ x <- generate_mpm_set(
 testthat::expect_true(inherits(x, "list"))
 
 
-testthat::expect_error(
+testthat::expect_warning(
   generate_mpm_set(
     n = 10,
     n_stages = 5,
@@ -122,3 +122,4 @@ x <- generate_mpm_set(
   as_compadre = FALSE
 )
 testthat::expect_true(inherits(x, "list"))
+

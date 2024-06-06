@@ -65,6 +65,9 @@ Mathematics. Biometrika, 35(3-4), 213–245.
 \item \code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various
 functions.
 }
+
+Other Leslie matrices: 
+\code{\link{reorganise_matrices}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

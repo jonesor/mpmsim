@@ -1,0 +1,52 @@
+---
+title: "Generate a set of Leslie matrices"
+author: "Owen Jones"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Generate a set of Leslie matrices}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+set.seed(42)
+```
+
+## Introduction
+
+Leslie matrices ...
+
+Here we generate a set of matrices based on...
+
+This is done in 3 steps: (1) generate life tables based on functional forms of mortality and fertility; (2) create matrix population models from those life tables; (3) combine the life matrix population models into a convenient format.
+
+First we load the required packages.
+
+```{r, message=FALSE}
+library(mpmsim)
+library(dplyr)
+library(Rage)
+```
+
+## Generate life tables
+
+First we will use the `model_survival()` function create a `list` of age-specific survival trajectories based on a Gompertz mortality function with senescence rates (`b_1_values`) varying between 0.1 and 0.9. These values are the basis for our life tables.
+
+```{r}
+b_1_values <- seq(0.1, 0.9, 0.1)
+lifeTables <- list()
+for (i in seq_along(b_1_values)) {
+  lifeTables[[i]] <- model_survival(
+    params = c(b_0 = 0.1, b_1 = b_1_values[i]),
+    model = "Gompertz"
+  )
+}
+```
+
+
+Next we'll add fertility to those life tables.
