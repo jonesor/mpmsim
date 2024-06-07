@@ -18,7 +18,7 @@
 #'   survivorship (`lx`) and mortality (`qx`) and survival probability within
 #'   interval (`px`).
 #' @details The required parameters varies depending on the mortality model. The
-#'   parameters are provided as a vector. For `Gompertz`, the parameters are
+#'   parameters are provided as a vector. For `Gompertz` and `Weibull`, the parameters are
 #'   `b0`, `b1.` For `GompertzMakeham` the parameters are `b0`, `b1` and `C`.
 #'   For `Exponential`, the parameter is `C`. For `Siler`, the parameters are
 #'   `a0`, `a1`, `C`, `b0` and `b1`. Note that the parameters must be provided
@@ -28,6 +28,7 @@
 #'   * Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 #'   * Exponential: \eqn{h_x = c}
 #'   * Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
+#'   * Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1)}
 #'
 #'   In the output, the probability of survival (`px`) (and death (`qx`))
 #'   represent the probability of individuals that enter the age interval
@@ -86,7 +87,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
   if (min(diff(age)) <= 0) {
     stop("age must be an increasing sequence")
   }
-  if (!model %in% c("Gompertz", "GompertzMakeham", "Exponential", "Siler")) {
+  if (!model %in% c("Gompertz", "GompertzMakeham", "Exponential", "Siler", "Weibull")) {
     stop("model type not recognised")
   }
   if (!inherits(truncate, "numeric")) {
@@ -146,6 +147,18 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b1 <- params[5]
 
     hx <- a0 * exp(-a1 * age) + C + b0 * exp(b1 * age)
+  }
+
+  if (model == "Weibull") {
+    # Validate parameters
+    if (length(params) != 2) {
+      stop("For a Weibull model, 2 parameters are required.")
+    }
+
+    b0 <- params[1]
+    b1 <- params[2]
+
+    hx <- b0 * b1 * (b1 * x) ^ (b0 - 1)
   }
 
   # Cumulative hazard (Hx)

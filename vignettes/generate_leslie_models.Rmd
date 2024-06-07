@@ -19,13 +19,33 @@ set.seed(42)
 
 ## Introduction
 
-Leslie matrices ...
+Leslie matrix models, named after Patrick Leslie, are a type of matrix population model used to describe demography of age structured populations. They are commonly used in studies of wildlife,conservation and evolutionary biology.
 
-Here we generate a set of matrices based on...
+In a Leslie matrix the square matrix is used to model discrete, age-structured population growth with a projection interval (time step) typically representing years. Each element in the matrix represents a transition probability between different age classes or the fertility of the age class. The information in matrix model can be split into two submatrices, representing reproduction (the fertility vector) and survival/growth respectively.
 
-This is done in 3 steps: (1) generate life tables based on functional forms of mortality and fertility; (2) create matrix population models from those life tables; (3) combine the life matrix population models into a convenient format.
+**Fertility**: The first row of the Leslie matrix contains the reproductive rates of each age class. These entries indicate how many new individuals each age class can expect to produce in each projection interval.
 
-First we load the required packages.
+**Survival Probabilities**: The subdiagonal (immediately below the main diagonal) of the Leslie matrix consists of survival probabilities. Each entry here shows the probability that an individual of one age class will survive to the next age class.
+
+All other entries in the matrix are typically zero, indicating that those transitions are impossible.
+
+To project the population size an structure through time, the Leslie matrix is multiplied by a vector that represents the current population structure (number of individuals in each age class). The result is a new vector showing the predicted structure of the population in the next time step. This process can be repeated to model population changes over multiple time periods.
+
+Leslie matrices are useful for studying population dynamics under different scenarios, such as changes in survival rates, fecundity rates, or management strategies, and they have been widely applied in both theoretical and applied ecology.
+
+## Aims
+
+The purpose of this vignette is to illustrate how to simulate sets of Leslie MPMs based on known functional forms of mortality and fertility. There are several reasons why one would want to do this, including, but not limited to:
+
+*Exploring how senescence parameters influence dynamics.
+*To obtain MPMs based on parameter estimates of mortality and fertility obtained using other methods.
+*To produce MPMs with known properties for teaching purposes.
+
+It is often useful to generate sets of MPMs, rather than single matrices. For example, it is useful to explore how outcomes of modelling vary across a range of likely parameter values for mortality or fertility. Therefore, we will here create
+
+This is done in four steps: (1) generate life tables based on functional forms of mortality; (2) add reproduction information to these life tables, based on functional forms of fertility; (3) create matrix population models from those life tables; (4) combine the life matrix population models into a convenient format.
+
+Before starting, we load the required packages.
 
 ```{r, message=FALSE}
 library(mpmsim)
@@ -33,9 +53,9 @@ library(dplyr)
 library(Rage)
 ```
 
-## Generate life tables
+## Generate actuarial life tables
 
-First we will use the `model_survival()` function create a `list` of age-specific survival trajectories based on a Gompertz mortality function with senescence rates (`b_1_values`) varying between 0.1 and 0.9. These values are the basis for our life tables.
+To generate actuarial (mortality) life tables, we will use the `model_survival()` function create a `list` of age-specific survival trajectories based on a Gompertz mortality function with senescence rates (`b_1_values`) varying between 0.1 and 0.9. These values are the basis for our life tables.
 
 ```{r}
 b_1_values <- seq(0.1, 0.9, 0.1)
