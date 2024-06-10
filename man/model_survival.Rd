@@ -39,7 +39,7 @@ using a mortality model
 }
 \details{
 The required parameters varies depending on the mortality model. The
-parameters are provided as a vector. For \code{Gompertz}, the parameters are
+parameters are provided as a vector. For \code{Gompertz} and \code{Weibull}, the parameters are
 \code{b0}, \code{b1.} For \code{GompertzMakeham} the parameters are \code{b0}, \code{b1} and \code{C}.
 For \code{Exponential}, the parameter is \code{C}. For \code{Siler}, the parameters are
 \code{a0}, \code{a1}, \code{C}, \code{b0} and \code{b1}. Note that the parameters must be provided
@@ -49,6 +49,7 @@ in the order mentioned here. \code{x} represents age.
 \item Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 \item Exponential: \eqn{h_x = c}
 \item Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
+\item Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1)}
 }
 
 In the output, the probability of survival (\code{px}) (and death (\code{qx}))
