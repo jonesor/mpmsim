@@ -34,6 +34,9 @@
     <loc>https://jonesor.github.io/mpmsim/reference/compute_ci.html</loc>
   </url>
   <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/compute_ci_U.html</loc>
+  </url>
+  <url>
     <loc>https://jonesor.github.io/mpmsim/reference/driven_vital_rate.html</loc>
   </url>
   <url>
@@ -55,12 +58,12 @@
     <loc>https://jonesor.github.io/mpmsim/reference/mpmsim-package.html</loc>
   </url>
   <url>
-    <loc>https://jonesor.github.io/mpmsim/reference/mpmsim.html</loc>
-  </url>
-  <url>
     <loc>https://jonesor.github.io/mpmsim/reference/plot_matrix.html</loc>
   </url>
   <url>
     <loc>https://jonesor.github.io/mpmsim/reference/random_mpm.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/reorganise_matrices.html</loc>
   </url>
 </urlset>
