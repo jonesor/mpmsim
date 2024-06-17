@@ -1,7 +1,7 @@
 Package: mpmsim
 Title: Simulation of Matrix Population Models with Defined Life History
     Characteristics
-Version: 2.0.0
+Version: 2.0.0.9000
 Authors@R: 
     person("Owen", "Jones", , "jones@biology.sdu.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-5720-4686"))
@@ -20,12 +20,12 @@ Imports:
     popdemo,
     reshape,
     Rcompadre,
+    Rage,
     stats
 Suggests: 
     covr,
     ggfortify,
     knitr,
-    Rage,
     rmarkdown,
     testthat (>= 3.0.0),
     viridis
@@ -35,4 +35,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1

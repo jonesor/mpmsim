@@ -1,6 +1,6 @@
 ## R CMD check results
 
-* This is a minor update. Increased functionality and bug fixes.
+* This removes package dependency on MCMCpack, which is being archived.
 
 ## Test environments
 - R-hub windows-x86_64-devel (r-devel)
@@ -8,19 +8,18 @@
 - R-hub fedora-clang-devel (r-devel)
 
 
-── mpmsim 1.1.0: NOTE
+── mpmsim 2.0.0: NOTE
 
-  Build ID:   mpmsim_1.1.0.tar.gz-3a1f4a3a6c71439f9f4d170284c2f0c7
+  Build ID:   mpmsim_2.0.0.tar.gz-5be2978c54374c56bc9581668c1af5b5
   Platform:   Windows Server 2022, R-devel, 64 bit
-  Submitted:  2h 14m 12.3s ago
-  Build time: 5m 3.5s
+  Submitted:  5h 51m 55.7s ago
+  Build time: 7m 0.8s
 
 ❯ checking HTML version of manual ... NOTE
   Skipping checking math rendering: package 'V8' unavailable
 
 ❯ checking for non-standard things in the check directory ... NOTE
   Found the following files/directories:
-    ''NULL''
 
 ❯ checking for detritus in the temp directory ... NOTE
   Found the following files/directories:
@@ -28,30 +27,35 @@
 
 0 errors ✔ | 0 warnings ✔ | 3 notes ✖
 
-── mpmsim 1.1.0: NOTE
+── mpmsim 2.0.0: NOTE
 
-  Build ID:   mpmsim_1.1.0.tar.gz-403fe0e244a546b58cbadc2b2fd256a2
+  Build ID:   mpmsim_2.0.0.tar.gz-8994246cd3e1417ea0c012811635dbf4
   Platform:   Ubuntu Linux 20.04.1 LTS, R-release, GCC
-  Submitted:  2h 14m 12.4s ago
-  Build time: 1h 38m 59.1s
+  Submitted:  5h 51m 55.8s ago
+  Build time: 2h 24m 50.7s
+
+❯ checking examples ... [9s/36s] NOTE
+  Examples with CPU (user + system) or elapsed time > 5s
+              user system elapsed
+  compute_ci 2.572  0.044  10.836
 
 ❯ checking HTML version of manual ... NOTE
   Skipping checking HTML validation: no command 'tidy' found
   Skipping checking math rendering: package 'V8' unavailable
 
-0 errors ✔ | 0 warnings ✔ | 1 note ✖
+0 errors ✔ | 0 warnings ✔ | 2 notes ✖
 
-── mpmsim 1.1.0: NOTE
+── mpmsim 2.0.0: NOTE
 
-  Build ID:   mpmsim_1.1.0.tar.gz-7238f40553f54ca3952297583d3ce070
+  Build ID:   mpmsim_2.0.0.tar.gz-644860475a5047238cab78884f060a4e
   Platform:   Fedora Linux, R-devel, clang, gfortran
-  Submitted:  2h 14m 12.4s ago
-  Build time: 1h 38m 44.8s
+  Submitted:  5h 51m 56s ago
+  Build time: 2h 15m 59.2s
 
-❯ checking examples ... [10s/21s] NOTE
+❯ checking examples ... [9s/33s] NOTE
   Examples with CPU (user + system) or elapsed time > 5s
               user system elapsed
-  compute_ci 2.394  0.103   5.272
+  compute_ci 2.546  0.036  10.187
 
 ❯ checking HTML version of manual ... NOTE
   Skipping checking HTML validation: no command 'tidy' found

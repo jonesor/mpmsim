@@ -32,14 +32,14 @@ is TRUE.}
 
 \item{by_type}{A logical indicating whether the matrices should be returned
 in a list by type (A, U, F, C). If split is \code{FALSE}, then \code{by_type} must
-also be \code{FALSE}. Defaults to \code{TRUE}.}
+is coerced to be \code{FALSE}. Defaults to \code{TRUE}.}
 
 \item{as_compadre}{A logical indicating whether the matrices should be
-returned as a \code{CompadreDB} object. Default is \code{TRUE}. This requires
-argument \code{by_type} to be \code{TRUE}. If \code{FALSE}, the function returns a list.}
+returned as a \code{CompadreDB} object. Default is \code{TRUE}. If \code{FALSE}, the
+function returns a list.}
 
-\item{max_surv}{The maximum acceptable survival value. Defaults to 0.99. This
-is only used if \code{split = TRUE}.}
+\item{max_surv}{The maximum acceptable survival value, calculated across all
+transitions from a stage. Defaults to 0.99. This is only used if \code{split = TRUE}.}
 
 \item{constraint}{An optional data frame with 4 columns named \code{fun}, \code{arg},
 \code{lower} and \code{upper}. These columns specify (1) a function that outputs a

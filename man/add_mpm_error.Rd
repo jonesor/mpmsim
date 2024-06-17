@@ -96,11 +96,13 @@ output
 \seealso{
 Other errors: 
 \code{\link{calculate_errors}()},
-\code{\link{compute_ci}()}
+\code{\link{compute_ci}()},
+\code{\link{compute_ci_U}()}
 
 Other errors: 
 \code{\link{calculate_errors}()},
-\code{\link{compute_ci}()}
+\code{\link{compute_ci}()},
+\code{\link{compute_ci_U}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

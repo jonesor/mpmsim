@@ -19,7 +19,8 @@ submatrices of the MPM or (3) a single value applied to the whole matrix}
 
 \item{FUN}{A function to apply to each simulated matrix population model.
 This function must take, as input, a single matrix population model (i.e.,
-the A matrix).}
+the A matrix). For functions that require only the U matrix, use
+\code{compute_ci_U}.}
 
 \item{...}{Additional arguments to be passed to \code{FUN}.}
 
@@ -97,7 +98,8 @@ Sinauer Associates Incorporated.
 \seealso{
 Other errors: 
 \code{\link{add_mpm_error}()},
-\code{\link{calculate_errors}()}
+\code{\link{calculate_errors}()},
+\code{\link{compute_ci_U}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
