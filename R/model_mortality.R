@@ -4,9 +4,9 @@
 #' @param params Numeric vector representing the parameters of the mortality
 #'   model.
 #' @param model Mortality model: `Gompertz`, `GompertzMakeham`, `Exponential`,
-#'   `Siler`.
-#' @param age Numeric vector representing age. The default is `NULL`, whereby the
-#'   survival trajectory is modelled from age 0 to the age at which the
+#'   `Siler`, `Weibull`, `WeibullMakeham`.
+#' @param age Numeric vector representing age. The default is `NULL`, whereby
+#'   the survival trajectory is modelled from age 0 to the age at which the
 #'   survivorship of the synthetic cohort declines to a threshold defined by the
 #'   `truncate` argument, which has a default of 0.01 (i.e. 1% of the cohort
 #'   remaining alive).
@@ -14,35 +14,36 @@
 #'   truncated. The default is `0.01`, indicating that the life table is
 #'   truncated so that survivorship, `lx`, > 0.01 (i.e. the age at which 1% of
 #'   the cohort remains alive).
-#' @return A data frame with columns for age (`x`), hazard (`hx`),
-#'   survivorship (`lx`) and mortality (`qx`) and survival probability within
-#'   interval (`px`).
+#' @return A data frame with columns for age (`x`), hazard (`hx`), survivorship
+#'   (`lx`) and mortality (`qx`) and survival probability within interval
+#'   (`px`).
 #' @details The required parameters varies depending on the mortality model. The
-#'   parameters are provided as a vector. For `Gompertz` and `Weibull`, the parameters are
-#'   `b0`, `b1.` For `GompertzMakeham` the parameters are `b0`, `b1` and `C`.
-#'   For `Exponential`, the parameter is `C`. For `Siler`, the parameters are
-#'   `a0`, `a1`, `C`, `b0` and `b1`. Note that the parameters must be provided
-#'   in the order mentioned here. `x` represents age.
+#'   parameters are provided as a vector. For `Gompertz` and `Weibull`, the
+#'   parameters are `b0`, `b1.` For `GompertzMakeham` and `WeibullMakeham` the
+#'   parameters are `b0`, `b1` and `C`. For `Exponential`, the parameter is `C`.
+#'   For `Siler`, the parameters are `a0`, `a1`, `C`, `b0` and `b1`. Note that
+#'   the parameters must be provided in the order mentioned here. `x` represents
+#'   age.
 #'
 #'   * Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
 #'   * Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 #'   * Exponential: \eqn{h_x = c}
 #'   * Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
 #'   * Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1)}
+#'   * Weibull-Makeham: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1) + c}
 #'
 #'   In the output, the probability of survival (`px`) (and death (`qx`))
 #'   represent the probability of individuals that enter the age interval
 #'   \eqn{[x,x+1]} survive until the end of the interval (or die before the end
 #'   of the interval). It is not possible to estimate a value for this in the
 #'   final row of the life table (because there is no \eqn{x+1} value) and
-#'   therefore the input values of `age` (x) may need to be extended to capture this
-#'   final interval.
+#'   therefore the input values of `age` (x) may need to be extended to capture
+#'   this final interval.
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @family trajectories
-#' @references
-#' Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,
-#' London, UK.
+#' @references Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman
+#' and Hall, London, UK.
 #'
 #' Pinder III, J.E., Wiener, J.G. & Smith, M.H. (1978) The Weibull distribution:
 #' a method of summarizing survivorship data. Ecology, 59, 175–179.
@@ -57,17 +58,17 @@
 #' individual frailty on the dynamics of mortality. Demography, 16, 439–454.
 #'
 #' @examples
-#' model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
+#' model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 #'
-#' model_survival(
+#' model_mortality(
 #'   params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1),
 #'   model = "GompertzMakeham",
 #'   truncate = 0.1
 #' )
 #'
-#' model_survival(params = c(c = 0.2), model = "Exponential", age = 0:10)
+#' model_mortality(params = c(c = 0.2), model = "Exponential", age = 0:10)
 #'
-#' model_survival(
+#' model_mortality(
 #'   params = c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
 #'   model = "Siler",
 #'   age = 0:10

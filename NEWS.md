@@ -1,5 +1,7 @@
 # mpmsim (development version)
-
+- added function `rand_leslie_set()` to generate sets of Leslie matrices where the parameters of the constituent mortality and fertility functions are drawn randomly from defined distributions. The function returns a `CompadreDB` object by default, but can also be set to produce lists of MPMs or life tables.
+- changed name of `generate_mpm_set()` to `rand_lefko_set()` to reflect more accurately that it generates sets of random Lefkovitch matrices.
+- changed name of `random_mpm()` to `rand_lefko_mpm()`to reflect more accurately that it generates a random Lefkovitch matrix.
 - added new function `compute_ci_U()` which calculates confidence intervals for traits derived from matrix models where only the U submatrix is used. For example, life expectancy (using the function `Rage::life_expect_mean()`). 
 
 # mpmsim 2.0.0

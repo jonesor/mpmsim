@@ -52,8 +52,8 @@ the order mentioned here.
 \item von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
 \item Normal: \eqn{f(x) = A \times \exp\left(
   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
-\item Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right )
-   ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2
+\item Hadwiger: \eqn{f(x) = \frac{ab}{C} \left (\frac{C}{x}  \right )
+   ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2
    \right ) \right \}}
 }
 }
@@ -81,7 +81,7 @@ model_fertility(
 
 # Compute fertility using the Hadwiger model
 model_fertility(
-  age = 0:50, params = c(a = 0.91, b = 3.85, c = 29.78),
+  age = 0:50, params = c(a = 0.91, b = 3.85, C = 29.78),
   maturity = 0, model = "hadwiger"
 )
 
@@ -94,7 +94,7 @@ Peristera, P. & Kostaki, A. (2007) Modeling fertility in modern populations.
 Demographic Research. 16. Article 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
 }
 \seealso{
-\code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality
+\code{\link[=model_mortality]{model_mortality()}} to model age-specific survival using mortality
 models.
 
 Other trajectories: 

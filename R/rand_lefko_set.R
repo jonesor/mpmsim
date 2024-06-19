@@ -4,11 +4,11 @@
 #' This function generates a list of `n` MPMs according to the specified
 #' criteria. Criteria include the `archetype`, and the acceptable constraining
 #' criteria, which could include lambda, generation time or any other metric
-#' derived from an A matrix.
-#' The function attempts to find matrices that fulfil the criteria, discarding
-#' unacceptable matrices. By default, if it takes more than 1000 attempts to
-#' find a suitable matrix model, then an error is produced. However, the number
-#' of attempts can be altered with the `attempts` parameter.
+#' derived from an A matrix. The function attempts to find matrices that fulfil
+#' the criteria, discarding unacceptable matrices. By default, if it takes more
+#' than 1000 attempts to find a suitable matrix model, then an error is
+#' produced. However, the number of attempts can be altered with the `attempts`
+#' parameter.
 #'
 #' @param n The number of MPMs to generate. Default is 10.
 #' @param n_stages The number of stages for the MPMs. Default is 3.
@@ -17,8 +17,8 @@
 #' @param split A logical indicating whether to split into submatrices. Default
 #'   is TRUE.
 #' @param by_type A logical indicating whether the matrices should be returned
-#'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must
-#'   is coerced to be `FALSE`. Defaults to `TRUE`.
+#'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must is
+#'   coerced to be `FALSE`. Defaults to `TRUE`.
 #' @param as_compadre A logical indicating whether the matrices should be
 #'   returned as a `CompadreDB` object. Default is `TRUE`. If `FALSE`, the
 #'   function returns a list.
@@ -34,14 +34,14 @@
 #'   simulating matrix model. The default is 1000. If it takes more than 1000
 #'   attempts to make a matrix that satisfies the conditions set by the other
 #'   arguments, then a warning is produced.
-#' @return A list of MPMs that meet the specified criteria.
+#' @return A compadreDB object or list of MPMs that meet the specified criteria.
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #' set.seed(42) # set seed for repeatability
 #'
 #' # Basic operation, without splitting matrices and with no constraints
-#' generate_mpm_set(
+#' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, split = FALSE, by_type = FALSE, as_compadre = FALSE
 #' )
@@ -52,7 +52,7 @@
 #'   fun = "lambda", arg = NA, lower = 0.9, upper =
 #'     1.1
 #' )
-#' generate_mpm_set(
+#' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
@@ -64,7 +64,7 @@
 #'   fun = "eigs", arg = "lambda", lower = 0.9, upper =
 #'     1.1
 #' )
-#' generate_mpm_set(
+#' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
@@ -79,17 +79,17 @@
 #'   lower = c(0.9, 3.0, 1.0),
 #'   upper = c(1.1, 5.0, 7.0)
 #' )
-#' generate_mpm_set(
+#' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
 #'
-#' @seealso [random_mpm()] which this function is essentially a wrapper for.
+#' @seealso [rand_lefko_mpm()] which this function is essentially a wrapper for.
 #' @family Lefkovitch matrices
 #' @importFrom Rcompadre cdb_build_cdb
-#' @export generate_mpm_set
+#' @export rand_lefko_set
 
-generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
+rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
                              fecundity = 1.5,
                              split = TRUE, by_type = TRUE, as_compadre = TRUE, max_surv = 0.99,
                              constraint = NULL, attempts = 1000) {
@@ -118,7 +118,7 @@ generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
   attempt <- 1
   while (any(vapply(output_list, is.null, logical(1)))) {
     # Generate an MPM
-    mpm_out <- random_mpm(
+    mpm_out <- rand_lefko_mpm(
       n_stages = n_stages, archetype = archetype,
       fecundity = fecundity, split = split
     )

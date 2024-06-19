@@ -1,6 +1,6 @@
 # Check if n is a positive integer
 testthat::expect_error(
-  generate_mpm_set(
+  rand_lefko_set(
     n = 0,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
@@ -15,7 +15,7 @@ testthat::expect_error(
 
 # Check output is a list
 testthat::expect_type(
-  generate_mpm_set(
+  rand_lefko_set(
     n = 10,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
@@ -29,7 +29,7 @@ testthat::expect_type(
 # Check output is a list of matrices
 # Checks the first element only
 testthat::expect_true(is.matrix(
-  generate_mpm_set(
+  rand_lefko_set(
     n = 10,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
@@ -42,7 +42,7 @@ testthat::expect_true(is.matrix(
 
 
 
-x <- generate_mpm_set(
+x <- rand_lefko_set(
   n = 10,
   n_stages = 5,
   fecundity = c(0, 0, 4, 8, 10),
@@ -63,7 +63,7 @@ constrain_df <- data.frame(
   upper =
     1.1
 )
-x <- generate_mpm_set(
+x <- rand_lefko_set(
   n = 10,
   n_stages = 5,
   fecundity = c(0, 0, 4, 8, 10),
@@ -82,7 +82,7 @@ constrain_df <- data.frame(
     1.1
 )
 
-x <- generate_mpm_set(
+x <- rand_lefko_set(
   n = 10,
   n_stages = 5,
   fecundity = c(0, 0, 4, 8, 10),
@@ -96,7 +96,7 @@ testthat::expect_true(inherits(x, "list"))
 
 
 testthat::expect_warning(
-  generate_mpm_set(
+  rand_lefko_set(
     n = 10,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
@@ -113,7 +113,7 @@ constrain_df <- data.frame(
   lower = c(0.9, 3.0, 1.0),
   upper = c(1.1, 5.0, 7.0)
 )
-x <- generate_mpm_set(
+x <- rand_lefko_set(
   n = 10,
   n_stages = 5,
   fecundity = c(0, 0, 4, 8, 10),

@@ -67,6 +67,7 @@ functions.
 }
 
 Other Leslie matrices: 
+\code{\link{rand_leslie_set}()},
 \code{\link{reorganise_matrices}()}
 }
 \author{

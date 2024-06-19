@@ -73,24 +73,24 @@
 #' @examples
 #' set.seed(42) # set seed for repeatability
 #'
-#' random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
-#' random_mpm(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
-#' random_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
-#' random_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
-#' random_mpm(
+#' rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
+#' rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
+#' rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
+#' rand_lefko_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
+#' rand_lefko_mpm(
 #'   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4,
 #'   split = TRUE
 #' )
 #' # Using a range of values for fecundity
-#' random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
+#' rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
 #'
-#' @seealso [generate_mpm_set()] which is a wrapper for this function allowing
+#' @seealso [rand_lefko_set()] which is a wrapper for this function allowing
 #'   the generation of large numbers of random matrices of this type.
-#' @export random_mpm
+#' @export rand_lefko_mpm
 #'
 
 
-random_mpm <- function(n_stages,
+rand_lefko_mpm <- function(n_stages,
                        fecundity,
                        archetype = 1,
                        split = FALSE) {

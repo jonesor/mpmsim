@@ -375,7 +375,7 @@ testthat::expect_type(
   "list"
 )
 
-mpm_set <- generate_mpm_set(
+mpm_set <- rand_lefko_set(
   n = 5,
   n_stages = 5,
   fecundity = c(
