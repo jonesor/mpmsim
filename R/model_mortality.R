@@ -1,6 +1,8 @@
 #' Model mortality hazard, survivorship and age-specific survival probability
 #' using a mortality model
 #'
+#'
+#'
 #' @param params Numeric vector representing the parameters of the mortality
 #'   model.
 #' @param model Mortality model: `Gompertz`, `GompertzMakeham`, `Exponential`,
@@ -8,22 +10,27 @@
 #' @param age Numeric vector representing age. The default is `NULL`, whereby
 #'   the survival trajectory is modelled from age 0 to the age at which the
 #'   survivorship of the synthetic cohort declines to a threshold defined by the
-#'   `truncate` argument, which has a default of 0.01 (i.e. 1% of the cohort
+#'   `truncate` argument, which has a default of `0.01` (i.e. 1% of the cohort
 #'   remaining alive).
 #' @param truncate a value defining how the life table output should be
 #'   truncated. The default is `0.01`, indicating that the life table is
-#'   truncated so that survivorship, `lx`, > 0.01 (i.e. the age at which 1% of
+#'   truncated so that survivorship (`lx`) > 0.01 (i.e. the age at which 1% of
 #'   the cohort remains alive).
-#' @return A data frame with columns for age (`x`), hazard (`hx`), survivorship
-#'   (`lx`) and mortality (`qx`) and survival probability within interval
-#'   (`px`).
+#' @return A dataframe in the form of a lifetable with columns for age (`x`),
+#'   hazard (`hx`), survivorship (`lx`) and mortality (`qx`) and survival
+#'   probability within interval (`px`).
 #' @details The required parameters varies depending on the mortality model. The
-#'   parameters are provided as a vector. For `Gompertz` and `Weibull`, the
-#'   parameters are `b0`, `b1.` For `GompertzMakeham` and `WeibullMakeham` the
-#'   parameters are `b0`, `b1` and `C`. For `Exponential`, the parameter is `C`.
-#'   For `Siler`, the parameters are `a0`, `a1`, `C`, `b0` and `b1`. Note that
-#'   the parameters must be provided in the order mentioned here. `x` represents
-#'   age.
+#'   parameters are provided as a vector.
+#'
+#'   *For `Gompertz` and `Weibull`, the
+#'   parameters are `b0`, `b1`.
+#'   *For `GompertzMakeham` and `WeibullMakeham` the parameters are `b0`, `b1`
+#'   and `C`.
+#'   *For `Exponential`, the parameter is `C`.
+#'   *For `Siler`, the parameters are `a0`, `a1`, `C`, `b0` and `b1`.
+#'
+#'   Note that the parameters must be provided in the order mentioned here. `x`
+#'   represents age.
 #'
 #'   * Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
 #'   * Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
@@ -43,19 +50,20 @@
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @family trajectories
 #' @references Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman
-#' and Hall, London, UK.
+#'   and Hall, London, UK.
 #'
-#' Pinder III, J.E., Wiener, J.G. & Smith, M.H. (1978) The Weibull distribution:
-#' a method of summarizing survivorship data. Ecology, 59, 175–179.
+#'   Pinder III, J.E., Wiener, J.G. & Smith, M.H. (1978) The Weibull
+#'   distribution: a method of summarizing survivorship data. Ecology, 59,
+#'   175–179.
 #'
-#' Pletcher, S. (1999) Model fitting and hypothesis testing for age-specific
-#' mortality data. Journal of Evolutionary Biology, 12, 430–439.
+#'   Pletcher, S. (1999) Model fitting and hypothesis testing for age-specific
+#'   mortality data. Journal of Evolutionary Biology, 12, 430–439.
 #'
-#' Siler, W. (1979) A competing-risk model for animal mortality. Ecology, 60,
-#' 750–757.
+#'   Siler, W. (1979) A competing-risk model for animal mortality. Ecology, 60,
+#'   750–757.
 #'
-#' Vaupel, J., Manton, K. & Stallard, E. (1979) The impact of heterogeneity in
-#' individual frailty on the dynamics of mortality. Demography, 16, 439–454.
+#'   Vaupel, J., Manton, K. & Stallard, E. (1979) The impact of heterogeneity in
+#'   individual frailty on the dynamics of mortality. Demography, 16, 439–454.
 #'
 #' @examples
 #' model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")

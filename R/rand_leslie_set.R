@@ -6,9 +6,11 @@
 #'
 #' @param n_models An integer indicating the number of MPMs to generate.
 #' @param mortality_model A character string specifying the name of the
-#'   mortality model to be used. See `model_mortality`.
+#'   mortality model to be used. Options are `Gompertz`, `GompertzMakeham`,
+#'   `Exponential`, `Siler`, `Weibull`, and `WeibullMakeham`. See `model_mortality`.
 #' @param fertility_model A character string specifying the name of the
-#'   fertility model to be used. See `model_fertility`.
+#'   fertility model to be used. Options are `logistic`, `step`,
+#'   `vonBertalanffy`, `normal` and `hadwiger.` See `?model_fertility`.
 #' @param mortality_params A two-column dataframe with a number of rows equal to
 #'   the number of parameters in the mortality model. The required order of the
 #'   parameters depends on the selected `mortality_model` (see
@@ -50,10 +52,13 @@
 #'   population models or as life tables respectively. Default is `mpm`.
 #' @param split A logical indicating whether to split MPMs into submatrices.
 #'   Default is TRUE.Ignored if output is `lifetable`.
-#' @param by_type A logical indicating whether the matrices should be returned
-#'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must is
-#'   coerced to be `FALSE`. Defaults to `TRUE`. Ignored if output is
-#'   `lifetable`.
+#' @param by_type A logical value indicating how the matrices should be
+#'   returned. If `TRUE`, the function returns a list containing three separate
+#'   lists for each matrix type (A, U, and F). If `FALSE`, the function returns
+#'   a list where each element contains three matrices representing a single
+#'   model grouped together (A, U, and F, where A = U + F). When `split` is
+#'   `FALSE`, `by_type` is automatically set to `FALSE`. Defaults to `TRUE`.
+#'   Ignored if output is `lifetable`.
 #' @param as_compadre A logical indicating whether the matrices should be
 #'   returned as a `CompadreDB` object. Default is `TRUE`. If `FALSE`, the
 #'   function returns a list. Ignored if output is `lifetable`.
@@ -68,8 +73,8 @@
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #'
-#' mortParams <- data.frame(minVal = c(0, 0.01,0.1), maxVal = c(0.14, 0.15,0.1))
-#' fertParams <- data.frame(minVal= c(10, 0.5, 8),maxVal=c(11, 0.9, 10))
+#' mortParams <- data.frame(minVal = c(0, 0.01,0.1), maxVal = c(0.14, 0.15, 0.1))
+#' fertParams <- data.frame(minVal = c(10, 0.5, 8), maxVal = c(11, 0.9, 10))
 #' maturityParam <- c(0, 0)
 #'
 #' rand_leslie_set(n_models = 5,

@@ -95,18 +95,6 @@ x <- rand_lefko_set(
 testthat::expect_true(inherits(x, "list"))
 
 
-testthat::expect_warning(
-  rand_lefko_set(
-    n = 10,
-    n_stages = 5,
-    fecundity = c(0, 0, 4, 8, 10),
-    archetype = 4,
-    split = FALSE,
-    by_type = TRUE,
-    as_compadre = FALSE
-  )
-)
-
 constrain_df <- data.frame(
   fun = c("lambda", "generation.time", "damping.ratio"),
   arg = c(NA, NA, NA),

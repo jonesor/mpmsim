@@ -19,27 +19,30 @@ rand_lefko_set(
 )
 }
 \arguments{
-\item{n}{The number of MPMs to generate. Default is 10.}
+\item{n}{The number of MPMs to generate. Default is \code{10}.}
 
-\item{n_stages}{The number of stages for the MPMs. Default is 3.}
+\item{n_stages}{The number of stages for the MPMs. Default is \code{3}.}
 
-\item{archetype}{The archetype of the MPMs. Default is 1.}
+\item{archetype}{The archetype of the MPMs. Default is \code{1}.}
 
-\item{fecundity}{A vector of fecundities for the MPMs. Default is 1.5.}
+\item{fecundity}{A vector of fecundities for the MPMs. Default is \code{1.5}.}
 
-\item{split}{A logical indicating whether to split into submatrices. Default
-is TRUE.}
+\item{split}{A logical indicating whether to split the A matrix into
+submatrices (U, F and C). Default is \code{TRUE}.}
 
-\item{by_type}{A logical indicating whether the matrices should be returned
-in a list by type (A, U, F, C). If split is \code{FALSE}, then \code{by_type} must is
-coerced to be \code{FALSE}. Defaults to \code{TRUE}.}
+\item{by_type}{A logical value indicating how the matrices should be
+returned. If \code{TRUE}, the function returns a list containing three separate
+lists for each matrix type (A, U, and F). If \code{FALSE}, the function returns
+a list where each element contains three matrices representing a single
+model grouped together (A, U, and F, where A = U + F). When \code{split} is
+\code{FALSE}, \code{by_type} is automatically set to \code{FALSE}. Defaults to \code{TRUE}.}
 
 \item{as_compadre}{A logical indicating whether the matrices should be
 returned as a \code{CompadreDB} object. Default is \code{TRUE}. If \code{FALSE}, the
 function returns a list.}
 
 \item{max_surv}{The maximum acceptable survival value, calculated across all
-transitions from a stage. Defaults to 0.99. This is only used if \code{split = TRUE}.}
+transitions from a stage. Defaults to \code{0.99}. This is only used if \code{split = TRUE}.}
 
 \item{constraint}{An optional data frame with 4 columns named \code{fun}, \code{arg},
 \code{lower} and \code{upper}. These columns specify (1) a function that outputs a
@@ -53,7 +56,8 @@ attempts to make a matrix that satisfies the conditions set by the other
 arguments, then a warning is produced.}
 }
 \value{
-A compadreDB object or list of MPMs that meet the specified criteria.
+A \code{compadreDB} object or list of MPMs that meet the specified
+criteria.
 }
 \description{
 This function generates a list of \code{n} MPMs according to the specified

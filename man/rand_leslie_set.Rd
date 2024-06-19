@@ -22,10 +22,12 @@ rand_leslie_set(
 \item{n_models}{An integer indicating the number of MPMs to generate.}
 
 \item{mortality_model}{A character string specifying the name of the
-mortality model to be used. See \code{model_mortality}.}
+mortality model to be used. Options are \code{Gompertz}, \code{GompertzMakeham},
+\code{Exponential}, \code{Siler}, \code{Weibull}, and \code{WeibullMakeham}. See \code{model_mortality}.}
 
 \item{fertility_model}{A character string specifying the name of the
-fertility model to be used. See \code{model_fertility}.}
+fertility model to be used. Options are \code{logistic}, \code{step},
+\code{vonBertalanffy}, \code{normal} and \code{hadwiger.} See \code{?model_fertility}.}
 
 \item{mortality_params}{A two-column dataframe with a number of rows equal to
 the number of parameters in the mortality model. The required order of the
@@ -78,10 +80,13 @@ population models or as life tables respectively. Default is \code{mpm}.}
 \item{split}{A logical indicating whether to split MPMs into submatrices.
 Default is TRUE.Ignored if output is \code{lifetable}.}
 
-\item{by_type}{A logical indicating whether the matrices should be returned
-in a list by type (A, U, F, C). If split is \code{FALSE}, then \code{by_type} must is
-coerced to be \code{FALSE}. Defaults to \code{TRUE}. Ignored if output is
-\code{lifetable}.}
+\item{by_type}{A logical value indicating how the matrices should be
+returned. If \code{TRUE}, the function returns a list containing three separate
+lists for each matrix type (A, U, and F). If \code{FALSE}, the function returns
+a list where each element contains three matrices representing a single
+model grouped together (A, U, and F, where A = U + F). When \code{split} is
+\code{FALSE}, \code{by_type} is automatically set to \code{FALSE}. Defaults to \code{TRUE}.
+Ignored if output is \code{lifetable}.}
 
 \item{as_compadre}{A logical indicating whether the matrices should be
 returned as a \code{CompadreDB} object. Default is \code{TRUE}. If \code{FALSE}, the
@@ -101,8 +106,8 @@ from specified distributions.
 }
 \examples{
 
-mortParams <- data.frame(minVal = c(0, 0.01,0.1), maxVal = c(0.14, 0.15,0.1))
-fertParams <- data.frame(minVal= c(10, 0.5, 8),maxVal=c(11, 0.9, 10))
+mortParams <- data.frame(minVal = c(0, 0.01,0.1), maxVal = c(0.14, 0.15, 0.1))
+fertParams <- data.frame(minVal = c(10, 0.5, 8), maxVal = c(11, 0.9, 10))
 maturityParam <- c(0, 0)
 
 rand_leslie_set(n_models = 5,

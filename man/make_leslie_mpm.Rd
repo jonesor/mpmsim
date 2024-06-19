@@ -26,9 +26,9 @@ be split into separate A, U and F matrices (where A = U + F).}
 A matrix of size n_stages x n_stages representing the Leslie matrix
 }
 \description{
-The function creates a Leslie matrix from inputs of number of
-stages, fertility (the top row of the matrix), and survival probability
-(the value in the sub-diagonal).
+The function creates a Leslie matrix from inputs of number of stages,
+fertility (the top row of the matrix), and survival probability (the value in
+the sub-diagonal).
 }
 \examples{
 make_leslie_mpm(
@@ -50,8 +50,8 @@ make_leslie_mpm(
 
 }
 \references{
-Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
-Interpretation. Sinauer.
+Caswell, H. (2001). Matrix Population Models: Construction,
+Analysis, and Interpretation. Sinauer.
 
 Leslie, P. H. (1945). On the use of matrices in certain population
 mathematics. Biometrika, 33 (3), 183–212.

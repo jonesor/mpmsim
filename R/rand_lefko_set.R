@@ -10,20 +10,23 @@
 #' produced. However, the number of attempts can be altered with the `attempts`
 #' parameter.
 #'
-#' @param n The number of MPMs to generate. Default is 10.
-#' @param n_stages The number of stages for the MPMs. Default is 3.
-#' @param archetype The archetype of the MPMs. Default is 1.
-#' @param fecundity A vector of fecundities for the MPMs. Default is 1.5.
-#' @param split A logical indicating whether to split into submatrices. Default
-#'   is TRUE.
-#' @param by_type A logical indicating whether the matrices should be returned
-#'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must is
-#'   coerced to be `FALSE`. Defaults to `TRUE`.
+#' @param n The number of MPMs to generate. Default is `10`.
+#' @param n_stages The number of stages for the MPMs. Default is `3`.
+#' @param archetype The archetype of the MPMs. Default is `1`.
+#' @param fecundity A vector of fecundities for the MPMs. Default is `1.5`.
+#' @param split A logical indicating whether to split the A matrix into
+#'   submatrices (U, F and C). Default is `TRUE`.
+#' @param by_type A logical value indicating how the matrices should be
+#'   returned. If `TRUE`, the function returns a list containing three separate
+#'   lists for each matrix type (A, U, and F). If `FALSE`, the function returns
+#'   a list where each element contains three matrices representing a single
+#'   model grouped together (A, U, and F, where A = U + F). When `split` is
+#'   `FALSE`, `by_type` is automatically set to `FALSE`. Defaults to `TRUE`.
 #' @param as_compadre A logical indicating whether the matrices should be
 #'   returned as a `CompadreDB` object. Default is `TRUE`. If `FALSE`, the
 #'   function returns a list.
 #' @param max_surv The maximum acceptable survival value, calculated across all
-#'   transitions from a stage. Defaults to 0.99. This is only used if `split =
+#'   transitions from a stage. Defaults to `0.99`. This is only used if `split =
 #'   TRUE`.
 #' @param constraint An optional data frame with 4 columns named `fun`, `arg`,
 #'   `lower` and `upper`. These columns specify (1) a function that outputs a
@@ -34,7 +37,8 @@
 #'   simulating matrix model. The default is 1000. If it takes more than 1000
 #'   attempts to make a matrix that satisfies the conditions set by the other
 #'   arguments, then a warning is produced.
-#' @return A compadreDB object or list of MPMs that meet the specified criteria.
+#' @return A `compadreDB` object or list of MPMs that meet the specified
+#'   criteria.
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
@@ -98,20 +102,11 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
     stop("n must be a positive integer")
   }
 
-#  if (split == FALSE && by_type == TRUE) {
-#    stop("If split is FALSE, then by_type must also be FALSE")
-#  }
-
+  # Ensure by_type is coerced to FALSE if split is FALSE
   if (split == FALSE) {
-    if(by_type == TRUE){
     by_type <- FALSE
-    warning("Split is set to FALSE; by_type has been coerced to be FALSE")
-    }
   }
 
-  #if (as_compadre == TRUE && by_type == FALSE) {
-  #  stop("If as_compadre is TRUE, then by_type must also be TRUE")
-  #}
   # Set up empty list of desired length
   output_list <- vector("list", n)
 

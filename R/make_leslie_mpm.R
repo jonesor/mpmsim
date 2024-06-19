@@ -1,7 +1,9 @@
-#' @title Create a Leslie matrix population model
-#' @description The function creates a Leslie matrix from inputs of number of
-#'   stages, fertility (the top row of the matrix), and survival probability
-#'   (the value in the sub-diagonal).
+#' Create a Leslie matrix population model
+#'
+#' The function creates a Leslie matrix from inputs of number of stages,
+#' fertility (the top row of the matrix), and survival probability (the value in
+#' the sub-diagonal).
+#'
 #' @param survival a numeric value representing the survival probability of each
 #'   stage along the lower off-diagonal of the matrix, with the final value
 #'   being in the lower-right corner of the matrix. If only one value is
@@ -20,9 +22,8 @@
 #' * [model_survival()] to model age-specific survival using mortality models.
 #' * [model_fertility()] to model age-specific fertility using various
 #' functions.
-#' @references
-#' Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
-#' Interpretation. Sinauer.
+#' @references Caswell, H. (2001). Matrix Population Models: Construction,
+#' Analysis, and Interpretation. Sinauer.
 #'
 #' Leslie, P. H. (1945). On the use of matrices in certain population
 #' mathematics. Biometrika, 33 (3), 183–212.
