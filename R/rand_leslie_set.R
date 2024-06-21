@@ -7,7 +7,8 @@
 #' @param n_models An integer indicating the number of MPMs to generate.
 #' @param mortality_model A character string specifying the name of the
 #'   mortality model to be used. Options are `Gompertz`, `GompertzMakeham`,
-#'   `Exponential`, `Siler`, `Weibull`, and `WeibullMakeham`. See `model_mortality`.
+#'   `Exponential`, `Siler`, `Weibull`, and `WeibullMakeham`. See
+#'   `model_mortality`.
 #' @param fertility_model A character string specifying the name of the
 #'   fertility model to be used. Options are `logistic`, `step`,
 #'   `vonBertalanffy`, `normal` and `hadwiger.` See `?model_fertility`.
@@ -48,26 +49,31 @@
 #' @param dist_type A character string specifying the type of distribution to
 #'   draw parameters from. Default is `uniform`. Supported types are `uniform`
 #'   and `normal`.
-#' @param output Either `mpm` or `lifetable`, to output either as matrix
-#'   population models or as life tables respectively. Default is `mpm`.
-#' @param split A logical indicating whether to split MPMs into submatrices.
-#'   Default is TRUE.Ignored if output is `lifetable`.
-#' @param by_type A logical value indicating how the matrices should be
-#'   returned. If `TRUE`, the function returns a list containing three separate
-#'   lists for each matrix type (A, U, and F). If `FALSE`, the function returns
-#'   a list where each element contains three matrices representing a single
-#'   model grouped together (A, U, and F, where A = U + F). When `split` is
-#'   `FALSE`, `by_type` is automatically set to `FALSE`. Defaults to `TRUE`.
-#'   Ignored if output is `lifetable`.
-#' @param as_compadre A logical indicating whether the matrices should be
-#'   returned as a `CompadreDB` object. Default is `TRUE`. If `FALSE`, the
-#'   function returns a list. Ignored if output is `lifetable`.
+#' @param output Output can be one of the following types:
 #'
-#' @return If output is `mpm`, this function returns a `compadreDB` object or
-#'   list containing MPMs generated using the specified model with parameters
-#'   drawn from random uniform or normal distributions. The format of the output
-#'   MPMs depends on the arguments `by_type`, `split` and `as_compadre`. If
-#'   output is `lifetable`, the function returns a list of life tables.
+#' * `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
+#'   (i.e. A, U, F and C).
+#' * `Type2`: A `compadreDB` Object containing MPMs that are not split into submatrices
+#'   (i.e. only the A matrix is included).
+#' * `Type3`: A `list` of MPMs arranged so that each element of the list contains a model
+#'   and associated submatrices (i.e. the nth element contains the nth A matrix
+#'   alongside the nth U and F matrices).
+#' * `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for the A
+#'   matrix and the U and F submatrices respectively.
+#' * `Type5`: A `list` of MPMs, including only the A matrix.
+#' * `Type6`: A `list` of life tables.
+#'
+#'   Default is `Type1`.
+#'
+#' @param scale_fert A numeric value representing the population growth rate
+#'   (lambda) to which fertility should be scaled to produce. If this is set to
+#'   NA, then scaling is not carried out. Default is `NA`.
+#'
+#'
+#' @return Returns a `compadreDB` object or `list` containing MPMs or life
+#'   tables generated using the specified model with parameters drawn from
+#'   random uniform or normal distributions. The format of the output MPMs
+#'   depends on the arguments `output`.
 #'
 #' @family Leslie matrices
 #' @author Owen Jones <jones@biology.sdu.dk>
@@ -84,24 +90,16 @@
 #'                 fertility_params = fertParams,
 #'                 fertility_maturity_params = maturityParam,
 #'                 dist_type="uniform",
-#'                 output = "mpm")
+#'                 output = "Type1")
 #'
 #' @export rand_leslie_set
 #'
 
 rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertility_model = "step",
                             mortality_params, fertility_params, fertility_maturity_params,
-                            dist_type="uniform", output = "mpm",
-                            split = TRUE, by_type = TRUE, as_compadre = TRUE) {
+                            dist_type="uniform", output = "type1", scale_fert = NA) {
 
   # Argument Validation -----------
-
-  if (split == FALSE) {
-    if(by_type == TRUE){
-      by_type <- FALSE
-      warning("Split is set to FALSE; by_type has been coerced to be FALSE")
-    }
-  }
 
   # Validate n_models
   if (!is.numeric(n_models) || length(n_models) != 1 || n_models <= 0) {
@@ -158,14 +156,19 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
   }
 
   # Validate output
-  valid_outputs <- c("mpm", "lifetable")
+  valid_outputs <- c("Type1",
+                     "Type2",
+                     "Type3",
+                     "Type4",
+                     "Type5",
+                     "Type6")
   if (!is.character(output) || !(output %in% valid_outputs)) {
-    stop("output must be either 'mpm' or 'lifetable'")
+    stop("output must be Type1 to Type6")
   }
  # Function begins -----
   # Set up null lists to hold outputs
   lifeTables <- list()
-  if(output == "mpm"){
+  if(output != "Type6"){
     leslieMatrices <- list()}
 
   for (i in 1:n_models) {
@@ -494,7 +497,25 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
         model = fertility_model
       ))
 
-    if(output == "mpm"){
+    #Scale fertility to ensure population growth is at the target
+    if(!is.na(scale_fert)){
+    # Calculate R0
+    R0 <- sum(lifeTables[[i]]$lx * lifeTables[[i]]$fert)
+
+    # Calculate T
+    genTime <- sum(lifeTables[[i]]$x * lifeTables[[i]]$lx * lifeTables[[i]]$fert) / R0
+
+    # Calculate the target R0 for the desired lambda
+    target_R0 <- scale_fert^genTime
+
+    # Determine the scaling factor
+    scaling_factor <- target_R0 / R0
+
+    lifeTables[[i]]$fert <- lifeTables[[i]]$fert * scaling_factor
+    }
+
+
+    if(output != "Type6"){
 
     leslieMatrices[[i]] <- make_leslie_mpm(
       survival = lifeTables[[i]]$px,
@@ -505,99 +526,57 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
 
   # Output the matrices or life tables.
 
-  if(output == "mpm"){
-    output_list <- leslieMatrices
-    if (split) {
-      if (by_type) {
-        if (as_compadre) {
+  #Split matrices
+  # `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
 
-          # Code for split = TRUE, by_type = TRUE, as_compadre = TRUE
-          A_list <- lapply(output_list, function(x) x$mat_A)
-          U_list <- lapply(output_list, function(x) x$mat_U)
-          F_list <- lapply(output_list, function(x) x$mat_F)
+  if(output == "Type1"){
+    U_list <- lapply(leslieMatrices, function(x) x$mat_U)
+    F_list <- lapply(leslieMatrices, function(x) x$mat_F)
 
-          return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
-
-        } else {
-          # Code for split = TRUE, by_type = TRUE, as_compadre = FALSE
-          A_list <- lapply(output_list, function(x) x$mat_A)
-          U_list <- lapply(output_list, function(x) x$mat_U)
-          F_list <- lapply(output_list, function(x) x$mat_F)
-
-          output_list_by_type <- list(
-            "A_list" = A_list,
-            "U_list" = U_list,
-            "F_list" = F_list
-          )
-          return(output_list_by_type)
-        }
-      } else {
-        if (as_compadre) {
-
-          # Code for split = TRUE, by_type = FALSE, as_compadre = TRUE
-          A_list <- lapply(output_list, function(x) x$mat_A)
-          U_list <- lapply(output_list, function(x) x$mat_U)
-          F_list <- lapply(output_list, function(x) x$mat_F)
-
-          return(cdb_build_cdb(mat_a = A_list))
-          } else {
-          # Code for split = TRUE, by_type = FALSE, as_compadre = FALSE
-            return(output_list)
-        }
-      }
-    } else {
-      if (by_type) {
-        if (as_compadre) {
-          # Code for split = FALSE, by_type = TRUE, as_compadre = TRUE
-          A_list <- lapply(output_list, function(x) x$mat_A)
-          U_list <- lapply(output_list, function(x) x$mat_U)
-          F_list <- lapply(output_list, function(x) x$mat_F)
-
-          output_list_by_type <- list(
-            "A_list" = A_list
-          )
-          return(cdb_build_cdb(mat_a = A_list))
-
-        } else {
-          # Code for split = FALSE, by_type = TRUE, as_compadre = FALSE
-
-          A_list <- lapply(output_list, function(x) x$mat_A)
-          U_list <- lapply(output_list, function(x) x$mat_U)
-          F_list <- lapply(output_list, function(x) x$mat_F)
-
-          output_list_by_type <- list(
-            "A_list" = A_list
-          )
-          return(output_list_by_type)
-
-        }
-      } else {
-        if (as_compadre) {
-          # Code for split = FALSE, by_type = FALSE, as_compadre = TRUE
-          A_list <- lapply(output_list, function(x) x$mat_A)
-          U_list <- lapply(output_list, function(x) x$mat_U)
-          F_list <- lapply(output_list, function(x) x$mat_F)
-
-
-          return(cdb_build_cdb(mat_a = A_list))
-
-        } else {
-          # Code for split = FALSE, by_type = FALSE, as_compadre = FALSE
-          A_list <- lapply(output_list, function(x) x$mat_A)
-          U_list <- lapply(output_list, function(x) x$mat_U)
-          F_list <- lapply(output_list, function(x) x$mat_F)
-
-          return(A_list)
-        }
-      }
+    return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
     }
 
+  # `Type2`: A `compadreDB` Object containing MPMs that are not split into submatrices
 
+  if(output == "Type2"){
+    A_list <- lapply(leslieMatrices, function(x) x$mat_A)
+
+    return(cdb_build_cdb(mat_a = A_list))
   }
 
-    if(output == "lifetable"){
+  # `Type3`: A `list` of MPMs arranged so that each element of the list contains
+  # a model and associated submatrices
+
+  if(output == "Type3"){
+    return(leslieMatrices)
+  }
+
+  # `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for the A
+  # matrix and the U and F submatrices respectively.
+
+  if(output == "Type4"){
+
+    A_list <- lapply(leslieMatrices, function(x) x$mat_A)
+    U_list <- lapply(leslieMatrices, function(x) x$mat_U)
+    F_list <- lapply(leslieMatrices, function(x) x$mat_F)
+
+    output_list_by_type <- list(
+      "A_list" = A_list,
+      "U_list" = U_list,
+      "F_list" = F_list
+    )
+    return(output_list_by_type)
+  }
+  # `Type5`: A `list` of MPMs, including the main A matrix only.
+  if(output == "Type5"){
+
+    A_list <- lapply(leslieMatrices, function(x) x$mat_A)
+    return(A_list)
+  }
+
+  # Type6: life tables
+  if(output == "Type6"){
     return(lifeTables)
   }
-
 
 }

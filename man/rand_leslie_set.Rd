@@ -12,10 +12,8 @@ rand_leslie_set(
   fertility_params,
   fertility_maturity_params,
   dist_type = "uniform",
-  output = "mpm",
-  split = TRUE,
-  by_type = TRUE,
-  as_compadre = TRUE
+  output = "type1",
+  scale_fert = NA
 )
 }
 \arguments{
@@ -23,7 +21,8 @@ rand_leslie_set(
 
 \item{mortality_model}{A character string specifying the name of the
 mortality model to be used. Options are \code{Gompertz}, \code{GompertzMakeham},
-\code{Exponential}, \code{Siler}, \code{Weibull}, and \code{WeibullMakeham}. See \code{model_mortality}.}
+\code{Exponential}, \code{Siler}, \code{Weibull}, and \code{WeibullMakeham}. See
+\code{model_mortality}.}
 
 \item{fertility_model}{A character string specifying the name of the
 fertility model to be used. Options are \code{logistic}, \code{step},
@@ -74,30 +73,32 @@ normal distribution from which the parameter values are drawn.}
 draw parameters from. Default is \code{uniform}. Supported types are \code{uniform}
 and \code{normal}.}
 
-\item{output}{Either \code{mpm} or \code{lifetable}, to output either as matrix
-population models or as life tables respectively. Default is \code{mpm}.}
+\item{output}{Output can be one of the following types:
+\itemize{
+\item \code{Type1}: A \code{compadreDB} Object containing MPMs split into the submatrices
+(i.e. A, U, F and C).
+\item \code{Type2}: A \code{compadreDB} Object containing MPMs that are not split into submatrices
+(i.e. only the A matrix is included).
+\item \code{Type3}: A \code{list} of MPMs arranged so that each element of the list contains a model
+and associated submatrices (i.e. the nth element contains the nth A matrix
+alongside the nth U and F matrices).
+\item \code{Type4}: A \code{list} of MPMs arranged so that the list contains 3 lists for the A
+matrix and the U and F submatrices respectively.
+\item \code{Type5}: A \code{list} of MPMs, including only the A matrix.
+\item \code{Type6}: A \code{list} of life tables.
 
-\item{split}{A logical indicating whether to split MPMs into submatrices.
-Default is TRUE.Ignored if output is \code{lifetable}.}
+Default is \code{Type1}.
+}}
 
-\item{by_type}{A logical value indicating how the matrices should be
-returned. If \code{TRUE}, the function returns a list containing three separate
-lists for each matrix type (A, U, and F). If \code{FALSE}, the function returns
-a list where each element contains three matrices representing a single
-model grouped together (A, U, and F, where A = U + F). When \code{split} is
-\code{FALSE}, \code{by_type} is automatically set to \code{FALSE}. Defaults to \code{TRUE}.
-Ignored if output is \code{lifetable}.}
-
-\item{as_compadre}{A logical indicating whether the matrices should be
-returned as a \code{CompadreDB} object. Default is \code{TRUE}. If \code{FALSE}, the
-function returns a list. Ignored if output is \code{lifetable}.}
+\item{scale_fert}{A numeric value representing the population growth rate
+(lambda) to which fertility should be scaled to produce. If this is set to
+NA, then scaling is not carried out. Default is \code{NA}.}
 }
 \value{
-If output is \code{mpm}, this function returns a \code{compadreDB} object or
-list containing MPMs generated using the specified model with parameters
-drawn from random uniform or normal distributions. The format of the output
-MPMs depends on the arguments \code{by_type}, \code{split} and \code{as_compadre}. If
-output is \code{lifetable}, the function returns a list of life tables.
+Returns a \code{compadreDB} object or \code{list} containing MPMs or life
+tables generated using the specified model with parameters drawn from
+random uniform or normal distributions. The format of the output MPMs
+depends on the arguments \code{output}.
 }
 \description{
 Generates a set of Leslie matrix population models (MPMs) based on defined
@@ -117,7 +118,7 @@ rand_leslie_set(n_models = 5,
                 fertility_params = fertParams,
                 fertility_maturity_params = maturityParam,
                 dist_type="uniform",
-                output = "mpm")
+                output = "Type1")
 
 }
 \seealso{
