@@ -65,15 +65,16 @@
 #'
 #'   Default is `Type1`.
 #'
-#' @param scale_fert A numeric value representing the population growth rate
-#'   (lambda) to which fertility should be scaled to produce. If this is set to
-#'   NA, then scaling is not carried out. Default is `NA`.
-#'
+#' @param scale_output A logical argument. If `TRUE` the resulting MPMs or life tables are scaled by adjusting fertility so that the population
+#'   growth rate (lambda) is 1. Default is `FALSE`.
 #'
 #' @return Returns a `compadreDB` object or `list` containing MPMs or life
 #'   tables generated using the specified model with parameters drawn from
 #'   random uniform or normal distributions. The format of the output MPMs
-#'   depends on the arguments `output`.
+#'   depends on the arguments `output`. Outputs may optionally be scaled to
+#'   ensure a population growth rate (lambda) of 1.
+#'
+#' @importFrom stats optim
 #'
 #' @family Leslie matrices
 #' @author Owen Jones <jones@biology.sdu.dk>
@@ -97,7 +98,7 @@
 
 rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertility_model = "step",
                             mortality_params, fertility_params, fertility_maturity_params,
-                            dist_type="uniform", output = "type1", scale_fert = NA) {
+                            dist_type="uniform", output = "type1", scale_output = FALSE) {
 
   # Argument Validation -----------
 
@@ -165,6 +166,11 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
   if (!is.character(output) || !(output %in% valid_outputs)) {
     stop("output must be Type1 to Type6")
   }
+
+  if(output == "Type6" && scale_output == "Surv"){
+    stop("When output is Type6 (life table), output scaling can only be implemented by scaling Fertility.")
+  }
+
  # Function begins -----
   # Set up null lists to hold outputs
   lifeTables <- list()
@@ -486,8 +492,6 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
       }
     }
 
-
-
     # Add fertility to life table
     lifeTables[[i]] <- lifeTables[[i]] |>
       mutate(fert = model_fertility(
@@ -498,7 +502,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
       ))
 
     #Scale fertility to ensure population growth is at the target
-    if(!is.na(scale_fert)){
+    if(scale_output == TRUE && output == "Type6"){
     # Calculate R0
     R0 <- sum(lifeTables[[i]]$lx * lifeTables[[i]]$fert)
 
@@ -506,7 +510,8 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
     genTime <- sum(lifeTables[[i]]$x * lifeTables[[i]]$lx * lifeTables[[i]]$fert) / R0
 
     # Calculate the target R0 for the desired lambda
-    target_R0 <- scale_fert^genTime
+    targetLambda = 1
+    target_R0 <- targetLambda^genTime
 
     # Determine the scaling factor
     scaling_factor <- target_R0 / R0
@@ -515,13 +520,38 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
     }
 
 
-    if(output != "Type6"){
+    if(output != "Type6") {
+      leslieMatrices[[i]] <- make_leslie_mpm(
+        survival = lifeTables[[i]]$px,
+        fertility = lifeTables[[i]]$fert,
+        n_stages = nrow(lifeTables[[i]]),
+        split = TRUE
+      )
 
-    leslieMatrices[[i]] <- make_leslie_mpm(
-      survival = lifeTables[[i]]$px,
-      fertility = lifeTables[[i]]$fert,
-      n_stages = nrow(lifeTables[[i]]), split = TRUE
-    )}
+      if(scale_output == TRUE){
+      mpm <- leslieMatrices[[i]]
+
+      objective_function <- function(scaling_factor, Umat, Fmat, lambda_target = 1) {
+        Fmat_scaled <- scaling_factor * Fmat
+        Amat_scaled <- Umat + Fmat_scaled
+        lambda_scaled <- max(Mod(eigen(Amat_scaled)$values))
+        return(abs(lambda_scaled - lambda_target))
+      }
+
+      result <- optim(1, objective_function,
+                      Umat = mpm$mat_U,
+                      Fmat = mpm$mat_F,
+                      method = "L-BFGS-B",
+                      lower = 0)
+
+      optimized_scaling_factor <- result$par
+      mpm$mat_F <- optimized_scaling_factor * mpm$mat_F
+      mpm$mat_A <- mpm$mat_U + mpm$mat_F
+
+      leslieMatrices[[i]] <- mpm
+      }
+    }
+
   }
 
   # Output the matrices or life tables.

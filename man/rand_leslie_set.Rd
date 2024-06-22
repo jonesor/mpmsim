@@ -13,7 +13,7 @@ rand_leslie_set(
   fertility_maturity_params,
   dist_type = "uniform",
   output = "type1",
-  scale_fert = NA
+  scale_output = FALSE
 )
 }
 \arguments{
@@ -90,15 +90,15 @@ matrix and the U and F submatrices respectively.
 Default is \code{Type1}.
 }}
 
-\item{scale_fert}{A numeric value representing the population growth rate
-(lambda) to which fertility should be scaled to produce. If this is set to
-NA, then scaling is not carried out. Default is \code{NA}.}
+\item{scale_output}{A logical argument. If \code{TRUE} the resulting MPMs or life tables are scaled by adjusting fertility so that the population
+growth rate (lambda) is 1. Default is \code{FALSE}.}
 }
 \value{
 Returns a \code{compadreDB} object or \code{list} containing MPMs or life
 tables generated using the specified model with parameters drawn from
 random uniform or normal distributions. The format of the output MPMs
-depends on the arguments \code{output}.
+depends on the arguments \code{output}. Outputs may optionally be scaled to
+ensure a population growth rate (lambda) of 1.
 }
 \description{
 Generates a set of Leslie matrix population models (MPMs) based on defined

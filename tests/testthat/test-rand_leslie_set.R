@@ -92,3 +92,37 @@ test_that("output validation works", {
                                 fertility_maturity_params = c(0, 0), dist_type = "uniform", output = "Type1"))
 })
 
+
+#Check scaling of fertility
+x <- rand_leslie_set(n_models = 1, mortality_model = "Gompertz", fertility_model = "step",
+                mortality_params = data.frame(minVal = c(0, 0.01), maxVal = c(0.14, 0.15)),
+                fertility_params = data.frame(minVal = c(10), maxVal = c(11)),
+                fertility_maturity_params = c(0, 0), dist_type = "uniform", output = "Type1",
+                scale_output = TRUE)
+
+test_that("scaling works", {
+                 expect_lt(abs(1-popdemo::eigs(matA(x)[[1]], what = "lambda")),0.01)
+})
+
+
+x <- rand_leslie_set(n_models = 1, mortality_model = "Gompertz", fertility_model = "step",
+                     mortality_params = data.frame(minVal = c(0, 0.01), maxVal = c(0.14, 0.15)),
+                     fertility_params = data.frame(minVal = c(10), maxVal = c(11)),
+                     fertility_maturity_params = c(0, 0), dist_type = "uniform", output = "Type2",
+                     scale_output = TRUE)
+
+test_that("scaling works", {
+  expect_lt(abs(1-popdemo::eigs(matA(x)[[1]], what = "lambda")),0.01)
+})
+
+x <- rand_leslie_set(n_models = 1, mortality_model = "Gompertz", fertility_model = "step",
+                     mortality_params = data.frame(minVal = c(0, 0.01), maxVal = c(0.14, 0.15)),
+                     fertility_params = data.frame(minVal = c(10), maxVal = c(11)),
+                     fertility_maturity_params = c(0, 0), dist_type = "uniform", output = "Type3",
+                     scale_output = TRUE)
+
+test_that("scaling works", {
+  expect_lt(abs(1-popdemo::eigs(x[[1]]$mat_A, what = "lambda")),0.01)
+})
+
+
