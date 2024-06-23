@@ -49,7 +49,8 @@
 #' @param dist_type A character string specifying the type of distribution to
 #'   draw parameters from. Default is `uniform`. Supported types are `uniform`
 #'   and `normal`.
-#' @param output Output can be one of the following types:
+#' @param output Character string indicating the type of output. Output can be
+#'   one of the following types:
 #'
 #' * `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
 #'   (i.e. A, U, F and C).
@@ -65,8 +66,9 @@
 #'
 #'   Default is `Type1`.
 #'
-#' @param scale_output A logical argument. If `TRUE` the resulting MPMs or life tables are scaled by adjusting fertility so that the population
-#'   growth rate (lambda) is 1. Default is `FALSE`.
+#' @param scale_output A logical argument. If `TRUE` the resulting MPMs or life
+#'   tables are scaled by adjusting fertility so that the population growth rate
+#'   (lambda) is 1. Default is `FALSE`.
 #'
 #' @return Returns a `compadreDB` object or `list` containing MPMs or life
 #'   tables generated using the specified model with parameters drawn from
