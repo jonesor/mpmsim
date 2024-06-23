@@ -73,7 +73,8 @@ normal distribution from which the parameter values are drawn.}
 draw parameters from. Default is \code{uniform}. Supported types are \code{uniform}
 and \code{normal}.}
 
-\item{output}{Output can be one of the following types:
+\item{output}{Character string indicating the type of output. Output can be
+one of the following types:
 \itemize{
 \item \code{Type1}: A \code{compadreDB} Object containing MPMs split into the submatrices
 (i.e. A, U, F and C).
@@ -90,8 +91,9 @@ matrix and the U and F submatrices respectively.
 Default is \code{Type1}.
 }}
 
-\item{scale_output}{A logical argument. If \code{TRUE} the resulting MPMs or life tables are scaled by adjusting fertility so that the population
-growth rate (lambda) is 1. Default is \code{FALSE}.}
+\item{scale_output}{A logical argument. If \code{TRUE} the resulting MPMs or life
+tables are scaled by adjusting fertility so that the population growth rate
+(lambda) is 1. Default is \code{FALSE}.}
 }
 \value{
 Returns a \code{compadreDB} object or \code{list} containing MPMs or life
