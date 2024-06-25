@@ -30,7 +30,8 @@ growth/survival transition probabilities
 \examples{
 mats <- rand_lefko_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, output = "Type1")
+  archetype = 4, output = "Type1"
+)
 
 summarise_mpms(mats)
 }

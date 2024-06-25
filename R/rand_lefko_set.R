@@ -35,13 +35,13 @@
 #'
 #' * `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
 #'   (i.e. A, U, F and C).
-#' * `Type2`: A `compadreDB` Object containing MPMs that are not split into submatrices
-#'   (i.e. only the A matrix is included).
-#' * `Type3`: A `list` of MPMs arranged so that each element of the list contains a model
-#'   and associated submatrices (i.e. the nth element contains the nth A matrix
-#'   alongside the nth U and F matrices).
-#' * `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for the A
-#'   matrix and the U and F submatrices respectively.
+#' * `Type2`: A `compadreDB` Object containing MPMs that are not split into
+#' submatrices (i.e. only the A matrix is included).
+#' * `Type3`: A `list` of MPMs arranged so that each element of the list
+#' contains a model and associated submatrices (i.e. the nth element contains
+#' the nth A matrix alongside the nth U and F matrices).
+#' * `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for
+#' the A  matrix and the U and F submatrices respectively.
 #' * `Type5`: A `list` of MPMs, including only the A matrix.
 #'
 #'
@@ -68,7 +68,8 @@
 #' # Basic operation, without splitting matrices and with no constraints
 #' rand_lefko_set(
 #'   n = 1, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, output = "Type5")
+#'   archetype = 4, output = "Type5"
+#' )
 #'
 #' # Constrain outputs to A matrices with lambda between 0.9 and 1.1
 #' library(popbio)
@@ -78,17 +79,20 @@
 #' )
 #' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df, output = "Type5")
+#'   archetype = 4, constraint = constrain_df, output = "Type5"
+#' )
 #'
 #' # As above, but using popdemo::eigs function instead of popbio::lambda
 #' # to illustrate use of argument
 #' library(popdemo)
 #' constrain_df <- data.frame(
-#'   fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1)
+#'   fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1
+#' )
 #'
 #' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df, output = "Type5")
+#'   archetype = 4, constraint = constrain_df, output = "Type5"
+#' )
 #'
 #' # Multiple constraints
 #' # Constrain outputs to A matrices with lambda between 0.9 and 1.1, generation
@@ -102,7 +106,8 @@
 #' )
 #' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df, output = "Type5" )
+#'   archetype = 4, constraint = constrain_df, output = "Type5"
+#' )
 #'
 #' @seealso [rand_lefko_mpm()] which this function is essentially a wrapper for.
 #' @family Lefkovitch matrices
@@ -110,9 +115,9 @@
 #' @export rand_lefko_set
 
 rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
-                             fecundity = 1.5,
-                             output = "Type1", max_surv = 0.99,
-                             constraint = NULL, attempts = 1000) {
+                           fecundity = 1.5,
+                           output = "Type1", max_surv = 0.99,
+                           constraint = NULL, attempts = 1000) {
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
     stop("n must be a positive integer")
@@ -123,9 +128,9 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
 
   attempt <- 1
 
-  if(output %in% c("Type1", "Type3", "Type4")){
+  if (output %in% c("Type1", "Type3", "Type4")) {
     splitValue <- TRUE
-  }else{
+  } else {
     splitValue <- FALSE
   }
 
@@ -209,26 +214,28 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
 
 
   # `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
-  if(output == "Type1"){
+  if (output == "Type1") {
     U_list <- lapply(output_list, function(x) x$mat_U)
     F_list <- lapply(output_list, function(x) x$mat_F)
     return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
   }
 
-  # `Type2`: A `compadreDB` Object containing MPMs that are not split into submatrices
-  if(output == "Type2"){
+  # `Type2`: A `compadreDB` Object containing MPMs that are not split into
+  # submatrices
+  if (output == "Type2") {
     return(cdb_build_cdb(mat_a = output_list))
   }
 
-  # `Type3`: A `list` of MPMs arranged so that each element of the list contains a model
-  #   and associated submatrices (i.e. the nth element contains the nth A matrix
-  #   alongside the nth U and F matrices).
-  if(output == "Type3"){
+  #`Type3`: A `list` of MPMs arranged so that each element of the list contains
+  #a model and associated submatrices (i.e. the nth element contains the nth A
+  #matrix alongside the nth U and F matrices).
+  if (output == "Type3") {
     return(output_list)
   }
 
-  # `Type4`: A `list` of MPMs arranged so the list contains 3 lists for the A, U and F matrices.
-  if(output == "Type4"){
+  # `Type4`: A `list` of MPMs arranged so the list contains 3 lists for the A, U
+  # and F matrices.
+  if (output == "Type4") {
     A_list <- lapply(output_list, function(x) x$mat_A)
     U_list <- lapply(output_list, function(x) x$mat_U)
     F_list <- lapply(output_list, function(x) x$mat_F)
@@ -238,10 +245,10 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
       "F_list" = F_list
     )
     return(output_list_by_type)
-    }
+  }
 
   # `Type5`: A `list` of MPMs, including only the A matrix.
-  if(output == "Type5"){
+  if (output == "Type5") {
     return(output_list)
   }
 }

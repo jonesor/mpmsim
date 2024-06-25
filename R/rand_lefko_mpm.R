@@ -99,12 +99,12 @@
 
 
 rand_lefko_mpm <- function(n_stages,
-                       fecundity,
-                       archetype = 1,
-                       split = TRUE) {
+                           fecundity,
+                           archetype = 1,
+                           split = TRUE) {
   # Check that n_stages is an integer greater than 0
   if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
-      .Machine$double.eps^0.5 || n_stages <= 0) {
+    .Machine$double.eps^0.5 || n_stages <= 0) {
     stop("n_stages must be an integer greater than 0.")
   }
 
@@ -115,7 +115,7 @@ rand_lefko_mpm <- function(n_stages,
 
   # Check that archetype is an integer between 1 and 4
   if (!min(abs(c(archetype %% 1, archetype %% 1 - 1))) <
-      .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
+    .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
     stop("archetype must be an integer between 1 and 4.")
   }
 
@@ -138,8 +138,10 @@ rand_lefko_mpm <- function(n_stages,
 
     # Check if fecundity is a list of two matrices, each with dimension n_stages
     if (is.list(fecundity) && length(fecundity) == 2 &&
-        is.matrix(fecundity[[1]]) && all(dim(fecundity[[1]]) == c(n_stages, n_stages)) &&
-        is.matrix(fecundity[[2]]) && all(dim(fecundity[[2]]) == c(n_stages, n_stages))) {
+      is.matrix(fecundity[[1]]) && all(dim(fecundity[[1]]) ==
+                                       c(n_stages, n_stages)) &&
+      is.matrix(fecundity[[2]]) &&
+      all(dim(fecundity[[2]]) == c(n_stages, n_stages))) {
       return(TRUE)
     }
 
@@ -151,15 +153,16 @@ rand_lefko_mpm <- function(n_stages,
     stop("Invalid fecundity input. See ?random_mpm")
   }
 
-  if(inherits(fecundity, "list")){
-    if(!all(fecundity[[2]] - fecundity[[1]] >= 0)){
-      stop("Invalid matrix input: the values in the lower bound fecundity matrix should be less than or equal
-           to the values in the upper bound fecundity matrix.")
+  if (inherits(fecundity, "list")) {
+    if (!all(fecundity[[2]] - fecundity[[1]] >= 0)) {
+      stop("Invalid matrix input: the values in the lower bound fecundity matrix
+      should be less than or equal to the values in the upper bound fecundity
+           matrix.")
     }
   }
 
-  if(inherits(fecundity, "matrix")){
-    if(!all(fecundity >= 0)){
+  if (inherits(fecundity, "matrix")) {
+    if (!all(fecundity >= 0)) {
       stop("Invalid matrix input: fecundity values must not be negative.")
     }
   }
@@ -233,10 +236,9 @@ rand_lefko_mpm <- function(n_stages,
     if (inherits(fecundity, "numeric")) {
       # Create an empty matrix to initialise.
       mat_F <- matrix(0, nrow = n_stages, ncol = n_stages)
-      # Calculate Fecundity and place in top row.
-      # In the Takada archetypes, fecundity is ONLY placed in the top right. Here,
-      # if the length of the fecundity vector (fecundity) is 1, then that is
-      # exactly what we do...
+      # Calculate Fecundity and place in top row. In the Takada archetypes,
+      # fecundity is ONLY placed in the top right. Here, if the length of the
+      # fecundity vector (fecundity) is 1, then that is exactly what we do...
 
       if (length(fecundity) == 1) {
         mat_F[1, n_stages] <- fecundity
@@ -254,8 +256,8 @@ rand_lefko_mpm <- function(n_stages,
     if (inherits(fecundity, "list")) {
       mat_F <- matrix(
         runif(n_stages^2,
-              min = fecundity[[1]],
-              max = fecundity[[2]]
+          min = fecundity[[1]],
+          max = fecundity[[2]]
         ),
         nrow = n_stages, ncol = n_stages
       )
@@ -284,12 +286,13 @@ rand_lefko_mpm <- function(n_stages,
 
 #' Generate Samples from a Dirichlet Distribution
 #'
-#' This function generates random samples from a Dirichlet distribution.
-#' The Dirichlet distribution is a multivariate generalization of the beta distribution,
-#' defined by a vector of positive concentration parameters (alpha). These parameters
-#' influence the shape and concentration of the distribution across its dimensions.
-#' Specifically, an alpha value of 1 signifies a uniform distribution over the simplex,
-#' indicating equal likelihood for all outcomes and a lack of prior bias or information.
+#' This function generates random samples from a Dirichlet distribution. The
+#' Dirichlet distribution is a multivariate generalization of the beta
+#' distribution, defined by a vector of positive concentration parameters
+#' (alpha). These parameters influence the shape and concentration of the
+#' distribution across its dimensions. Specifically, an alpha value of 1
+#' signifies a uniform distribution over the simplex, indicating equal
+#' likelihood for all outcomes and a lack of prior bias or information.
 #'
 #' @param n Integer, the number of samples to generate.
 #' @param alpha Numeric vector, the concentration parameters for the Dirichlet
@@ -303,12 +306,12 @@ rand_lefko_mpm <- function(n_stages,
 #'   ignorance or lack of prior information in Bayesian terms, akin to a
 #'   non-informative prior.
 #'
-#' @return A matrix with n rows and length(alpha) columns, where each row is a sample
-#'         from the Dirichlet distribution.
+#' @return A matrix with n rows and length(alpha) columns, where each row is a
+#'   sample from the Dirichlet distribution.
 #'
 #' @examples
-#' n <- 5  # Size of the sample
-#' alpha <- c(1, 1, 1)  # Example concentration parameters
+#' n <- 5 # Size of the sample
+#' alpha <- c(1, 1, 1) # Example concentration parameters
 #' r_dirichlet(n, alpha)
 #'
 #' @noRd

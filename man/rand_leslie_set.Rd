@@ -109,18 +109,24 @@ from specified distributions.
 }
 \examples{
 
-mortParams <- data.frame(minVal = c(0, 0.01,0.1), maxVal = c(0.14, 0.15, 0.1))
-fertParams <- data.frame(minVal = c(10, 0.5, 8), maxVal = c(11, 0.9, 10))
+mortParams <- data.frame(minVal = c(0, 0.01, 0.1),
+maxVal = c(0.14, 0.15, 0.1))
+
+fertParams <- data.frame(minVal = c(10, 0.5, 8),
+maxVal = c(11, 0.9, 10))
+
 maturityParam <- c(0, 0)
 
-rand_leslie_set(n_models = 5,
-                mortality_model = "GompertzMakeham",
-                fertility_model = "normal",
-                mortality_params = mortParams,
-                fertility_params = fertParams,
-                fertility_maturity_params = maturityParam,
-                dist_type="uniform",
-                output = "Type1")
+rand_leslie_set(
+  n_models = 5,
+  mortality_model = "GompertzMakeham",
+  fertility_model = "normal",
+  mortality_params = mortParams,
+  fertility_params = fertParams,
+  fertility_maturity_params = maturityParam,
+  dist_type = "uniform",
+  output = "Type1"
+)
 
 }
 \seealso{

@@ -25,14 +25,17 @@
 #' @examples
 #' # Example usage
 #' matrix_list <- list(
-#'   list(mat_A = matrix(1, 2, 2),
-#'        mat_U = matrix(2, 2, 2),
-#'        mat_F = matrix(3, 2, 2),
-#'        mat_C = matrix(4, 2, 2)),
-#'
-#'   list(mat_A = matrix(5, 2, 2),
-#'        mat_U = matrix(6, 2, 2),
-#'        mat_F = matrix(7, 2, 2))
+#'   list(
+#'     mat_A = matrix(1, 2, 2),
+#'     mat_U = matrix(2, 2, 2),
+#'     mat_F = matrix(3, 2, 2),
+#'     mat_C = matrix(4, 2, 2)
+#'   ),
+#'   list(
+#'     mat_A = matrix(5, 2, 2),
+#'     mat_U = matrix(6, 2, 2),
+#'     mat_F = matrix(7, 2, 2)
+#'   )
 #' )
 #' reorganised_matrices <- reorganise_matrices(matrix_list)
 #' reorganised_matrices$mat_A
@@ -40,7 +43,6 @@
 #' @export reorganise_matrices
 
 reorganise_matrices <- function(matrix_list) {
-
   # Input validation
   if (!is.list(matrix_list) || length(matrix_list) == 0) {
     stop("matrix_list must be a non-empty list")
@@ -82,11 +84,15 @@ reorganise_matrices <- function(matrix_list) {
   mat_F_list <- lapply(matrix_list, function(x) x$mat_F)
 
   # The C matrix may not exist
-  mat_C_list <- lapply(matrix_list, function(x) get_or_na_matrix(x, "mat_C", x$mat_U))
+  mat_C_list <- lapply(matrix_list, function(x) get_or_na_matrix(x,
+                                                                 "mat_C",
+                                                                 x$mat_U))
 
   # Combine the lists into a single list
-  grouped_matrices <- list(mat_A = mat_A_list, mat_U = mat_U_list,
-                           mat_F = mat_F_list, mat_C = mat_C_list)
+  grouped_matrices <- list(
+    mat_A = mat_A_list, mat_U = mat_U_list,
+    mat_F = mat_F_list, mat_C = mat_C_list
+  )
 
   return(grouped_matrices)
 }

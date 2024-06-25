@@ -231,7 +231,7 @@ driven_vital_rate <- function(driver, # vector (can be a single element)
   if (!length(link) == 1) {
     stop("link must be a character string with a value of 'logit' or 'log'.")
   }
-  if (!link %in% c("logit", "log")) {
+  if (!any(link %in% c("logit", "log"))) {
     stop("link must be a character string with a value of 'logit' or 'log'.")
   }
 

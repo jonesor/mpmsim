@@ -83,12 +83,14 @@
 #' )
 #'
 #' model_mortality(
-#' params = c(b_0 = 1.4, b_1 = 0.18),
-#' model = "Weibull")
+#'   params = c(b_0 = 1.4, b_1 = 0.18),
+#'   model = "Weibull"
+#' )
 #'
 #' model_mortality(
-#' params = c(b_0 = 1.1, b_1 = 0.05, c = 0.2),
-#' model = "WeibullMakeham")
+#'   params = c(b_0 = 1.1, b_1 = 0.05, c = 0.2),
+#'   model = "WeibullMakeham"
+#' )
 #'
 #' @seealso [model_fertility()] to model age-specific fertility using various
 #'   functions.
@@ -99,13 +101,21 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
   }
 
   # Validation
-  if (!(inherits(age, "integer") || inherits(age, "numeric"))) {
-    stop("age must be integer or numeric")
-  }
+  if (!is.numeric(age)) stop("Input 'age' must be a numeric vector.")
+
+  if (min(age) < 0) stop("Input 'age' must be non-negative.")
+
+  if (any(age != floor(age))) warning("Input 'age' must be integers for
+                                      use in creating MPMs")
+
   if (min(diff(age)) <= 0) {
     stop("age must be an increasing sequence")
   }
-  if (!model %in% c("Gompertz", "GompertzMakeham", "Exponential", "Siler", "Weibull", "WeibullMakeham")) {
+
+  if (!model %in% c(
+    "Gompertz", "GompertzMakeham", "Exponential",
+    "Siler", "Weibull", "WeibullMakeham"
+  )) {
     stop("model type not recognised")
   }
   if (!inherits(truncate, "numeric")) {
@@ -176,7 +186,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b0 <- params[1]
     b1 <- params[2]
 
-    hx <- b0 * b1 * (b1 * age) ^ (b0 - 1)
+    hx <- b0 * b1 * (b1 * age)^(b0 - 1)
   }
 
   if (model == "WeibullMakeham") {
@@ -189,7 +199,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b1 <- params[2]
     C <- params[3]
 
-    hx <- b0 * b1 * (b1 * age) ^ (b0 - 1) + C
+    hx <- b0 * b1 * (b1 * age)^(b0 - 1) + C
   }
 
   # Cumulative hazard (Hx)

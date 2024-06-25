@@ -73,30 +73,29 @@
 # Check input matrix
 compute_ci_U <- function(mat_U, sample_size, FUN, ...,
                          n_sim = 1000, dist.out = FALSE) {
-
-if (!is.matrix(mat_U)) {
-  stop("mat_U must be a matrix.")
-}
-
-if (!dim(mat_U)[1] == dim(mat_U)[2]) {
-  stop("mat_U must be a square matrix.")
-}
-
-# Sample size validation
-if (!(inherits(sample_size, "matrix") || length(sample_size) == 1)) {
-  stop("sample_size needs to be a matrix or an integer with length 1")
-}
-
-if (inherits(sample_size, "matrix")) {
-  if (nrow(sample_size) != nrow(mat_U)) {
-    stop("if sample_size is a matrix, it should be the same dimension as mat_U")
+  if (!is.matrix(mat_U)) {
+    stop("mat_U must be a matrix.")
   }
-}
 
-unlisted_sample_size <- unlist(sample_size)
+  if (!dim(mat_U)[1] == dim(mat_U)[2]) {
+    stop("mat_U must be a square matrix.")
+  }
+
+  # Sample size validation
+  if (!(inherits(sample_size, "matrix") || length(sample_size) == 1)) {
+    stop("sample_size needs to be a matrix or an integer with length 1")
+  }
+
+  if (inherits(sample_size, "matrix")) {
+    if (nrow(sample_size) != nrow(mat_U)) {
+      stop("if sample_size is a matrix, it must have same dimension as mat_U")
+    }
+  }
+
+  unlisted_sample_size <- unlist(sample_size)
 
   if (!min(abs(c(unlisted_sample_size %% 1, unlisted_sample_size %% 1 - 1))) <
-      .Machine$double.eps^0.5) {
+    .Machine$double.eps^0.5) {
     stop("sample_size must be integer value(s)")
   }
 
@@ -112,11 +111,13 @@ unlisted_sample_size <- unlist(sample_size)
   # replicate the simulation of MPMs
 
   sim_out <- replicate(n_sim, add_mpm_error(mat_U,
-                                            mat_F =  matrix(0, nrow = nrow(mat_U),
-                                                            ncol = ncol(mat_U)),
-                                            sample_size,
-                                            split = FALSE,
-                                            by_type = FALSE
+    mat_F = matrix(0,
+      nrow = nrow(mat_U),
+      ncol = ncol(mat_U)
+    ),
+    sample_size,
+    split = FALSE,
+    by_type = FALSE
   ),
   simplify = FALSE
   )

@@ -73,7 +73,8 @@ add_mpm_error(mat_U = mats$mat_U, mat_F = mats$mat_F, sample_size = 20)
 # here with a sample size of 20 for reproduction and 10 for growth/survival.
 mpm_set <- rand_lefko_set(
   n = 5, n_stages = 3, fecundity = c(0, 2, 4),
-  archetype = 4,  output = "Type4")
+  archetype = 4, output = "Type4"
+)
 
 ssMats <- list(
   "mat_F_ss" = matrix(20, nrow = 3, ncol = 3),

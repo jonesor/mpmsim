@@ -47,13 +47,13 @@ particular age class, use a value of 0 for both the lower and upper limit.}
 \itemize{
 \item \code{Type1}: A \code{compadreDB} Object containing MPMs split into the submatrices
 (i.e. A, U, F and C).
-\item \code{Type2}: A \code{compadreDB} Object containing MPMs that are not split into submatrices
-(i.e. only the A matrix is included).
-\item \code{Type3}: A \code{list} of MPMs arranged so that each element of the list contains a model
-and associated submatrices (i.e. the nth element contains the nth A matrix
-alongside the nth U and F matrices).
-\item \code{Type4}: A \code{list} of MPMs arranged so that the list contains 3 lists for the A
-matrix and the U and F submatrices respectively.
+\item \code{Type2}: A \code{compadreDB} Object containing MPMs that are not split into
+submatrices (i.e. only the A matrix is included).
+\item \code{Type3}: A \code{list} of MPMs arranged so that each element of the list
+contains a model and associated submatrices (i.e. the nth element contains
+the nth A matrix alongside the nth U and F matrices).
+\item \code{Type4}: A \code{list} of MPMs arranged so that the list contains 3 lists for
+the A  matrix and the U and F submatrices respectively.
 \item \code{Type5}: A \code{list} of MPMs, including only the A matrix.
 }}
 
@@ -92,7 +92,8 @@ set.seed(42) # set seed for repeatability
 # Basic operation, without splitting matrices and with no constraints
 rand_lefko_set(
   n = 1, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, output = "Type5")
+  archetype = 4, output = "Type5"
+)
 
 # Constrain outputs to A matrices with lambda between 0.9 and 1.1
 library(popbio)
@@ -102,17 +103,20 @@ constrain_df <- data.frame(
 )
 rand_lefko_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, output = "Type5")
+  archetype = 4, constraint = constrain_df, output = "Type5"
+)
 
 # As above, but using popdemo::eigs function instead of popbio::lambda
 # to illustrate use of argument
 library(popdemo)
 constrain_df <- data.frame(
-  fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1)
+  fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1
+)
 
 rand_lefko_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, output = "Type5")
+  archetype = 4, constraint = constrain_df, output = "Type5"
+)
 
 # Multiple constraints
 # Constrain outputs to A matrices with lambda between 0.9 and 1.1, generation
@@ -126,7 +130,8 @@ constrain_df <- data.frame(
 )
 rand_lefko_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, output = "Type5" )
+  archetype = 4, constraint = constrain_df, output = "Type5"
+)
 
 }
 \seealso{

@@ -33,14 +33,17 @@ same size as \code{mat_U} is used as a placeholder.
 \examples{
 # Example usage
 matrix_list <- list(
-  list(mat_A = matrix(1, 2, 2),
-       mat_U = matrix(2, 2, 2),
-       mat_F = matrix(3, 2, 2),
-       mat_C = matrix(4, 2, 2)),
-
-  list(mat_A = matrix(5, 2, 2),
-       mat_U = matrix(6, 2, 2),
-       mat_F = matrix(7, 2, 2))
+  list(
+    mat_A = matrix(1, 2, 2),
+    mat_U = matrix(2, 2, 2),
+    mat_F = matrix(3, 2, 2),
+    mat_C = matrix(4, 2, 2)
+  ),
+  list(
+    mat_A = matrix(5, 2, 2),
+    mat_U = matrix(6, 2, 2),
+    mat_F = matrix(7, 2, 2)
+  )
 )
 reorganised_matrices <- reorganise_matrices(matrix_list)
 reorganised_matrices$mat_A

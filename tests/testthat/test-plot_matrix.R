@@ -1,50 +1,62 @@
-# A must be a matrix
-testthat::expect_error(
-  plot_matrix(mat = 1:10)
-)
-
-# zeroNA must be a logical value
-testthat::expect_error(
-  plot_matrix(
-    mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
-    zero_na = "yes"
+test_that("Function fails gracefully with incorrect inputs", {
+  # A must be a matrix
+  expect_error(
+    plot_matrix(mat = 1:10)
   )
-)
 
-# Legend must be a logical value
-testthat::expect_error(
-  plot_matrix(mat = matrix(seq(0, 1, length.out = 4), nrow = 2), legend = "yes")
-)
-
-# na_colour must be a valid colour or NA
-testthat::expect_error(
-  plot_matrix(
-    mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
-    zero_na = TRUE, na_colour = "greyyyyy80"
+  # zeroNA must be a logical value
+  expect_error(
+    plot_matrix(
+      mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
+      zero_na = "invalid"
+    )
   )
-)
 
-testthat::expect_error(
-  plot_matrix(
-    mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
-    zero_na = TRUE, na_colour = NULL
+  # Legend must be a logical value
+  expect_error(
+    plot_matrix(
+      mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
+      legend = "invalid"
+    )
   )
-)
 
-p <- plot_matrix(
-  mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
-  zero_na = TRUE
-)
+  # na_colour must be a valid colour or NA
+  expect_error(
+    plot_matrix(
+      mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
+      zero_na = TRUE, na_colour = "invalid"
+    )
+  )
 
-testthat::expect_true(
-  inherits(p, "ggplot")
-)
+  expect_error(
+    plot_matrix(
+      mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
+      zero_na = TRUE, na_colour = NULL
+    )
+  )
+})
 
-p2 <- plot_matrix(
-  mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
-  zero_na = TRUE, legend = TRUE
-)
+test_that("Function produces a ggplot correctly", {
+  expect_silent(plot_matrix(
+    mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
+    zero_na = TRUE, legend = TRUE
+  ))
 
-testthat::expect_true(
-  inherits(p2, "ggplot")
-)
+  p <- plot_matrix(
+    mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
+    zero_na = TRUE
+  )
+
+  expect_true(
+    inherits(p, "ggplot")
+  )
+
+  p2 <- plot_matrix(
+    mat = matrix(seq(0, 1, length.out = 4), nrow = 2),
+    zero_na = TRUE, legend = TRUE
+  )
+
+  expect_true(
+    inherits(p2, "ggplot")
+  )
+})

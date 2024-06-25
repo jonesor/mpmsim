@@ -10,7 +10,8 @@ model_fertility(params, age = NULL, maturity = 0, model = "logistic")
 \item{params}{A numeric vector of parameters for the selected model. The
 number and meaning of parameters depend on the selected model.}
 
-\item{age}{A numeric vector representing age.}
+\item{age}{A numeric vector representing age. For use in creation of MPMs and
+life tables, these should be integers.}
 
 \item{maturity}{A non-negative numeric value indicating the age at maturity.
 Whatever model is used, the fertility is forced to be 0 below the age of
@@ -24,19 +25,16 @@ A numeric vector representing the computed fertility values.
 }
 \description{
 This function computes fertility based on the logistic, step, von
-Bertalanffy, Hadwiger, and normal models.
-The logistic model assumes that fertility increases sigmoidally with age from
-maturity until a maximum fertility is reached.
-The step model assumes that fertility is zero before the age of maturity and
-then remains constant.
-The von Bertalanffy model assumes that, after maturity, fertility increases
-asymptotically with age until a maximum fertility is reached. In this
-formulation, the model is set up so that fertility is 0 at the 'age of
-maturity - 1', and increases from that point.
-The Hadwiger model is rather complex and is intended to model human fertility
-with a characteristic hump-shaped fertility.
-For all models, the output ensures that fertility is zero before the age at
-maturity.
+Bertalanffy, Hadwiger, and normal models. The logistic model assumes that
+fertility increases sigmoidally with age from maturity until a maximum
+fertility is reached. The step model assumes that fertility is zero before
+the age of maturity and then remains constant. The von Bertalanffy model
+assumes that, after maturity, fertility increases asymptotically with age
+until a maximum fertility is reached. In this formulation, the model is set
+up so that fertility is 0 at the 'age of maturity - 1', and increases from
+that point. The Hadwiger model is rather complex and is intended to model
+human fertility with a characteristic hump-shaped fertility. For all models,
+the output ensures that fertility is zero before the age at maturity.
 }
 \details{
 The required parameters varies depending on the fertility model. The
@@ -45,10 +43,7 @@ the order mentioned here.
 \itemize{
 \item Logistic: \eqn{f(x) = A / (1 + exp(-k  (x - x_m)))}
 \item Step: \eqn{f(x)=
-  \begin{cases}
-  A, x \geq m \\
-  A, x <  m
-  \end{cases}}
+  \begin{cases} A, x \geq m \\ A, x <  m \end{cases}}
 \item von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
 \item Normal: \eqn{f(x) = A \times \exp\left(
   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
@@ -87,8 +82,8 @@ model_fertility(
 
 }
 \references{
-Bertalanffy, L. von (1938) A quantitative theory of organic growth (inquiries
-on growth laws. II). Human Biology 10:181–213.
+Bertalanffy, L. von (1938) A quantitative theory of organic
+growth (inquiries on growth laws. II). Human Biology 10:181–213.
 
 Peristera, P. & Kostaki, A. (2007) Modeling fertility in modern populations.
 Demographic Research. 16. Article 6, 141-194 \doi{10.4054/DemRes.2007.16.6}

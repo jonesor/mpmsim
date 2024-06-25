@@ -7,7 +7,7 @@ mats <- make_leslie_mpm(
 ssMat <- matrix(10, nrow = 3, ncol = 3)
 
 test_that("Checkadd_mpm_error functions correctly", {
-  testthat::expect_silent(
+  expect_silent(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_F,
@@ -15,7 +15,7 @@ test_that("Checkadd_mpm_error functions correctly", {
       split = TRUE
     )
   )
-  testthat::expect_silent(
+  expect_silent(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_F,
@@ -37,7 +37,7 @@ mats <- make_leslie_mpm(
 ssMat <- matrix(10, nrow = 3, ncol = 3)
 
 test_that("Check that error is produced when mat_U is provided incorrectly", {
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = as.vector(mats$mat_U),
       mat_F = mats$mat_F,
@@ -47,7 +47,7 @@ test_that("Check that error is produced when mat_U is provided incorrectly", {
   )
 
 
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = as.vector(mats$mat_F),
@@ -58,38 +58,39 @@ test_that("Check that error is produced when mat_U is provided incorrectly", {
 })
 
 
-test_that("Check that error is produced when add_mpm_error_indiv has incorrect matrix input", {
-
-testthat::expect_error(
-  add_mpm_error_indiv(
-    mat_U = as.vector(mats$mat_U),
-    mat_F = mats$mat_F,
-    sample_size = ssMat,
-    split = TRUE
+test_that("Check that error is produced when add_mpm_error_indiv has incorrect
+          matrix input", {
+  expect_error(
+    add_mpm_error_indiv(
+      mat_U = as.vector(mats$mat_U),
+      mat_F = mats$mat_F,
+      sample_size = ssMat,
+      split = TRUE
+    )
   )
-)
 
-testthat::expect_error(
-  add_mpm_error_indiv(
-    mat_U = mats$mat_U,
-    mat_F = as.vector(mats$mat_F),
-    sample_size = ssMat,
-    split = TRUE
+  expect_error(
+    add_mpm_error_indiv(
+      mat_U = mats$mat_U,
+      mat_F = as.vector(mats$mat_F),
+      sample_size = ssMat,
+      split = TRUE
+    )
   )
-)
 
-testthat::expect_error(
-  add_mpm_error_indiv(
-    mat_U = mats$mat_U[1:2,1:3],
-    mat_F = mats$mat_F,
-    sample_size = ssMat,
-    split = TRUE
+  expect_error(
+    add_mpm_error_indiv(
+      mat_U = mats$mat_U[1:2, 1:3],
+      mat_F = mats$mat_F,
+      sample_size = ssMat,
+      split = TRUE
+    )
   )
-)
 })
 
-test_that("Check that error is produced when matrix dimensions are inconsistent", {
-  testthat::expect_error(
+test_that("Check that error is produced when matrix dimensions are
+          inconsistent", {
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = matrix(
@@ -105,7 +106,7 @@ test_that("Check that error is produced when matrix dimensions are inconsistent"
 
 
 test_that("Check that error is produced when mat_F is not square", {
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = matrix(
@@ -120,8 +121,9 @@ test_that("Check that error is produced when mat_F is not square", {
 })
 
 
-test_that("Check that error is produced when sample_size is provided incorrectly", {
-  testthat::expect_error(
+test_that("Check that error is produced when sample_size is provided
+          incorrectly", {
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -132,8 +134,9 @@ test_that("Check that error is produced when sample_size is provided incorrectly
 })
 
 
-test_that("Check that error is produced when sample_size matrix has wrong dimensions", {
-  testthat::expect_error(
+test_that("Check that error is produced when sample_size matrix has wrong
+          dimensions", {
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -142,7 +145,7 @@ test_that("Check that error is produced when sample_size matrix has wrong dimens
     )
   )
 
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -153,7 +156,7 @@ test_that("Check that error is produced when sample_size matrix has wrong dimens
     )
   )
 
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -166,8 +169,9 @@ test_that("Check that error is produced when sample_size matrix has wrong dimens
 })
 
 
-test_that("Check that error is produced when sample_size matrices have wrong names", {
-  testthat::expect_error(
+test_that("Check that error is produced when sample_size matrices have wrong
+          names", {
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -182,7 +186,7 @@ test_that("Check that error is produced when sample_size matrices have wrong nam
 
 
 test_that("Check that error is produced when sample_size is not an integer", {
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -194,7 +198,7 @@ test_that("Check that error is produced when sample_size is not an integer", {
 
 
 test_that("Check that error is produced when sample_size is negative", {
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -209,7 +213,7 @@ mat_U2 <- mats$mat_U
 mat_U2[1, 1] <- -0.1
 
 test_that("Check that error is produced when mat_U has negative elements", {
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = mat_U2,
       mat_F = mats$mat_U,
@@ -225,7 +229,7 @@ mat_F2 <- mats$mat_F
 mat_F2[1, 1] <- -0.1
 
 test_that("Check that error is produced when mat_F has negative elements", {
-  testthat::expect_error(
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mat_F2,
@@ -236,8 +240,9 @@ test_that("Check that error is produced when mat_F has negative elements", {
 })
 
 
-test_that("Check that error is produced when split is not a logical argument", {
-  testthat::expect_error(
+test_that("Check that error is produced when split is not a logical
+          argument", {
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -248,8 +253,9 @@ test_that("Check that error is produced when split is not a logical argument", {
 })
 
 
-test_that("Check that error is produced when split and by_type are not aligned", {
-  testthat::expect_error(
+test_that("Check that error is produced when split and by_type are
+          not aligned", {
+  expect_error(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -262,7 +268,7 @@ test_that("Check that error is produced when split and by_type are not aligned",
 
 
 test_that("Check that the two functions produce the same results correctly", {
-  testthat::expect_identical(
+  expect_identical(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -275,7 +281,7 @@ test_that("Check that the two functions produce the same results correctly", {
     )
   )
 
-  testthat::expect_identical(
+  expect_identical(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -291,7 +297,7 @@ test_that("Check that the two functions produce the same results correctly", {
   )
 
 
-  testthat::expect_identical(
+  expect_identical(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -308,7 +314,7 @@ test_that("Check that the two functions produce the same results correctly", {
   )
 
 
-  testthat::expect_identical(
+  expect_identical(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -327,7 +333,7 @@ test_that("Check that the two functions produce the same results correctly", {
 
 
 test_that("Check that add_mpm_error produces a list", {
-  testthat::expect_type(
+  expect_type(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -338,7 +344,7 @@ test_that("Check that add_mpm_error produces a list", {
   )
 
 
-  testthat::expect_type(
+  expect_type(
     add_mpm_error(
       mat_U = mats$mat_U,
       mat_F = mats$mat_U,
@@ -363,7 +369,7 @@ mpm_set <- rand_lefko_set(
 
 
 test_that("Check that add_mpm_error produces a list", {
-  testthat::expect_type(
+  expect_type(
     add_mpm_error(
       mat_U = mpm_set$U_list,
       mat_F = mpm_set$F_list,
@@ -374,7 +380,7 @@ test_that("Check that add_mpm_error produces a list", {
   )
 
 
-  testthat::expect_type(
+  expect_type(
     add_mpm_error(
       mat_U = mpm_set$U_list,
       mat_F = mpm_set$F_list,
@@ -384,5 +390,3 @@ test_that("Check that add_mpm_error produces a list", {
     "list"
   )
 })
-
-
