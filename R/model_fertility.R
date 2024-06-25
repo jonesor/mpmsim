@@ -178,6 +178,7 @@ model_fertility <- function(params, age = NULL, maturity = 0,
 
     out <- ((a * b) / c) * (c / age)^(3 / 2) * exp(-b^2 * ((c / age) +
       (age / c) - 2))
+    out[is.nan(out)] <- 0
     return(out)
   }
 }

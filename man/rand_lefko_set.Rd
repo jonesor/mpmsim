@@ -10,9 +10,7 @@ rand_lefko_set(
   n_stages = 3,
   archetype = 1,
   fecundity = 1.5,
-  split = TRUE,
-  by_type = TRUE,
-  as_compadre = TRUE,
+  output = "Type1",
   max_surv = 0.99,
   constraint = NULL,
   attempts = 1000
@@ -25,24 +23,43 @@ rand_lefko_set(
 
 \item{archetype}{The archetype of the MPMs. Default is \code{1}.}
 
-\item{fecundity}{A vector of fecundities for the MPMs. Default is \code{1.5}.}
+\item{fecundity}{Fecundity is the average number of offspring produced.
+Values can be provided in 4 ways:
+\itemize{
+\item An numeric vector of length 1 to provide a singl fecundity measure to the
+top right corner of the matrix model only.
+\item A numeric vector of integers of length equal to \code{n_stages} to provide
+fecundity estimates for the whole top row of the matrix model. Use 0 for
+cases with no reproduction.
+\item A matrix of numeric values of the same dimension as \code{n_stages} to provide
+fecundity estimates for the entire matrix model. Use 0 for cases with no
+reproduction.
+\item A list of two matrices of numeric values, both with the same dimension as
+\code{n_stages}, to provide lower and upper limits of mean fecundity for the
+entire matrix model.
+}
 
-\item{split}{A logical indicating whether to split the A matrix into
-submatrices (U, F and C). Default is \code{TRUE}.}
+In the latter case, a fecundity value will be drawn from a uniform
+distribution for the defined range. If there is no reproduction in a
+particular age class, use a value of 0 for both the lower and upper limit.}
 
-\item{by_type}{A logical value indicating how the matrices should be
-returned. If \code{TRUE}, the function returns a list containing three separate
-lists for each matrix type (A, U, and F). If \code{FALSE}, the function returns
-a list where each element contains three matrices representing a single
-model grouped together (A, U, and F, where A = U + F). When \code{split} is
-\code{FALSE}, \code{by_type} is automatically set to \code{FALSE}. Defaults to \code{TRUE}.}
-
-\item{as_compadre}{A logical indicating whether the matrices should be
-returned as a \code{CompadreDB} object. Default is \code{TRUE}. If \code{FALSE}, the
-function returns a list.}
+\item{output}{Character string indicating the type of output.
+\itemize{
+\item \code{Type1}: A \code{compadreDB} Object containing MPMs split into the submatrices
+(i.e. A, U, F and C).
+\item \code{Type2}: A \code{compadreDB} Object containing MPMs that are not split into submatrices
+(i.e. only the A matrix is included).
+\item \code{Type3}: A \code{list} of MPMs arranged so that each element of the list contains a model
+and associated submatrices (i.e. the nth element contains the nth A matrix
+alongside the nth U and F matrices).
+\item \code{Type4}: A \code{list} of MPMs arranged so that the list contains 3 lists for the A
+matrix and the U and F submatrices respectively.
+\item \code{Type5}: A \code{list} of MPMs, including only the A matrix.
+}}
 
 \item{max_surv}{The maximum acceptable survival value, calculated across all
-transitions from a stage. Defaults to \code{0.99}. This is only used if \code{split = TRUE}.}
+transitions from a stage. Defaults to \code{0.99}. This is only used the output
+splits a matrix into the submatrices.}
 
 \item{constraint}{An optional data frame with 4 columns named \code{fun}, \code{arg},
 \code{lower} and \code{upper}. These columns specify (1) a function that outputs a
@@ -74,9 +91,8 @@ set.seed(42) # set seed for repeatability
 
 # Basic operation, without splitting matrices and with no constraints
 rand_lefko_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, split = FALSE, by_type = FALSE, as_compadre = FALSE
-)
+  n = 1, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  archetype = 4, output = "Type5")
 
 # Constrain outputs to A matrices with lambda between 0.9 and 1.1
 library(popbio)
@@ -86,20 +102,17 @@ constrain_df <- data.frame(
 )
 rand_lefko_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, as_compadre = FALSE
-)
+  archetype = 4, constraint = constrain_df, output = "Type5")
 
 # As above, but using popdemo::eigs function instead of popbio::lambda
 # to illustrate use of argument
 library(popdemo)
 constrain_df <- data.frame(
-  fun = "eigs", arg = "lambda", lower = 0.9, upper =
-    1.1
-)
+  fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1)
+
 rand_lefko_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, as_compadre = FALSE
-)
+  archetype = 4, constraint = constrain_df, output = "Type5")
 
 # Multiple constraints
 # Constrain outputs to A matrices with lambda between 0.9 and 1.1, generation
@@ -113,8 +126,7 @@ constrain_df <- data.frame(
 )
 rand_lefko_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, as_compadre = FALSE
-)
+  archetype = 4, constraint = constrain_df, output = "Type5" )
 
 }
 \seealso{

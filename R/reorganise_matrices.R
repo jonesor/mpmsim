@@ -1,22 +1,24 @@
 #' Reorganise Matrix Population Models
 #'
-#' This function reorganises a list of matrix population models, which are
-#' split into \code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C} sub-matrices.
-#' It prepares the matrices for easy conversion into a \code{compadreDB} object.
+#' This function reorganises a list of matrix population models, which are split
+#' into \code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C}
+#' sub-matrices. It prepares the matrices for easy conversion into a
+#' \code{compadreDB} object.
 #'
 #' @param matrix_list A list of lists, where each sub-list contains the matrices
-#' \code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C}.
+#'   \code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C}.
 #'
-#' @return A list containing four elements: \code{mat_A}, \code{mat_U}, \code{mat_F}, and \code{mat_C}.
-#' Each element is a list of matrices corresponding to the respective matrix type from the input.
-#' If \code{mat_C} does not exist in a sub-list, it is replaced with an \code{NA} matrix of the same
-#' dimensions as \code{mat_U}.
+#' @return A list containing four elements: \code{mat_A}, \code{mat_U},
+#'   \code{mat_F}, and \code{mat_C}. Each element is a list of matrices
+#'   corresponding to the respective matrix type from the input. If \code{mat_C}
+#'   does not exist in a sub-list, it is replaced with an \code{NA} matrix of
+#'   the same dimensions as \code{mat_U}.
 #'
-#' @details
-#' This function processes a list of matrix population models, extracting and grouping
-#' the sub-matrices (\code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C})
-#' into separate lists. If a \code{mat_C} matrix is not present in a model, an \code{NA}
-#' matrix of the same size as \code{mat_U} is used as a placeholder.
+#' @details This function processes a list of matrix population models,
+#' extracting and grouping the sub-matrices (\code{mat_A}, \code{mat_U},
+#' \code{mat_F}, and optionally \code{mat_C}) into separate lists. If a
+#' \code{mat_C} matrix is not present in a model, an \code{NA} matrix of the
+#' same size as \code{mat_U} is used as a placeholder.
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
 #'
@@ -38,6 +40,33 @@
 #' @export reorganise_matrices
 
 reorganise_matrices <- function(matrix_list) {
+
+  # Input validation
+  if (!is.list(matrix_list) || length(matrix_list) == 0) {
+    stop("matrix_list must be a non-empty list")
+  }
+
+  for (i in seq_along(matrix_list)) {
+    sub_list <- matrix_list[[i]]
+
+    if (!is.list(sub_list)) {
+      stop("Each element of matrix_list must be a list")
+    }
+
+    required_matrices <- c("mat_A", "mat_U", "mat_F")
+
+    for (mat in required_matrices) {
+      if (!mat %in% names(sub_list) || !is.matrix(sub_list[[mat]])) {
+        stop(paste("Each sub-list must contain a matrix named", mat))
+      }
+    }
+
+    if ("mat_C" %in% names(sub_list) && !is.matrix(sub_list$mat_C)) {
+      stop("mat_C, if present, must be a matrix")
+    }
+  }
+
+
   # Helper function to get a matrix or an NA matrix if it does not exist
   get_or_na_matrix <- function(x, name, ref_matrix) {
     if (!is.null(x[[name]])) {

@@ -46,19 +46,27 @@
 #' @param n_stages An integer defining the number of stages for the MPM.
 #' @param fecundity Fecundity is the average number of offspring produced.
 #'   Values can be provided in 4 ways:
-#'   - An numeric vector of length 1 to provide a fecundity measure to the top right corner of the matrix model only.
-#'   - A numeric vector of integers of length equal to `n_stages` to provide fecundity estimates for the whole top row of the matrix model. Use 0 for cases with no reproduction.
-#'   - A matrix of numeric values of the same dimension as `n_stages` to provide fecundity estimates for the entire matrix model. Use 0 for cases with no reproduction.
-#'   - A list of two matrices of numeric values, both with the same dimension as `n_stages`, to provide lower and upper estimates of mean fecundity for the entire matrix model.
+#'   - An numeric vector of length 1 to provide a singl fecundity measure to the
+#'   top right corner of the matrix model only.
+#'   - A numeric vector of integers of length equal to `n_stages` to provide
+#'   fecundity estimates for the whole top row of the matrix model. Use 0 for
+#'   cases with no reproduction.
+#'   - A matrix of numeric values of the same dimension as `n_stages` to provide
+#'   fecundity estimates for the entire matrix model. Use 0 for cases with no
+#'   reproduction.
+#'   - A list of two matrices of numeric values, both with the same dimension as
+#'   `n_stages`, to provide lower and upper limits of mean fecundity for the
+#'   entire matrix model.
+#'
 #'   In the latter case, a fecundity value will be drawn from a uniform
 #'   distribution for the defined range. If there is no reproduction in a
 #'   particular age class, use a value of 0 for both the lower and upper limit.
 #' @param archetype Indication of which life history archetype should be used,
 #'   based on Takada et al. 2018. An integer between 1 and 4.
-#' @param split TRUE/FALSE, indicating whether the matrix produced should be
-#'   split into a survival matrix and a fertility matrix. Yeah true, then the
+#' @param split `TRUE`/`FALSE`, indicating whether the matrix produced should be
+#'   split into a survival matrix and a fertility matrix. If true, then the
 #'   output becomes a list with a matrix in each element. Otherwise, the output
-#'   is a single matrix.
+#'   is a single matrix. Default is `TRUE`
 #'
 #' @return Returns a random matrix population model with characteristics
 #'   determined by the archetype selected and fecundity vector. If split = TRUE,
@@ -84,8 +92,8 @@
 #' # Using a range of values for fecundity
 #' rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
 #'
-#' @seealso [rand_lefko_set()] which is a wrapper for this function allowing
-#'   the generation of large numbers of random matrices of this type.
+#' @seealso [rand_lefko_set()] which is a wrapper for this function allowing the
+#'   generation of large numbers of random matrices of this type.
 #' @export rand_lefko_mpm
 #'
 
@@ -93,7 +101,7 @@
 rand_lefko_mpm <- function(n_stages,
                        fecundity,
                        archetype = 1,
-                       split = FALSE) {
+                       split = TRUE) {
   # Check that n_stages is an integer greater than 0
   if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
       .Machine$double.eps^0.5 || n_stages <= 0) {

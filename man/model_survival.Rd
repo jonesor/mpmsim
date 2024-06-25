@@ -83,6 +83,15 @@ model_mortality(
   model = "Siler",
   age = 0:10
 )
+
+model_mortality(
+params = c(b_0 = 1.4, b_1 = 0.18),
+model = "Weibull")
+
+model_mortality(
+params = c(b_0 = 1.1, b_1 = 0.05, c = 0.2),
+model = "WeibullMakeham")
+
 model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 }
 \references{

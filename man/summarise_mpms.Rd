@@ -13,10 +13,12 @@ in a format compatible with \code{matA}, \code{matU}, and \code{matF} functions.
 \value{
 This function prints summaries of the following metrics:
 \itemize{
-\item \strong{lambda values:} The lambda values (dominant eigenvalues) of the A matrices.
+\item \strong{lambda values:} The lambda values (dominant eigenvalues) of
+the A matrices.
 \item \strong{max F values:} The maximum values from the F matrices.
 \item \strong{max U values:} The maximum values from the U matrices.
-\item \strong{minimum non-zero U values:} The minimum non-zero values from the U matrices.
+\item \strong{minimum non-zero U values:} The minimum non-zero values from
+the U matrices.
 }
 }
 \description{
@@ -28,8 +30,8 @@ growth/survival transition probabilities
 \examples{
 mats <- rand_lefko_set(
   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, split = TRUE, by_type = TRUE, as_compadre = TRUE
-)
+  archetype = 4, output = "Type1")
+
 summarise_mpms(mats)
 }
 \seealso{

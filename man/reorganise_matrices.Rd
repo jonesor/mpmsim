@@ -11,21 +11,24 @@ reorganise_matrices(matrix_list)
 \code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C}.}
 }
 \value{
-A list containing four elements: \code{mat_A}, \code{mat_U}, \code{mat_F}, and \code{mat_C}.
-Each element is a list of matrices corresponding to the respective matrix type from the input.
-If \code{mat_C} does not exist in a sub-list, it is replaced with an \code{NA} matrix of the same
-dimensions as \code{mat_U}.
+A list containing four elements: \code{mat_A}, \code{mat_U},
+\code{mat_F}, and \code{mat_C}. Each element is a list of matrices
+corresponding to the respective matrix type from the input. If \code{mat_C}
+does not exist in a sub-list, it is replaced with an \code{NA} matrix of
+the same dimensions as \code{mat_U}.
 }
 \description{
-This function reorganises a list of matrix population models, which are
-split into \code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C} sub-matrices.
-It prepares the matrices for easy conversion into a \code{compadreDB} object.
+This function reorganises a list of matrix population models, which are split
+into \code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C}
+sub-matrices. It prepares the matrices for easy conversion into a
+\code{compadreDB} object.
 }
 \details{
-This function processes a list of matrix population models, extracting and grouping
-the sub-matrices (\code{mat_A}, \code{mat_U}, \code{mat_F}, and optionally \code{mat_C})
-into separate lists. If a \code{mat_C} matrix is not present in a model, an \code{NA}
-matrix of the same size as \code{mat_U} is used as a placeholder.
+This function processes a list of matrix population models,
+extracting and grouping the sub-matrices (\code{mat_A}, \code{mat_U},
+\code{mat_F}, and optionally \code{mat_C}) into separate lists. If a
+\code{mat_C} matrix is not present in a model, an \code{NA} matrix of the
+same size as \code{mat_U} is used as a placeholder.
 }
 \examples{
 # Example usage

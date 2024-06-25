@@ -1,3 +1,44 @@
+test_that("Check function works correctly", {
+
+  expect_silent(
+    rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 1, split = FALSE)
+    )
+
+  expect_silent(
+    rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 2, split = FALSE)
+  )
+
+  expect_silent(
+    rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
+  )
+
+  expect_silent(
+    rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 4, split = FALSE)
+  )
+
+  expect_silent(
+    rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 1, split = TRUE)
+  )
+
+  expect_silent(
+    rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 2, split = TRUE)
+  )
+
+  expect_silent(
+    rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = TRUE)
+  )
+
+  expect_silent(
+    rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 4, split = TRUE)
+  )
+
+
+
+
+  })
+
+test_that("Check errors produced when n_stages incorrect", {
+
 # n_stages must be greater than 0
 testthat::expect_error(
   rand_lefko_mpm(n_stages = -1, fecundity = 20, archetype = 1, split = FALSE)
@@ -7,6 +48,60 @@ testthat::expect_error(
 testthat::expect_error(
   rand_lefko_mpm(n_stages = 3.5, fecundity = 20, archetype = 1, split = FALSE)
 )
+})
+
+
+fec_mat <- matrix(c(
+  0, 1, 70,
+  0, 0, 0,
+  0, 0, 0
+), ncol = 3, byrow = TRUE)
+
+# Lower limit to fecundity
+fec_mat_lower <- matrix(c(
+  0, 1, 70,
+  0, 0, 0,
+  0, 0, 0
+), ncol = 3, byrow = TRUE)
+
+# Upper limit to fecundity
+fec_mat_upper <- matrix(c(
+  0, 5, 100,
+  0, 0, 0,
+  0, 0, 0
+), ncol = 3, byrow = TRUE)
+
+# Place the two matrices in a list
+fec_mats <- list(fec_mat_lower, fec_mat_upper)
+
+fec_mat2 <- matrix(c(
+  0, -1, 70,
+  0, 0, 0,
+  0, 0, 0
+), ncol = 3, byrow = TRUE)
+
+
+# Lower limit to fecundity
+fec_mat_lower3 <- matrix(c(
+  0, 5, 70,
+  0, 0, 0,
+  0, 0, 0
+), ncol = 3, byrow = TRUE)
+
+# Upper limit to fecundity
+fec_mat_upper3 <- matrix(c(
+  0, 1, 100,
+  0, 0, 0,
+  0, 0, 0
+), ncol = 3, byrow = TRUE)
+
+# Place the two matrices in a list
+fec_mats3 <- list(fec_mat_lower3 , fec_mat_upper3)
+
+
+
+
+test_that("Check errors produced when fecundity incorrect", {
 
 # fecundity must be numeric
 testthat::expect_error(
@@ -18,11 +113,35 @@ testthat::expect_error(
   rand_lefko_mpm(n_stages = 4, fecundity = c(12, 5), archetype = 1, split = FALSE)
 )
 
+testthat::expect_error(
+  rand_lefko_mpm(n_stages = 2, fecundity = fec_mat, archetype = 1, split = FALSE)
+)
+
+testthat::expect_error(
+  rand_lefko_mpm(n_stages = 2, fecundity = fec_mats, archetype = 1, split = FALSE)
+)
+
+testthat::expect_error(
+  rand_lefko_mpm(n_stages = 3, fecundity = fec_mat2, archetype = 1, split = FALSE)
+)
+
+testthat::expect_error(
+  rand_lefko_mpm(n_stages = 3, fecundity = fec_mats3, archetype = 1, split = FALSE)
+)
+
+})
+
+test_that("Check errors produced when split incorrect", {
 # Split must be logical
 testthat::expect_error(
   rand_lefko_mpm(n_stages = 4, fecundity = 5, archetype = 1, split = "text")
 )
 
+
+
+})
+
+test_that("Check errors produced when archetype incorrect", {
 # Archetype is an integer between 1 and 4
 testthat::expect_error(
   rand_lefko_mpm(n_stages = 4, fecundity = 5, archetype = 0, split = FALSE)
@@ -43,7 +162,9 @@ testthat::expect_error(
 testthat::expect_error(
   rand_lefko_mpm(n_stages = 2, fecundity = 5, archetype = 4, split = FALSE)
 )
+})
 
+test_that("Check output is OK", {
 
 # Check that output is a matrix
 testthat::expect_true(
@@ -88,6 +209,8 @@ x <- rand_lefko_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = FALSE)
 testthat::expect_true(
   inherits(x, "matrix")
 )
+})
+
 
 x <- rand_lefko_mpm(
   n_stages = 4, fecundity = c(0, 2, 10, 20),
@@ -95,91 +218,6 @@ x <- rand_lefko_mpm(
 )
 testthat::expect_true(
   inherits(x, "matrix")
-)
-
-fec_mat <- matrix(c(
-  0, 1, 70,
-  0, 0, 0,
-  0, 0, 0
-), ncol = 3, byrow = TRUE)
-testthat::expect_error(
-  rand_lefko_mpm(n_stages = 2, fecundity = fec_mat, archetype = 1, split = FALSE)
-)
-
-
-# Lower limit to fecundity
-fec_mat_lower <- matrix(c(
-  0, 1, 70,
-  0, 0, 0,
-  0, 0, 0
-), ncol = 3, byrow = TRUE)
-
-# Upper limit to fecundity
-fec_mat_upper <- matrix(c(
-  0, 5, 100,
-  0, 0, 0,
-  0, 0, 0
-), ncol = 3, byrow = TRUE)
-
-# Place the two matrices in a list
-fec_mats <- list(fec_mat_lower, fec_mat_upper)
-
-testthat::expect_error(
-  rand_lefko_mpm(n_stages = 2, fecundity = fec_mats, archetype = 1, split = FALSE)
-)
-
-
-fec_mat <- matrix(c(
-  0, -1, 70,
-  0, 0, 0,
-  0, 0, 0
-), ncol = 3, byrow = TRUE)
-testthat::expect_error(
-  rand_lefko_mpm(n_stages = 3, fecundity = fec_mat, archetype = 1, split = FALSE)
-)
-
-# Lower limit to fecundity
-fec_mat_lower <- matrix(c(
-  0, 5, 70,
-  0, 0, 0,
-  0, 0, 0
-), ncol = 3, byrow = TRUE)
-
-# Upper limit to fecundity
-fec_mat_upper <- matrix(c(
-  0, 1, 100,
-  0, 0, 0,
-  0, 0, 0
-), ncol = 3, byrow = TRUE)
-
-# Place the two matrices in a list
-fec_mats <- list(fec_mat_lower, fec_mat_upper)
-
-testthat::expect_error(
-  rand_lefko_mpm(n_stages = 3, fecundity = fec_mats, archetype = 1, split = FALSE)
-)
-
-# Check bounds of fecundity matrices
-
-# Lower limit to fecundity
-fec_mat_lower <- matrix(c(
-  0, 5, 70,
-  0, 0, 0,
-  0, 0, 0
-), ncol = 3, byrow = TRUE)
-
-# Upper limit to fecundity
-fec_mat_upper <- matrix(c(
-  0, 1, 100,
-  0, 0, 0,
-  0, 0, 0
-), ncol = 3, byrow = TRUE)
-
-# Place the two matrices in a list
-fec_mats <- list(fec_mat_lower, fec_mat_upper)
-
-testthat::expect_error(
-  rand_lefko_mpm(n_stages = 3, fecundity = fec_mats, archetype = 1, split = FALSE)
 )
 
 

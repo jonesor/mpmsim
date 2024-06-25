@@ -293,7 +293,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' # First generate a set of MPMs
 #' mpm_set <- rand_lefko_set(n = 5, n_stages = 5, fecundity = c(
 #'   0, 0, 4, 8, 10
-#' ), archetype = 4, split = TRUE, by_type = TRUE, as_compadre = FALSE)
+#' ), archetype = 4, output = "Type4")
 #'
 #' # Now apply sampling error to this set
 #' add_mpm_error(
@@ -315,9 +315,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' # here with a sample size of 20 for reproduction and 10 for growth/survival.
 #' mpm_set <- rand_lefko_set(
 #'   n = 5, n_stages = 3, fecundity = c(0, 2, 4),
-#'   archetype = 4, split = TRUE, by_type = TRUE,
-#'   as_compadre = FALSE
-#' )
+#'   archetype = 4,  output = "Type4")
 #'
 #' ssMats <- list(
 #'   "mat_F_ss" = matrix(20, nrow = 3, ncol = 3),

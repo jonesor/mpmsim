@@ -9,10 +9,12 @@
 #'   in a format compatible with `matA`, `matU`, and `matF` functions.
 #' @return This function prints summaries of the following metrics:
 #' \itemize{
-#'   \item \strong{lambda values:} The lambda values (dominant eigenvalues) of the A matrices.
+#'   \item \strong{lambda values:} The lambda values (dominant eigenvalues) of
+#'    the A matrices.
 #'   \item \strong{max F values:} The maximum values from the F matrices.
 #'   \item \strong{max U values:} The maximum values from the U matrices.
-#'   \item \strong{minimum non-zero U values:} The minimum non-zero values from the U matrices.
+#'   \item \strong{minimum non-zero U values:} The minimum non-zero values from
+#'   the U matrices.
 #' }
 #' @importFrom popdemo eigs
 #' @importFrom Rcompadre matA matU matF
@@ -20,12 +22,17 @@
 #' @examples
 #' mats <- rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, split = TRUE, by_type = TRUE, as_compadre = TRUE
-#' )
+#'   archetype = 4, output = "Type1")
+#'
 #' summarise_mpms(mats)
 #' @export summarise_mpms
 
 summarise_mpms <- function(x) {
+
+  if(!inherits(x, "CompadreDB")){
+    stop("x must be a CompadreDB object (mpmsim output types 1 or 2)")
+  }
+
   A_matrix_list <- matA(x)
   U_matrix_list <- matU(x)
   F_matrix_list <- matF(x)
@@ -43,7 +50,6 @@ summarise_mpms <- function(x) {
     max_F_Vals <- unlist(lapply(F_matrix_list, max, na.rm = TRUE))
   } else {
     max_F_Vals <- NA
-    warning("There are NA values in the F matrix")
   }
   if (length(U_matrix_list) > 0) {
     max_U_Vals <- unlist(lapply(U_matrix_list, max, na.rm = TRUE))
@@ -51,7 +57,7 @@ summarise_mpms <- function(x) {
     min_non_zero <- function(mat) {
       non_zero_values <- mat[mat != 0]
       if (length(non_zero_values) == 0) {
-        return(NA) # or another value you prefer, such as -Inf
+        return(NA)
       } else {
         return(min(non_zero_values, na.rm = TRUE))
       }
@@ -60,7 +66,6 @@ summarise_mpms <- function(x) {
   } else {
     max_U_Vals <- NA
     min_non_zero_U_Vals <- NA
-    warning("There are NA values in the U matrix")
   }
 
 

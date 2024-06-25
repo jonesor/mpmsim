@@ -13,21 +13,42 @@
 #' @param n The number of MPMs to generate. Default is `10`.
 #' @param n_stages The number of stages for the MPMs. Default is `3`.
 #' @param archetype The archetype of the MPMs. Default is `1`.
-#' @param fecundity A vector of fecundities for the MPMs. Default is `1.5`.
-#' @param split A logical indicating whether to split the A matrix into
-#'   submatrices (U, F and C). Default is `TRUE`.
-#' @param by_type A logical value indicating how the matrices should be
-#'   returned. If `TRUE`, the function returns a list containing three separate
-#'   lists for each matrix type (A, U, and F). If `FALSE`, the function returns
-#'   a list where each element contains three matrices representing a single
-#'   model grouped together (A, U, and F, where A = U + F). When `split` is
-#'   `FALSE`, `by_type` is automatically set to `FALSE`. Defaults to `TRUE`.
-#' @param as_compadre A logical indicating whether the matrices should be
-#'   returned as a `CompadreDB` object. Default is `TRUE`. If `FALSE`, the
-#'   function returns a list.
+#' @param fecundity Fecundity is the average number of offspring produced.
+#'   Values can be provided in 4 ways:
+#'   - An numeric vector of length 1 to provide a singl fecundity measure to the
+#'   top right corner of the matrix model only.
+#'   - A numeric vector of integers of length equal to `n_stages` to provide
+#'   fecundity estimates for the whole top row of the matrix model. Use 0 for
+#'   cases with no reproduction.
+#'   - A matrix of numeric values of the same dimension as `n_stages` to provide
+#'   fecundity estimates for the entire matrix model. Use 0 for cases with no
+#'   reproduction.
+#'   - A list of two matrices of numeric values, both with the same dimension as
+#'   `n_stages`, to provide lower and upper limits of mean fecundity for the
+#'   entire matrix model.
+#'
+#'   In the latter case, a fecundity value will be drawn from a uniform
+#'   distribution for the defined range. If there is no reproduction in a
+#'   particular age class, use a value of 0 for both the lower and upper limit.
+#'
+#' @param output Character string indicating the type of output.
+#'
+#' * `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
+#'   (i.e. A, U, F and C).
+#' * `Type2`: A `compadreDB` Object containing MPMs that are not split into submatrices
+#'   (i.e. only the A matrix is included).
+#' * `Type3`: A `list` of MPMs arranged so that each element of the list contains a model
+#'   and associated submatrices (i.e. the nth element contains the nth A matrix
+#'   alongside the nth U and F matrices).
+#' * `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for the A
+#'   matrix and the U and F submatrices respectively.
+#' * `Type5`: A `list` of MPMs, including only the A matrix.
+#'
+#'
 #' @param max_surv The maximum acceptable survival value, calculated across all
-#'   transitions from a stage. Defaults to `0.99`. This is only used if `split =
-#'   TRUE`.
+#'   transitions from a stage. Defaults to `0.99`. This is only used the output
+#'   splits a matrix into the submatrices.
+#'
 #' @param constraint An optional data frame with 4 columns named `fun`, `arg`,
 #'   `lower` and `upper`. These columns specify (1) a function that outputs a
 #'   metric derived from an A matrix and (2) an argument for the function (`NA`,
@@ -46,9 +67,8 @@
 #'
 #' # Basic operation, without splitting matrices and with no constraints
 #' rand_lefko_set(
-#'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, split = FALSE, by_type = FALSE, as_compadre = FALSE
-#' )
+#'   n = 1, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   archetype = 4, output = "Type5")
 #'
 #' # Constrain outputs to A matrices with lambda between 0.9 and 1.1
 #' library(popbio)
@@ -58,20 +78,17 @@
 #' )
 #' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
-#' )
+#'   archetype = 4, constraint = constrain_df, output = "Type5")
 #'
 #' # As above, but using popdemo::eigs function instead of popbio::lambda
 #' # to illustrate use of argument
 #' library(popdemo)
 #' constrain_df <- data.frame(
-#'   fun = "eigs", arg = "lambda", lower = 0.9, upper =
-#'     1.1
-#' )
+#'   fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1)
+#'
 #' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
-#' )
+#'   archetype = 4, constraint = constrain_df, output = "Type5")
 #'
 #' # Multiple constraints
 #' # Constrain outputs to A matrices with lambda between 0.9 and 1.1, generation
@@ -85,8 +102,7 @@
 #' )
 #' rand_lefko_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
-#' )
+#'   archetype = 4, constraint = constrain_df, output = "Type5" )
 #'
 #' @seealso [rand_lefko_mpm()] which this function is essentially a wrapper for.
 #' @family Lefkovitch matrices
@@ -95,31 +111,33 @@
 
 rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
                              fecundity = 1.5,
-                             split = TRUE, by_type = TRUE, as_compadre = TRUE, max_surv = 0.99,
+                             output = "Type1", max_surv = 0.99,
                              constraint = NULL, attempts = 1000) {
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
     stop("n must be a positive integer")
   }
 
-  # Ensure by_type is coerced to FALSE if split is FALSE
-  if (split == FALSE) {
-    by_type <- FALSE
-  }
-
   # Set up empty list of desired length
   output_list <- vector("list", n)
 
   attempt <- 1
+
+  if(output %in% c("Type1", "Type3", "Type4")){
+    splitValue <- TRUE
+  }else{
+    splitValue <- FALSE
+  }
+
   while (any(vapply(output_list, is.null, logical(1)))) {
     # Generate an MPM
     mpm_out <- rand_lefko_mpm(
       n_stages = n_stages, archetype = archetype,
-      fecundity = fecundity, split = split
+      fecundity = fecundity, split = splitValue
     )
 
     # Check whether survival values are acceptable
-    if (split == TRUE) {
+    if (output %in% c("Type1", "Type3", "Type4") == TRUE) {
       survival_value_accepted <- max(colSums(mpm_out$mat_U)) < max_surv
     } else {
       survival_value_accepted <- TRUE
@@ -135,7 +153,7 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
       nConstraints <- nrow(constraint)
       constraint_OK <- rep(NA, nConstraints)
 
-      if (split == TRUE) {
+      if (output %in% c("Type1", "Type3", "Type4")) {
         mat_A_temp <- mpm_out$mat_U + mpm_out$mat_F
       } else {
         mat_A_temp <- mpm_out
@@ -189,7 +207,28 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
     }
   }
 
-  if (by_type == TRUE) {
+
+  # `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
+  if(output == "Type1"){
+    U_list <- lapply(output_list, function(x) x$mat_U)
+    F_list <- lapply(output_list, function(x) x$mat_F)
+    return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
+  }
+
+  # `Type2`: A `compadreDB` Object containing MPMs that are not split into submatrices
+  if(output == "Type2"){
+    return(cdb_build_cdb(mat_a = output_list))
+  }
+
+  # `Type3`: A `list` of MPMs arranged so that each element of the list contains a model
+  #   and associated submatrices (i.e. the nth element contains the nth A matrix
+  #   alongside the nth U and F matrices).
+  if(output == "Type3"){
+    return(output_list)
+  }
+
+  # `Type4`: A `list` of MPMs arranged so the list contains 3 lists for the A, U and F matrices.
+  if(output == "Type4"){
     A_list <- lapply(output_list, function(x) x$mat_A)
     U_list <- lapply(output_list, function(x) x$mat_U)
     F_list <- lapply(output_list, function(x) x$mat_F)
@@ -198,17 +237,11 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
       "U_list" = U_list,
       "F_list" = F_list
     )
-    if (as_compadre == FALSE) {
-      return(output_list_by_type)
-    } else {
-      return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
+    return(output_list_by_type)
     }
-  }
-  if (by_type == FALSE) {
-    if (as_compadre == FALSE) {
-      return(output_list)
-    } else {
-      return(cdb_build_cdb(mat_a = output_list))
-    }
+
+  # `Type5`: A `list` of MPMs, including only the A matrix.
+  if(output == "Type5"){
+    return(output_list)
   }
 }

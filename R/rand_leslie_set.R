@@ -169,10 +169,6 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
     stop("output must be Type1 to Type6")
   }
 
-  if(output == "Type6" && scale_output == "Surv"){
-    stop("When output is Type6 (life table), output scaling can only be implemented by scaling Fertility.")
-  }
-
  # Function begins -----
   # Set up null lists to hold outputs
   lifeTables <- list()
@@ -320,6 +316,10 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
       model = mortality_model
     )
 
+    if(nrow(lifeTables[[i]]) <= 1){
+      stop("The mortality parameters produce a life table where all individuals die within 1 year.")
+    }
+
     # Fertility part:
     # Logistic, Step, vonBertalanffy, Normal, Hadwiger
     if (fertility_model == "logistic") {
@@ -339,6 +339,24 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz", fertilit
         fertility_maturity_params_draw <- runif(1,
                                                 min = fertility_maturity_params[1],
                                                 max = fertility_maturity_params[2]
+        )
+      }
+      if(dist_type == "normal"){
+        fertility_params_draw <- c(A = rnorm(1,
+                                             mean = fertility_params[1, 1],
+                                             sd = fertility_params[1, 2]),
+                                   k = rnorm(1,
+                                             mean = fertility_params[1, 1],
+                                             sd = fertility_params[1, 2]),
+                                   x_m = rnorm(1,
+                                               mean = fertility_params[1, 1],
+                                               sd = fertility_params[1, 2]
+                                   )
+        )
+
+        fertility_maturity_params_draw <- rnorm(1,
+                                                mean = fertility_maturity_params[1],
+                                                sd = fertility_maturity_params[2]
         )
       }
     }
