@@ -108,56 +108,41 @@ make_leslie_mpm(
 
 ### Sets of Leslie matrices
 
-Users can generate large numbers of plausible Leslie matrices by repeating the `make_leslie_mpm` command in a loop. For example, the following code produces a list of five Leslie matrices that have increasing survival with age.
+Users can generate large numbers of plausible Leslie matrices using the `rand_leslie_set` function.
+
+The arguments for this function include the number of models (`n_models`), the type of mortality (e.g. `GompertzMakeham`) and fertility (e.g. `step`). The specific parameters for mortality and fertility are provided as defined distributions from which parameters can be drawn at random. The type of distribution is defined with the `dist_type` argument and can be `uniform` or `normal`, and the distributions are defined using the `mortality_params` and `fertility_params` arguments, which accept data frames of distribution parameters. 
+
+For example, the following code produces a list of five Leslie matrices that have Gompertz-Makeham mortality characteristics and where fertility is a step function.
+
+First, we define the limits of a uniform distributions for the Gompertz mortality and step fertility functions. 
 
 ```{r}
-sample_size <- 5
-juvSurv <- runif(n = sample_size, min = 0.0, max = 0.1)
-adultSurv <- runif(n = sample_size, min = 0.4, max = 0.8)
-adultFert <- rpois(sample_size, 6)
+mortParams <- data.frame(minVal = c(0.05, 0.08, 0.7),
+                         maxVal = c(0.14, 0.15, 0.7))
 
-outputMPMs <- NULL
-for (i in 1:sample_size) {
-  outputMPMs[[i]] <- make_leslie_mpm(
-    survival = seq(juvSurv[i], adultSurv[i], length.out = 6),
-    fertility = c(0, 0, rep(adultFert[i], 4)), n_stages = 6, split = FALSE
-  )
-}
+fertParams <- data.frame(minVal = 4, maxVal = 6)
+```
+
+We also set maturity to be drawn from a distribution ranging from 0 to 3.
+
+```{r}
+maturityParams <- c(0,3)
+```
+
+Now we produce the models. We output as "`Type5`" which is a simple list of the main A matrix model, but outputs can also be split into submatrices (e.g. the U and F matrices), or as a `CompadreDB` object.
+
+```{r}
+outputMPMs <- rand_leslie_set(
+      n_models = 5, mortality_model = "GompertzMakeham", fertility_model = "step",
+      mortality_params = mortParams,
+      fertility_params = fertParams,
+      fertility_maturity_params = maturityParams, 
+      dist_type = "uniform",
+      output = "Type5"
+    )
 
 outputMPMs
 ```
-
-Here's one way to do a similar thing with uncertainty applied to a Gompertz mortality.
-
-```{r}
-sample_size <- 5
-b0_values <- rnorm(n = sample_size, mean = 0.3, sd = 0.1)
-b1_values <- rnorm(n = sample_size, mean = 0.4, sd = 0.1)
-fertility_values <- rnorm(n = sample_size, mean = 3, sd = 1)
-
-outputMPMs <- NULL
-for (i in 1:sample_size) {
-  surv_prob <- model_survival(
-    params = c(b0_values[i], b1_values[i]),
-    model = "Gompertz"
-  )
-  survival <- surv_prob$px
-
-  maturity <- 2
-  fertility <- c(
-    rep(0, maturity),
-    rep(fertility_values[i], length(survival) - maturity)
-  )
-
-  outputMPMs[[i]] <- make_leslie_mpm(
-    survival = survival, fertility = fertility,
-    n_stages = length(survival), split = FALSE
-  )
-}
-
-outputMPMs
-```
-
 
 ### Simulate sampling error for an MPM
 
@@ -211,7 +196,7 @@ The `rand_lefko_mpm` function can be used to generate a random Lefkovitch matrix
 
 ### Generate a set of random Lefkovitch MPMs
 
-The `rand_lefko_set` function can be used to quickly generate large numbers of Lefkovitch MPMs using the above approach. For example, the following code generates five MPMs with archetype 1. By using the `constraint` argument, users can specify an acceptable characteristics for the set of matrices. In this case, population growth rate range, which can be useful for life history analyses where we might assume that only life histories with lambda values close to 1 can persist in nature. We set the argument `as_compadre = FALSE` to ensure that the function returns a `list` object rather than a `CompadreDB` object.
+The `rand_lefko_set` function can be used to quickly generate large numbers of Lefkovitch MPMs using the above approach. For example, the following code generates five MPMs with archetype 1. By using the `constraint` argument, users can specify an acceptable characteristics for the set of matrices. In this case, population growth rate range, which can be useful for life history analyses where we might assume that only life histories with lambda values close to 1 can persist in nature. We set the argument `output = "Type5"` to ensure that the function returns a `list` object.
 
 
 ```{r}
@@ -219,7 +204,7 @@ library(popbio)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 rand_lefko_set(
   n = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df,
-  as_compadre = FALSE
+  output = "Type5"
 )
 ```
 

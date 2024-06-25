@@ -75,22 +75,22 @@ model.</p></dd>
 
 
 <dt>age</dt>
-<dd><p>Numeric vector representing age. The default is <code>NULL</code>, whereby the
-survival trajectory is modelled from age 0 to the age at which the
+<dd><p>Numeric vector representing age. The default is <code>NULL</code>, whereby
+the survival trajectory is modelled from age 0 to the age at which the
 survivorship of the synthetic cohort declines to a threshold defined by the
-<code>truncate</code> argument, which has a default of 0.01 (i.e. 1% of the cohort
+<code>truncate</code> argument, which has a default of <code>0.01</code> (i.e. 1% of the cohort
 remaining alive).</p></dd>
 
 
 <dt>model</dt>
 <dd><p>Mortality model: <code>Gompertz</code>, <code>GompertzMakeham</code>, <code>Exponential</code>,
-<code>Siler</code>.</p></dd>
+<code>Siler</code>, <code>Weibull</code>, <code>WeibullMakeham</code>.</p></dd>
 
 
 <dt>truncate</dt>
 <dd><p>a value defining how the life table output should be
 truncated. The default is <code>0.01</code>, indicating that the life table is
-truncated so that survivorship, <code>lx</code>, &gt; 0.01 (i.e. the age at which 1% of
+truncated so that survivorship (<code>lx</code>) &gt; 0.01 (i.e. the age at which 1% of
 the cohort remains alive).</p></dd>
 
 </dl></div>
@@ -98,36 +98,42 @@ the cohort remains alive).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A data frame with columns for age (<code>x</code>), hazard (<code>hx</code>),
-survivorship (<code>lx</code>) and mortality (<code>qx</code>) and survival probability within
-interval (<code>px</code>).</p>
+<p>A dataframe in the form of a lifetable with columns for age (<code>x</code>),
+hazard (<code>hx</code>), survivorship (<code>lx</code>) and mortality (<code>qx</code>) and survival
+probability within interval (<code>px</code>).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The required parameters varies depending on the mortality model. The
-parameters are provided as a vector. For <code>Gompertz</code> and <code>Weibull</code>, the parameters are
-<code>b0</code>, <code>b1.</code> For <code>GompertzMakeham</code> the parameters are <code>b0</code>, <code>b1</code> and <code>C</code>.
-For <code>Exponential</code>, the parameter is <code>C</code>. For <code>Siler</code>, the parameters are
-<code>a0</code>, <code>a1</code>, <code>C</code>, <code>b0</code> and <code>b1</code>. Note that the parameters must be provided
-in the order mentioned here. <code>x</code> represents age.</p><ul><li><p>Gompertz: \(h_x = b_0 \mathrm{e}^{b_1  x}\)</p></li>
+parameters are provided as a vector.</p>
+<p>*For <code>Gompertz</code> and <code>Weibull</code>, the
+parameters are <code>b0</code>, <code>b1</code>.
+*For <code>GompertzMakeham</code> and <code>WeibullMakeham</code> the parameters are <code>b0</code>, <code>b1</code>
+and <code>C</code>.
+*For <code>Exponential</code>, the parameter is <code>C</code>.
+*For <code>Siler</code>, the parameters are <code>a0</code>, <code>a1</code>, <code>C</code>, <code>b0</code> and <code>b1</code>.</p>
+<p>Note that the parameters must be provided in the order mentioned here. <code>x</code>
+represents age.</p><ul><li><p>Gompertz: \(h_x = b_0 \mathrm{e}^{b_1  x}\)</p></li>
 <li><p>Gompertz-Makeham: \(h_x = b_0 \mathrm{e}^{b_1  x} + c\)</p></li>
 <li><p>Exponential: \(h_x = c\)</p></li>
 <li><p>Siler: \(h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}\)</p></li>
 <li><p>Weibull: \(h_x = b_0  b_1  (b_1  x)^(b_0 - 1)\)</p></li>
+<li><p>Weibull-Makeham: \(h_x = b_0  b_1  (b_1  x)^(b_0 - 1) + c\)</p></li>
 </ul><p>In the output, the probability of survival (<code>px</code>) (and death (<code>qx</code>))
 represent the probability of individuals that enter the age interval
 \([x,x+1]\) survive until the end of the interval (or die before the end
 of the interval). It is not possible to estimate a value for this in the
 final row of the life table (because there is no \(x+1\) value) and
-therefore the input values of <code>age</code> (x) may need to be extended to capture this
-final interval.</p>
+therefore the input values of <code>age</code> (x) may need to be extended to capture
+this final interval.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Cox, D.R. &amp; Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,
-London, UK.</p>
-<p>Pinder III, J.E., Wiener, J.G. &amp; Smith, M.H. (1978) The Weibull distribution:
-a method of summarizing survivorship data. Ecology, 59, 175–179.</p>
+    <p>Cox, D.R. &amp; Oakes, D. (1984) Analysis of Survival Data. Chapman
+and Hall, London, UK.</p>
+<p>Pinder III, J.E., Wiener, J.G. &amp; Smith, M.H. (1978) The Weibull
+distribution: a method of summarizing survivorship data. Ecology, 59,
+175–179.</p>
 <p>Pletcher, S. (1999) Model fitting and hypothesis testing for age-specific
 mortality data. Journal of Evolutionary Biology, 12, 430–439.</p>
 <p>Siler, W. (1979) A competing-risk model for animal mortality. Ecology, 60,
@@ -149,7 +155,7 @@ functions.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">model_survival</span><span class="op">(</span>params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b_0 <span class="op">=</span> <span class="fl">0.1</span>, b_1 <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"Gompertz"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">model_mortality</span><span class="op">(</span>params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b_0 <span class="op">=</span> <span class="fl">0.1</span>, b_1 <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"Gompertz"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x        hx         lx        qx        px</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   0 0.1000000 1.00000000 0.1051240 0.8948760</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   1 0.1221403 0.89487598 0.1268617 0.8731383</span>
@@ -164,7 +170,7 @@ functions.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 10 0.7389056 0.04055203 0.5598781 0.4401219</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12 11 0.9025013 0.01784784 0.6330059 0.3669941</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">model_survival</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu">model_mortality</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b_0 <span class="op">=</span> <span class="fl">0.1</span>, b_1 <span class="op">=</span> <span class="fl">0.2</span>, C <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  model <span class="op">=</span> <span class="st">"GompertzMakeham"</span>,</span></span>
 <span class="r-in"><span>  truncate <span class="op">=</span> <span class="fl">0.1</span></span></span>
@@ -179,7 +185,7 @@ functions.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 6 0.4320117 0.1713713 0.3742259 0.6257741</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 7 0.5055200 0.1072397 0.4232876 0.5767124</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">model_survival</span><span class="op">(</span>params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>c <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"Exponential"</span>, age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">model_mortality</span><span class="op">(</span>params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>c <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"Exponential"</span>, age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x  hx        lx        qx        px</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   0 0.2 1.0000000 0.1812692 0.8187308</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   1 0.2 0.8187308 0.1812692 0.8187308</span>
@@ -193,7 +199,7 @@ functions.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  9 0.2 0.1652989 0.1812692 0.8187308</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 10 0.2 0.1353353        NA        NA</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">model_survival</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu">model_mortality</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a_0 <span class="op">=</span> <span class="fl">0.1</span>, a_1 <span class="op">=</span> <span class="fl">0.2</span>, C <span class="op">=</span> <span class="fl">0.1</span>, b_0 <span class="op">=</span> <span class="fl">0.1</span>, b_1 <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  model <span class="op">=</span> <span class="st">"Siler"</span>,</span></span>
 <span class="r-in"><span>  age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span></span></span>
@@ -209,6 +215,55 @@ functions.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8  7 0.5301797 0.07348713 0.4360763 0.5639237</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9  8 0.6154929 0.04144114 0.4875201 0.5124799</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 9 0.7214946 0.02123775 0.5447766 0.4552234</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">model_mortality</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b_0 <span class="op">=</span> <span class="fl">1.4</span>, b_1 <span class="op">=</span> <span class="fl">0.18</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="st">"Weibull"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x        hx         lx         qx        px</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0 0.0000000 1.00000000 0.06148553 0.9385145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1 0.1269140 0.93851447 0.13686918 0.8631308</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   2 0.1674640 0.81006076 0.16657160 0.8334284</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   3 0.1969509 0.67512765 0.18857273 0.8114273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   4 0.2209701 0.54781698 0.20648690 0.7935131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   5 0.2416003 0.43469995 0.22177479 0.7782252</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   6 0.2598783 0.33829446 0.23520126 0.7647987</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   7 0.2764068 0.25872718 0.24722531 0.7527747</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   8 0.2915718 0.19476327 0.25814734 0.7418527</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  9 0.3056374 0.14448565 0.26817620 0.7318238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 10 0.3187936 0.10573804 0.27746379 0.7225362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 11 0.3311819 0.07639956 0.28612450 0.7138755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 12 0.3429115 0.05453977 0.29424691 0.7057531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 13 0.3540682 0.03849161 0.30190116 0.6980988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 14 0.3647210 0.02687095 0.30914389 0.6908561</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 15 0.3749264 0.01856396 0.31602155 0.6839785</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 16 0.3847313 0.01269735 0.32257279 0.6774272</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">model_mortality</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b_0 <span class="op">=</span> <span class="fl">1.1</span>, b_1 <span class="op">=</span> <span class="fl">0.05</span>, c <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="st">"WeibullMakeham"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x        hx         lx        qx        px</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0 0.2000000 1.00000000 0.1977871 0.8022129</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1 0.2407624 0.80221294 0.2151206 0.7848794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   2 0.2436881 0.62964040 0.2169760 0.7830240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   3 0.2454959 0.49302353 0.2182027 0.7817973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   4 0.2468237 0.38544447 0.2191342 0.7808658</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   5 0.2478803 0.30098040 0.2198903 0.7801097</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   6 0.2487612 0.23479772 0.2205292 0.7794708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   7 0.2495187 0.18301798 0.2210836 0.7789164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   8 0.2501844 0.14255570 0.2215743 0.7784257</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  9 0.2507790 0.11096903 0.2220149 0.7779851</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 10 0.2513168 0.08633225 0.2224152 0.7775848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 11 0.2518083 0.06713065 0.2227822 0.7772178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 12 0.2522610 0.05217514 0.2231213 0.7768787</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 13 0.2526810 0.04053375 0.2234366 0.7765634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 14 0.2530729 0.03147703 0.2237313 0.7762687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 15 0.2534403 0.02443463 0.2240082 0.7759918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 16 0.2537863 0.01896108 0.2242693 0.7757307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 17 0.2541134 0.01470869 0.2245164 0.7754836</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 18 0.2544236 0.01140635 0.2247511 0.7752489</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">model_mortality</span><span class="op">(</span>params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b_0 <span class="op">=</span> <span class="fl">0.1</span>, b_1 <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"Gompertz"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x        hx         lx        qx        px</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   0 0.1000000 1.00000000 0.1051240 0.8948760</span>
