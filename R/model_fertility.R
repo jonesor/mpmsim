@@ -28,13 +28,13 @@
 #'   parameters are provided as a vector and the parameters must be provided in
 #'   the order mentioned here.
 #'
-#'   * Logistic: \eqn{f(x) = A / (1 + exp(-k  (x - x_m)))}
-#'   * Step: \eqn{f(x)=
+#'   * Logistic: \eqn{f_x = A / (1 + exp(-k  (x - x_m)))}
+#'   * Step: \eqn{f_x=
 #'   \begin{cases} A, x \geq m \\ A, x <  m \end{cases}}
-#'   * von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
-#'   * Normal: \eqn{f(x) = A \times \exp\left(
-#'   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
-#'   * Hadwiger: \eqn{f(x) = \frac{ab}{C} \left (\frac{C}{x}  \right )
+#'   * von Bertalanffy: \eqn{f_x = A  (1 - exp(-k  (x - x_0)))}
+#'   * Normal: \eqn{f_x = A \times \exp\left(
+#'   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)}
+#'   * Hadwiger: \eqn{f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )
 #'    ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2
 #'    \right ) \right \}}
 #'
@@ -82,6 +82,8 @@
 
 model_fertility <- function(params, age = NULL, maturity = 0,
                             model = "logistic") {
+  #Coerce model type to lower case to avoid irritation
+  model <- tolower(model)
   # Input validation and input error handling
   if (!is.numeric(age)) stop("Input 'age' must be a numeric vector.")
 
@@ -90,10 +92,11 @@ model_fertility <- function(params, age = NULL, maturity = 0,
   if (any(age != floor(age))) warning("Input 'age' must be integers for use
                                       in creating MPMs")
 
+if(length(age)>1){
   if (min(diff(age)) <= 0) {
     stop("age must be an increasing sequence")
   }
-
+}
   # Check model parameter name
   if (!model %in% c(
     "vonbertalanffy", "logistic", "normal", "step",
@@ -181,6 +184,8 @@ model_fertility <- function(params, age = NULL, maturity = 0,
     out <- ((a * b) / c) * (c / age)^(3 / 2) * exp(-b^2 * ((c / age) +
       (age / c) - 2))
     out[is.nan(out)] <- 0
+    out[which(age < maturity)] <- 0
+
     return(out)
   }
 }

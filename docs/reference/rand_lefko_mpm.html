@@ -72,9 +72,9 @@ similar to archetype 2.
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/age_from_stage.html">The robustness of age from stage methods</a>
     <a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a>
-    <a class="dropdown-item" href="../articles/pca.html">Exploring PCA space</a>
+    <a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generate Lefkovitch matrices</a>
+    <a class="dropdown-item" href="../articles/generate_leslie_models.html">Generate Leslie matrices</a>
   </div>
 </li>
 <li class="nav-item">
@@ -139,7 +139,7 @@ similar to archetype 2.</p></li>
 
 <dt>fecundity</dt>
 <dd><p>Fecundity is the average number of offspring produced.
-Values can be provided in 4 ways:</p><ul><li><p>An numeric vector of length 1 to provide a singl fecundity measure to the
+Values can be provided in 4 ways:</p><ul><li><p>An numeric vector of length 1 to provide a single fecundity measure to the
 top right corner of the matrix model only.</p></li>
 <li><p>A numeric vector of integers of length equal to <code>n_stages</code> to provide
 fecundity estimates for the whole top row of the matrix model. Use 0 for
@@ -149,7 +149,8 @@ fecundity estimates for the entire matrix model. Use 0 for cases with no
 reproduction.</p></li>
 <li><p>A list of two matrices of numeric values, both with the same dimension as
 <code>n_stages</code>, to provide lower and upper limits of mean fecundity for the
-entire matrix model.</p></li>
+entire matrix model. Use 0 for both lower and upper limits in cases with no
+reproduction.</p></li>
 </ul><p>In the latter case, a fecundity value will be drawn from a uniform
 distribution for the defined range. If there is no reproduction in a
 particular age class, use a value of 0 for both the lower and upper limit.</p></dd>
@@ -198,7 +199,9 @@ matrices. Population Ecology, 60(1), 37–47.</p>
     <div class="dont-index"><p><code><a href="rand_lefko_set.html">rand_lefko_set()</a></code> which is a wrapper for this function allowing the
 generation of large numbers of random matrices of this type.</p>
 <p>Other Lefkovitch matrices: 
-<code><a href="rand_lefko_set.html">rand_lefko_set</a>()</code></p></div>
+<code><a href="generate_mpm_set.html">generate_mpm_set</a>()</code>,
+<code><a href="rand_lefko_set.html">rand_lefko_set</a>()</code>,
+<code><a href="random_mpm.html">random_mpm</a>()</code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

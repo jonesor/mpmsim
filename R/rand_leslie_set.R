@@ -6,9 +6,9 @@
 #'
 #' @param n_models An integer indicating the number of MPMs to generate.
 #' @param mortality_model A character string specifying the name of the
-#'   mortality model to be used. Options are `Gompertz`, `GompertzMakeham`,
-#'   `Exponential`, `Siler`, `Weibull`, and `WeibullMakeham`. See
-#'   `model_mortality`.
+#'   mortality model to be used. Options are `gompertz`, `gompertzmakeham`,
+#'   `exponential`, `siler`, `weibull`, and `weibullmakeham`. See
+#'   `model_mortality`. These names are not case-sensitive.
 #' @param fertility_model A character string specifying the name of the
 #'   fertility model to be used. Options are `logistic`, `step`,
 #'   `vonBertalanffy`, `normal` and `hadwiger.` See `?model_fertility`.
@@ -16,10 +16,10 @@
 #'   the number of parameters in the mortality model. The required order of the
 #'   parameters depends on the selected `mortality_model` (see
 #'   `?model_mortality`):
-#'   - For `Gompertz` and `Weibull`: \code{b_0}, \code{b_1}
-#'   - For `GompertzMakeham` and `WeibullMakeham`: \code{b_0}, \code{b_1}, \code{C}
-#'   - For `Exponential`: \code{C}
-#'   - For `Siler`: \code{a_0}, \code{a_1}, \code{C}, \code{b_0}, \code{b_1}
+#'   - For `gompertz` and `weibull`: \code{b_0}, \code{b_1}
+#'   - For `gompertzmakeham` and `weibullmakeham`: \code{b_0}, \code{b_1}, \code{C}
+#'   - For `exponential`: \code{C}
+#'   - For `siler`: \code{a_0}, \code{a_1}, \code{C}, \code{b_0}, \code{b_1}
 #'   If `dist_type` is `uniform` these rows represent the lower and upper limits
 #'   of the random uniform distribution from which the parameters are drawn. If
 #'   `dist_type` is `normal`, the columns represent the mean and standard
@@ -54,13 +54,13 @@
 #'
 #' * `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
 #'   (i.e. A, U, F and C).
-#' * `Type2`: A `compadreDB` Object containing MPMs that are not split into submatrices
-#'   (i.e. only the A matrix is included).
-#' * `Type3`: A `list` of MPMs arranged so that each element of the list contains a model
-#'   and associated submatrices (i.e. the nth element contains the nth A matrix
-#'   alongside the nth U and F matrices).
-#' * `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for the A
-#'   matrix and the U and F submatrices respectively.
+#' * `Type2`: A `compadreDB` Object containing MPMs that are not split into
+#'   submatrices (i.e. only the A matrix is included).
+#' * `Type3`: A `list` of MPMs arranged so that each element of the list
+#'   contains a model and associated submatrices (i.e. the nth element contains
+#'   the nth A matrix alongside the nth U and F matrices).
+#' * `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for
+#'   the A matrix and the U and F submatrices respectively.
 #' * `Type5`: A `list` of MPMs, including only the A matrix.
 #' * `Type6`: A `list` of life tables.
 #'
@@ -70,13 +70,18 @@
 #'   tables are scaled by adjusting fertility so that the population growth rate
 #'   (lambda) is 1. Default is `FALSE`.
 #'
-#' @return Returns a `compadreDB` object or `list` containing MPMs or life
+#' @return Returns a `CompadreDB` object or `list` containing MPMs or life
 #'   tables generated using the specified model with parameters drawn from
 #'   random uniform or normal distributions. The format of the output MPMs
-#'   depends on the arguments `output`. Outputs may optionally be scaled to
-#'   ensure a population growth rate (lambda) of 1.
+#'   depends on the arguments `output`. Outputs may optionally be scaled using
+#'   the argument `scale_output` to ensure a population growth rate (lambda) of
+#'   1.
+#'
+#'   If the output is a `CompadreDB` object, the parameters of the models used
+#'   to produce the MPM are included in the metadata.
 #'
 #' @importFrom stats optim
+#' @importFrom dplyr bind_rows bind_cols
 #'
 #' @family Leslie matrices
 #' @author Owen Jones <jones@biology.sdu.dk>
@@ -92,7 +97,7 @@
 #'
 #' rand_leslie_set(
 #'   n_models = 5,
-#'   mortality_model = "GompertzMakeham",
+#'   mortality_model = "gompertzmakeham",
 #'   fertility_model = "normal",
 #'   mortality_params = mortParams,
 #'   fertility_params = fertParams,
@@ -112,14 +117,17 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
                             scale_output = FALSE) {
   # Argument Validation -----------
 
+  mortality_model <- tolower(mortality_model)
+  fertility_model <- tolower(fertility_model)
+
   # Validate n_models
   if (!is.numeric(n_models) || length(n_models) != 1 || n_models <= 0) {
     stop("n_models must be a positive integer")
   }
 
   # Validate mortality_model
-  valid_mortality_models <- c("Gompertz", "Weibull", "GompertzMakeham",
-                              "WeibullMakeham", "Exponential", "Siler")
+  valid_mortality_models <- c("gompertz", "weibull", "gompertzmakeham",
+                              "weibullmakeham", "exponential", "siler")
   if (!is.character(mortality_model) || !(mortality_model %in%
                                           valid_mortality_models)) {
     stop("mortality_model must be one of ", paste(valid_mortality_models,
@@ -137,12 +145,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
 
   # Validate mortality_params
   expected_rows <- switch(mortality_model,
-    "Gompertz" = 2,
-    "Weibull" = 2,
-    "GompertzMakeham" = 3,
-    "WeibullMakeham" = 3,
-    "Exponential" = 1,
-    "Siler" = 5,
+    "gompertz" = 2,
+    "weibull" = 2,
+    "gompertzmakeham" = 3,
+    "weibullmakeham" = 3,
+    "exponential" = 1,
+    "siler" = 5,
     stop("Invalid mortality_model")
   )
   if (!is.data.frame(mortality_params) || ncol(mortality_params) != 2 ||
@@ -197,6 +205,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
   # Function begins -----
   # Set up null lists to hold outputs
   lifeTables <- list()
+
+  mortalityParameters <- list()
+  fertilityParameters <- list()
+  maturityParameters <- list()
+  scaling_factorParameters <- list()
+
   if (output != "Type6") {
     leslieMatrices <- list()
   }
@@ -206,9 +220,9 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
 
     # Parameters...
     # Gompertz, Weibull, GompertzMakeham, WeibullMakeham, Exponential,
-    # Siler,
+    # Siler
 
-    if (mortality_model %in% c("Gompertz", "Weibull")) {
+    if (mortality_model %in% c("gompertz", "weibull")) {
       if (dist_type == "uniform") {
         mortality_params_draw <- c(
           b_0 = runif(1,
@@ -235,7 +249,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
       }
     }
 
-    if (mortality_model %in% c("GompertzMakeham", "WeibullMakeham")) {
+    if (mortality_model %in% c("gompertzmakeham", "weibullmakeham")) {
       if (dist_type == "uniform") {
         mortality_params_draw <- c(
           b_0 = runif(1,
@@ -270,7 +284,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
       }
     }
 
-    if (mortality_model == "Exponential") {
+    if (mortality_model == "exponential") {
       if (dist_type == "uniform") {
         mortality_params_draw <- c(C = runif(1,
           min = mortality_params[1, 1],
@@ -285,7 +299,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
       }
     }
 
-    if (mortality_model == "Siler") {
+    if (mortality_model == "siler") {
       if (dist_type == "uniform") {
         mortality_params_draw <- c(
           a_0 = runif(1,
@@ -342,9 +356,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
       model = mortality_model
     )
 
+    # Add the mortality model parameters to a parameters data frame
+    mortalityParameters[[i]] <- mortality_params_draw
+
     if (nrow(lifeTables[[i]]) <= 1) {
-      stop("The mortality parameters produce a life table where all individuals
-           die within 1 year.")
+      warning("The mortality parameters produced a life table where almost
+      all individuals die within 1 year.")
     }
 
     # Fertility part:
@@ -537,13 +554,15 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             sd = fertility_params[1, 2]
           )
         )
-        # Currently ignored
-        fertility_maturity_params_draw <- rnorm(1,
+
+          fertility_maturity_params_draw <- rnorm(1,
           mean = fertility_maturity_params[1],
           sd = fertility_maturity_params[2]
         )
       }
     }
+
+
 
     # Add fertility to life table
     lifeTables[[i]] <- lifeTables[[i]] |>
@@ -553,6 +572,11 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
         maturity = fertility_maturity_params_draw,
         model = fertility_model
       ))
+
+    # Add the fertility parameters to a parameters data frame
+    fertilityParameters[[i]] <- fertility_params_draw
+    maturityParameters[[i]] <- fertility_maturity_params_draw
+
 
     # Scale fertility to ensure population growth is at the target
     if (scale_output == TRUE && output == "Type6") {
@@ -571,8 +595,13 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
       scaling_factor <- target_R0 / R0
 
       lifeTables[[i]]$fert <- lifeTables[[i]]$fert * scaling_factor
+
+      # Add the scaling parameter to a parameters data frame
+      scaling_factorParameters[[i]] <- scaling_factor
+
     }
 
+    # Here we deal with lifetables that are too short (all die within year)
 
     if (output != "Type6") {
       leslieMatrices[[i]] <- make_leslie_mpm(
@@ -604,12 +633,38 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
         mpm$mat_F <- optimized_scaling_factor * mpm$mat_F
         mpm$mat_A <- mpm$mat_U + mpm$mat_F
 
+        # Add the scaling parameter to a parameters data frame
+        scaling_factorParameters[[i]] <- optimized_scaling_factor
+
+
         leslieMatrices[[i]] <- mpm
       }
     }
   }
 
+  if(scale_output == FALSE){
+    scaling_factorParameters[[i]] <- 1
+  }
+
   # Output the matrices or life tables.
+  # If the output is Type1 or Type2, make a dataframe of metadata to be added to
+  # the CompadreDB
+  if (output %in% c("Type1", "Type2")){
+    mortalityParameters_df <- as.data.frame(do.call(rbind, mortalityParameters))
+    fertilityParameterss_df <- as.data.frame(do.call(rbind, fertilityParameters))
+    maturityParameters_df <- as.data.frame(do.call(rbind, maturityParameters))
+    scaling_factorParameters_df <- as.data.frame(do.call(rbind, scaling_factorParameters))
+
+    colnames(maturityParameters_df) <- "age_at_maturity"
+    colnames(scaling_factorParameters_df) <- "fertility_scaling"
+
+    compadre_metadata <- bind_cols(mortality_model = mortality_model,
+                                   mortalityParameters_df,
+                                   fertility_model = fertility_model,
+                                   fertilityParameterss_df,
+                                   scaling_factorParameters_df)
+  }
+
 
   # Split matrices
   # `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
@@ -618,7 +673,11 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     U_list <- lapply(leslieMatrices, function(x) x$mat_U)
     F_list <- lapply(leslieMatrices, function(x) x$mat_F)
 
-    return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
+    compadreObject <- suppressWarnings(cdb_build_cdb(mat_u = U_list,
+                                                     mat_f = F_list,
+                                                     metadata = compadre_metadata))
+
+    return(compadreObject)
   }
 
   # `Type2`: A `compadreDB` Object containing MPMs that are not split into
@@ -627,7 +686,10 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
   if (output == "Type2") {
     A_list <- lapply(leslieMatrices, function(x) x$mat_A)
 
-    return(cdb_build_cdb(mat_a = A_list))
+    compadreObject <- suppressWarnings(cdb_build_cdb(mat_a = A_list,
+                                                     metadata = compadre_metadata))
+
+    return(compadreObject)
   }
 
   # `Type3`: A `list` of MPMs arranged so that each element of the list contains

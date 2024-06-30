@@ -2,17 +2,37 @@ test_that("Check that function runs normally", {
   expect_silent(
     make_leslie_mpm(survival = 0.5, fertility = 6, n_stages = 3)
   )
+
+  lt1 <- model_mortality(
+    params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1),
+    model = "GompertzMakeham",
+    truncate = 0.1
+  ) |>
+    mutate(fert = model_fertility(
+      age = x, params = c(A = 10), maturity = 2,
+      model = "step"
+    ))
+
+  expect_silent(
+    make_leslie_mpm(lifetable = lt1)
+  )
+
+  # function works even if n_stages = 1
+  expect_silent(
+    make_leslie_mpm(survival = 0.5, fertility = 10, n_stages = 1)
+  )
+
+  expect_silent(
+    make_leslie_mpm(survival = 0.5, fertility = 10, n_stages = 25)
+  )
+
 })
+
 
 test_that("Error is produced if n_stages is incorrectly specified", {
   # n_stages should be integer
   expect_error(
     make_leslie_mpm(survival = 0.5, fertility = 10, n_stages = 3.5)
-  )
-
-  # n_stages should be >1
-  expect_error(
-    make_leslie_mpm(survival = 0.5, fertility = 10, n_stages = 1)
   )
 })
 

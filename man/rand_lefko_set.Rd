@@ -6,7 +6,7 @@
 history archetypes}
 \usage{
 rand_lefko_set(
-  n = 10,
+  n_models = 5,
   n_stages = 3,
   archetype = 1,
   fecundity = 1.5,
@@ -17,7 +17,7 @@ rand_lefko_set(
 )
 }
 \arguments{
-\item{n}{The number of MPMs to generate. Default is \code{10}.}
+\item{n_models}{An integer indicating the number of MPMs to generate.}
 
 \item{n_stages}{The number of stages for the MPMs. Default is \code{3}.}
 
@@ -65,7 +65,7 @@ splits a matrix into the submatrices.}
 \code{lower} and \code{upper}. These columns specify (1) a function that outputs a
 metric derived from an A matrix and (2) an argument for the function (\code{NA},
 if no argument supplied) (3) the lower acceptable bound for the metric and
-(4) upper acceptable bound for the metric. This could be used to specify}
+(4) upper acceptable bound for the metric.}
 
 \item{attempts}{An integer indicating the number of attempts To be made when
 simulating matrix model. The default is 1000. If it takes more than 1000
@@ -91,7 +91,7 @@ set.seed(42) # set seed for repeatability
 
 # Basic operation, without splitting matrices and with no constraints
 rand_lefko_set(
-  n = 1, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  n_models = 3, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, output = "Type5"
 )
 
@@ -102,7 +102,7 @@ constrain_df <- data.frame(
     1.1
 )
 rand_lefko_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df, output = "Type5"
 )
 
@@ -114,7 +114,7 @@ constrain_df <- data.frame(
 )
 
 rand_lefko_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df, output = "Type5"
 )
 
@@ -129,16 +129,29 @@ constrain_df <- data.frame(
   upper = c(1.1, 5.0, 7.0)
 )
 rand_lefko_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df, output = "Type5"
 )
 
+}
+\references{
+Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
+Interpretation. Sinauer.
+
+Lefkovitch, L. P. (1965). The study of population growth in organisms grouped
+by stages. Biometrics, 21(1), 1.
+
+Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on
+elasticity analyses in a ternary plot using randomly generated population
+matrices. Population Ecology, 60(1), 37–47.
 }
 \seealso{
 \code{\link[=rand_lefko_mpm]{rand_lefko_mpm()}} which this function is essentially a wrapper for.
 
 Other Lefkovitch matrices: 
-\code{\link{rand_lefko_mpm}()}
+\code{\link{generate_mpm_set}()},
+\code{\link{rand_lefko_mpm}()},
+\code{\link{random_mpm}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

@@ -1,9 +1,9 @@
 #' Summarise Matrix Population Models
 #'
 #' Calculates and summarises various metrics from matrix population models
-#' (MPMs) including lambda values, maximum fecundity values, maximum
-#' growth/survival transition probabilities, and minimum non-zero
-#' growth/survival transition probabilities
+#' (MPMs) including dimension (= age in Leslie matrices), lambda values, maximum
+#' fecundity values, maximum growth/survival transition probabilities, and
+#' minimum non-zero growth/survival transition probabilities
 #'
 #' @param x A `compadreDB` object containing matrix population models, typically
 #'   in a format compatible with `matA`, `matU`, and `matF` functions.
@@ -44,7 +44,9 @@ summarise_mpms <- function(x) {
   na_in_F <- sapply(F_matrix_list, function(mat) any(is.na(mat)))
   F_matrix_list <- F_matrix_list[!na_in_F]
 
-  lambdaVals <- unlist(lapply(A_matrix_list, eigs, what = "lambda"))
+  lambdaVals <- sapply(A_matrix_list, eigs, what = "lambda")
+  dimVals <- sapply(A_matrix_list, nrow)
+
 
   if (length(F_matrix_list) > 0) {
     max_F_Vals <- unlist(lapply(F_matrix_list, max, na.rm = TRUE))
@@ -68,7 +70,8 @@ summarise_mpms <- function(x) {
     min_non_zero_U_Vals <- NA
   }
 
-
+  cat("Summary of matrix dimension:\n")
+  print(summary(dimVals))
   cat("Summary of lambda values:\n")
   print(summary(lambdaVals))
   cat("\nSummary of maximum F values:\n")

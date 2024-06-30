@@ -44,9 +44,9 @@ the output ensures that fertility is zero before the age at maturity."><!-- math
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/age_from_stage.html">The robustness of age from stage methods</a>
     <a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a>
-    <a class="dropdown-item" href="../articles/pca.html">Exploring PCA space</a>
+    <a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generate Lefkovitch matrices</a>
+    <a class="dropdown-item" href="../articles/generate_leslie_models.html">Generate Leslie matrices</a>
   </div>
 </li>
 <li class="nav-item">
@@ -125,13 +125,13 @@ maturity.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The required parameters varies depending on the fertility model. The
 parameters are provided as a vector and the parameters must be provided in
-the order mentioned here.</p><ul><li><p>Logistic: \(f(x) = A / (1 + exp(-k  (x - x_m)))\)</p></li>
-<li><p>Step: \(f(x)=
+the order mentioned here.</p><ul><li><p>Logistic: \(f_x = A / (1 + exp(-k  (x - x_m)))\)</p></li>
+<li><p>Step: \(f_x=
   \begin{cases} A, x \geq m \\ A, x &lt;  m \end{cases}\)</p></li>
-<li><p>von Bertalanffy: \(f(x) = A  (1 - exp(-k  (x - x_0)))\)</p></li>
-<li><p>Normal: \(f(x) = A \times \exp\left(
-  -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)\)</p></li>
-<li><p>Hadwiger: \(f(x) = \frac{ab}{C} \left (\frac{C}{x}  \right )
+<li><p>von Bertalanffy: \(f_x = A  (1 - exp(-k  (x - x_0)))\)</p></li>
+<li><p>Normal: \(f_x = A \times \exp\left(
+  -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)\)</p></li>
+<li><p>Hadwiger: \(f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )
    ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2
    \right ) \right \}\)</p></li>
 </ul></div>

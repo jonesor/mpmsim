@@ -10,7 +10,7 @@
 #' produced. However, the number of attempts can be altered with the `attempts`
 #' parameter.
 #'
-#' @param n The number of MPMs to generate. Default is `10`.
+#' @param n_models An integer indicating the number of MPMs to generate.
 #' @param n_stages The number of stages for the MPMs. Default is `3`.
 #' @param archetype The archetype of the MPMs. Default is `1`.
 #' @param fecundity Fecundity is the average number of offspring produced.
@@ -53,7 +53,7 @@
 #'   `lower` and `upper`. These columns specify (1) a function that outputs a
 #'   metric derived from an A matrix and (2) an argument for the function (`NA`,
 #'   if no argument supplied) (3) the lower acceptable bound for the metric and
-#'   (4) upper acceptable bound for the metric. This could be used to specify
+#'   (4) upper acceptable bound for the metric.
 #' @param attempts An integer indicating the number of attempts To be made when
 #'   simulating matrix model. The default is 1000. If it takes more than 1000
 #'   attempts to make a matrix that satisfies the conditions set by the other
@@ -62,12 +62,24 @@
 #'   criteria.
 #'
 #' @author Owen Jones <jones@biology.sdu.dk>
+#' @references
+#'
+#' Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
+#' Interpretation. Sinauer.
+#'
+#' Lefkovitch, L. P. (1965). The study of population growth in organisms grouped
+#' by stages. Biometrics, 21(1), 1.
+#'
+#' Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on
+#' elasticity analyses in a ternary plot using randomly generated population
+#' matrices. Population Ecology, 60(1), 37–47.
+#'
 #' @examples
 #' set.seed(42) # set seed for repeatability
 #'
 #' # Basic operation, without splitting matrices and with no constraints
 #' rand_lefko_set(
-#'   n = 1, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   n_models = 3, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, output = "Type5"
 #' )
 #'
@@ -78,7 +90,7 @@
 #'     1.1
 #' )
 #' rand_lefko_set(
-#'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, output = "Type5"
 #' )
 #'
@@ -90,7 +102,7 @@
 #' )
 #'
 #' rand_lefko_set(
-#'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, output = "Type5"
 #' )
 #'
@@ -105,7 +117,7 @@
 #'   upper = c(1.1, 5.0, 7.0)
 #' )
 #' rand_lefko_set(
-#'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, output = "Type5"
 #' )
 #'
@@ -114,17 +126,18 @@
 #' @importFrom Rcompadre cdb_build_cdb
 #' @export rand_lefko_set
 
-rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
+rand_lefko_set <- function(n_models = 5, n_stages = 3, archetype = 1,
                            fecundity = 1.5,
                            output = "Type1", max_surv = 0.99,
                            constraint = NULL, attempts = 1000) {
   # Check if n is a positive integer
-  if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
-    stop("n must be a positive integer")
+  if (!min(abs(c(n_models %% 1, n_models %% 1 - 1))) < .Machine$double.eps^0.5 || n_models <= 0) {
+    stop("n_models must be a positive integer")
   }
 
   # Set up empty list of desired length
-  output_list <- vector("list", n)
+  output_list <- vector("list", n_models)
+  archetypeParameters <- list()
 
   attempt <- 1
 
@@ -198,6 +211,9 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
       # put the matrix (which may be split into mat_U and mat_F) into the list
       output_list[[i]] <- mpm_out
 
+      # output the archetype to the list
+      archetypeParameters[[i]] <- archetype
+
       # increment the i value
       i <- i + 1
       # set attempts back to 0
@@ -212,18 +228,37 @@ rand_lefko_set <- function(n = 10, n_stages = 3, archetype = 1,
     }
   }
 
+  # If the output is Type1 or Type2, make a dataframe of metadata to be added to
+  # the CompadreDB
+  if (output %in% c("Type1", "Type2")){
+    archetype_df <- as.data.frame(do.call(rbind, archetypeParameters))
+
+
+    colnames(archetype_df) <- "archetype"
+
+    compadre_metadata <- bind_cols(archetype_df)
+  }
+
 
   # `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
   if (output == "Type1") {
     U_list <- lapply(output_list, function(x) x$mat_U)
     F_list <- lapply(output_list, function(x) x$mat_F)
-    return(cdb_build_cdb(mat_u = U_list, mat_f = F_list))
+
+    compadreObject <- suppressWarnings(cdb_build_cdb(mat_u = U_list,
+                                                     mat_f = F_list,
+                                                     metadata = compadre_metadata))
+
+    return(compadreObject)
+
   }
 
   # `Type2`: A `compadreDB` Object containing MPMs that are not split into
   # submatrices
   if (output == "Type2") {
-    return(cdb_build_cdb(mat_a = output_list))
+    compadreObject <- suppressWarnings(cdb_build_cdb(mat_a = output_list,
+                                                     metadata = compadre_metadata))
+    return(compadreObject)
   }
 
   #`Type3`: A `list` of MPMs arranged so that each element of the list contains

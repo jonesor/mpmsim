@@ -1,12 +1,13 @@
 #' Model mortality hazard, survivorship and age-specific survival probability
 #' using a mortality model
 #'
-#'
+#' Generates an actuarial life table based on a defined mortality model.
 #'
 #' @param params Numeric vector representing the parameters of the mortality
 #'   model.
-#' @param model Mortality model: `Gompertz`, `GompertzMakeham`, `Exponential`,
-#'   `Siler`, `Weibull`, `WeibullMakeham`.
+#' @param model A character string specifying the name of the mortality model to
+#'   be used. Options are `gompertz`, `gompertzmakeham`, `exponential`, `siler`,
+#'   `weibull`, and `weibullmakeham`. These names are not case-sensitive.
 #' @param age Numeric vector representing age. The default is `NULL`, whereby
 #'   the survival trajectory is modelled from age 0 to the age at which the
 #'   survivorship of the synthetic cohort declines to a threshold defined by the
@@ -22,12 +23,12 @@
 #' @details The required parameters varies depending on the mortality model. The
 #'   parameters are provided as a vector.
 #'
-#'   *For `Gompertz` and `Weibull`, the
+#'   *For `gompertz` and `weibull`, the
 #'   parameters are `b0`, `b1`.
-#'   *For `GompertzMakeham` and `WeibullMakeham` the parameters are `b0`, `b1`
+#'   *For `gompertzmakeham` and `weibullmakeham` the parameters are `b0`, `b1`
 #'   and `C`.
-#'   *For `Exponential`, the parameter is `C`.
-#'   *For `Siler`, the parameters are `a0`, `a1`, `C`, `b0` and `b1`.
+#'   *For `exponential`, the parameter is `C`.
+#'   *For `siler`, the parameters are `a0`, `a1`, `C`, `b0` and `b1`.
 #'
 #'   Note that the parameters must be provided in the order mentioned here. `x`
 #'   represents age.
@@ -96,6 +97,9 @@
 #'   functions.
 #' @export
 model_survival <- function(params, age = NULL, model, truncate = 0.01) {
+  #Coerce model type to lower case to avoid irritation
+  model <- tolower(model)
+
   if (is.null(age)) {
     age <- 0:1000
   }
@@ -112,10 +116,10 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     stop("age must be an increasing sequence")
   }
 
-  if (!model %in% c(
+  if (!model %in% tolower(c(
     "Gompertz", "GompertzMakeham", "Exponential",
     "Siler", "Weibull", "WeibullMakeham"
-  )) {
+  ))) {
     stop("model type not recognised")
   }
   if (!inherits(truncate, "numeric")) {
@@ -126,7 +130,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
   }
 
   # hazard
-  if (model == "Gompertz") {
+  if (model == "gompertz") {
     # Validate parameters
     if (length(params) != 2) {
       stop("For a Gompertz model, 2 parameters are required.")
@@ -138,7 +142,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     hx <- b0 * exp(b1 * age)
   }
 
-  if (model == "Exponential") {
+  if (model == "exponential") {
     # Validate parameters
     if (length(params) != 1) {
       stop("For an Exponential model, 1 parameter is required.")
@@ -149,7 +153,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     hx <- rep(b0, length(age))
   }
 
-  if (model == "GompertzMakeham") {
+  if (model == "gompertzmakeham") {
     # Validate parameters
     if (length(params) != 3) {
       stop("For a Gompertz-Makeham model, 3 parameters are required.")
@@ -162,7 +166,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     hx <- b0 * exp(b1 * age) + C
   }
 
-  if (model == "Siler") {
+  if (model == "siler") {
     # Validate parameters
     if (length(params) != 5) {
       stop("For a Siler model, 5 parameters are required.")
@@ -177,7 +181,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     hx <- a0 * exp(-a1 * age) + C + b0 * exp(b1 * age)
   }
 
-  if (model == "Weibull") {
+  if (model == "weibull") {
     # Validate parameters
     if (length(params) != 2) {
       stop("For a Weibull model, 2 parameters are required.")
@@ -189,7 +193,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     hx <- b0 * b1 * (b1 * age)^(b0 - 1)
   }
 
-  if (model == "WeibullMakeham") {
+  if (model == "weibullmakeham") {
     # Validate parameters
     if (length(params) != 3) {
       stop("For a Weibull-Makeham model, 3 parameters are required.")

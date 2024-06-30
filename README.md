@@ -65,12 +65,14 @@ library(mpmsim)
 
 ### Generate a Leslie matrix
 
-The `make_leslie_mpm` function can be used to generate a Leslie matrix,
-where the stages represent discrete age classes. In a Leslie matrix,
-survival is represented in the lower sub-diagonal and the
-lower-right-hand corner element, while fertility is shown in the top
-row. Both survival and fertility have a length equal to the number of
-stages in the model. Users can specify both survival and fertility as
+The `make_leslie_mpm` function can be used to generate a Leslie matrix
+model (Leslie, 1945) where the stages represent discrete age classes
+(usually years of life).
+
+In a Leslie matrix, survival is represented in the lower sub-diagonal
+and the lower-right-hand corner element, while fertility is shown in the
+top row. Both survival and fertility have a length equal to the number
+of stages in the model. Users can specify both survival and fertility as
 either a single value or a vector of values, with a length equal to the
 dimensions of the matrix model. If these arguments are single values,
 the value is repeated along the survival/fertility sequence.
@@ -87,14 +89,25 @@ make_leslie_mpm(
 #> [4,]  0.0 0.0000000 0.3333333 0.45
 ```
 
-### Using a functional form for mortality
+### Using functional forms for mortality and fertility
 
 Users can generate Leslie matrices with particular functional forms of
 mortality by first making a data frame of a simplified life table that
-includes age and survival probability within each age interval.
+includes age and survival probability within each age interval. The
+`model_mortality` function can handle the following models: Gompertz,
+Gompertz-Makeham, Weibull, Weibull-Makeham, Siler and Exponential.
+
+The function returns a standard life table `data.frame` including
+columns for age (`x`), age-specific hazard (`hx`), survivorship (`lx`),
+age-specific probability of death and survival (`qx` and `px`). By
+default, the life table is truncated at the age when the survivorship
+function declines below 0.01 (i.e. when only 1% of individuals in a
+cohort would remain alive).
+
+For example to produce a life table based on Gompertz mortality:
 
 ``` r
-(surv_prob <- model_survival(params = c(0.2, 0.4), model = "Gompertz"))
+(surv_prob <- model_mortality(params = c(0.2, 0.4), model = "Gompertz"))
 #>   x        hx         lx        qx        px
 #> 1 0 0.2000000 1.00000000 0.2205623 0.7794377
 #> 2 1 0.2983649 0.77943774 0.3104641 0.6895359
@@ -104,10 +117,11 @@ includes age and survival probability within each age interval.
 #> 6 5 1.4778112 0.03928123 0.8413767 0.1586233
 ```
 
-Age-specific survival probability is given by the `px` column in the
-output from `model_survival`. Users can also use a functional form for
-fertility (see `model_fertility`) and here a simple step function is
-assumed.
+Users can also use a functional form for fertility (see
+`?model_fertility`), including, logistic, step, von Bertalanffy, Normal
+and Hadwiger.
+
+Here a simple step function is assumed.
 
 ``` r
 survival <- surv_prob$px
@@ -231,118 +245,29 @@ outputMPMs
 #> [6,] 0.0000000 0.0000000 0.0000000 0.0000000 0.4043329 0.3967408
 ```
 
-### Simulate sampling error for an MPM
-
-The function `add_mpm_error` can be used to simulate an MPM with
-sampling error, based on expected transition rates (survival and
-fecundity) and sample sizes. The expected transition rates must be
-provided as matrices. The sample size(s) can be given as either a matrix
-of sample sizes for each element of the matrix or as a single value
-which is then applied to all elements of the matrix.
-
-The function uses a binomial process to simulate survival/growth
-elements and a Poisson process to simulate the fecundity elements. As a
-result, when sample sizes are large, the simulated MPM will closely
-reflect the expected transition rates. In contrast, when sample sizes
-are small, the simulated matrices will become more variable.
-
-To illustrate use of the function, the following code first generates a
-3-stage Leslie matrix using the `make_leslie_mpm` function. It then
-passes the U and F matrices from this Leslie matrix to the
-`add_mpm_error` function. Then, two matrices are simulated, first with a
-sample size of 1000, and then with a sample size of seven.
-
-``` r
-mats <- make_leslie_mpm(
-  survival = c(0.3, 0.5, 0.8),
-  fertility = c(0, 2.2, 4.4),
-  n_stages = 3, split = TRUE
-)
-
-add_mpm_error(
-  mat_U = mats$mat_U, mat_F = mats$mat_F,
-  sample_size = 1000, split = FALSE, by_type = FALSE
-)
-#>      [,1]  [,2]  [,3]
-#> [1,] 0.00 2.258 4.466
-#> [2,] 0.29 0.000 0.000
-#> [3,] 0.00 0.508 0.796
-
-add_mpm_error(
-  mat_U = mats$mat_U, mat_F = mats$mat_F,
-  sample_size = 7, split = FALSE, by_type = FALSE
-)
-#>           [,1]      [,2]      [,3]
-#> [1,] 0.0000000 3.1428571 5.0000000
-#> [2,] 0.1428571 0.0000000 0.0000000
-#> [3,] 0.0000000 0.2857143 0.5714286
-```
-
-A list of an arbitrary number of matrices can be generated easily using
-`replicate`, as follows.
-
-``` r
-replicate(
-  n = 5,
-  add_mpm_error(
-    mat_U = mats$mat_U, mat_F = mats$mat_F,
-    sample_size = 7, split = FALSE, by_type = FALSE
-  )
-)
-#> , , 1
-#> 
-#>      [,1]      [,2]     [,3]
-#> [1,]    0 1.8571429 4.142857
-#> [2,]    0 0.0000000 0.000000
-#> [3,]    0 0.5714286 1.000000
-#> 
-#> , , 2
-#> 
-#>           [,1]      [,2]     [,3]
-#> [1,] 0.0000000 3.2857143 4.857143
-#> [2,] 0.2857143 0.0000000 0.000000
-#> [3,] 0.0000000 0.4285714 1.000000
-#> 
-#> , , 3
-#> 
-#>           [,1]      [,2]      [,3]
-#> [1,] 0.0000000 2.5714286 6.1428571
-#> [2,] 0.2857143 0.0000000 0.0000000
-#> [3,] 0.0000000 0.2857143 0.5714286
-#> 
-#> , , 4
-#> 
-#>           [,1]      [,2]      [,3]
-#> [1,] 0.0000000 2.2857143 4.4285714
-#> [2,] 0.5714286 0.0000000 0.0000000
-#> [3,] 0.0000000 0.4285714 0.8571429
-#> 
-#> , , 5
-#> 
-#>      [,1]      [,2]      [,3]
-#> [1,]    0 2.0000000 5.0000000
-#> [2,]    0 0.0000000 0.0000000
-#> [3,]    0 0.7142857 0.8571429
-```
-
 ### Generate single random Lefkovitch MPMs
 
 The `rand_lefko_mpm` function can be used to generate a random
-Lefkovitch matrix population model (MPM) with element values based on
-defined life history archetypes. The function draws survival and
-transition/growth probabilities from a Dirichlet distribution to ensure
-that the column totals, including death, are less than or equal to 1.
-Fecundity can be specified as a single value or as a vector with a
-length equal to the dimensions of the matrix. If specified as a single
-value, it is placed in the top-right corner of the matrix. If specified
-as a vector of length `n_stages`, it spans the entire top row of the
-matrix. The `archetype` argument can be used to constrain the MPMs, for
-example, `archetype = 2` constraints the survival probability to
-increase monotonically as individuals advance to later stages. For more
-information, see the documentation for `rand_lefko_mpm` and Takada et
-al. (2018). In the following example, I split the output matrices into
-the `U` and `F` matrices, which could be summed to create the `A`
-matrix.
+Lefkovitch matrix population model (MPM) (Lefkovitch, 1965). with
+element values based on defined life history archetypes.
+
+The function draws survival and transition/growth probabilities from a
+Dirichlet distribution to ensure that the column totals, including
+death, are less than or equal to 1. Fecundity can be specified as a
+single value or as a vector with a length equal to the dimensions of the
+matrix. If specified as a single value, it is placed in the top-right
+corner of the matrix. If specified as a vector of length `n_stages`, it
+spans the entire top row of the matrix. The `archetype` argument can be
+used to constrain the MPMs, for example, `archetype = 2` constraints the
+survival probability to increase monotonically as individuals advance to
+later stages.
+
+For more information, see the documentation for `rand_lefko_mpm` and
+Takada et al. (2018), from which these archetypes are derived.
+
+In the following example, I split the output matrices into the `U` and
+`F` submatrices, which can be summed to create the full `A` matrix
+model.
 
 ``` r
 (rMPM <- rand_lefko_mpm(
@@ -350,16 +275,16 @@ matrix.
   archetype = 2, split = TRUE
 ))
 #> $mat_A
-#>           [,1]      [,2]        [,3]
-#> [1,] 0.3635729 0.4133773 20.35327506
-#> [2,] 0.0255164 0.1407397  0.54843293
-#> [3,] 0.2369753 0.1549665  0.08638207
+#>           [,1]       [,2]       [,3]
+#> [1,] 0.2070973 0.33155927 20.4132432
+#> [2,] 0.3836494 0.52219726  0.3625132
+#> [3,] 0.2615892 0.03314957  0.1157180
 #> 
 #> $mat_U
-#>           [,1]      [,2]       [,3]
-#> [1,] 0.3635729 0.4133773 0.35327506
-#> [2,] 0.0255164 0.1407397 0.54843293
-#> [3,] 0.2369753 0.1549665 0.08638207
+#>           [,1]       [,2]      [,3]
+#> [1,] 0.2070973 0.33155927 0.4132432
+#> [2,] 0.3836494 0.52219726 0.3625132
+#> [3,] 0.2615892 0.03314957 0.1157180
 #> 
 #> $mat_F
 #>      [,1] [,2] [,3]
@@ -384,44 +309,191 @@ returns a `list` object.
 library(popbio)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 rand_lefko_set(
-  n = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df,
+  n_models = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df,
   output = "Type5"
 )
 #> [[1]]
-#>              [,1]       [,2]       [,3]      [,4]
-#> [1,] 0.4972040849 0.04546019 0.28600094 8.1003422
-#> [2,] 0.1173548409 0.43735966 0.12347080 0.1876810
-#> [3,] 0.0578510728 0.20172836 0.47731981 0.2275418
-#> [4,] 0.0009984165 0.01307093 0.07025639 0.2096136
+#>            [,1]       [,2]       [,3]       [,4]
+#> [1,] 0.28730926 0.02716436 0.26331722 8.46373314
+#> [2,] 0.14460260 0.15628773 0.23535192 0.02222792
+#> [3,] 0.10395162 0.24279393 0.10570287 0.17071769
+#> [4,] 0.03134086 0.27716832 0.01175425 0.07549711
 #> 
 #> [[2]]
-#>            [,1]        [,2]       [,3]       [,4]
-#> [1,] 0.01750041 0.007104635 0.12723992 8.17881750
-#> [2,] 0.06364753 0.099995702 0.38563895 0.29761283
-#> [3,] 0.16501143 0.410980716 0.07248617 0.22112958
-#> [4,] 0.02646394 0.215179692 0.14632138 0.04330107
+#>            [,1]       [,2]        [,3]      [,4]
+#> [1,] 0.14077752 0.04357884 0.429128096 8.0837046
+#> [2,] 0.09905905 0.52812214 0.007308617 0.2701657
+#> [3,] 0.36955076 0.11374572 0.109339485 0.2160414
+#> [4,] 0.01698186 0.01869725 0.143428706 0.1214954
 #> 
 #> [[3]]
-#>            [,1]       [,2]        [,3]       [,4]
-#> [1,] 0.21167794 0.63822370 0.141533957 8.20658753
-#> [2,] 0.21695885 0.17632592 0.485061240 0.06952895
-#> [3,] 0.14396557 0.05598198 0.008304433 0.21080170
-#> [4,] 0.02537856 0.01267799 0.178864052 0.24755133
+#>             [,1]       [,2]       [,3]      [,4]
+#> [1,] 0.160744755 0.02845733 0.03688629 8.1365669
+#> [2,] 0.041433197 0.24550232 0.01277293 0.1219770
+#> [3,] 0.791265908 0.02813589 0.25420572 0.2599794
+#> [4,] 0.002908193 0.21314599 0.04493534 0.3332529
 #> 
 #> [[4]]
-#>             [,1]        [,2]       [,3]       [,4]
-#> [1,] 0.235016439 0.657730436 0.02537198 8.06021254
-#> [2,] 0.151858389 0.006163332 0.25598258 0.01869425
-#> [3,] 0.188783120 0.143568667 0.51093524 0.16284825
-#> [4,] 0.007711868 0.097155345 0.04811165 0.50809291
+#>             [,1]       [,2]       [,3]       [,4]
+#> [1,] 0.196022839 0.39576976 0.27489845 8.24843871
+#> [2,] 0.350613432 0.10892595 0.28872665 0.05133337
+#> [3,] 0.084225194 0.23979127 0.19811975 0.41727119
+#> [4,] 0.009066956 0.06365681 0.09946455 0.11853471
 #> 
 #> [[5]]
-#>             [,1]       [,2]       [,3]      [,4]
-#> [1,] 0.017627823 0.23140239 0.04360075 8.1759517
-#> [2,] 0.121954428 0.20974026 0.06496035 0.1186570
-#> [3,] 0.224672828 0.46080803 0.10426717 0.1498785
-#> [4,] 0.008545578 0.03276211 0.20394249 0.4072553
+#>            [,1]       [,2]       [,3]       [,4]
+#> [1,] 0.04407168 0.09512729 0.03927867 8.00717018
+#> [2,] 0.07098214 0.28541167 0.23663234 0.49786947
+#> [3,] 0.36675467 0.46916408 0.06540892 0.13898581
+#> [4,] 0.05606256 0.11920243 0.03335758 0.08196272
 ```
+
+### Calculate confidence intervals for derived estimates
+
+Sometimes, users may find themselves confronted with an MPM for which
+they can calculate various metrics, and have a need to calculate the
+confidence interval for those metrics. The `compute_ci` function is
+designed to address this need by computing 95% confidence intervals
+(CIs) for measures derived from a complete MPM (i.e. the A matrix).
+
+This is accomplished using parametric bootstrapping, generating a
+sampling distribution of the MPM by performing numerous random
+independent draws using the sampling distribution of each underlying
+transition rate. The approach relies on (1) a known (or estimated)
+sample size for each estimate in the model and (2) the assumption that
+survival-related processes are binomial, while reproduction processes
+follow a Poisson distribution.
+
+Here’s an example, where we use the Lefkovitch model from above, and
+where we believe the sample size was 10 individuals for each parameter
+estimate.
+
+The point estimate for population growth rate (lambda) is 2.539.
+
+``` r
+library(popdemo)
+eigs(rMPM$mat_A, what = "lambda")
+#> [1] 2.539016
+```
+
+Users can calculate the 95% CI, assuming a sample size of 10, like this:
+
+``` r
+compute_ci(mat_U = rMPM$mat_U, mat_F = rMPM$mat_F, 
+           sample_size = 10, 
+           FUN = eigs, what = "lambda")
+#>      2.5%     97.5% 
+#> 0.8384508 3.4177693
+```
+
+The `sample_size` argument can handle various cases, for example, where
+sample size varies across the matrix, or between the U and F submatrices
+(see `?compute_ci`).
+
+An equivalent function, `compute_ci_U` is designed for use when the
+derived estimate requires only the U submatrix (as opposed to both
+submatrices of the A matrix).
+
+### Simulate sampling error for an MPM
+
+The function `add_mpm_error` can be used to simulate an MPM with
+sampling error, based on expected transition rates (survival and
+fecundity) and sample sizes. This could be useful at the initial phases
+of a study, as part of a power analysis, or could be used simply to get
+a feel for expected variation under different circumstances.
+
+The expected transition rates must be provided as matrices. The sample
+size(s) can be given as either a matrix of sample sizes for each element
+of the matrix or as a single value which is then applied to all elements
+of the matrix.
+
+The function uses a binomial process to simulate survival/growth
+elements and a Poisson process to simulate the fecundity elements. As a
+result, when sample sizes are large, the simulated MPM will closely
+reflect the expected transition rates. In contrast, when sample sizes
+are small, the simulated matrices will become more variable.
+
+To illustrate use of the function, the following code first generates a
+3-stage Leslie matrix using the `make_leslie_mpm` function. It then
+passes the U and F matrices from this Leslie matrix to the
+`add_mpm_error` function. Then, two matrices are simulated, first with a
+sample size of 1000, and then with a sample size of seven.
+
+``` r
+mats <- make_leslie_mpm(
+  survival = c(0.3, 0.5, 0.8),
+  fertility = c(0, 2.2, 4.4),
+  n_stages = 3, split = TRUE
+)
+
+add_mpm_error(
+  mat_U = mats$mat_U, mat_F = mats$mat_F,
+  sample_size = 1000, split = FALSE, by_type = FALSE
+)
+#>       [,1]  [,2]  [,3]
+#> [1,] 0.000 2.220 4.316
+#> [2,] 0.293 0.000 0.000
+#> [3,] 0.000 0.485 0.816
+
+add_mpm_error(
+  mat_U = mats$mat_U, mat_F = mats$mat_F,
+  sample_size = 7, split = FALSE, by_type = FALSE
+)
+#>           [,1]      [,2]      [,3]
+#> [1,] 0.0000000 3.5714286 4.2857143
+#> [2,] 0.1428571 0.0000000 0.0000000
+#> [3,] 0.0000000 0.2857143 0.8571429
+```
+
+A list of an arbitrary number of matrices can be generated easily using
+`replicate`, as follows.
+
+``` r
+replicate(
+  n = 5,
+  add_mpm_error(
+    mat_U = mats$mat_U, mat_F = mats$mat_F,
+    sample_size = 7, split = FALSE, by_type = FALSE
+  )
+)
+#> , , 1
+#> 
+#>           [,1]      [,2]      [,3]
+#> [1,] 0.0000000 1.5714286 4.7142857
+#> [2,] 0.5714286 0.0000000 0.0000000
+#> [3,] 0.0000000 0.2857143 0.8571429
+#> 
+#> , , 2
+#> 
+#>           [,1]      [,2]     [,3]
+#> [1,] 0.0000000 1.0000000 4.857143
+#> [2,] 0.1428571 0.0000000 0.000000
+#> [3,] 0.0000000 0.2857143 1.000000
+#> 
+#> , , 3
+#> 
+#>           [,1]      [,2]     [,3]
+#> [1,] 0.0000000 1.8571429 4.571429
+#> [2,] 0.1428571 0.0000000 0.000000
+#> [3,] 0.0000000 0.4285714 1.000000
+#> 
+#> , , 4
+#> 
+#>           [,1]      [,2]      [,3]
+#> [1,] 0.0000000 2.7142857 4.2857143
+#> [2,] 0.4285714 0.0000000 0.0000000
+#> [3,] 0.0000000 0.7142857 0.8571429
+#> 
+#> , , 5
+#> 
+#>           [,1]      [,2]      [,3]
+#> [1,] 0.0000000 2.0000000 4.4285714
+#> [2,] 0.2857143 0.0000000 0.0000000
+#> [3,] 0.0000000 0.8571429 0.7142857
+```
+
+This could be coerced into a `CompadreDB` object, if necessary, using
+the `cdb_build_cdb` function from the `Rcompadre` package.
 
 ### Plot a matrix
 
@@ -434,10 +506,10 @@ Here’s the matrix:
 
 ``` r
 rMPM$mat_U
-#>           [,1]      [,2]       [,3]
-#> [1,] 0.3635729 0.4133773 0.35327506
-#> [2,] 0.0255164 0.1407397 0.54843293
-#> [3,] 0.2369753 0.1549665 0.08638207
+#>           [,1]       [,2]      [,3]
+#> [1,] 0.2070973 0.33155927 0.4132432
+#> [2,] 0.3836494 0.52219726 0.3625132
+#> [3,] 0.2615892 0.03314957 0.1157180
 ```
 
 And here’s the plot:
@@ -447,7 +519,17 @@ p <- plot_matrix(rMPM$mat_U)
 p + ggplot2::scale_fill_gradient(low = "black", high = "yellow")
 ```
 
-<img src="man/figures/plot_a_matrix01.png" style="display: block; margin: auto;" />
+<img src="man/figures/plot_a_matrix01.png" width="300" style="display: block; margin: auto;" />
+
+## References
+
+- Lefkovitch, L. P. (1965). The study of population growth in organisms
+  grouped by stages. Biometrics, 21(1), 1.
+- Leslie, P. H. (1945). On the use of matrices in certain population
+  mathematics. Biometrika, 33 (3), 183–212.
+- Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note
+  on elasticity analyses in a ternary plot using randomly generated
+  population matrices. Population Ecology, 60(1), 37–47.
 
 ## Contributions
 

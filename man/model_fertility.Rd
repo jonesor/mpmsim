@@ -41,13 +41,13 @@ The required parameters varies depending on the fertility model. The
 parameters are provided as a vector and the parameters must be provided in
 the order mentioned here.
 \itemize{
-\item Logistic: \eqn{f(x) = A / (1 + exp(-k  (x - x_m)))}
-\item Step: \eqn{f(x)=
+\item Logistic: \eqn{f_x = A / (1 + exp(-k  (x - x_m)))}
+\item Step: \eqn{f_x=
   \begin{cases} A, x \geq m \\ A, x <  m \end{cases}}
-\item von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
-\item Normal: \eqn{f(x) = A \times \exp\left(
-  -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
-\item Hadwiger: \eqn{f(x) = \frac{ab}{C} \left (\frac{C}{x}  \right )
+\item von Bertalanffy: \eqn{f_x = A  (1 - exp(-k  (x - x_0)))}
+\item Normal: \eqn{f_x = A \times \exp\left(
+  -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)}
+\item Hadwiger: \eqn{f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )
    ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2
    \right ) \right \}}
 }

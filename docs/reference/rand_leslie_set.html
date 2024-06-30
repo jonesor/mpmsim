@@ -28,9 +28,9 @@ from specified distributions."><!-- mathjax --><script src="https://cdnjs.cloudf
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/age_from_stage.html">The robustness of age from stage methods</a>
     <a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a>
-    <a class="dropdown-item" href="../articles/pca.html">Exploring PCA space</a>
+    <a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generate Lefkovitch matrices</a>
+    <a class="dropdown-item" href="../articles/generate_leslie_models.html">Generate Leslie matrices</a>
   </div>
 </li>
 <li class="nav-item">
@@ -86,9 +86,9 @@ from specified distributions.</p>
 
 <dt>mortality_model</dt>
 <dd><p>A character string specifying the name of the
-mortality model to be used. Options are <code>Gompertz</code>, <code>GompertzMakeham</code>,
-<code>Exponential</code>, <code>Siler</code>, <code>Weibull</code>, and <code>WeibullMakeham</code>. See
-<code>model_mortality</code>.</p></dd>
+mortality model to be used. Options are <code>gompertz</code>, <code>gompertzmakeham</code>,
+<code>exponential</code>, <code>siler</code>, <code>weibull</code>, and <code>weibullmakeham</code>. See
+<code>model_mortality</code>. These names are not case-sensitive.</p></dd>
 
 
 <dt>fertility_model</dt>
@@ -101,10 +101,10 @@ fertility model to be used. Options are <code>logistic</code>, <code>step</code>
 <dd><p>A two-column dataframe with a number of rows equal to
 the number of parameters in the mortality model. The required order of the
 parameters depends on the selected <code>mortality_model</code> (see
-<code><a href="model_survival.html">?model_mortality</a></code>):</p><ul><li><p>For <code>Gompertz</code> and <code>Weibull</code>: <code>b_0</code>, <code>b_1</code></p></li>
-<li><p>For <code>GompertzMakeham</code> and <code>WeibullMakeham</code>: <code>b_0</code>, <code>b_1</code>, <code>C</code></p></li>
-<li><p>For <code>Exponential</code>: <code>C</code></p></li>
-<li><p>For <code>Siler</code>: <code>a_0</code>, <code>a_1</code>, <code>C</code>, <code>b_0</code>, <code>b_1</code>
+<code><a href="model_survival.html">?model_mortality</a></code>):</p><ul><li><p>For <code>gompertz</code> and <code>weibull</code>: <code>b_0</code>, <code>b_1</code></p></li>
+<li><p>For <code>gompertzmakeham</code> and <code>weibullmakeham</code>: <code>b_0</code>, <code>b_1</code>, <code>C</code></p></li>
+<li><p>For <code>exponential</code>: <code>C</code></p></li>
+<li><p>For <code>siler</code>: <code>a_0</code>, <code>a_1</code>, <code>C</code>, <code>b_0</code>, <code>b_1</code>
 If <code>dist_type</code> is <code>uniform</code> these rows represent the lower and upper limits
 of the random uniform distribution from which the parameters are drawn. If
 <code>dist_type</code> is <code>normal</code>, the columns represent the mean and standard
@@ -150,13 +150,13 @@ and <code>normal</code>.</p></dd>
 <dd><p>Character string indicating the type of output. Output can be
 one of the following types:</p><ul><li><p><code>Type1</code>: A <code>compadreDB</code> Object containing MPMs split into the submatrices
 (i.e. A, U, F and C).</p></li>
-<li><p><code>Type2</code>: A <code>compadreDB</code> Object containing MPMs that are not split into submatrices
-(i.e. only the A matrix is included).</p></li>
-<li><p><code>Type3</code>: A <code>list</code> of MPMs arranged so that each element of the list contains a model
-and associated submatrices (i.e. the nth element contains the nth A matrix
-alongside the nth U and F matrices).</p></li>
-<li><p><code>Type4</code>: A <code>list</code> of MPMs arranged so that the list contains 3 lists for the A
-matrix and the U and F submatrices respectively.</p></li>
+<li><p><code>Type2</code>: A <code>compadreDB</code> Object containing MPMs that are not split into
+submatrices (i.e. only the A matrix is included).</p></li>
+<li><p><code>Type3</code>: A <code>list</code> of MPMs arranged so that each element of the list
+contains a model and associated submatrices (i.e. the nth element contains
+the nth A matrix alongside the nth U and F matrices).</p></li>
+<li><p><code>Type4</code>: A <code>list</code> of MPMs arranged so that the list contains 3 lists for
+the A matrix and the U and F submatrices respectively.</p></li>
 <li><p><code>Type5</code>: A <code>list</code> of MPMs, including only the A matrix.</p></li>
 <li><p><code>Type6</code>: A <code>list</code> of life tables.</p>
 <p>Default is <code>Type1</code>.</p></li>
@@ -173,11 +173,16 @@ tables are scaled by adjusting fertility so that the population growth rate
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Returns a <code>compadreDB</code> object or <code>list</code> containing MPMs or life
+<p>Returns a <code>CompadreDB</code> object or <code>list</code> containing MPMs or life
 tables generated using the specified model with parameters drawn from
 random uniform or normal distributions. The format of the output MPMs
-depends on the arguments <code>output</code>. Outputs may optionally be scaled to
-ensure a population growth rate (lambda) of 1.</p>
+depends on the arguments <code>output</code>. Outputs may optionally be scaled using
+the argument <code>scale_output</code> to ensure a population growth rate (lambda) of
+1.</p>
+
+
+<p>If the output is a <code>CompadreDB</code> object, the parameters of the models used
+to produce the MPM are included in the metadata.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -203,7 +208,7 @@ ensure a population growth rate (lambda) of 1.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">rand_leslie_set</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">5</span>,</span></span>
-<span class="r-in"><span>  mortality_model <span class="op">=</span> <span class="st">"GompertzMakeham"</span>,</span></span>
+<span class="r-in"><span>  mortality_model <span class="op">=</span> <span class="st">"gompertzmakeham"</span>,</span></span>
 <span class="r-in"><span>  fertility_model <span class="op">=</span> <span class="st">"normal"</span>,</span></span>
 <span class="r-in"><span>  mortality_params <span class="op">=</span> <span class="va">mortParams</span>,</span></span>
 <span class="r-in"><span>  fertility_params <span class="op">=</span> <span class="va">fertParams</span>,</span></span>
@@ -211,18 +216,17 @@ ensure a population growth rate (lambda) of 1.</p>
 <span class="r-in"><span>  dist_type <span class="op">=</span> <span class="st">"uniform"</span>,</span></span>
 <span class="r-in"><span>  output <span class="op">=</span> <span class="st">"Type1"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Metadata does not include a `SpeciesAccepted` column, so number</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>               of species not provided when viewing object.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A COM(P)ADRE database ('CompadreDB') object with ?? SPECIES and 5 MATRICES.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   mat        matrixID</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span>        1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span>        2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span>        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span>        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span>        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   mat        mortality_model    b_0    b_1     C fertility_model     A    mu</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.113  0.148    0.1 normal           10.4  10.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.061<span style="text-decoration: underline;">6</span> 0.037<span style="text-decoration: underline;">4</span>   0.1 normal           10.1  10.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.046<span style="text-decoration: underline;">9</span> 0.148    0.1 normal           10.3  10.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.050<span style="text-decoration: underline;">9</span> 0.117    0.1 normal           10.8  10.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.095<span style="text-decoration: underline;">6</span> 0.111    0.1 normal           10.7  10.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: sd &lt;dbl&gt;, fertility_scaling &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

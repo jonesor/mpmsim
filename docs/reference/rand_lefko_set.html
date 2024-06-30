@@ -38,9 +38,9 @@ parameter."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/age_from_stage.html">The robustness of age from stage methods</a>
     <a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a>
-    <a class="dropdown-item" href="../articles/pca.html">Exploring PCA space</a>
+    <a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generate Lefkovitch matrices</a>
+    <a class="dropdown-item" href="../articles/generate_leslie_models.html">Generate Leslie matrices</a>
   </div>
 </li>
 <li class="nav-item">
@@ -81,7 +81,7 @@ parameter.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span>
-<span>  n <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  n_models <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  n_stages <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  archetype <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  fecundity <span class="op">=</span> <span class="fl">1.5</span>,</span>
@@ -94,8 +94,8 @@ parameter.</p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>n</dt>
-<dd><p>The number of MPMs to generate. Default is <code>10</code>.</p></dd>
+    <dl><dt>n_models</dt>
+<dd><p>An integer indicating the number of MPMs to generate.</p></dd>
 
 
 <dt>n_stages</dt>
@@ -149,7 +149,7 @@ splits a matrix into the submatrices.</p></dd>
 <code>lower</code> and <code>upper</code>. These columns specify (1) a function that outputs a
 metric derived from an A matrix and (2) an argument for the function (<code>NA</code>,
 if no argument supplied) (3) the lower acceptable bound for the metric and
-(4) upper acceptable bound for the metric. This could be used to specify</p></dd>
+(4) upper acceptable bound for the metric.</p></dd>
 
 
 <dt>attempts</dt>
@@ -167,10 +167,22 @@ arguments, then a warning is produced.</p></dd>
 criteria.</p>
     </div>
     <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
+Interpretation. Sinauer.</p>
+<p>Lefkovitch, L. P. (1965). The study of population growth in organisms grouped
+by stages. Biometrics, 21(1), 1.</p>
+<p>Takada, T., Kawai, Y., &amp; Salguero-Gómez, R. (2018). A cautionary note on
+elasticity analyses in a ternary plot using randomly generated population
+matrices. Population Ecology, 60(1), 37–47.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="rand_lefko_mpm.html">rand_lefko_mpm()</a></code> which this function is essentially a wrapper for.</p>
 <p>Other Lefkovitch matrices: 
-<code><a href="rand_lefko_mpm.html">rand_lefko_mpm</a>()</code></p></div>
+<code><a href="generate_mpm_set.html">generate_mpm_set</a>()</code>,
+<code><a href="rand_lefko_mpm.html">rand_lefko_mpm</a>()</code>,
+<code><a href="random_mpm.html">random_mpm</a>()</code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -183,7 +195,7 @@ criteria.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Basic operation, without splitting matrices and with no constraints</span></span></span>
 <span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">1</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">3</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
@@ -194,6 +206,22 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.2895418 0.8589953  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.1331578  0.9997924</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04993404 0.00000000 4.0000000 8.0000000 10.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.35213116 0.38662704 0.0000000 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.04413311 0.2022055 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.4116914 0.4473679  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.4300040  0.9673925</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]      [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3908713 0.0000000 4.0000000 8.0000000 10.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1593942 0.3008004 0.0000000 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.4611680 0.5792468 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.2741919 0.2238051  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.6835265  0.9941976</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Constrain outputs to A matrices with lambda between 0.9 and 1.1</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popbio</span><span class="op">)</span></span></span>
@@ -202,18 +230,10 @@ criteria.</p>
 <span class="r-in"><span>    <span class="fl">1.1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04993404 0.00000000 4.0000000 8.0000000 10.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.35213116 0.38662704 0.0000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.04413311 0.2022055 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.4116914 0.4473679  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.4300040  0.9673925</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]       [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.16074427 0.0000000 4.00000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.03843446 0.1920300 0.00000000 0.00000000  0.0000000</span>
@@ -221,7 +241,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.01691095 0.06976802  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.00000000 0.92957038  0.9997121</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.40726303 0.0000000 4.0000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.02472534 0.5507259 0.0000000 0.0000000  0.0000000</span>
@@ -229,7 +249,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.3952927 0.1772480  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.7574622  0.9818421</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]         [,2]      [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.13213712 0.0000000000 4.0000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.01633696 0.0002954688 0.0000000 0.00000000  0.0000000</span>
@@ -237,7 +257,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000000 0.3561964 0.96238123  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000000 0.0000000 0.01793056  0.9986862</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]       [,3]      [,4]      [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2025021 0.00000000 4.00000000 8.0000000 10.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1808410 0.51560726 0.00000000 0.0000000  0.000000</span>
@@ -245,7 +265,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.04270201 0.1153077  0.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.00000000 0.6563415  0.905483</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]        [,2]       [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1014989 0.000000000 4.00000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.4079260 0.641405627 0.00000000 0.0000000  0.0000000</span>
@@ -253,7 +273,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.000000000 0.65797642 0.6475288  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.000000000 0.00000000 0.3319838  0.9979733</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]       [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3492059 0.00000000 4.00000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2623854 0.59588086 0.00000000 0.0000000  0.0000000</span>
@@ -261,7 +281,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.64881290 0.1459793  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.00000000 0.6109135  0.9411863</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]      [,4]      [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0100986 0.0000000 4.00000000 8.0000000 10.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2816060 0.3421699 0.00000000 0.0000000  0.000000</span>
@@ -269,7 +289,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.01202352 0.5052573  0.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.00000000 0.2482741  0.975591</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.05277117 0.00000000 4.0000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.14635732 0.14395871 0.0000000 0.0000000  0.0000000</span>
@@ -277,7 +297,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.6115977 0.1849629  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.0000000 0.7926018  0.9830451</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]      [,4]      [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2695917 0.00000000 4.0000000 8.0000000 10.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2267870 0.45112437 0.0000000 0.0000000  0.000000</span>
@@ -285,23 +305,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.3091554 0.2289075  0.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.0000000 0.6927089  0.956369</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># As above, but using popdemo::eigs function instead of popbio::lambda</span></span></span>
-<span class="r-in"><span><span class="co"># to illustrate use of argument</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Welcome to popdemo! This is version 1.3-0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Use ?popdemo for an intro, or browseVignettes('popdemo') for vignettes</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Citation for popdemo is here: doi.org/10.1111/j.2041-210X.2012.00222.x</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Development and legacy versions are here: github.com/iainmstott/popdemo</span>
-<span class="r-in"><span><span class="va">constrain_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  fun <span class="op">=</span> <span class="st">"eigs"</span>, arg <span class="op">=</span> <span class="st">"lambda"</span>, lower <span class="op">=</span> <span class="fl">0.9</span>, upper <span class="op">=</span> <span class="fl">1.1</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2788292 0.0000000 4.0000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0816387 0.2433186 0.0000000 0.00000000  0.0000000</span>
@@ -309,7 +313,19 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.4670093 0.73745701  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.04978961  0.8887938</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># As above, but using popdemo::eigs function instead of popbio::lambda</span></span></span>
+<span class="r-in"><span><span class="co"># to illustrate use of argument</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">constrain_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  fun <span class="op">=</span> <span class="st">"eigs"</span>, arg <span class="op">=</span> <span class="st">"lambda"</span>, lower <span class="op">=</span> <span class="fl">0.9</span>, upper <span class="op">=</span> <span class="fl">1.1</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2772425 0.0000000 4.00000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1276093 0.4284850 0.00000000 0.0000000  0.0000000</span>
@@ -317,7 +333,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.60407149 0.1454031  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.00000000 0.7206787  0.8721605</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.00794897 0.0000000 4.0000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.10589532 0.2360636 0.0000000 0.00000000  0.0000000</span>
@@ -325,7 +341,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.1883105 0.62282892  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.08604455  0.9653569</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]     [,2]       [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1495233 0.000000 4.00000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1741336 0.426369 0.00000000 0.0000000  0.0000000</span>
@@ -333,7 +349,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.000000 0.06783148 0.1980795  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.000000 0.00000000 0.5218206  0.7994516</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]       [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.05927331 0.0000000 4.00000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.22972930 0.2638984 0.00000000 0.00000000  0.0000000</span>
@@ -341,7 +357,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.01677576 0.02321774  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.00000000 0.95518252  0.9975017</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.04831774 0.00000000 4.00000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.06775510 0.03037236 0.00000000 0.00000000  0.0000000</span>
@@ -349,7 +365,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.00000000 0.33187578 0.74345426  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.00000000 0.00000000 0.01656937  0.7731065</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.33328577 0.0000000 4.0000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.06377826 0.2498128 0.0000000 0.0000000  0.0000000</span>
@@ -357,7 +373,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.1693849 0.5795012  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.2212670  0.8103362</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]       [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0239377 0.00000000 4.00000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0366482 0.04343731 0.00000000 0.00000000  0.0000000</span>
@@ -365,7 +381,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.08214221 0.06041167  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.00000000 0.82870382  0.9361283</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.03354061 0.0000000 4.0000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.24257199 0.1737578 0.0000000 0.00000000  0.0000000</span>
@@ -373,13 +389,21 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.3520131 0.61162941  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.06355464  0.7634507</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.18298502 0.0000000 4.0000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.05516901 0.0637293 0.0000000 0.0000000  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.3666609 0.3365942 0.0000000  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.3601747 0.2711895  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.4848073  0.9864156</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]       [,3]      [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1134325 0.00000000 4.00000000 8.0000000 10.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1691937 0.26547788 0.00000000 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.03683351 0.06710737 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.48303739 0.3510717  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.00000000 0.6402862  0.9920856</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Multiple constraints</span></span></span>
@@ -393,50 +417,10 @@ criteria.</p>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">5.0</span>, <span class="fl">7.0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1495334 0.0000000 4.00000000 8.0000000 10.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2361860 0.1465297 0.00000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.4236546 0.65249720 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.03974071 0.6771303  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.00000000 0.1524874  0.9751774</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]       [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1963050 0.0000000 4.0000000 8.00000000 10.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.3034887 0.1954682 0.0000000 0.00000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.5893436 0.6270307 0.00000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.3536822 0.01220999  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.97231288  0.9852511</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.02812688 0.0000000 4.0000000 8.0000000 10.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.54515454 0.1109466 0.0000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.5275890 0.3563799 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.3659972 0.3902368  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.5544589  0.9504274</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.07417354 0.0000000 4.0000000 8.0000000 10.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.46492280 0.3616685 0.0000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.2979256 0.3333424 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.4173200 0.2136544  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.0000000 0.7180103  0.9644515</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]       [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1134325 0.00000000 4.00000000 8.0000000 10.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1691937 0.26547788 0.00000000 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.03683351 0.06710737 0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.48303739 0.3510717  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.00000000 0.6402862  0.9920856</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]       [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.56648471 0.0000000 4.00000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.05281201 0.3000692 0.00000000 0.0000000  0.0000000</span>
@@ -444,7 +428,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.70611327 0.3991537  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.00000000 0.5322706  0.9656675</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]       [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.00572345 0.0000000 4.00000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.25867680 0.1849481 0.00000000 0.0000000  0.0000000</span>
@@ -452,7 +436,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.04194771 0.2885805  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.00000000 0.5292559  0.8627223</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]      [,4]      [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3299881 0.0000000 4.0000000 8.0000000 10.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.3730901 0.5780448 0.0000000 0.0000000  0.000000</span>
@@ -460,7 +444,7 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.2011312 0.7910559  0.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.0203304  0.847165</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]      [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3403444 0.0000000 4.0000000 8.0000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1152112 0.1165285 0.0000000 0.0000000  0.0000000</span>
@@ -468,13 +452,53 @@ criteria.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.7050681 0.7296493  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.1842275  0.9170533</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]       [,4]       [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1689392 0.00000000 4.0000000 8.00000000 10.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2063822 0.30596227 0.0000000 0.00000000  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.07818665 0.1925666 0.00000000  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.3427810 0.01826475  0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.0000000 0.63827242  0.9756126</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]       [,3]      [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.00652138 0.0000000 4.00000000 8.0000000 10.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.00545548 0.2302399 0.00000000 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.3754500 0.65618224 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.00000000 0.0000000 0.01014227 0.6273468  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.00000000 0.0000000 0.00000000 0.3247017  0.9748711</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]       [,3]      [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2948358 0.00000000 4.00000000 8.0000000 10.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2761557 0.01036768 0.00000000 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.56983696 0.55866742 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.00000000 0.05776301 0.5119449  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.00000000 0.00000000 0.1534077  0.7923763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]      [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.4268973 0.0000000 4.0000000 8.0000000 10.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1469940 0.1228170 0.0000000 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.5159129 0.2351381 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.4172713 0.1631152  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.6079843  0.9203012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]        [,3]      [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3658073 0.0000000 4.000000000 8.0000000 10.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.3986741 0.7194963 0.000000000 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.0833023 0.008129479 0.0000000  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.809932058 0.6717799  0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.000000000 0.2036987  0.8840548</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2012457 0.0000000 4.0000000 8.0000000 10.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1674917 0.2097260 0.0000000 0.0000000  0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.4571663 0.3774105 0.0000000  0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0000000 0.0000000 0.4973726 0.3033012  0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0000000 0.0000000 0.0000000 0.6690492  0.975605</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

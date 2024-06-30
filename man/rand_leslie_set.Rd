@@ -20,9 +20,9 @@ rand_leslie_set(
 \item{n_models}{An integer indicating the number of MPMs to generate.}
 
 \item{mortality_model}{A character string specifying the name of the
-mortality model to be used. Options are \code{Gompertz}, \code{GompertzMakeham},
-\code{Exponential}, \code{Siler}, \code{Weibull}, and \code{WeibullMakeham}. See
-\code{model_mortality}.}
+mortality model to be used. Options are \code{gompertz}, \code{gompertzmakeham},
+\code{exponential}, \code{siler}, \code{weibull}, and \code{weibullmakeham}. See
+\code{model_mortality}. These names are not case-sensitive.}
 
 \item{fertility_model}{A character string specifying the name of the
 fertility model to be used. Options are \code{logistic}, \code{step},
@@ -33,10 +33,10 @@ the number of parameters in the mortality model. The required order of the
 parameters depends on the selected \code{mortality_model} (see
 \code{?model_mortality}):
 \itemize{
-\item For \code{Gompertz} and \code{Weibull}: \code{b_0}, \code{b_1}
-\item For \code{GompertzMakeham} and \code{WeibullMakeham}: \code{b_0}, \code{b_1}, \code{C}
-\item For \code{Exponential}: \code{C}
-\item For \code{Siler}: \code{a_0}, \code{a_1}, \code{C}, \code{b_0}, \code{b_1}
+\item For \code{gompertz} and \code{weibull}: \code{b_0}, \code{b_1}
+\item For \code{gompertzmakeham} and \code{weibullmakeham}: \code{b_0}, \code{b_1}, \code{C}
+\item For \code{exponential}: \code{C}
+\item For \code{siler}: \code{a_0}, \code{a_1}, \code{C}, \code{b_0}, \code{b_1}
 If \code{dist_type} is \code{uniform} these rows represent the lower and upper limits
 of the random uniform distribution from which the parameters are drawn. If
 \code{dist_type} is \code{normal}, the columns represent the mean and standard
@@ -78,13 +78,13 @@ one of the following types:
 \itemize{
 \item \code{Type1}: A \code{compadreDB} Object containing MPMs split into the submatrices
 (i.e. A, U, F and C).
-\item \code{Type2}: A \code{compadreDB} Object containing MPMs that are not split into submatrices
-(i.e. only the A matrix is included).
-\item \code{Type3}: A \code{list} of MPMs arranged so that each element of the list contains a model
-and associated submatrices (i.e. the nth element contains the nth A matrix
-alongside the nth U and F matrices).
-\item \code{Type4}: A \code{list} of MPMs arranged so that the list contains 3 lists for the A
-matrix and the U and F submatrices respectively.
+\item \code{Type2}: A \code{compadreDB} Object containing MPMs that are not split into
+submatrices (i.e. only the A matrix is included).
+\item \code{Type3}: A \code{list} of MPMs arranged so that each element of the list
+contains a model and associated submatrices (i.e. the nth element contains
+the nth A matrix alongside the nth U and F matrices).
+\item \code{Type4}: A \code{list} of MPMs arranged so that the list contains 3 lists for
+the A matrix and the U and F submatrices respectively.
 \item \code{Type5}: A \code{list} of MPMs, including only the A matrix.
 \item \code{Type6}: A \code{list} of life tables.
 
@@ -96,11 +96,15 @@ tables are scaled by adjusting fertility so that the population growth rate
 (lambda) is 1. Default is \code{FALSE}.}
 }
 \value{
-Returns a \code{compadreDB} object or \code{list} containing MPMs or life
+Returns a \code{CompadreDB} object or \code{list} containing MPMs or life
 tables generated using the specified model with parameters drawn from
 random uniform or normal distributions. The format of the output MPMs
-depends on the arguments \code{output}. Outputs may optionally be scaled to
-ensure a population growth rate (lambda) of 1.
+depends on the arguments \code{output}. Outputs may optionally be scaled using
+the argument \code{scale_output} to ensure a population growth rate (lambda) of
+1.
+
+If the output is a \code{CompadreDB} object, the parameters of the models used
+to produce the MPM are included in the metadata.
 }
 \description{
 Generates a set of Leslie matrix population models (MPMs) based on defined
@@ -119,7 +123,7 @@ maturityParam <- c(0, 0)
 
 rand_leslie_set(
   n_models = 5,
-  mortality_model = "GompertzMakeham",
+  mortality_model = "gompertzmakeham",
   fertility_model = "normal",
   mortality_params = mortParams,
   fertility_params = fertParams,

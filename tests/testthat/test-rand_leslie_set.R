@@ -206,7 +206,7 @@ test_that("function works correctly for all fertility_model types,
   )
 })
 
-test_that("function works correctly for all fertility_model types,
+   test_that("function works correctly for all fertility_model types,
           normal distribution", {
   expect_silent(
     rand_leslie_set(

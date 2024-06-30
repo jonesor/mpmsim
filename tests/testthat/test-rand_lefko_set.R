@@ -1,9 +1,9 @@
 test_that("Check function works correctly across all output types", {
   # For Type 1 and 2 the output is a compadre object with a warning about
   # species names
-  expect_warning(
+  expect_silent(
     rand_lefko_set(
-      n = 10,
+      n_models = 10,
       n_stages = 5,
       fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
@@ -13,9 +13,9 @@ test_that("Check function works correctly across all output types", {
 
   # For Type 1 and 2 the output is a compadre object with a warning about
   # species names
-  expect_warning(
+  expect_silent(
     rand_lefko_set(
-      n = 10,
+      n_models = 10,
       n_stages = 5,
       fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
@@ -26,7 +26,7 @@ test_that("Check function works correctly across all output types", {
 
   expect_silent(
     rand_lefko_set(
-      n = 10,
+      n_models = 10,
       n_stages = 5,
       fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
@@ -37,7 +37,7 @@ test_that("Check function works correctly across all output types", {
 
   expect_silent(
     rand_lefko_set(
-      n = 10,
+      n_models = 10,
       n_stages = 5,
       fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
@@ -48,11 +48,21 @@ test_that("Check function works correctly across all output types", {
 
   expect_silent(
     rand_lefko_set(
-      n = 10,
+      n_models = 10,
       n_stages = 5,
       fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type5"
+    )
+  )
+
+  expect_silent(
+    rand_lefko_set(
+      n_models = 10,
+      n_stages = 5,
+      fecundity = c(0, 0, 4, 8, 10),
+      archetype = 4,
+      output = "Type6"
     )
   )
 })
@@ -75,7 +85,7 @@ test_that("Error is produced if n is not a positive integer", {
 test_that("Output with Type3 is a list", {
   expect_type(
     rand_lefko_set(
-      n = 10,
+      n_models = 10,
       n_stages = 5,
       fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
@@ -90,7 +100,7 @@ test_that("Output with Type3 is a list", {
 test_that("Check output of Type5 is a list of matrices (part 1)", {
   expect_true(
     is.matrix(rand_lefko_set(
-      n = 10,
+      n_models = 10,
       n_stages = 5,
       fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
@@ -99,7 +109,7 @@ test_that("Check output of Type5 is a list of matrices (part 1)", {
   )
 
   x <- rand_lefko_set(
-    n = 10,
+    n_models = 10,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
     archetype = 4,
@@ -122,7 +132,7 @@ test_that("Check output of Type5 is a list of matrices when there is a
   )
 
   x <- rand_lefko_set(
-    n = 10,
+    n_models = 10,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
     archetype = 4,
@@ -141,7 +151,7 @@ test_that("Check output of Type5 is a list of matrices when there is a
   )
 
   x <- rand_lefko_set(
-    n = 10,
+    n_models = 10,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
     archetype = 4,

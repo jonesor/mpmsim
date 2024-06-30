@@ -4,7 +4,13 @@
 \alias{make_leslie_mpm}
 \title{Create a Leslie matrix population model}
 \usage{
-make_leslie_mpm(survival, fertility, n_stages, split = FALSE)
+make_leslie_mpm(
+  survival = NULL,
+  fertility = NULL,
+  n_stages = NULL,
+  lifetable = NULL,
+  split = FALSE
+)
 }
 \arguments{
 \item{survival}{a numeric value representing the survival probability of each
@@ -18,6 +24,9 @@ applied to all fertility elements.}
 
 \item{n_stages}{a numeric value representing the number of stages in the
 matrix}
+
+\item{lifetable}{a life table containing columns \code{px} (age-specific survival)
+and \code{fert} (age-specific fertility)}
 
 \item{split}{a logical argument indicating whether the output matrix should
 be split into separate A, U and F matrices (where A = U + F).}
@@ -56,8 +65,8 @@ Analysis, and Interpretation. Sinauer.
 Leslie, P. H. (1945). On the use of matrices in certain population
 mathematics. Biometrika, 33 (3), 183–212.
 
-Leslie, P. H. (1948). Some Further Notes on the Use of Matrices in Population
-Mathematics. Biometrika, 35(3-4), 213–245.
+Leslie, P. H. (1948). Some Further Notes on the Use of Matrices in
+Population Mathematics. Biometrika, 35(3-4), 213–245.
 }
 \seealso{
 \itemize{

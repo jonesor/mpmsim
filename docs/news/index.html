@@ -24,9 +24,9 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/age_from_stage.html">The robustness of age from stage methods</a>
     <a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a>
-    <a class="dropdown-item" href="../articles/pca.html">Exploring PCA space</a>
+    <a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generate Lefkovitch matrices</a>
+    <a class="dropdown-item" href="../articles/generate_leslie_models.html">Generate Leslie matrices</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -54,10 +54,14 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mpmsim-development-version">mpmsim (development version)<a class="anchor" aria-label="anchor" href="#mpmsim-development-version"></a></h2>
-<ul><li>added function <code><a href="../reference/rand_leslie_set.html">rand_leslie_set()</a></code> to generate sets of Leslie matrices where the parameters of the constituent mortality and fertility functions are drawn randomly from defined distributions. The function returns a <code>CompadreDB</code> object by default, but can also be set to produce lists of MPMs or life tables.</li>
-<li>changed name of <code>generate_mpm_set()</code> to <code><a href="../reference/rand_lefko_set.html">rand_lefko_set()</a></code> to reflect more accurately that it generates sets of random Lefkovitch matrices.</li>
-<li>changed name of <code>random_mpm()</code> to <code><a href="../reference/rand_lefko_mpm.html">rand_lefko_mpm()</a></code>to reflect more accurately that it generates a random Lefkovitch matrix.</li>
-<li>added new function <code><a href="../reference/compute_ci_U.html">compute_ci_U()</a></code> which calculates confidence intervals for traits derived from matrix models where only the U submatrix is used. For example, life expectancy (using the function <code><a href="https://rdrr.io/pkg/Rage/man/life_expect.html" class="external-link">Rage::life_expect_mean()</a></code>).</li>
+<ul><li>When sets of matrices are returned as <code>CompadreDB</code> objects, the archetype (Lefkovitch) or model parameters (Leslie), are included as metadata.</li>
+<li>Added function <code><a href="../reference/rand_leslie_set.html">rand_leslie_set()</a></code> to generate sets of Leslie matrices where the parameters of the constituent mortality and fertility functions are drawn randomly from defined distributions. The function returns a <code>CompadreDB</code> object by default, but can also be set to produce lists of MPMs or life tables.</li>
+<li>changed name of <code><a href="../reference/generate_mpm_set.html">generate_mpm_set()</a></code> to <code><a href="../reference/rand_lefko_set.html">rand_lefko_set()</a></code> to reflect more accurately that it generates sets of random Lefkovitch matrices. <code><a href="../reference/generate_mpm_set.html">generate_mpm_set()</a></code> will be deprecated.</li>
+<li>Changed name of <code><a href="../reference/random_mpm.html">random_mpm()</a></code> to <code><a href="../reference/rand_lefko_mpm.html">rand_lefko_mpm()</a></code>to reflect more accurately that it generates a random Lefkovitch matrix. <code><a href="../reference/random_mpm.html">random_mpm()</a></code> will be deprecated.</li>
+<li>Removed the arguments <code>split</code>, <code>by_type</code> and <code>as_compadre</code>, which governed output types, from the MPM set-generating functions. Replaced with a simpler argument <code>output</code> where the outputs are more transparent. These arguments will be deprecated.</li>
+<li>Added new function <code><a href="../reference/compute_ci_U.html">compute_ci_U()</a></code> which calculates confidence intervals for traits derived from matrix models where only the U submatrix is used. For example, life expectancy (using the function <code><a href="https://rdrr.io/pkg/Rage/man/life_expect.html" class="external-link">Rage::life_expect_mean()</a></code>).</li>
+<li>Added vignette for generating Leslie matrices.</li>
+<li>Added vignette for generating Lefkovitch matrices.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.0.0" id="mpmsim-200">mpmsim 2.0.0<a class="anchor" aria-label="anchor" href="#mpmsim-200"></a></h2><p class="text-muted">CRAN release: 2024-01-15</p>
@@ -65,17 +69,17 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="mpmsim-110">mpmsim 1.1.0<a class="anchor" aria-label="anchor" href="#mpmsim-110"></a></h2><p class="text-muted">CRAN release: 2023-09-29</p>
-<ul><li>modified the simulation of fecundity in <code>random_mpm()</code>. Now the values are provided as mean fecundity and can be provided as a range of values, whereby a value is drawn from a random uniform distribution. This is the best way to create a set of models with different fecundity properties.</li>
+<ul><li>modified the simulation of fecundity in <code><a href="../reference/random_mpm.html">random_mpm()</a></code>. Now the values are provided as mean fecundity and can be provided as a range of values, whereby a value is drawn from a random uniform distribution. This is the best way to create a set of models with different fecundity properties.</li>
 <li>added function to simulate the action of drivers such as weather on vital rates: <code>drive_vital_rate()</code>.</li>
 <li>added <code><a href="../reference/model_survival.html">model_mortality()</a></code> as an alias for <code><a href="../reference/model_survival.html">model_survival()</a></code>.</li>
-<li>function <code>generate_mpm_set()</code> now returns a <code>CompadreDB</code> object by default.</li>
+<li>function <code><a href="../reference/generate_mpm_set.html">generate_mpm_set()</a></code> now returns a <code>CompadreDB</code> object by default.</li>
 <li>added full suite of unit tests using <code>testthat</code>. Test coverage 97.17%.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="mpmsim-100">mpmsim 1.0.0<a class="anchor" aria-label="anchor" href="#mpmsim-100"></a></h2><p class="text-muted">CRAN release: 2023-04-18</p>
 <div class="section level4">
 <h4 id="first-release-with-the-following-functionality-1-0-0">First release, with the following functionality.<a class="anchor" aria-label="anchor" href="#first-release-with-the-following-functionality-1-0-0"></a></h4>
-<ul><li>Functions for simulating Lefkovitch matrix models: <code>generate_mpm_set()</code> and<code>random_mpm()</code>.</li>
+<ul><li>Functions for simulating Lefkovitch matrix models: <code><a href="../reference/generate_mpm_set.html">generate_mpm_set()</a></code> and<code><a href="../reference/random_mpm.html">random_mpm()</a></code>.</li>
 <li>A function for constructing Leslie matrix models: <code><a href="../reference/make_leslie_mpm.html">make_leslie_mpm()</a></code>, which can make use of outputs from functions for describing demographic trajectories (<code><a href="../reference/model_fertility.html">model_fertility()</a></code> and <code><a href="../reference/model_survival.html">model_survival()</a></code>).</li>
 <li>Functions for calculating and propagating error: <code><a href="../reference/add_mpm_error.html">add_mpm_error()</a></code>, <code><a href="../reference/calculate_errors.html">calculate_errors()</a></code> and <code><a href="../reference/compute_ci.html">compute_ci()</a></code>.</li>
 <li>A utility function: <code><a href="../reference/plot_matrix.html">plot_matrix()</a></code>

@@ -20,8 +20,9 @@ survivorship of the synthetic cohort declines to a threshold defined by the
 \code{truncate} argument, which has a default of \code{0.01} (i.e. 1\% of the cohort
 remaining alive).}
 
-\item{model}{Mortality model: \code{Gompertz}, \code{GompertzMakeham}, \code{Exponential},
-\code{Siler}, \code{Weibull}, \code{WeibullMakeham}.}
+\item{model}{A character string specifying the name of the mortality model to
+be used. Options are \code{gompertz}, \code{gompertzmakeham}, \code{exponential}, \code{siler},
+\code{weibull}, and \code{weibullmakeham}. These names are not case-sensitive.}
 
 \item{truncate}{a value defining how the life table output should be
 truncated. The default is \code{0.01}, indicating that the life table is
@@ -34,19 +35,18 @@ hazard (\code{hx}), survivorship (\code{lx}) and mortality (\code{qx}) and survi
 probability within interval (\code{px}).
 }
 \description{
-Model mortality hazard, survivorship and age-specific survival probability
-using a mortality model
+Generates an actuarial life table based on a defined mortality model.
 }
 \details{
 The required parameters varies depending on the mortality model. The
 parameters are provided as a vector.
 
-*For \code{Gompertz} and \code{Weibull}, the
+*For \code{gompertz} and \code{weibull}, the
 parameters are \code{b0}, \code{b1}.
-*For \code{GompertzMakeham} and \code{WeibullMakeham} the parameters are \code{b0}, \code{b1}
+*For \code{gompertzmakeham} and \code{weibullmakeham} the parameters are \code{b0}, \code{b1}
 and \code{C}.
-*For \code{Exponential}, the parameter is \code{C}.
-*For \code{Siler}, the parameters are \code{a0}, \code{a1}, \code{C}, \code{b0} and \code{b1}.
+*For \code{exponential}, the parameter is \code{C}.
+*For \code{siler}, the parameters are \code{a0}, \code{a1}, \code{C}, \code{b0} and \code{b1}.
 
 Note that the parameters must be provided in the order mentioned here. \code{x}
 represents age.

@@ -23,9 +23,9 @@ the U matrices.
 }
 \description{
 Calculates and summarises various metrics from matrix population models
-(MPMs) including lambda values, maximum fecundity values, maximum
-growth/survival transition probabilities, and minimum non-zero
-growth/survival transition probabilities
+(MPMs) including dimension (= age in Leslie matrices), lambda values, maximum
+fecundity values, maximum growth/survival transition probabilities, and
+minimum non-zero growth/survival transition probabilities
 }
 \examples{
 mats <- rand_lefko_set(
