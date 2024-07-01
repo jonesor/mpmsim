@@ -1,13 +1,13 @@
 # mpmsim (development version)
 
-- When sets of matrices are returned as `CompadreDB` objects, the archetype (Lefkovitch) or model parameters (Leslie), are included as metadata.
+- When sets of matrices are returned as `CompadreDB` objects, the archetype (Lefkovitch) or model parameters (Leslie), are now included as metadata.
 - Added function `rand_leslie_set()` to generate sets of Leslie matrices where the parameters of the constituent mortality and fertility functions are drawn randomly from defined distributions. The function returns a `CompadreDB` object by default, but can also be set to produce lists of MPMs or life tables.
-- changed name of `generate_mpm_set()` to `rand_lefko_set()` to reflect more accurately that it generates sets of random Lefkovitch matrices. `generate_mpm_set()` will be deprecated.
-- Changed name of `random_mpm()` to `rand_lefko_mpm()`to reflect more accurately that it generates a random Lefkovitch matrix. `random_mpm()` will be deprecated.
-- Removed the arguments `split`, `by_type` and `as_compadre`, which governed output types, from the MPM set-generating functions. Replaced with a simpler argument `output` where the outputs are more transparent. These arguments will be deprecated.
+- `generate_mpm_set()` is now deprecated, and will be removed at a later date. Users should use `rand_lefko_set()` instead. 
+- `random_mpm()` is now deprecated, and will be removed at a later date. Users should use `rand_lefko_mpm()` instead.
+- The new set generation functions omit the arguments `split`, `by_type` and `as_compadre`, which governed output types in `generate_mpm_set()`. These arguments been replaced with a simpler and more transparent argument, `output`.
 - Added new function `compute_ci_U()` which calculates confidence intervals for traits derived from matrix models where only the U submatrix is used. For example, life expectancy (using the function `Rage::life_expect_mean()`). 
-- Added vignette for generating Leslie matrices.
-- Added vignette for generating Lefkovitch matrices.
+- Added a vignette for generating Leslie matrices.
+- Added a vignette for generating Lefkovitch matrices.
 
 
 # mpmsim 2.0.0
