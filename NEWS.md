@@ -1,4 +1,4 @@
-# mpmsim (development version)
+# mpmsim 3.0.0
 
 - When sets of matrices are returned as `CompadreDB` objects, the archetype (Lefkovitch) or model parameters (Leslie), are now included as metadata.
 - Added function `rand_leslie_set()` to generate sets of Leslie matrices where the parameters of the constituent mortality and fertility functions are drawn randomly from defined distributions. The function returns a `CompadreDB` object by default, but can also be set to produce lists of MPMs or life tables.
