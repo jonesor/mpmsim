@@ -151,7 +151,7 @@ rand_lefko_mpm <- function(n_stages,
   }
 
   if (!validate_fecundity(fecundity, n_stages)) {
-    stop("Invalid fecundity input. See ?random_mpm")
+    stop("Invalid fecundity input. See ?rand_lefko_mpm")
   }
 
   if (inherits(fecundity, "list")) {
