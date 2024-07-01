@@ -1,24 +1,22 @@
 #' Model fertility with age using set functional forms
 #'
 #' This function computes fertility based on the logistic, step, von
-#' Bertalanffy, Hadwiger, and normal models.
-#' The logistic model assumes that fertility increases sigmoidally with age from
-#' maturity until a maximum fertility is reached.
-#' The step model assumes that fertility is zero before the age of maturity and
-#' then remains constant.
-#' The von Bertalanffy model assumes that, after maturity, fertility increases
-#' asymptotically with age until a maximum fertility is reached. In this
-#' formulation, the model is set up so that fertility is 0 at the 'age of
-#' maturity - 1', and increases from that point.
-#' The Hadwiger model is rather complex and is intended to model human fertility
-#' with a characteristic hump-shaped fertility.
-#' For all models, the output ensures that fertility is zero before the age at
-#' maturity.
+#' Bertalanffy, Hadwiger, and normal models. The logistic model assumes that
+#' fertility increases sigmoidally with age from maturity until a maximum
+#' fertility is reached. The step model assumes that fertility is zero before
+#' the age of maturity and then remains constant. The von Bertalanffy model
+#' assumes that, after maturity, fertility increases asymptotically with age
+#' until a maximum fertility is reached. In this formulation, the model is set
+#' up so that fertility is 0 at the 'age of maturity - 1', and increases from
+#' that point. The Hadwiger model is rather complex and is intended to model
+#' human fertility with a characteristic hump-shaped fertility. For all models,
+#' the output ensures that fertility is zero before the age at maturity.
 #'
 #'
 #' @param params A numeric vector of parameters for the selected model. The
 #'   number and meaning of parameters depend on the selected model.
-#' @param age A numeric vector representing age.
+#' @param age A numeric vector representing age. For use in creation of MPMs and
+#'   life tables, these should be integers.
 #' @param maturity A non-negative numeric value indicating the age at maturity.
 #'   Whatever model is used, the fertility is forced to be 0 below the age of
 #'   maturity.
@@ -30,23 +28,19 @@
 #'   parameters are provided as a vector and the parameters must be provided in
 #'   the order mentioned here.
 #'
-#'   * Logistic: \eqn{f(x) = A / (1 + exp(-k  (x - x_m)))}
-#'   * Step: \eqn{f(x)=
-#'   \begin{cases}
-#'   A, x \geq m \\
-#'   A, x <  m
-#'   \end{cases}}
-#'   * von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
-#'   * Normal: \eqn{f(x) = A \times \exp\left(
-#'   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
-#'   * Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right )
-#'    ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2
+#'   * Logistic: \eqn{f_x = A / (1 + exp(-k  (x - x_m)))}
+#'   * Step: \eqn{f_x=
+#'   \begin{cases} A, x \geq m \\ A, x <  m \end{cases}}
+#'   * von Bertalanffy: \eqn{f_x = A  (1 - exp(-k  (x - x_0)))}
+#'   * Normal: \eqn{f_x = A \times \exp\left(
+#'   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)}
+#'   * Hadwiger: \eqn{f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )
+#'    ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2
 #'    \right ) \right \}}
 #'
 #'
-#' @references
-#' Bertalanffy, L. von (1938) A quantitative theory of organic growth (inquiries
-#' on growth laws. II). Human Biology 10:181–213.
+#' @references Bertalanffy, L. von (1938) A quantitative theory of organic
+#' growth (inquiries on growth laws. II). Human Biology 10:181–213.
 #'
 #' Peristera, P. & Kostaki, A. (2007) Modeling fertility in modern populations.
 #' Demographic Research. 16. Article 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
@@ -75,23 +69,34 @@
 #'
 #' # Compute fertility using the Hadwiger model
 #' model_fertility(
-#'   age = 0:50, params = c(a = 0.91, b = 3.85, c = 29.78),
+#'   age = 0:50, params = c(a = 0.91, b = 3.85, C = 29.78),
 #'   maturity = 0, model = "hadwiger"
 #' )
 #'
 #' @family trajectories
 #' @author Owen Jones <jones@biology.sdu.dk>
-#' @seealso [model_survival()] to model age-specific survival using mortality
+#' @seealso [model_mortality()] to model age-specific survival using mortality
 #'   models.
 #' @export
 
 
 model_fertility <- function(params, age = NULL, maturity = 0,
                             model = "logistic") {
+  #Coerce model type to lower case to avoid irritation
+  model <- tolower(model)
   # Input validation and input error handling
   if (!is.numeric(age)) stop("Input 'age' must be a numeric vector.")
+
   if (min(age) < 0) stop("Input 'age' must be non-negative.")
 
+  if (any(age != floor(age))) warning("Input 'age' must be integers for use
+                                      in creating MPMs")
+
+if(length(age)>1){
+  if (min(diff(age)) <= 0) {
+    stop("age must be an increasing sequence")
+  }
+}
   # Check model parameter name
   if (!model %in% c(
     "vonbertalanffy", "logistic", "normal", "step",
@@ -178,6 +183,9 @@ model_fertility <- function(params, age = NULL, maturity = 0,
 
     out <- ((a * b) / c) * (c / age)^(3 / 2) * exp(-b^2 * ((c / age) +
       (age / c) - 2))
+    out[is.nan(out)] <- 0
+    out[which(age < maturity)] <- 0
+
     return(out)
   }
 }

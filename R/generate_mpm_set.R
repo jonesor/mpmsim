@@ -1,6 +1,8 @@
 #' Generate lists of Lefkovitch matrix population models (MPMs) based on life
 #' history archetypes
 #'
+#' This function is deprecated. Use `rand_lefko_set` instead.
+#'
 #' This function generates a list of `n` MPMs according to the specified
 #' criteria. Criteria include the `archetype`, and the acceptable constraining
 #' criteria, which could include lambda, generation time or any other metric
@@ -93,19 +95,21 @@ generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
                              fecundity = 1.5,
                              split = TRUE, by_type = TRUE, as_compadre = TRUE, max_surv = 0.99,
                              constraint = NULL, attempts = 1000) {
+  .Deprecated("rand_lefko_set")
+
   # Check if n is a positive integer
   if (!min(abs(c(n %% 1, n %% 1 - 1))) < .Machine$double.eps^0.5 || n <= 0) {
     stop("n must be a positive integer")
   }
 
-#  if (split == FALSE && by_type == TRUE) {
-#    stop("If split is FALSE, then by_type must also be FALSE")
-#  }
+  #  if (split == FALSE && by_type == TRUE) {
+  #    stop("If split is FALSE, then by_type must also be FALSE")
+  #  }
 
   if (split == FALSE) {
     if(by_type == TRUE){
-    by_type <- FALSE
-    warning("Split is set to FALSE; by_type has been coerced to be FALSE")
+      by_type <- FALSE
+      warning("Split is set to FALSE; by_type has been coerced to be FALSE")
     }
   }
 

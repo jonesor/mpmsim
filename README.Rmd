@@ -69,7 +69,9 @@ library(mpmsim)
 
 ### Generate a Leslie matrix
 
-The `make_leslie_mpm` function can be used to generate a Leslie matrix, where the stages represent discrete age classes. In a Leslie matrix, survival is represented in the lower sub-diagonal and the lower-right-hand corner element, while fertility is shown in the top row. Both survival and fertility have a length equal to the number of stages in the model. Users can specify both survival and fertility as either a single value or a vector of values, with a length equal to the dimensions of the matrix model. If these arguments are single values, the value is repeated along the survival/fertility sequence.
+The `make_leslie_mpm` function can be used to generate a Leslie matrix model (Leslie, 1945) where the stages represent discrete age classes (usually years of life). 
+
+In a Leslie matrix, survival is represented in the lower sub-diagonal and the lower-right-hand corner element, while fertility is shown in the top row. Both survival and fertility have a length equal to the number of stages in the model. Users can specify both survival and fertility as either a single value or a vector of values, with a length equal to the dimensions of the matrix model. If these arguments are single values, the value is repeated along the survival/fertility sequence.
 
 ```{r}
 make_leslie_mpm(
@@ -78,15 +80,21 @@ make_leslie_mpm(
 )
 ```
 
-### Using a functional form for mortality
+### Using functional forms for mortality and fertility
 
-Users can generate Leslie matrices with particular functional forms of mortality by first making a data frame of a simplified life table that includes age and survival probability within each age interval.
+Users can generate Leslie matrices with particular functional forms of mortality by first making a data frame of a simplified life table that includes age and survival probability within each age interval. The `model_mortality` function can handle the following models: Gompertz, Gompertz-Makeham, Weibull, Weibull-Makeham, Siler and Exponential. 
+
+The function returns a standard life table `data.frame` including columns for age (`x`), age-specific hazard (`hx`), survivorship (`lx`), age-specific probability of death and survival (`qx` and `px`). By default, the life table is truncated at the age when the survivorship function declines below 0.01 (i.e. when only 1% of individuals in a cohort would remain alive).
+
+For example to produce a life table based on Gompertz mortality:
 
 ```{r}
-(surv_prob <- model_survival(params = c(0.2, 0.4), model = "Gompertz"))
+(surv_prob <- model_mortality(params = c(0.2, 0.4), model = "Gompertz"))
 ```
 
-Age-specific survival probability is given by the `px` column in the output from `model_survival`. Users can also use a functional form for fertility (see `model_fertility`) and here a simple step function is assumed.
+Users can also use a functional form for fertility (see `?model_fertility`), including, logistic, step, von Bertalanffy, Normal and Hadwiger. 
+
+Here a simple step function is assumed. 
 
 ```{r}
 survival <- surv_prob$px
@@ -96,7 +104,7 @@ fertility <- model_fertility(
 )
 ```
 
-Subsequently, these survival and fertility values can be applied to the Leslie matrix as follows.
+Subsequently, these survival and fertility values can be applied to the Leslie matrix as follows. 
 
 ```{r}
 make_leslie_mpm(
@@ -108,60 +116,113 @@ make_leslie_mpm(
 
 ### Sets of Leslie matrices
 
-Users can generate large numbers of plausible Leslie matrices by repeating the `make_leslie_mpm` command in a loop. For example, the following code produces a list of five Leslie matrices that have increasing survival with age.
+Users can generate large numbers of plausible Leslie matrices using the `rand_leslie_set` function.
+
+The arguments for this function include the number of models (`n_models`), the type of mortality (e.g. `GompertzMakeham`) and fertility (e.g. `step`). The specific parameters for mortality and fertility are provided as defined distributions from which parameters can be drawn at random. The type of distribution is defined with the `dist_type` argument and can be `uniform` or `normal`, and the distributions are defined using the `mortality_params` and `fertility_params` arguments, which accept data frames of distribution parameters. 
+
+For example, the following code produces a list of five Leslie matrices that have Gompertz-Makeham mortality characteristics and where fertility is a step function.
+
+First, we define the limits of a uniform distributions for the Gompertz mortality and step fertility functions. 
 
 ```{r}
-sample_size <- 5
-juvSurv <- runif(n = sample_size, min = 0.0, max = 0.1)
-adultSurv <- runif(n = sample_size, min = 0.4, max = 0.8)
-adultFert <- rpois(sample_size, 6)
+mortParams <- data.frame(minVal = c(0.05, 0.08, 0.7),
+                         maxVal = c(0.14, 0.15, 0.7))
 
-outputMPMs <- NULL
-for (i in 1:sample_size) {
-  outputMPMs[[i]] <- make_leslie_mpm(
-    survival = seq(juvSurv[i], adultSurv[i], length.out = 6),
-    fertility = c(0, 0, rep(adultFert[i], 4)), n_stages = 6, split = FALSE
-  )
-}
+fertParams <- data.frame(minVal = 4, maxVal = 6)
+```
+
+We also set maturity to be drawn from a distribution ranging from 0 to 3.
+
+```{r}
+maturityParams <- c(0,3)
+```
+
+Now we produce the models. We output as "`Type5`" which is a simple list of the main A matrix model, but outputs can also be split into submatrices (e.g. the U and F matrices), or as a `CompadreDB` object.
+
+```{r}
+outputMPMs <- rand_leslie_set(
+      n_models = 5, mortality_model = "GompertzMakeham", fertility_model = "step",
+      mortality_params = mortParams,
+      fertility_params = fertParams,
+      fertility_maturity_params = maturityParams, 
+      dist_type = "uniform",
+      output = "Type5"
+    )
 
 outputMPMs
 ```
 
-Here's one way to do a similar thing with uncertainty applied to a Gompertz mortality.
+
+
+### Generate single random Lefkovitch MPMs
+
+The `rand_lefko_mpm` function can be used to generate a random Lefkovitch matrix population model (MPM) (Lefkovitch, 1965). with element values based on defined life history archetypes. 
+
+The function draws survival and transition/growth probabilities from a Dirichlet distribution to ensure that the column totals, including death, are less than or equal to 1. Fecundity can be specified as a single value or as a vector with a length equal to the dimensions of the matrix. If specified as a single value, it is placed in the top-right corner of the matrix. If specified as a vector of length `n_stages`, it spans the entire top row of the matrix. The `archetype` argument can be used to constrain the MPMs, for example, `archetype = 2` constraints the survival probability to increase monotonically as individuals advance to later stages. 
+
+For more information, see the documentation for `rand_lefko_mpm` and Takada et al. (2018), from which these archetypes are derived. 
+
+In the following example, I split the output matrices into the `U` and `F` submatrices, which can be summed to create the full `A` matrix model.
 
 ```{r}
-sample_size <- 5
-b0_values <- rnorm(n = sample_size, mean = 0.3, sd = 0.1)
-b1_values <- rnorm(n = sample_size, mean = 0.4, sd = 0.1)
-fertility_values <- rnorm(n = sample_size, mean = 3, sd = 1)
-
-outputMPMs <- NULL
-for (i in 1:sample_size) {
-  surv_prob <- model_survival(
-    params = c(b0_values[i], b1_values[i]),
-    model = "Gompertz"
-  )
-  survival <- surv_prob$px
-
-  maturity <- 2
-  fertility <- c(
-    rep(0, maturity),
-    rep(fertility_values[i], length(survival) - maturity)
-  )
-
-  outputMPMs[[i]] <- make_leslie_mpm(
-    survival = survival, fertility = fertility,
-    n_stages = length(survival), split = FALSE
-  )
-}
-
-outputMPMs
+(rMPM <- rand_lefko_mpm(
+  n_stages = 3, fecundity = 20,
+  archetype = 2, split = TRUE
+))
 ```
 
+### Generate a set of random Lefkovitch MPMs
+
+The `rand_lefko_set` function can be used to quickly generate large numbers of Lefkovitch MPMs using the above approach. For example, the following code generates five MPMs with archetype 1. By using the `constraint` argument, users can specify an acceptable characteristics for the set of matrices. In this case, population growth rate range, which can be useful for life history analyses where we might assume that only life histories with lambda values close to 1 can persist in nature. We set the argument `output = "Type5"` to ensure that the function returns a `list` object.
+
+
+```{r}
+library(popbio)
+constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
+rand_lefko_set(
+  n_models = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df,
+  output = "Type5"
+)
+```
+
+
+
+### Calculate confidence intervals for derived estimates
+
+Sometimes, users may find themselves confronted with an MPM for which they can calculate various metrics, and have a need to calculate the confidence interval for those metrics. The `compute_ci` function is designed to address this need by computing 95% confidence intervals (CIs) for measures derived from a complete MPM (i.e. the A matrix).
+
+This is accomplished using parametric bootstrapping, generating a sampling distribution of the MPM by performing numerous random independent draws using the sampling distribution of each underlying transition rate. The approach relies on (1) a known (or estimated) sample size for each estimate in the model and (2) the assumption that survival-related processes are binomial, while reproduction processes follow a Poisson distribution.
+
+Here's an example, where we use the Lefkovitch model from above, and where we believe the sample size was 10 individuals for each parameter estimate.
+
+```{r echo = FALSE, message = FALSE}
+library(popdemo)
+```
+
+The point estimate for population growth rate (lambda) is `r round(eigs(rMPM$mat_A, what = "lambda"),3)`.
+
+```{r}
+library(popdemo)
+eigs(rMPM$mat_A, what = "lambda")
+```
+
+Users can calculate the 95% CI, assuming a sample size of 10, like this:
+
+```{r}
+compute_ci(mat_U = rMPM$mat_U, mat_F = rMPM$mat_F, 
+           sample_size = 10, 
+           FUN = eigs, what = "lambda")
+```
+
+The `sample_size` argument can handle various cases, for example, where sample size varies across the matrix, or between the U and F submatrices (see `?compute_ci`).
+
+An equivalent function, `compute_ci_U` is designed for use when the derived estimate requires only the U submatrix (as opposed to both submatrices of the A matrix).
 
 ### Simulate sampling error for an MPM
 
-The function `add_mpm_error` can be used to simulate an MPM with sampling error, based on expected transition rates (survival and fecundity) and sample sizes. The expected transition rates must be provided as matrices. The sample size(s) can be given as either a matrix of sample sizes for each element of the matrix or as a single value which is then applied to all elements of the matrix. 
+The function `add_mpm_error` can be used to simulate an MPM with sampling error, based on expected transition rates (survival and fecundity) and sample sizes. This could be useful at the initial phases of a study, as part of a power analysis, or could be used simply to get a feel for expected variation under different circumstances.
+
+The expected transition rates must be provided as matrices. The sample size(s) can be given as either a matrix of sample sizes for each element of the matrix or as a single value which is then applied to all elements of the matrix. 
 
 The function uses a binomial process to simulate survival/growth elements and a Poisson process to simulate the fecundity elements. As a result, when sample sizes are large, the simulated MPM will closely reflect the expected transition rates. In contrast, when sample sizes are small, the simulated matrices will become more variable. 
 
@@ -198,30 +259,7 @@ replicate(
 )
 ```
 
-### Generate single random Lefkovitch MPMs
-
-The `random_mpm` function can be used to generate a random Lefkovitch matrix population model (MPM) with element values based on defined life history archetypes. The function draws survival and transition/growth probabilities from a Dirichlet distribution to ensure that the column totals, including death, are less than or equal to 1. Fecundity can be specified as a single value or as a vector with a length equal to the dimensions of the matrix. If specified as a single value, it is placed in the top-right corner of the matrix. If specified as a vector of length `n_stages`, it spans the entire top row of the matrix. The `archetype` argument can be used to constrain the MPMs, for example, `archetype = 2` constraints the survival probability to increase monotonically as individuals advance to later stages. For more information, see the documentation for `random_mpm` and Takada et al. (2018). In the following example, I split the output matrices into the `U` and `F` matrices, which could be summed to create the `A` matrix.
-
-```{r}
-(rMPM <- random_mpm(
-  n_stages = 3, fecundity = 20,
-  archetype = 2, split = TRUE
-))
-```
-
-### Generate a set of random Lefkovitch MPMs
-
-The `generate_mpm_set` function can be used to quickly generate large numbers of Lefkovitch MPMs using the above approach. For example, the following code generates five MPMs with archetype 1. By using the `constraint` argument, users can specify an acceptable characteristics for the set of matrices. In this case, population growth rate range, which can be useful for life history analyses where we might assume that only life histories with lambda values close to 1 can persist in nature. We set the argument `as_compadre = FALSE` to ensure that the function returns a `list` object rather than a `CompadreDB` object.
-
-
-```{r}
-library(popbio)
-constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
-generate_mpm_set(
-  n = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df,
-  as_compadre = FALSE
-)
-```
+This could be coerced into a `CompadreDB` object, if necessary, using the `cdb_build_cdb` function from the `Rcompadre` package.
 
 ### Plot a matrix
 
@@ -249,6 +287,11 @@ ggplot2::ggsave("man/figures/plot_a_matrix01.png", width = 300, height = 300, un
 knitr::include_graphics("man/figures/plot_a_matrix01.png")
 ```
 
+## References
+
+* Lefkovitch, L. P. (1965). The study of population growth in organisms grouped by stages. Biometrics, 21(1), 1.
+* Leslie, P. H. (1945). On the use of matrices in certain population mathematics. Biometrika, 33 (3), 183–212.
+* Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on elasticity analyses in a ternary plot using randomly generated population matrices. Population Ecology, 60(1), 37–47.
 
 ## Contributions
 

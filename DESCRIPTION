@@ -24,6 +24,7 @@ Imports:
     stats
 Suggests: 
     covr,
+    patchwork,
     ggfortify,
     knitr,
     rmarkdown,

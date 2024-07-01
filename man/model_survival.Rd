@@ -14,42 +14,49 @@ model_mortality(params, age = NULL, model, truncate = 0.01)
 \item{params}{Numeric vector representing the parameters of the mortality
 model.}
 
-\item{age}{Numeric vector representing age. The default is \code{NULL}, whereby the
-survival trajectory is modelled from age 0 to the age at which the
+\item{age}{Numeric vector representing age. The default is \code{NULL}, whereby
+the survival trajectory is modelled from age 0 to the age at which the
 survivorship of the synthetic cohort declines to a threshold defined by the
-\code{truncate} argument, which has a default of 0.01 (i.e. 1\% of the cohort
+\code{truncate} argument, which has a default of \code{0.01} (i.e. 1\% of the cohort
 remaining alive).}
 
-\item{model}{Mortality model: \code{Gompertz}, \code{GompertzMakeham}, \code{Exponential},
-\code{Siler}.}
+\item{model}{A character string specifying the name of the mortality model to
+be used. Options are \code{gompertz}, \code{gompertzmakeham}, \code{exponential}, \code{siler},
+\code{weibull}, and \code{weibullmakeham}. These names are not case-sensitive.}
 
 \item{truncate}{a value defining how the life table output should be
 truncated. The default is \code{0.01}, indicating that the life table is
-truncated so that survivorship, \code{lx}, > 0.01 (i.e. the age at which 1\% of
+truncated so that survivorship (\code{lx}) > 0.01 (i.e. the age at which 1\% of
 the cohort remains alive).}
 }
 \value{
-A data frame with columns for age (\code{x}), hazard (\code{hx}),
-survivorship (\code{lx}) and mortality (\code{qx}) and survival probability within
-interval (\code{px}).
+A dataframe in the form of a lifetable with columns for age (\code{x}),
+hazard (\code{hx}), survivorship (\code{lx}) and mortality (\code{qx}) and survival
+probability within interval (\code{px}).
 }
 \description{
-Model mortality hazard, survivorship and age-specific survival probability
-using a mortality model
+Generates an actuarial life table based on a defined mortality model.
 }
 \details{
 The required parameters varies depending on the mortality model. The
-parameters are provided as a vector. For \code{Gompertz} and \code{Weibull}, the parameters are
-\code{b0}, \code{b1.} For \code{GompertzMakeham} the parameters are \code{b0}, \code{b1} and \code{C}.
-For \code{Exponential}, the parameter is \code{C}. For \code{Siler}, the parameters are
-\code{a0}, \code{a1}, \code{C}, \code{b0} and \code{b1}. Note that the parameters must be provided
-in the order mentioned here. \code{x} represents age.
+parameters are provided as a vector.
+
+*For \code{gompertz} and \code{weibull}, the
+parameters are \code{b0}, \code{b1}.
+*For \code{gompertzmakeham} and \code{weibullmakeham} the parameters are \code{b0}, \code{b1}
+and \code{C}.
+*For \code{exponential}, the parameter is \code{C}.
+*For \code{siler}, the parameters are \code{a0}, \code{a1}, \code{C}, \code{b0} and \code{b1}.
+
+Note that the parameters must be provided in the order mentioned here. \code{x}
+represents age.
 \itemize{
 \item Gompertz: \eqn{h_x = b_0 \mathrm{e}^{b_1  x}}
 \item Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 \item Exponential: \eqn{h_x = c}
 \item Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
 \item Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1)}
+\item Weibull-Makeham: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1) + c}
 }
 
 In the output, the probability of survival (\code{px}) (and death (\code{qx}))
@@ -57,33 +64,45 @@ represent the probability of individuals that enter the age interval
 \eqn{[x,x+1]} survive until the end of the interval (or die before the end
 of the interval). It is not possible to estimate a value for this in the
 final row of the life table (because there is no \eqn{x+1} value) and
-therefore the input values of \code{age} (x) may need to be extended to capture this
-final interval.
+therefore the input values of \code{age} (x) may need to be extended to capture
+this final interval.
 }
 \examples{
-model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
+model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 
-model_survival(
+model_mortality(
   params = c(b_0 = 0.1, b_1 = 0.2, C = 0.1),
   model = "GompertzMakeham",
   truncate = 0.1
 )
 
-model_survival(params = c(c = 0.2), model = "Exponential", age = 0:10)
+model_mortality(params = c(c = 0.2), model = "Exponential", age = 0:10)
 
-model_survival(
+model_mortality(
   params = c(a_0 = 0.1, a_1 = 0.2, C = 0.1, b_0 = 0.1, b_1 = 0.2),
   model = "Siler",
   age = 0:10
 )
+
+model_mortality(
+  params = c(b_0 = 1.4, b_1 = 0.18),
+  model = "Weibull"
+)
+
+model_mortality(
+  params = c(b_0 = 1.1, b_1 = 0.05, c = 0.2),
+  model = "WeibullMakeham"
+)
+
 model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 }
 \references{
-Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman and Hall,
-London, UK.
+Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman
+and Hall, London, UK.
 
-Pinder III, J.E., Wiener, J.G. & Smith, M.H. (1978) The Weibull distribution:
-a method of summarizing survivorship data. Ecology, 59, 175–179.
+Pinder III, J.E., Wiener, J.G. & Smith, M.H. (1978) The Weibull
+distribution: a method of summarizing survivorship data. Ecology, 59,
+175–179.
 
 Pletcher, S. (1999) Model fitting and hypothesis testing for age-specific
 mortality data. Journal of Evolutionary Biology, 12, 430–439.

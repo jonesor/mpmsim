@@ -1,0 +1,352 @@
+---
+title: "Generate Leslie matrices"
+author: "Owen Jones"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Generate Leslie matrices}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+set.seed(42)
+```
+
+## Introduction
+
+Leslie matrix models, named after Patrick Leslie who first introduced them in the 1940s, are a type of matrix population model (MPM) used to describe demography of age structured populations. They are commonly used in studies of wildlife, conservation and evolutionary biology.
+
+In a Leslie MPM the square matrix is used to model discrete, age-structured population growth with a projection interval, typically representing years, as a time step. Each element in the matrix represents a transition probability between different age classes, or indicates the fertility of the age class. The information in the MPM can be split into two submatrices, representing survival/growth and reproduction (the fertility vector), respectively.
+
+* **Survival Probabilities**: The subdiagonal (immediately below the main diagonal) of the MPM consists of survival probabilities. Each entry here shows the probability that an individual of one age class will survive to the next age class. These probabilities can be understood as an age trajectory of survival that can be modelled using a mathematical model describing how age-specific mortality changes with age.
+
+* **Fertility**: The first row of the MPM contains the reproductive rates of each age class. These entries indicate how many new individuals each age class can expect to produce in each projection interval.
+
+All other entries in the MPM are typically zero, indicating that those transitions are impossible.
+
+To project the population size and structure through time, the MPM is multiplied by a vector that represents the current population structure (number of individuals in each age class). This process results in a new vector that shows the predicted structure of the population in the next time step. This calculation can be iterated repeatedly to project population and structure through time.
+
+Leslie matrices are useful for studying population dynamics under different scenarios, such as changes in survival rates, fecundity rates, or management strategies. They have been widely applied in both theoretical and applied ecology.
+
+## Aims
+
+The purpose of this vignette is to illustrate how to simulate sets of Leslie MPMs based on known functional forms of mortality and fertility. There are several reasons why one would want to do this, including, but not limited to:
+
+* Exploring how senescence parameters influence dynamics.
+* To obtain MPMs based on parameter estimates of mortality and fertility obtained from the literature.
+* To generate MPMs with defined properties for teaching purposes.
+
+In the following sections, this document will:
+
+1) Explain the basics of mortality and fertility trajectories.
+2) Show how to produce life tables reflecting trajectories of mortality and fertility.
+3) Show how to produce MPMs from these life tables.
+4) Show how to generate sets of many MPMs based on defined mortality and fertility characteristics.
+
+## Preparation
+
+Before beginning, users will need to load the required packages.
+
+```{r, message=FALSE}
+library(mpmsim)
+library(dplyr)
+library(Rage)
+library(ggplot2)
+library(Rcompadre)
+```
+
+## 1. Functional forms of mortality and fertility
+
+There are numerous published and well-used functional forms used to describe how mortality risk (hazard) changes with age. The `model_mortality` function (and its synonym `model_survival`) handles 6 of these models: Gompertz, Gompertz-Makeham, Weibull, Weibull-Makeham, Siler and Exponential. 
+
+In a nutshell:
+
+* Gompertz: A mortality rate that increases exponentially with age. $h_x = b_0 \mathrm{e}^{b_1  x}$
+* Gompertz-Makeham: A mortality rate that increases exponentially with age, with an additional age-independent constant mortality. $h_x = b_0 \mathrm{e}^{b_1  x} + c$
+* Weibull: A mortality rate that scales with age, increasing at a rate that can either accelerate or decelerate, depending on the parameters of the model. $h_x = b_0  b_1  (b_1  x)^(b_0 - 1)$
+* Weibull-Makeham: as the basic Weibull, but with an additional age-independent constant mortality. $h_x = b_0  b_1  (b_1  x)^(b_0 - 1) + c$
+* Siler: A mortality model that separates mortality rates into two age-related components — juvenile mortality, which declines exponentially with age and adult mortality, which increases exponentially. $h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}$
+* Exponential: Constant mortality that is unchanging with age. $h_x = c$
+
+These are illustrated below.
+
+```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8}
+require(patchwork)
+A <- model_mortality(
+  params = c(b_0 = 0.01, b_1 = 0.5),
+  model = "Gompertz"
+)
+
+plotA <- ggplot(A,aes(x = x, y = hx)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Hazard") + 
+  ggtitle("A) Gompertz") 
+
+
+B <- model_mortality(
+  params = c(b_0 = 0.01, b_1 = 0.5, C = 0.2),
+  model = "GompertzMakeham"
+)
+
+plotB <- ggplot(B,aes(x = x, y = hx)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Hazard") + 
+  ggtitle("B) Gompertz-Makeham") + 
+  geom_hline(yintercept = 0.2,linetype =2 ) + 
+  coord_cartesian(ylim = c(0, NA))
+
+
+C <- model_mortality(
+  params = c(a_0 = 0.15, a_1 = 0.3, C = -0.11, b_0 = 0.1, b_1 = 0.1),
+  model = "Siler"
+)
+
+plotC <- ggplot(C,aes(x = x, y = hx)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Hazard") + 
+  ggtitle("C) Siler") + 
+  coord_cartesian(ylim = c(0, NA))
+
+D <- model_mortality(
+  params = c(b_0 = 1.51, b_1 = 0.15),
+  model = "Weibull"
+)
+
+plotD <- ggplot(D,aes(x = x, y = hx)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Hazard") + 
+  ggtitle("D) Weibull") 
+
+E <- model_mortality(
+    params = c(b_0 = 1.51, b_1 = 0.15, C = 0.05),
+  model = "WeibullMakeham"
+)
+
+plotE <- ggplot(E,aes(x = x, y = hx)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Hazard") + 
+  ggtitle("F) Weibull-Makeham") + 
+  geom_hline(yintercept = 0.05,linetype =2 ) + 
+  coord_cartesian(ylim = c(0, NA))
+
+FF <- model_mortality(
+  params = c(b_0 = 0.1),
+  model = "Exponential"
+)
+
+plotFF <- ggplot(FF,aes(x = x, y = hx)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Hazard") + 
+  ggtitle("E) Exponential") 
+
+
+plotA + plotB + plotC + plotD + plotE + plotFF
+
+```
+
+In addition to these functional forms of mortality, there are, of course, functional forms that have been used to model fertility. The `model_fertility` function handles five types: logistic, step, von Bertalanffy, Normal and Hadwiger.
+
+
+* Logistic: Fertility initially increases rapidly with age then slows to plateau as it approaches a maximum value. $f_x = A / (1 + exp(-k  (x - x_m)))$
+* Step: Fertility is initially zero, then jumps to a particular level at a specified age, after which it remains constant. $f_x= \begin{cases} A, x \geq m \\ A, x <  m \end{cases}$
+* von Bertalanffy: This model is often used in growth dynamics but has been adapted for fertility to describe changes over age or time following a logistic growth form not limited by a strict upper asymptote. It shows how fertility rates might increase and then decrease, following a more smoothed, sigmoid curve. $f_x = A  (1 - exp(-k  (x - x_0)))$
+* Normal : Fertility is modelled as normal distribution to describe how fertility rates increase, peak, and then decreases in a bell curve around a mean age of reproductive capacity. $f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)$
+* Hadwiger: The outcomes of this model is qualitatively similar to the normal distribution. $f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}$
+
+```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8}
+baseDF <- data.frame(x = 0:20)
+
+# Compute fertility using the step model
+stepMod <- baseDF %>% 
+  mutate(fert = model_fertility(age = x, params = c(A = 10), maturity = 6, model = "step"))
+
+plotA <- ggplot(stepMod,aes(x = x, y = fert)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Fertility") + 
+  ggtitle("A) Step") 
+
+# Compute fertility using the logistic model
+logisticMod <- baseDF %>% 
+  mutate(fert = model_fertility(
+  age = x, params = c(A = 10, k = 0.5, x_m = 8), maturity =
+    0, model = "logistic"
+))
+
+plotB <- ggplot(logisticMod,aes(x = x, y = fert)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Fertility") + 
+  ggtitle("B) Logistic") 
+
+# Compute fertility using the von Bertalanffy model
+
+vonBertMod <- baseDF %>% 
+  mutate(fert = model_fertility(
+  age = x, params = c(A = 10, k = .5), maturity = 2, model =
+    "vonbertalanffy"
+))
+
+plotC <- ggplot(logisticMod,aes(x = x, y = fert)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Fertility") + 
+  ggtitle("C) von Bertalanffy") 
+
+# Compute fertility using the normal model
+normalMod <- baseDF %>% 
+  mutate(fert = model_fertility(
+  age = x, params = c(A = 10, mu = 4, sd = 2), maturity = 0,
+  model = "normal"
+))
+plotD <- ggplot(normalMod,aes(x = x, y = fert)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Fertility") + 
+  ggtitle("D) Normal") 
+
+# Compute fertility using the Hadwiger model
+hadwigerMod <- data.frame(x = 0:50) %>% 
+  mutate(fert = model_fertility(
+  age = x, params = c(a = 0.91, b = 3.85, C = 29.78),
+  maturity = 0, model = "hadwiger"
+))
+plotE <- ggplot(hadwigerMod,aes(x = x, y = fert)) + 
+  geom_line() + 
+  xlab("Age") + 
+  ylab("Fertility") + 
+  ggtitle("E) hadwiger") 
+
+
+plotA + plotB + plotC + plotD + plotE
+
+```
+
+Collectively, these mortality and fertility functions offer a large scope for modelling the variety of demographic trajectories apparent across the tree of life.
+
+## 2. Trajectories of mortality and fertility, and production of life tables
+
+To obtain a trajectory of mortality, users can use the `model_mortality` function, which takes as input the parameters of a specified mortality model. The output of this function is a standard life table `data.frame` including columns for age (`x`), age-specific hazard (`hx`), survivorship (`lx`), age-specific probability of death and survival (`qx` and `px`). By default, the life table is truncated at the age when the survivorship function declines below 0.01 (i.e. when only 1% of individuals in a cohort would remain alive).
+
+```{r}
+(lt1 <- model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz"))
+```
+
+It can be useful to explore the impact of parameters on the mortality hazard (`hx`) graphically, especially for users who are unfamiliar with the chosen models.
+
+```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8}
+ggplot(lt1,aes(x = x, y = hx)) + 
+  geom_line() + 
+  ggtitle("Gompertz mortality (b_0 = 0.1, b_1 = 0.2)")
+```
+
+
+The `model_fertility` function is similar to the `model_mortality` function, as it has arguments for the type of fertility model, and its parameters. However, the output of the `model_fertility` function is a vector of fertility values rather than a `data.frame`. This allows us to add a fertility column (`fert`) directly to the life table produced earlier, as follows:
+
+
+```{r}
+  (lt1 <- lt1 |>
+    mutate(fert = model_fertility(
+      age = x, params = c(A = 3),
+      maturity = 3,
+      model = "step"
+    )))
+```
+
+Again, it can be useful to plot the relevant data to visualise it.
+
+```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8}
+ggplot(lt1,aes(x = x, y = fert)) + 
+  geom_line() + 
+  ggtitle("Step fertility, maturity at age 3")
+```
+
+## 3. From life table to MPM
+
+Users can now turn these life tables, containing age-specific survival and fertility trajectories, into Leslie matrices using the `make_leslie_mpm` function. These MPMs can be large or small depending on the maximum life span of the population: as mentioned above, the population is modelled until less than 1% of a cohort remains alive.
+
+```{r}
+make_leslie_mpm(lifetable = lt1)
+```
+
+
+## 4. Produce sets of MPMs based on defined model characteristics
+
+It is sometimes desirable to create large numbers of MPMs with particular properties in order to test hypotheses. For Leslie MPMs, this can be implemented in a straightforward way using the function `rand_leslie_set`. This function generates a set of Leslie MPMs based on defined mortality and fertility models, and using model parameters that are randomly drawn from specified distributions. For example, users may wish to generate MPMs for Gompertz models to explore how rate of senescence influences population dynamics.
+
+Users must first set up a data frame describing the distribution from which parameters will be drawn at random. The data frame has a number of rows equal to the number of parameters in the model, and two values to describe the distribution. In the case of a uniform distribution, these are the minimum and maximum parameter values, respectively and with a normal distribution they represent the mean and standard deviation. The parameters must be entered in the order they appear in the model equations (see `?model_mortality`). 
+
+For the Gompertz-Makeham model: $h_x = b_0 \mathrm{e}^{b_1  x} + c$
+
+The `output` argument defines the output as one of six types (`Type1` through `Type6`). These outputs include `CompadreDB` objects or `list` objects, and the MPMs can be split into the component submatrices (U and F, where the MPM, A = U + F). In the special case `Type6` the outputs are provided as a `list` of life tables rather than MPMs. If the output is set as a `CompadreDB` object, the mortality and fertility model parameters used to generate the MPM are included as metadata.
+
+The following example illustrates the production of 50 Leslie MPMs output to a `CompadreDB` object based on the Gompertz-Makeham mortality model and a step fertility model with maturity beginning at age 0. An optional argument, `scale_output = TRUE` will scale the fertility in the output MPMs to ensure that population growth rate is lambda. The scaling algorithm is a simple scaling factor, by which the fertility part of the MPM (the F submatrix) is multiplied to ensure that population growth rate is 1, and yet the shape (but not the magnitude) of the fertility trajectory is maintained. This should be used with care: The desirability of such a manipulation strongly depends on the use the MPMs are put to.
+
+```{r}
+mortParams <- data.frame(minVal = c(0, 0.01, 0.1),
+                         maxVal = c(0.05, 0.15, 0.2))
+
+fertParams <- data.frame(minVal = 2,
+                         maxVal = 10)
+
+maturityParam <- c(0, 0)
+
+(myMatrices <- rand_leslie_set(
+  n_models = 50,
+  mortality_model = "GompertzMakeham",
+  fertility_model = "step",
+  mortality_params = mortParams,
+  fertility_params = fertParams,
+  fertility_maturity_params = maturityParam,
+  dist_type = "uniform",
+  output = "Type1"
+))
+
+
+```
+
+The function operates quite fast. For example, on an older MacBook (3.10GHz Intel with 4 cores), it takes 17 seconds to generate 5000 MPMs with the parameters mentioned above.
+
+As an aid to assessing the simulation, users can produce a simple summary of the MPMs using the `summarise_mpms` function. Note, though, that this only works with `CompadreDB` outputs. In this case, because we are working with Leslie MPMs, the dimension of the MPMs is indicative of the maximum age reached by individuals in the population.
+
+```{r}
+summarise_mpms(myMatrices)
+```
+
+
+After producing the output as a `CompadreDB` object, the matrices can be accessed using functions from the `RCompadre` R package. For example, to get the A matrix, or the U/F submatrices users can use the `matA`, `matU` or `matF` functions. The following code illustrates how to rapidly calculate population growth rate for all of the matrices. 
+
+
+```{r}
+# Obtain the matrices
+x <- matA(myMatrices)
+
+# Calculate lambda for each matrix
+sapply(x, popdemo::eigs, what = "lambda")
+```
+
+
+Users can examine the vignettes for the `Rcompadre` and `Rage` packages for additional insight into other potential operations with the `compadreDB` object.
+
+
+
+## Conclusion
+
+This vignette, has demonstrated the process of generating sets of Leslie matrices using functional forms of mortality and fertility. By following the steps outlined, users can simulate complex population dynamics scenarios, explore the influence of different parameters on demographic trajectories, and produce matrices for various applications, from theoretical studies to practical teaching tools.
+
+The vignette started by introducing Leslie matrix models and their significance in studying age-structured population dynamics comprehensively. It then detailed the functional forms of mortality and fertility, providing examples of how to model these vital rates. Using these models, it showed how to create life tables that form the basis for constructing Leslie matrices.
+
+The vignette also demonstrated how to produce multiple Leslie matrices with specific properties using the `rand_leslie_set` function. This allows for the generation of large datasets necessary for hypothesis testing and various other advanced analyses. Additionally, the vignette highlighted methods to summarise the simulated matrices.
+
+Overall, this vignette serves as a comprehensive guide for researchers and educators looking to employ Leslie matrix models in their work, providing the tools and knowledge needed to simulate and study population dynamics effectively.

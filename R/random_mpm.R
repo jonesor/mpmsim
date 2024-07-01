@@ -1,6 +1,8 @@
 #' Generate random Lefkovitch matrix population models (MPMs) based on life
 #' history archetypes
 #'
+#' This function is deprecated. Use `rand_lefko_mpm` instead.
+#'
 #' Generates a random matrix population model (MPM) with element values based on
 #' defined life history archetypes. Survival and transition/growth probabilities
 #' from any particular stage are restricted to be less than or equal to 1 by
@@ -88,12 +90,12 @@
 #'   the generation of large numbers of random matrices of this type.
 #' @export random_mpm
 #'
-
-
 random_mpm <- function(n_stages,
                        fecundity,
                        archetype = 1,
                        split = FALSE) {
+  .Deprecated("rand_lefko_mpm")
+
   # Check that n_stages is an integer greater than 0
   if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
       .Machine$double.eps^0.5 || n_stages <= 0) {
@@ -273,44 +275,3 @@ random_mpm <- function(n_stages,
   }
 }
 
-
-#' Generate Samples from a Dirichlet Distribution
-#'
-#' This function generates random samples from a Dirichlet distribution.
-#' The Dirichlet distribution is a multivariate generalization of the beta distribution,
-#' defined by a vector of positive concentration parameters (alpha). These parameters
-#' influence the shape and concentration of the distribution across its dimensions.
-#' Specifically, an alpha value of 1 signifies a uniform distribution over the simplex,
-#' indicating equal likelihood for all outcomes and a lack of prior bias or information.
-#'
-#' @param n Integer, the number of samples to generate.
-#' @param alpha Numeric vector, the concentration parameters for the Dirichlet
-#'   distribution. Each element must be positive. The length of the vector
-#'   determines the dimensionality of the Dirichlet distribution. Higher values
-#'   in the alpha vector indicate a higher concentration of the distribution
-#'   towards the corresponding dimension, while lower values indicate less
-#'   concentration. An alpha value of 1 for all parameters implies a uniform
-#'   distribution over the simplex, reflecting equal likelihood for all
-#'   combinations of outcomes that sum to 1. This represents a state of complete
-#'   ignorance or lack of prior information in Bayesian terms, akin to a
-#'   non-informative prior.
-#'
-#' @return A matrix with n rows and length(alpha) columns, where each row is a sample
-#'         from the Dirichlet distribution.
-#'
-#' @examples
-#' n <- 5  # Size of the sample
-#' alpha <- c(1, 1, 1)  # Example concentration parameters
-#' r_dirichlet(n, alpha)
-#'
-#' @noRd
-r_dirichlet <- function(n, alpha) {
-  result <- matrix(NA, nrow = n, ncol = length(alpha))
-
-  for (i in 1:n) {
-    gamma_samples <- rgamma(length(alpha), shape = alpha, rate = 1)
-    result[i, ] <- gamma_samples / sum(gamma_samples)
-  }
-
-  return(result)
-}

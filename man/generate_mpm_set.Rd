@@ -56,6 +56,9 @@ arguments, then a warning is produced.}
 A list of MPMs that meet the specified criteria.
 }
 \description{
+This function is deprecated. Use \code{rand_lefko_set} instead.
+}
+\details{
 This function generates a list of \code{n} MPMs according to the specified
 criteria. Criteria include the \code{archetype}, and the acceptable constraining
 criteria, which could include lambda, generation time or any other metric
@@ -117,6 +120,8 @@ generate_mpm_set(
 \code{\link[=random_mpm]{random_mpm()}} which this function is essentially a wrapper for.
 
 Other Lefkovitch matrices: 
+\code{\link{rand_lefko_mpm}()},
+\code{\link{rand_lefko_set}()},
 \code{\link{random_mpm}()}
 }
 \author{

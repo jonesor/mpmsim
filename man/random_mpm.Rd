@@ -37,6 +37,9 @@ the matrix is split into separate fertility and a growth/survival matrices,
 returned as a list.
 }
 \description{
+This function is deprecated. Use \code{rand_lefko_mpm} instead.
+}
+\details{
 Generates a random matrix population model (MPM) with element values based on
 defined life history archetypes. Survival and transition/growth probabilities
 from any particular stage are restricted to be less than or equal to 1 by
@@ -62,8 +65,7 @@ with the further assumption that stage-specific survival increases as
 individuals increase in size/developmental stage. In this respect it is
 similar to archetype 2.
 }
-}
-\details{
+
 In all 4 of these Archetypes, fecundity is placed as a single element on the
 top right of the matrix, if it is a single value. If it is a vector of length
 \code{n_stages} then the fertility vector spans the entire top row of the matrix.
@@ -101,7 +103,9 @@ matrices. Population Ecology, 60(1), 37–47.
 the generation of large numbers of random matrices of this type.
 
 Other Lefkovitch matrices: 
-\code{\link{generate_mpm_set}()}
+\code{\link{generate_mpm_set}()},
+\code{\link{rand_lefko_mpm}()},
+\code{\link{rand_lefko_set}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

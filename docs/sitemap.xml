@@ -10,6 +10,12 @@
     <loc>https://jonesor.github.io/mpmsim/articles/error_propagation.html</loc>
   </url>
   <url>
+    <loc>https://jonesor.github.io/mpmsim/articles/generate_lefkovitch_models.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/articles/generate_leslie_models.html</loc>
+  </url>
+  <url>
     <loc>https://jonesor.github.io/mpmsim/articles/index.html</loc>
   </url>
   <url>
@@ -61,9 +67,21 @@
     <loc>https://jonesor.github.io/mpmsim/reference/plot_matrix.html</loc>
   </url>
   <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/rand_lefko_mpm.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/rand_lefko_set.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/rand_leslie_set.html</loc>
+  </url>
+  <url>
     <loc>https://jonesor.github.io/mpmsim/reference/random_mpm.html</loc>
   </url>
   <url>
     <loc>https://jonesor.github.io/mpmsim/reference/reorganise_matrices.html</loc>
+  </url>
+  <url>
+    <loc>https://jonesor.github.io/mpmsim/reference/summarise_mpms.html</loc>
   </url>
 </urlset>

@@ -10,7 +10,8 @@ model_fertility(params, age = NULL, maturity = 0, model = "logistic")
 \item{params}{A numeric vector of parameters for the selected model. The
 number and meaning of parameters depend on the selected model.}
 
-\item{age}{A numeric vector representing age.}
+\item{age}{A numeric vector representing age. For use in creation of MPMs and
+life tables, these should be integers.}
 
 \item{maturity}{A non-negative numeric value indicating the age at maturity.
 Whatever model is used, the fertility is forced to be 0 below the age of
@@ -24,36 +25,30 @@ A numeric vector representing the computed fertility values.
 }
 \description{
 This function computes fertility based on the logistic, step, von
-Bertalanffy, Hadwiger, and normal models.
-The logistic model assumes that fertility increases sigmoidally with age from
-maturity until a maximum fertility is reached.
-The step model assumes that fertility is zero before the age of maturity and
-then remains constant.
-The von Bertalanffy model assumes that, after maturity, fertility increases
-asymptotically with age until a maximum fertility is reached. In this
-formulation, the model is set up so that fertility is 0 at the 'age of
-maturity - 1', and increases from that point.
-The Hadwiger model is rather complex and is intended to model human fertility
-with a characteristic hump-shaped fertility.
-For all models, the output ensures that fertility is zero before the age at
-maturity.
+Bertalanffy, Hadwiger, and normal models. The logistic model assumes that
+fertility increases sigmoidally with age from maturity until a maximum
+fertility is reached. The step model assumes that fertility is zero before
+the age of maturity and then remains constant. The von Bertalanffy model
+assumes that, after maturity, fertility increases asymptotically with age
+until a maximum fertility is reached. In this formulation, the model is set
+up so that fertility is 0 at the 'age of maturity - 1', and increases from
+that point. The Hadwiger model is rather complex and is intended to model
+human fertility with a characteristic hump-shaped fertility. For all models,
+the output ensures that fertility is zero before the age at maturity.
 }
 \details{
 The required parameters varies depending on the fertility model. The
 parameters are provided as a vector and the parameters must be provided in
 the order mentioned here.
 \itemize{
-\item Logistic: \eqn{f(x) = A / (1 + exp(-k  (x - x_m)))}
-\item Step: \eqn{f(x)=
-  \begin{cases}
-  A, x \geq m \\
-  A, x <  m
-  \end{cases}}
-\item von Bertalanffy: \eqn{f(x) = A  (1 - exp(-k  (x - x_0)))}
-\item Normal: \eqn{f(x) = A \times \exp\left(
-  -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)}
-\item Hadwiger: \eqn{f(x) = \frac{ab}{c} \left (\frac{c}{x}  \right )
-   ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{c}{x}+\frac{x}{c}-2
+\item Logistic: \eqn{f_x = A / (1 + exp(-k  (x - x_m)))}
+\item Step: \eqn{f_x=
+  \begin{cases} A, x \geq m \\ A, x <  m \end{cases}}
+\item von Bertalanffy: \eqn{f_x = A  (1 - exp(-k  (x - x_0)))}
+\item Normal: \eqn{f_x = A \times \exp\left(
+  -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)}
+\item Hadwiger: \eqn{f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )
+   ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2
    \right ) \right \}}
 }
 }
@@ -81,20 +76,20 @@ model_fertility(
 
 # Compute fertility using the Hadwiger model
 model_fertility(
-  age = 0:50, params = c(a = 0.91, b = 3.85, c = 29.78),
+  age = 0:50, params = c(a = 0.91, b = 3.85, C = 29.78),
   maturity = 0, model = "hadwiger"
 )
 
 }
 \references{
-Bertalanffy, L. von (1938) A quantitative theory of organic growth (inquiries
-on growth laws. II). Human Biology 10:181–213.
+Bertalanffy, L. von (1938) A quantitative theory of organic
+growth (inquiries on growth laws. II). Human Biology 10:181–213.
 
 Peristera, P. & Kostaki, A. (2007) Modeling fertility in modern populations.
 Demographic Research. 16. Article 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
 }
 \seealso{
-\code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality
+\code{\link[=model_mortality]{model_mortality()}} to model age-specific survival using mortality
 models.
 
 Other trajectories: 

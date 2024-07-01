@@ -1,13 +1,13 @@
 # Check if n is a positive integer
 testthat::expect_error(
-  generate_mpm_set(
+  suppressWarnings(generate_mpm_set(
     n = 0,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
     archetype = 4,
     split = TRUE,
     as_compadre = FALSE
-  )
+  ))
 )
 
 
@@ -15,21 +15,21 @@ testthat::expect_error(
 
 # Check output is a list
 testthat::expect_type(
-  generate_mpm_set(
+  suppressWarnings(generate_mpm_set(
     n = 10,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
     archetype = 4,
     split = TRUE,
     as_compadre = FALSE
-  ),
+  )),
   "list"
 )
 
 # Check output is a list of matrices
 # Checks the first element only
 testthat::expect_true(is.matrix(
-  generate_mpm_set(
+  suppressWarnings(generate_mpm_set(
     n = 10,
     n_stages = 5,
     fecundity = c(0, 0, 4, 8, 10),
@@ -37,12 +37,12 @@ testthat::expect_true(is.matrix(
     split = FALSE,
     by_type = FALSE,
     as_compadre = FALSE
-  )[[1]]
+  ))[[1]]
 ))
 
 
 
-x <- generate_mpm_set(
+x <- suppressWarnings(generate_mpm_set(
   n = 10,
   n_stages = 5,
   fecundity = c(0, 0, 4, 8, 10),
@@ -50,7 +50,7 @@ x <- generate_mpm_set(
   split = FALSE,
   by_type = FALSE,
   as_compadre = FALSE
-)
+))
 
 testthat::expect_true(inherits(x, "list"))
 
@@ -63,14 +63,14 @@ constrain_df <- data.frame(
   upper =
     1.1
 )
-x <- generate_mpm_set(
+x <- suppressWarnings(generate_mpm_set(
   n = 10,
   n_stages = 5,
   fecundity = c(0, 0, 4, 8, 10),
   archetype = 4,
   constraint = constrain_df,
   as_compadre = FALSE
-)
+))
 testthat::expect_true(inherits(x, "list"))
 
 
@@ -82,7 +82,7 @@ constrain_df <- data.frame(
     1.1
 )
 
-x <- generate_mpm_set(
+x <- suppressWarnings(generate_mpm_set(
   n = 10,
   n_stages = 5,
   fecundity = c(0, 0, 4, 8, 10),
@@ -91,21 +91,9 @@ x <- generate_mpm_set(
   split = FALSE,
   by_type = FALSE,
   as_compadre = FALSE
-)
+))
 testthat::expect_true(inherits(x, "list"))
 
-
-testthat::expect_warning(
-  generate_mpm_set(
-    n = 10,
-    n_stages = 5,
-    fecundity = c(0, 0, 4, 8, 10),
-    archetype = 4,
-    split = FALSE,
-    by_type = TRUE,
-    as_compadre = FALSE
-  )
-)
 
 constrain_df <- data.frame(
   fun = c("lambda", "generation.time", "damping.ratio"),
@@ -113,13 +101,12 @@ constrain_df <- data.frame(
   lower = c(0.9, 3.0, 1.0),
   upper = c(1.1, 5.0, 7.0)
 )
-x <- generate_mpm_set(
+x <- suppressWarnings(generate_mpm_set(
   n = 10,
   n_stages = 5,
   fecundity = c(0, 0, 4, 8, 10),
   archetype = 4,
   constraint = constrain_df,
   as_compadre = FALSE
-)
+))
 testthat::expect_true(inherits(x, "list"))
-

@@ -49,9 +49,9 @@ the element(s) concerned is known without error.
 set.seed(42) # set seed for repeatability
 
 # First generate a set of MPMs
-mpm_set <- generate_mpm_set(n = 5, n_stages = 5, fecundity = c(
+mpm_set <- rand_lefko_set(n = 5, n_stages = 5, fecundity = c(
   0, 0, 4, 8, 10
-), archetype = 4, split = TRUE, by_type = TRUE, as_compadre = FALSE)
+), archetype = 4, output = "Type4")
 
 # Now apply sampling error to this set
 add_mpm_error(
@@ -71,10 +71,9 @@ add_mpm_error(mat_U = mats$mat_U, mat_F = mats$mat_F, sample_size = 20)
 
 # Sample size is a list of two matrices
 # here with a sample size of 20 for reproduction and 10 for growth/survival.
-mpm_set <- generate_mpm_set(
+mpm_set <- rand_lefko_set(
   n = 5, n_stages = 3, fecundity = c(0, 2, 4),
-  archetype = 4, split = TRUE, by_type = TRUE,
-  as_compadre = FALSE
+  archetype = 4, output = "Type4"
 )
 
 ssMats <- list(
