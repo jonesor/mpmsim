@@ -72,7 +72,7 @@ The life history archetypes, based on Takada et al. (2018), are as follows:
 * Archetype 3: Positive non-zero elements for survival are only allowed on the diagonal and lower sub-diagonal of the matrix. This model represents a life cycle where retrogression is not allowed, and progression can only happen to the immediately larger/more developed stage (slow progression, e.g., trees).
 * Archetype 4: Similar to Archetype 3 but with the additional assumption that stage-specific survival increases as individuals increase in size/developmental stage.
 
-In all these archetypes, fecundity is placed in the top row of the matrix. In Takada et al's paper, fecundity was always placed in the top right of the MPM, meaning that only the "last" stage of the life cyle reproduced. This approach can be relaxed to allow reproduction from any stage.
+In all these archetypes, fecundity is placed in the top row of the matrix. In Takada et al's paper, fecundity was always placed in the top right of the MPM, meaning that only the "last" stage of the life cycle reproduced. This approach can be relaxed to allow reproduction from any stage.
 
 ## 2. Generate a random Lefkovitch MPM based on an archetype
 

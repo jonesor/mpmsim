@@ -15,7 +15,7 @@
 #' @param archetype The archetype of the MPMs. Default is `1`.
 #' @param fecundity Fecundity is the average number of offspring produced.
 #'   Values can be provided in 4 ways:
-#'   - An numeric vector of length 1 to provide a singl fecundity measure to the
+#'   - An numeric vector of length 1 providing a single fecundity measure to the
 #'   top right corner of the matrix model only.
 #'   - A numeric vector of integers of length equal to `n_stages` to provide
 #'   fecundity estimates for the whole top row of the matrix model. Use 0 for

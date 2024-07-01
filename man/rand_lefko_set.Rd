@@ -26,7 +26,7 @@ rand_lefko_set(
 \item{fecundity}{Fecundity is the average number of offspring produced.
 Values can be provided in 4 ways:
 \itemize{
-\item An numeric vector of length 1 to provide a singl fecundity measure to the
+\item An numeric vector of length 1 providing a single fecundity measure to the
 top right corner of the matrix model only.
 \item A numeric vector of integers of length equal to \code{n_stages} to provide
 fecundity estimates for the whole top row of the matrix model. Use 0 for

@@ -76,7 +76,7 @@
       <img src="" class="logo" alt=""><h1>Generate Leslie matrices</h1>
                         <h4 data-toc-skip class="author">Owen Jones</h4>
             
-            <h4 data-toc-skip class="date">2024-06-30</h4>
+            <h4 data-toc-skip class="date">2024-07-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/generate_leslie_models.Rmd" class="external-link"><code>vignettes/generate_leslie_models.Rmd</code></a></small>
       <div class="d-none name"><code>generate_leslie_models.Rmd</code></div>
@@ -261,8 +261,8 @@ alive).</p>
 hazard (<code>hx</code>) graphically, especially for users who are
 unfamiliar with the chosen models.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">lt1</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">hx</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">lt1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">hx</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Gompertz mortality (b_0 = 0.1, b_1 = 0.2)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="generate_leslie_models_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
 <p>The <code>model_fertility</code> function is similar to the
@@ -273,12 +273,12 @@ rather than a <code>data.frame</code>. This allows us to add a fertility
 column (<code>fert</code>) directly to the life table produced earlier,
 as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="op">(</span><span class="va">lt1</span> <span class="op">&lt;-</span> <span class="va">lt1</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>fert <span class="op">=</span> <span class="fu"><a href="../reference/model_fertility.html">model_fertility</a></span><span class="op">(</span></span>
-<span>      age <span class="op">=</span> <span class="va">x</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
-<span>      maturity <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>      model <span class="op">=</span> <span class="st">"step"</span></span>
-<span>    <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">lt1</span> <span class="op">&lt;-</span> <span class="va">lt1</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>fert <span class="op">=</span> <span class="fu"><a href="../reference/model_fertility.html">model_fertility</a></span><span class="op">(</span></span>
+<span>    age <span class="op">=</span> <span class="va">x</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
+<span>    maturity <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>    model <span class="op">=</span> <span class="st">"step"</span></span>
+<span>  <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     x        hx         lx        qx        px fert</span></span>
 <span><span class="co">#&gt; 1   0 0.1000000 1.00000000 0.1051240 0.8948760    0</span></span>
 <span><span class="co">#&gt; 2   1 0.1221403 0.89487598 0.1268617 0.8731383    0</span></span>
@@ -295,8 +295,8 @@ as follows:</p>
 <p>Again, it can be useful to plot the relevant data to visualise
 it.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">lt1</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">fert</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">lt1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">fert</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Step fertility, maturity at age 3"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="generate_leslie_models_files/figure-html/unnamed-chunk-7-1.png" width="768"></p>
 </div>
@@ -380,11 +380,15 @@ magnitude) of the fertility trajectory is maintained. This should be
 used with care: The desirability of such a manipulation strongly depends
 on the use the MPMs are put to.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mortParams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>minVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                         maxVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.15</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mortParams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  minVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>  maxVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.15</span>, <span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fertParams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>minVal <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>                         maxVal <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">fertParams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  minVal <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  maxVal <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">maturityParam</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span></span>

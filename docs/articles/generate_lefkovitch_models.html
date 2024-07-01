@@ -76,7 +76,7 @@
       <img src="" class="logo" alt=""><h1>Generate Lefkovitch matrices</h1>
                         <h4 data-toc-skip class="author">Owen Jones</h4>
             
-            <h4 data-toc-skip class="date">2024-06-30</h4>
+            <h4 data-toc-skip class="date">2024-07-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/generate_lefkovitch_models.Rmd" class="external-link"><code>vignettes/generate_lefkovitch_models.Rmd</code></a></small>
       <div class="d-none name"><code>generate_lefkovitch_models.Rmd</code></div>
@@ -183,7 +183,7 @@ increase in size/developmental stage.</li>
 </ul>
 <p>In all these archetypes, fecundity is placed in the top row of the
 matrix. In Takada et al’s paper, fecundity was always placed in the top
-right of the MPM, meaning that only the “last” stage of the life cyle
+right of the MPM, meaning that only the “last” stage of the life cycle
 reproduced. This approach can be relaxed to allow reproduction from any
 stage.</p>
 </div>
@@ -230,14 +230,21 @@ values. Users should use 0 for both lower and upper limits in cases with
 no reproduction.</p>
 <p>The following code provides an example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lower_fert</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,</span>
-<span>                       <span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,</span>
-<span>                       <span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">upper_fert</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span>,<span class="fl">20</span>,</span>
-<span>                        <span class="fl">0</span>,<span class="fl">0</span>, <span class="fl">0</span>,</span>
-<span>                        <span class="fl">0</span>,<span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">lower_fert</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>,</span>
+<span>  <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>,</span>
+<span>  <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span></span>
+<span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">upper_fert</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">20</span>,</span>
+<span>  <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>,</span>
+<span>  <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span></span>
+<span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/rand_lefko_mpm.html">rand_lefko_mpm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lower_fert</span>, <span class="va">upper_fert</span><span class="op">)</span>, archetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rand_lefko_mpm.html">rand_lefko_mpm</a></span><span class="op">(</span></span>
+<span>  n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lower_fert</span>, <span class="va">upper_fert</span><span class="op">)</span>,</span>
+<span>  archetype <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; $mat_A</span></span>
 <span><span class="co">#&gt;           [,1]      [,2]       [,3]</span></span>
 <span><span class="co">#&gt; [1,] 0.0873477 2.6402006 15.2043937</span></span>
@@ -279,10 +286,10 @@ archetype of the MPM is included as a column of metadata.</p>
 <p>The following code shows how users can generate 100 matrices in a
 <code>CompadreDB</code> object.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span> <span class="va">myMatrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rand_lefko_set.html">rand_lefko_set</a></span><span class="op">(</span></span>
-<span>   n <span class="op">=</span> <span class="fl">100</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">12</span>,</span>
-<span>   archetype <span class="op">=</span> <span class="fl">4</span>, output <span class="op">=</span> <span class="st">"Type1"</span></span>
-<span> <span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myMatrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rand_lefko_set.html">rand_lefko_set</a></span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">100</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  archetype <span class="op">=</span> <span class="fl">4</span>, output <span class="op">=</span> <span class="st">"Type1"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>After producing the output as a <code>CompadreDB</code> object, the
 matrices can be accessed using functions from the <code>RCompadre</code>
 R package. For example, to get the A matrix, or the U/F submatrices
@@ -327,13 +334,13 @@ that the generated MPMs have a population growth rate (lambda) between
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">constrain_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>   fun <span class="op">=</span> <span class="st">"eigs"</span>, arg <span class="op">=</span> <span class="st">"lambda"</span>, lower <span class="op">=</span> <span class="fl">0.9</span>, upper <span class="op">=</span> <span class="fl">1.1</span></span>
-<span> <span class="op">)</span></span>
+<span>  fun <span class="op">=</span> <span class="st">"eigs"</span>, arg <span class="op">=</span> <span class="st">"lambda"</span>, lower <span class="op">=</span> <span class="fl">0.9</span>, upper <span class="op">=</span> <span class="fl">1.1</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span> <span class="va">myMatrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rand_lefko_set.html">rand_lefko_set</a></span><span class="op">(</span></span>
-<span>   n <span class="op">=</span> <span class="fl">100</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">12</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>,</span>
-<span>   archetype <span class="op">=</span> <span class="fl">4</span>, output <span class="op">=</span> <span class="st">"Type1"</span></span>
-<span> <span class="op">)</span></span></code></pre></div>
+<span><span class="va">myMatrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rand_lefko_set.html">rand_lefko_set</a></span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">100</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">12</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>,</span>
+<span>  archetype <span class="op">=</span> <span class="fl">4</span>, output <span class="op">=</span> <span class="st">"Type1"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>We can check that it has worked by examining the matrices.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Obtain the matrices</span></span>

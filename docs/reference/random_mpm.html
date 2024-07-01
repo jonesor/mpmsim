@@ -70,10 +70,17 @@
 
 <dt>fecundity</dt>
 <dd><p>Fecundity is the average number of offspring produced.
-Values can be provided in 4 ways:</p><ul><li><p>An numeric vector of length 1 to provide a fecundity measure to the top right corner of the matrix model only.</p></li>
-<li><p>A numeric vector of integers of length equal to <code>n_stages</code> to provide fecundity estimates for the whole top row of the matrix model. Use 0 for cases with no reproduction.</p></li>
-<li><p>A matrix of numeric values of the same dimension as <code>n_stages</code> to provide fecundity estimates for the entire matrix model. Use 0 for cases with no reproduction.</p></li>
-<li><p>A list of two matrices of numeric values, both with the same dimension as <code>n_stages</code>, to provide lower and upper estimates of mean fecundity for the entire matrix model.
+Values can be provided in 4 ways:</p><ul><li><p>An numeric vector of length 1 to provide a fecundity measure to the top
+right corner of the matrix model only.</p></li>
+<li><p>A numeric vector of integers of length equal to <code>n_stages</code> to provide
+fecundity estimates for the whole top row of the matrix model. Use 0 for
+cases with no reproduction.</p></li>
+<li><p>A matrix of numeric values of the same dimension as <code>n_stages</code> to
+provide fecundity estimates for the entire matrix model. Use 0 for cases
+with no reproduction.</p></li>
+<li><p>A list of two matrices of numeric values, both with the same dimension
+as <code>n_stages</code>, to provide lower and upper estimates of mean fecundity for
+the entire matrix model.
 In the latter case, a fecundity value will be drawn from a uniform
 distribution for the defined range. If there is no reproduction in a
 particular age class, use a value of 0 for both the lower and upper limit.</p></li>
