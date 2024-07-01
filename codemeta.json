@@ -7,13 +7,13 @@
   "codeRepository": "https://github.com/jonesor/mpmsim",
   "issueTracker": "https://github.com/jonesor/mpmsim/issues",
   "license": "https://spdx.org/licenses/CC-BY-SA-4.0",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
+  "runtimePlatform": "R version 4.4.1 (2024-06-14)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -41,30 +41,6 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "covr",
-      "name": "covr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=covr"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "ggfortify",
-      "name": "ggfortify",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=ggfortify"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "knitr",
       "name": "knitr",
       "provider": {
@@ -77,15 +53,15 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "Rage",
-      "name": "Rage",
+      "identifier": "patchwork",
+      "name": "patchwork",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=Rage"
+      "sameAs": "https://CRAN.R-project.org/package=patchwork"
     },
     {
       "@type": "SoftwareApplication",
@@ -111,18 +87,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "viridis",
-      "name": "viridis",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=viridis"
     }
   ],
   "softwareRequirements": {
@@ -181,15 +145,15 @@
     },
     "6": {
       "@type": "SoftwareApplication",
-      "identifier": "reshape",
-      "name": "reshape",
+      "identifier": "Rage",
+      "name": "Rage",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=reshape"
+      "sameAs": "https://CRAN.R-project.org/package=Rage"
     },
     "7": {
       "@type": "SoftwareApplication",
@@ -205,13 +169,26 @@
     },
     "8": {
       "@type": "SoftwareApplication",
+      "identifier": "reshape",
+      "name": "reshape",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=reshape"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
     "SystemRequirements": null
   },
-  "fileSize": "716.575KB",
+  "fileSize": "901.241KB",
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
+  "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md",
   "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main"],
   "developmentStatus": "https://www.repostatus.org/#active",
   "relatedLink": "https://CRAN.R-project.org/package=mpmsim"
