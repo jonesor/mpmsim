@@ -127,7 +127,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 
   # Sample size validation
   if (!(inherits(sample_size, "list") || inherits(sample_size, "matrix") ||
-        length(sample_size) == 1)) {
+    length(sample_size) == 1)) {
     stop("sample_size needs to be a matrix, a list of two matrices,
          or an integer with length 1")
   }

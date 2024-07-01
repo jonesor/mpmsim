@@ -84,9 +84,9 @@ reorganise_matrices <- function(matrix_list) {
   mat_F_list <- lapply(matrix_list, function(x) x$mat_F)
 
   # The C matrix may not exist
-  mat_C_list <- lapply(matrix_list, function(x) get_or_na_matrix(x,
-                                                                 "mat_C",
-                                                                 x$mat_U))
+  mat_C_list <- lapply(matrix_list, function(x) {
+    get_or_na_matrix(x, "mat_C", x$mat_U)
+  })
 
   # Combine the lists into a single list
   grouped_matrices <- list(

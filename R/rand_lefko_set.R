@@ -124,6 +124,7 @@
 #' @seealso [rand_lefko_mpm()] which this function is essentially a wrapper for.
 #' @family Lefkovitch matrices
 #' @importFrom Rcompadre cdb_build_cdb
+#' @importFrom dplyr bind_cols
 #' @export rand_lefko_set
 
 rand_lefko_set <- function(n_models = 5, n_stages = 3, archetype = 1,
@@ -131,7 +132,8 @@ rand_lefko_set <- function(n_models = 5, n_stages = 3, archetype = 1,
                            output = "Type1", max_surv = 0.99,
                            constraint = NULL, attempts = 1000) {
   # Check if n is a positive integer
-  if (!min(abs(c(n_models %% 1, n_models %% 1 - 1))) < .Machine$double.eps^0.5 || n_models <= 0) {
+  if (!min(abs(c(n_models %% 1, n_models %% 1 - 1))) <
+    .Machine$double.eps^0.5 || n_models <= 0) {
     stop("n_models must be a positive integer")
   }
 
@@ -230,12 +232,9 @@ rand_lefko_set <- function(n_models = 5, n_stages = 3, archetype = 1,
 
   # If the output is Type1 or Type2, make a dataframe of metadata to be added to
   # the CompadreDB
-  if (output %in% c("Type1", "Type2")){
+  if (output %in% c("Type1", "Type2")) {
     archetype_df <- as.data.frame(do.call(rbind, archetypeParameters))
-
-
     colnames(archetype_df) <- "archetype"
-
     compadre_metadata <- bind_cols(archetype_df)
   }
 
@@ -245,25 +244,28 @@ rand_lefko_set <- function(n_models = 5, n_stages = 3, archetype = 1,
     U_list <- lapply(output_list, function(x) x$mat_U)
     F_list <- lapply(output_list, function(x) x$mat_F)
 
-    compadreObject <- suppressWarnings(cdb_build_cdb(mat_u = U_list,
-                                                     mat_f = F_list,
-                                                     metadata = compadre_metadata))
+    compadreObject <- suppressWarnings(
+      cdb_build_cdb(
+        mat_u = U_list, mat_f = F_list,
+        metadata = compadre_metadata
+      )
+    )
 
     return(compadreObject)
-
   }
 
   # `Type2`: A `compadreDB` Object containing MPMs that are not split into
   # submatrices
   if (output == "Type2") {
-    compadreObject <- suppressWarnings(cdb_build_cdb(mat_a = output_list,
-                                                     metadata = compadre_metadata))
+    compadreObject <- suppressWarnings(
+      cdb_build_cdb(mat_a = output_list, metadata = compadre_metadata)
+    )
     return(compadreObject)
   }
 
-  #`Type3`: A `list` of MPMs arranged so that each element of the list contains
-  #a model and associated submatrices (i.e. the nth element contains the nth A
-  #matrix alongside the nth U and F matrices).
+  # `Type3`: A `list` of MPMs arranged so that each element of the list contains
+  # a model and associated submatrices (i.e. the nth element contains the nth A
+  # matrix alongside the nth U and F matrices).
   if (output == "Type3") {
     return(output_list)
   }

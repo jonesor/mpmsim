@@ -27,10 +27,14 @@ test_that("reorganise_matrices works with valid input", {
 })
 
 test_that("reorganise_matrices stops with invalid input", {
-  expect_error(reorganise_matrices(NULL),
-               "matrix_list must be a non-empty list")
-  expect_error(reorganise_matrices(list()),
-               "matrix_list must be a non-empty list")
+  expect_error(
+    reorganise_matrices(NULL),
+    "matrix_list must be a non-empty list"
+  )
+  expect_error(
+    reorganise_matrices(list()),
+    "matrix_list must be a non-empty list"
+  )
 
   invalid_matrix_list_1 <- list(
     list(
@@ -38,8 +42,10 @@ test_that("reorganise_matrices stops with invalid input", {
       mat_U = matrix(2, 2, 2)
     )
   )
-  expect_error(reorganise_matrices(invalid_matrix_list_1),
-               "Each sub-list must contain a matrix named mat_F")
+  expect_error(
+    reorganise_matrices(invalid_matrix_list_1),
+    "Each sub-list must contain a matrix named mat_F"
+  )
 
   invalid_matrix_list_2 <- list(
     list(
@@ -48,8 +54,10 @@ test_that("reorganise_matrices stops with invalid input", {
       mat_F = "not a matrix"
     )
   )
-  expect_error(reorganise_matrices(invalid_matrix_list_2),
-               "Each sub-list must contain a matrix named mat_F")
+  expect_error(
+    reorganise_matrices(invalid_matrix_list_2),
+    "Each sub-list must contain a matrix named mat_F"
+  )
 
   invalid_matrix_list_3 <- list(
     list(
@@ -59,6 +67,8 @@ test_that("reorganise_matrices stops with invalid input", {
       mat_C = "not a matrix"
     )
   )
-  expect_error(reorganise_matrices(invalid_matrix_list_3),
-               "mat_C, if present, must be a matrix")
+  expect_error(
+    reorganise_matrices(invalid_matrix_list_3),
+    "mat_C, if present, must be a matrix"
+  )
 })

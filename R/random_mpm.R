@@ -48,10 +48,17 @@
 #' @param n_stages An integer defining the number of stages for the MPM.
 #' @param fecundity Fecundity is the average number of offspring produced.
 #'   Values can be provided in 4 ways:
-#'   - An numeric vector of length 1 to provide a fecundity measure to the top right corner of the matrix model only.
-#'   - A numeric vector of integers of length equal to `n_stages` to provide fecundity estimates for the whole top row of the matrix model. Use 0 for cases with no reproduction.
-#'   - A matrix of numeric values of the same dimension as `n_stages` to provide fecundity estimates for the entire matrix model. Use 0 for cases with no reproduction.
-#'   - A list of two matrices of numeric values, both with the same dimension as `n_stages`, to provide lower and upper estimates of mean fecundity for the entire matrix model.
+#'   - An numeric vector of length 1 to provide a fecundity measure to the top
+#'   right corner of the matrix model only.
+#'   - A numeric vector of integers of length equal to `n_stages` to provide
+#'   fecundity estimates for the whole top row of the matrix model. Use 0 for
+#'   cases with no reproduction.
+#'   - A matrix of numeric values of the same dimension as `n_stages` to
+#'   provide fecundity estimates for the entire matrix model. Use 0 for cases
+#'   with no reproduction.
+#'   - A list of two matrices of numeric values, both with the same dimension
+#'   as `n_stages`, to provide lower and upper estimates of mean fecundity for
+#'   the entire matrix model.
 #'   In the latter case, a fecundity value will be drawn from a uniform
 #'   distribution for the defined range. If there is no reproduction in a
 #'   particular age class, use a value of 0 for both the lower and upper limit.
@@ -88,7 +95,7 @@
 #'
 #' @seealso [generate_mpm_set()] which is a wrapper for this function allowing
 #'   the generation of large numbers of random matrices of this type.
-#' @export random_mpm
+#' @export
 #'
 random_mpm <- function(n_stages,
                        fecundity,
@@ -98,7 +105,7 @@ random_mpm <- function(n_stages,
 
   # Check that n_stages is an integer greater than 0
   if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
-      .Machine$double.eps^0.5 || n_stages <= 0) {
+    .Machine$double.eps^0.5 || n_stages <= 0) {
     stop("n_stages must be an integer greater than 0.")
   }
 
@@ -109,7 +116,7 @@ random_mpm <- function(n_stages,
 
   # Check that archetype is an integer between 1 and 4
   if (!min(abs(c(archetype %% 1, archetype %% 1 - 1))) <
-      .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
+    .Machine$double.eps^0.5 || archetype < 1 || archetype > 4) {
     stop("archetype must be an integer between 1 and 4.")
   }
 
@@ -132,8 +139,10 @@ random_mpm <- function(n_stages,
 
     # Check if fecundity is a list of two matrices, each with dimension n_stages
     if (is.list(fecundity) && length(fecundity) == 2 &&
-        is.matrix(fecundity[[1]]) && all(dim(fecundity[[1]]) == c(n_stages, n_stages)) &&
-        is.matrix(fecundity[[2]]) && all(dim(fecundity[[2]]) == c(n_stages, n_stages))) {
+      is.matrix(fecundity[[1]]) && all(dim(fecundity[[1]]) ==
+      c(n_stages, n_stages)) &&
+      is.matrix(fecundity[[2]]) && all(dim(fecundity[[2]]) ==
+      c(n_stages, n_stages))) {
       return(TRUE)
     }
 
@@ -145,15 +154,16 @@ random_mpm <- function(n_stages,
     stop("Invalid fecundity input. See ?random_mpm")
   }
 
-  if(inherits(fecundity, "list")){
-    if(!all(fecundity[[2]] - fecundity[[1]] >= 0)){
-      stop("Invalid matrix input: the values in the lower bound fecundity matrix should be less than or equal
-           to the values in the upper bound fecundity matrix.")
+  if (inherits(fecundity, "list")) {
+    if (!all(fecundity[[2]] - fecundity[[1]] >= 0)) {
+      stop("Invalid matrix input: the values in the lower bound fecundity
+      matrix should be less than or equal to the values in the upper bound
+      fecundity matrix.")
     }
   }
 
-  if(inherits(fecundity, "matrix")){
-    if(!all(fecundity >= 0)){
+  if (inherits(fecundity, "matrix")) {
+    if (!all(fecundity >= 0)) {
       stop("Invalid matrix input: fecundity values must not be negative.")
     }
   }
@@ -227,10 +237,9 @@ random_mpm <- function(n_stages,
     if (inherits(fecundity, "numeric")) {
       # Create an empty matrix to initialise.
       mat_F <- matrix(0, nrow = n_stages, ncol = n_stages)
-      # Calculate Fecundity and place in top row.
-      # In the Takada archetypes, fecundity is ONLY placed in the top right. Here,
-      # if the length of the fecundity vector (fecundity) is 1, then that is
-      # exactly what we do...
+      # Calculate Fecundity and place in top row. In the Takada archetypes,
+      # fecundity is ONLY placed in the top right. Here, if the length of the
+      # fecundity vector (fecundity) is 1, then that is exactly what we do...
 
       if (length(fecundity) == 1) {
         mat_F[1, n_stages] <- fecundity
@@ -248,8 +257,8 @@ random_mpm <- function(n_stages,
     if (inherits(fecundity, "list")) {
       mat_F <- matrix(
         runif(n_stages^2,
-              min = fecundity[[1]],
-              max = fecundity[[2]]
+          min = fecundity[[1]],
+          max = fecundity[[2]]
         ),
         nrow = n_stages, ncol = n_stages
       )
@@ -274,4 +283,3 @@ random_mpm <- function(n_stages,
     return(mat_A)
   }
 }
-

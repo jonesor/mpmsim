@@ -88,15 +88,21 @@ To allow a random element to reproduction, users can provide fertility informati
 The following code provides an example:
 
 ```{r}
-lower_fert <- matrix(c(0,0,0,
-                       0,0,0,
-                       0,0,0), nrow = 3, ncol = 3, byrow = TRUE)
-upper_fert <-  matrix(c(0,4,20,
-                        0,0, 0,
-                        0,0, 0), nrow = 3, ncol = 3, byrow = TRUE)
+lower_fert <- matrix(c(
+  0, 0, 0,
+  0, 0, 0,
+  0, 0, 0
+), nrow = 3, ncol = 3, byrow = TRUE)
+upper_fert <- matrix(c(
+  0, 4, 20,
+  0, 0, 0,
+  0, 0, 0
+), nrow = 3, ncol = 3, byrow = TRUE)
 
-rand_lefko_mpm(n_stages = 3, fecundity = list(lower_fert, upper_fert), archetype = 2)
-
+rand_lefko_mpm(
+  n_stages = 3, fecundity = list(lower_fert, upper_fert),
+  archetype = 2
+)
 ```
 
 ## 3. Generate sets of Lefkovitch matrices
@@ -108,10 +114,10 @@ The function returns either a `list` or a `CompadreDB` object depending on the `
 The following code shows how users can generate 100 matrices in a `CompadreDB` object. 
 
 ```{r}
- myMatrices <- rand_lefko_set(
-   n = 100, n_stages = 3, fecundity = 12,
-   archetype = 4, output = "Type1"
- )
+myMatrices <- rand_lefko_set(
+  n = 100, n_stages = 3, fecundity = 12,
+  archetype = 4, output = "Type1"
+)
 ```
 
 After producing the output as a `CompadreDB` object, the matrices can be accessed using functions from the `RCompadre` R package. For example, to get the A matrix, or the U/F submatrices users can use the `matA`, `matU` or `matF` functions. The following code illustrates how to rapidly calculate population growth rate for all of the matrices. 
@@ -141,14 +147,13 @@ Here’s an example of how to use the constraint argument to ensure that the gen
 library(popdemo)
 
 constrain_df <- data.frame(
-   fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1
- )
+  fun = "eigs", arg = "lambda", lower = 0.9, upper = 1.1
+)
 
- myMatrices <- rand_lefko_set(
-   n = 100, n_stages = 3, fecundity = 12, constraint = constrain_df,
-   archetype = 4, output = "Type1"
- )
-
+myMatrices <- rand_lefko_set(
+  n = 100, n_stages = 3, fecundity = 12, constraint = constrain_df,
+  archetype = 4, output = "Type1"
+)
 ```
 We can check that it has worked by examining the matrices.
 

@@ -25,7 +25,6 @@ test_that("Check that function runs normally", {
   expect_silent(
     make_leslie_mpm(survival = 0.5, fertility = 10, n_stages = 25)
   )
-
 })
 
 

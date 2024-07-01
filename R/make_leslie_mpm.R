@@ -54,8 +54,11 @@
 #'   n_stages = 5
 #' )
 #'
-make_leslie_mpm <- function(survival=NULL, fertility=NULL, n_stages=NULL, lifetable=NULL, split = FALSE) {
-
+make_leslie_mpm <- function(survival = NULL,
+                            fertility = NULL,
+                            n_stages = NULL,
+                            lifetable = NULL,
+                            split = FALSE) {
   if (!is.null(lifetable)) {
     # Check that lifetable is a dataframe
     if (!is.data.frame(lifetable)) {
@@ -72,7 +75,8 @@ make_leslie_mpm <- function(survival=NULL, fertility=NULL, n_stages=NULL, lifeta
   }
 
   # Validate input
-  if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) < .Machine$double.eps^0.5 || n_stages < 1) {
+  if (!min(abs(c(n_stages %% 1, n_stages %% 1 - 1))) <
+    .Machine$double.eps^0.5 || n_stages < 1) {
     stop("n_stages must be a positive integer")
   }
 
@@ -104,12 +108,11 @@ make_leslie_mpm <- function(survival=NULL, fertility=NULL, n_stages=NULL, lifeta
     stop("split must be a logical value.")
   }
 
-  #Special case, with matrices of dimension 1. This occurs when the mortality
-  #model results in all individuals dying within 1 year.
-  if(n_stages == 1){
-
-    mat_F = matrix(fertility)
-    mat_U = matrix(survival)
+  # Special case, with matrices of dimension 1. This occurs when the mortality
+  # model results in all individuals dying within 1 year.
+  if (n_stages == 1) {
+    mat_F <- matrix(fertility)
+    mat_U <- matrix(survival)
 
     if (split) {
       mat_A_split <- list(mat_A = mat_U + mat_F, mat_U = mat_U, mat_F = mat_F)
@@ -120,27 +123,27 @@ make_leslie_mpm <- function(survival=NULL, fertility=NULL, n_stages=NULL, lifeta
     }
   }
 
-#Normal case (matrices with dimension > 1)
-  if(n_stages > 1){
-  id_col <- 1:n_stages
-  id_row <- c(2:n_stages, n_stages)
-  sub_diagonal_elements <- (id_col - 1) * n_stages + id_row
-  zero_matrix <- matrix(0, nrow = n_stages, ncol = n_stages)
+  # Normal case (matrices with dimension > 1)
+  if (n_stages > 1) {
+    id_col <- 1:n_stages
+    id_row <- c(2:n_stages, n_stages)
+    sub_diagonal_elements <- (id_col - 1) * n_stages + id_row
+    zero_matrix <- matrix(0, nrow = n_stages, ncol = n_stages)
 
-  # Make the F matrix (fertility)
-  mat_F <- zero_matrix
-  mat_F[1, ] <- fertility
+    # Make the F matrix (fertility)
+    mat_F <- zero_matrix
+    mat_F[1, ] <- fertility
 
-  # Make the U matrix (survival and growth)
-  mat_U <- zero_matrix
-  mat_U[sub_diagonal_elements] <- survival
+    # Make the U matrix (survival and growth)
+    mat_U <- zero_matrix
+    mat_U[sub_diagonal_elements] <- survival
 
-  if (split) {
-    mat_A_split <- list(mat_A = mat_U + mat_F, mat_U = mat_U, mat_F = mat_F)
-    return(mat_A_split)
-  } else {
-    mat_A <- mat_F + mat_U
-    return(mat_A)
-  }
+    if (split) {
+      mat_A_split <- list(mat_A = mat_U + mat_F, mat_U = mat_U, mat_F = mat_F)
+      return(mat_A_split)
+    } else {
+      mat_A <- mat_F + mat_U
+      return(mat_A)
+    }
   }
 }

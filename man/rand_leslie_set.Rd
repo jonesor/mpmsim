@@ -34,7 +34,8 @@ parameters depends on the selected \code{mortality_model} (see
 \code{?model_mortality}):
 \itemize{
 \item For \code{gompertz} and \code{weibull}: \code{b_0}, \code{b_1}
-\item For \code{gompertzmakeham} and \code{weibullmakeham}: \code{b_0}, \code{b_1}, \code{C}
+\item For \code{gompertzmakeham} and \code{weibullmakeham}: \code{b_0}, \code{b_1},
+\code{C}
 \item For \code{exponential}: \code{C}
 \item For \code{siler}: \code{a_0}, \code{a_1}, \code{C}, \code{b_0}, \code{b_1}
 If \code{dist_type} is \code{uniform} these rows represent the lower and upper limits
@@ -113,11 +114,15 @@ from specified distributions.
 }
 \examples{
 
-mortParams <- data.frame(minVal = c(0, 0.01, 0.1),
-maxVal = c(0.14, 0.15, 0.1))
+mortParams <- data.frame(
+  minVal = c(0, 0.01, 0.1),
+  maxVal = c(0.14, 0.15, 0.1)
+)
 
-fertParams <- data.frame(minVal = c(10, 0.5, 8),
-maxVal = c(11, 0.9, 10))
+fertParams <- data.frame(
+  minVal = c(10, 0.5, 8),
+  maxVal = c(11, 0.9, 10)
+)
 
 maturityParam <- c(0, 0)
 

@@ -125,8 +125,10 @@ For example, the following code produces a list of five Leslie matrices that hav
 First, we define the limits of a uniform distributions for the Gompertz mortality and step fertility functions. 
 
 ```{r}
-mortParams <- data.frame(minVal = c(0.05, 0.08, 0.7),
-                         maxVal = c(0.14, 0.15, 0.7))
+mortParams <- data.frame(
+  minVal = c(0.05, 0.08, 0.7),
+  maxVal = c(0.14, 0.15, 0.7)
+)
 
 fertParams <- data.frame(minVal = 4, maxVal = 6)
 ```
@@ -134,20 +136,20 @@ fertParams <- data.frame(minVal = 4, maxVal = 6)
 We also set maturity to be drawn from a distribution ranging from 0 to 3.
 
 ```{r}
-maturityParams <- c(0,3)
+maturityParams <- c(0, 3)
 ```
 
 Now we produce the models. We output as "`Type5`" which is a simple list of the main A matrix model, but outputs can also be split into submatrices (e.g. the U and F matrices), or as a `CompadreDB` object.
 
 ```{r}
 outputMPMs <- rand_leslie_set(
-      n_models = 5, mortality_model = "GompertzMakeham", fertility_model = "step",
-      mortality_params = mortParams,
-      fertility_params = fertParams,
-      fertility_maturity_params = maturityParams, 
-      dist_type = "uniform",
-      output = "Type5"
-    )
+  n_models = 5, mortality_model = "GompertzMakeham", fertility_model = "step",
+  mortality_params = mortParams,
+  fertility_params = fertParams,
+  fertility_maturity_params = maturityParams,
+  dist_type = "uniform",
+  output = "Type5"
+)
 
 outputMPMs
 ```
@@ -209,9 +211,11 @@ eigs(rMPM$mat_A, what = "lambda")
 Users can calculate the 95% CI, assuming a sample size of 10, like this:
 
 ```{r}
-compute_ci(mat_U = rMPM$mat_U, mat_F = rMPM$mat_F, 
-           sample_size = 10, 
-           FUN = eigs, what = "lambda")
+compute_ci(
+  mat_U = rMPM$mat_U, mat_F = rMPM$mat_F,
+  sample_size = 10,
+  FUN = eigs, what = "lambda"
+)
 ```
 
 The `sample_size` argument can handle various cases, for example, where sample size varies across the matrix, or between the U and F submatrices (see `?compute_ci`).

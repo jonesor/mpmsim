@@ -248,8 +248,10 @@ test_that("Check output is OK", {
 
   # Place the two matrices in a list
   fec_mats <- list(fec_mat_lower, fec_mat_upper)
-  temp <- rand_lefko_mpm(n_stages = 3, fecundity = fec_mats, archetype = 1,
-                         split = FALSE)
+  temp <- rand_lefko_mpm(
+    n_stages = 3, fecundity = fec_mats, archetype = 1,
+    split = FALSE
+  )
   expect_true(inherits(temp, "matrix"))
 
 
@@ -258,8 +260,10 @@ test_that("Check output is OK", {
     0, 0, 0,
     0, 0, 0
   ), ncol = 3, byrow = TRUE)
-  temp <- rand_lefko_mpm(n_stages = 3, fecundity = fec_mat, archetype = 1,
-                         split = FALSE)
+  temp <- rand_lefko_mpm(
+    n_stages = 3, fecundity = fec_mat, archetype = 1,
+    split = FALSE
+  )
   expect_true(inherits(temp, "matrix"))
 })
 
@@ -282,7 +286,9 @@ test_that("Check function fails gracefully with incorrect fecundity", {
   fec_mats <- list(fec_mat_lower, fec_mat_upper, fec_mat_upper)
 
   expect_error(
-    rand_lefko_mpm(n_stages = 3, fecundity = fec_mats, archetype = 1,
-                   split = FALSE)
+    rand_lefko_mpm(
+      n_stages = 3, fecundity = fec_mats, archetype = 1,
+      split = FALSE
+    )
   )
 })

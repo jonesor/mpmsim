@@ -91,10 +91,16 @@
 #' @importFrom Rcompadre cdb_build_cdb
 #' @export generate_mpm_set
 
-generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
+generate_mpm_set <- function(n = 10,
+                             n_stages = 3,
+                             archetype = 1,
                              fecundity = 1.5,
-                             split = TRUE, by_type = TRUE, as_compadre = TRUE, max_surv = 0.99,
-                             constraint = NULL, attempts = 1000) {
+                             split = TRUE,
+                             by_type = TRUE,
+                             as_compadre = TRUE,
+                             max_surv = 0.99,
+                             constraint = NULL,
+                             attempts = 1000) {
   .Deprecated("rand_lefko_set")
 
   # Check if n is a positive integer
@@ -102,20 +108,13 @@ generate_mpm_set <- function(n = 10, n_stages = 3, archetype = 1,
     stop("n must be a positive integer")
   }
 
-  #  if (split == FALSE && by_type == TRUE) {
-  #    stop("If split is FALSE, then by_type must also be FALSE")
-  #  }
-
   if (split == FALSE) {
-    if(by_type == TRUE){
+    if (by_type == TRUE) {
       by_type <- FALSE
       warning("Split is set to FALSE; by_type has been coerced to be FALSE")
     }
   }
 
-  #if (as_compadre == TRUE && by_type == FALSE) {
-  #  stop("If as_compadre is TRUE, then by_type must also be TRUE")
-  #}
   # Set up empty list of desired length
   output_list <- vector("list", n)
 

@@ -17,7 +17,8 @@
 #'   parameters depends on the selected `mortality_model` (see
 #'   `?model_mortality`):
 #'   - For `gompertz` and `weibull`: \code{b_0}, \code{b_1}
-#'   - For `gompertzmakeham` and `weibullmakeham`: \code{b_0}, \code{b_1}, \code{C}
+#'   - For `gompertzmakeham` and `weibullmakeham`: \code{b_0}, \code{b_1},
+#'   \code{C}
 #'   - For `exponential`: \code{C}
 #'   - For `siler`: \code{a_0}, \code{a_1}, \code{C}, \code{b_0}, \code{b_1}
 #'   If `dist_type` is `uniform` these rows represent the lower and upper limits
@@ -87,11 +88,15 @@
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
 #'
-#' mortParams <- data.frame(minVal = c(0, 0.01, 0.1),
-#' maxVal = c(0.14, 0.15, 0.1))
+#' mortParams <- data.frame(
+#'   minVal = c(0, 0.01, 0.1),
+#'   maxVal = c(0.14, 0.15, 0.1)
+#' )
 #'
-#' fertParams <- data.frame(minVal = c(10, 0.5, 8),
-#' maxVal = c(11, 0.9, 10))
+#' fertParams <- data.frame(
+#'   minVal = c(10, 0.5, 8),
+#'   maxVal = c(11, 0.9, 10)
+#' )
 #'
 #' maturityParam <- c(0, 0)
 #'
@@ -126,21 +131,27 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
   }
 
   # Validate mortality_model
-  valid_mortality_models <- c("gompertz", "weibull", "gompertzmakeham",
-                              "weibullmakeham", "exponential", "siler")
+  valid_mortality_models <- c(
+    "gompertz", "weibull", "gompertzmakeham",
+    "weibullmakeham", "exponential", "siler"
+  )
   if (!is.character(mortality_model) || !(mortality_model %in%
-                                          valid_mortality_models)) {
+    valid_mortality_models)) {
     stop("mortality_model must be one of ", paste(valid_mortality_models,
-                                                  collapse = ", "))
+      collapse = ", "
+    ))
   }
 
   # Validate fertility_model
-  valid_fertility_models <- c("logistic", "step", "vonbertalanffy",
-                              "normal", "hadwiger")
+  valid_fertility_models <- c(
+    "logistic", "step", "vonbertalanffy",
+    "normal", "hadwiger"
+  )
   if (!is.character(fertility_model) || !(fertility_model %in%
-                                          valid_fertility_models)) {
+    valid_fertility_models)) {
     stop("fertility_model must be one of ", paste(valid_fertility_models,
-                                                  collapse = ", "))
+      collapse = ", "
+    ))
   }
 
   # Validate mortality_params
@@ -154,10 +165,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     stop("Invalid mortality_model")
   )
   if (!is.data.frame(mortality_params) || ncol(mortality_params) != 2 ||
-      nrow(mortality_params) != expected_rows) {
-    stop(paste("mortality_params must be a dataframe with 2 columns and",
-               expected_rows, "rows for the", mortality_model,
-               "mortality_model"))
+    nrow(mortality_params) != expected_rows) {
+    stop(paste(
+      "mortality_params must be a dataframe with 2 columns and",
+      expected_rows, "rows for the", mortality_model,
+      "mortality_model"
+    ))
   }
 
 
@@ -171,15 +184,17 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     stop("Invalid fertility_model")
   )
   if (!is.data.frame(fertility_params) || ncol(fertility_params) != 2 ||
-      nrow(fertility_params) != expected_fertility_rows) {
-    stop(paste("fertility_params must be a dataframe with 2 columns and",
-               expected_fertility_rows, "rows for the", fertility_model,
-               "fertility_model"))
+    nrow(fertility_params) != expected_fertility_rows) {
+    stop(paste(
+      "fertility_params must be a dataframe with 2 columns and",
+      expected_fertility_rows, "rows for the", fertility_model,
+      "fertility_model"
+    ))
   }
 
   # Validate fertility_maturity_params
   if (!is.numeric(fertility_maturity_params) ||
-      length(fertility_maturity_params) != 2) {
+    length(fertility_maturity_params) != 2) {
     stop("fertility_maturity_params must be a numeric vector with two elements")
   }
 
@@ -555,7 +570,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
           )
         )
 
-          fertility_maturity_params_draw <- rnorm(1,
+        fertility_maturity_params_draw <- rnorm(1,
           mean = fertility_maturity_params[1],
           sd = fertility_maturity_params[2]
         )
@@ -585,7 +600,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
 
       # Calculate T
       genTime <- sum(lifeTables[[i]]$x * lifeTables[[i]]$lx *
-                       lifeTables[[i]]$fert) / R0
+        lifeTables[[i]]$fert) / R0
 
       # Calculate the target R0 for the desired lambda
       targetLambda <- 1
@@ -598,7 +613,6 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
 
       # Add the scaling parameter to a parameters data frame
       scaling_factorParameters[[i]] <- scaling_factor
-
     }
 
     # Here we deal with lifetables that are too short (all die within year)
@@ -642,27 +656,34 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     }
   }
 
-  if(scale_output == FALSE){
+  if (scale_output == FALSE) {
     scaling_factorParameters[[i]] <- 1
   }
 
   # Output the matrices or life tables.
   # If the output is Type1 or Type2, make a dataframe of metadata to be added to
   # the CompadreDB
-  if (output %in% c("Type1", "Type2")){
+  if (output %in% c("Type1", "Type2")) {
     mortalityParameters_df <- as.data.frame(do.call(rbind, mortalityParameters))
-    fertilityParameterss_df <- as.data.frame(do.call(rbind, fertilityParameters))
+    fertilityParameterss_df <- as.data.frame(do.call(
+      rbind,
+      fertilityParameters
+    ))
     maturityParameters_df <- as.data.frame(do.call(rbind, maturityParameters))
-    scaling_factorParameters_df <- as.data.frame(do.call(rbind, scaling_factorParameters))
+    scaling_factorParameters_df <- as.data.frame(
+      do.call(rbind, scaling_factorParameters)
+    )
 
     colnames(maturityParameters_df) <- "age_at_maturity"
     colnames(scaling_factorParameters_df) <- "fertility_scaling"
 
-    compadre_metadata <- bind_cols(mortality_model = mortality_model,
-                                   mortalityParameters_df,
-                                   fertility_model = fertility_model,
-                                   fertilityParameterss_df,
-                                   scaling_factorParameters_df)
+    compadre_metadata <- bind_cols(
+      mortality_model = mortality_model,
+      mortalityParameters_df,
+      fertility_model = fertility_model,
+      fertilityParameterss_df,
+      scaling_factorParameters_df
+    )
   }
 
 
@@ -673,9 +694,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     U_list <- lapply(leslieMatrices, function(x) x$mat_U)
     F_list <- lapply(leslieMatrices, function(x) x$mat_F)
 
-    compadreObject <- suppressWarnings(cdb_build_cdb(mat_u = U_list,
-                                                     mat_f = F_list,
-                                                     metadata = compadre_metadata))
+    compadreObject <- suppressWarnings(
+      cdb_build_cdb(
+        mat_u = U_list, mat_f = F_list,
+        metadata = compadre_metadata
+      )
+    )
 
     return(compadreObject)
   }
@@ -686,8 +710,9 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
   if (output == "Type2") {
     A_list <- lapply(leslieMatrices, function(x) x$mat_A)
 
-    compadreObject <- suppressWarnings(cdb_build_cdb(mat_a = A_list,
-                                                     metadata = compadre_metadata))
+    compadreObject <- suppressWarnings(
+      cdb_build_cdb(mat_a = A_list, metadata = compadre_metadata)
+    )
 
     return(compadreObject)
   }

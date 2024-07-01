@@ -82,7 +82,7 @@
 
 model_fertility <- function(params, age = NULL, maturity = 0,
                             model = "logistic") {
-  #Coerce model type to lower case to avoid irritation
+  # Coerce model type to lower case to avoid irritation
   model <- tolower(model)
   # Input validation and input error handling
   if (!is.numeric(age)) stop("Input 'age' must be a numeric vector.")
@@ -92,11 +92,11 @@ model_fertility <- function(params, age = NULL, maturity = 0,
   if (any(age != floor(age))) warning("Input 'age' must be integers for use
                                       in creating MPMs")
 
-if(length(age)>1){
-  if (min(diff(age)) <= 0) {
-    stop("age must be an increasing sequence")
+  if (length(age) > 1) {
+    if (min(diff(age)) <= 0) {
+      stop("age must be an increasing sequence")
+    }
   }
-}
   # Check model parameter name
   if (!model %in% c(
     "vonbertalanffy", "logistic", "normal", "step",

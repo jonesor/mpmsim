@@ -46,8 +46,8 @@
 #' @param n_stages An integer defining the number of stages for the MPM.
 #' @param fecundity Fecundity is the average number of offspring produced.
 #'   Values can be provided in 4 ways:
-#'   - An numeric vector of length 1 to provide a single fecundity measure to the
-#'   top right corner of the matrix model only.
+#'   - An numeric vector of length 1 to provide a single fecundity measure to
+#'   the top right corner of the matrix model only.
 #'   - A numeric vector of integers of length equal to `n_stages` to provide
 #'   fecundity estimates for the whole top row of the matrix model. Use 0 for
 #'   cases with no reproduction.
@@ -140,7 +140,7 @@ rand_lefko_mpm <- function(n_stages,
     # Check if fecundity is a list of two matrices, each with dimension n_stages
     if (is.list(fecundity) && length(fecundity) == 2 &&
       is.matrix(fecundity[[1]]) && all(dim(fecundity[[1]]) ==
-                                       c(n_stages, n_stages)) &&
+      c(n_stages, n_stages)) &&
       is.matrix(fecundity[[2]]) &&
       all(dim(fecundity[[2]]) == c(n_stages, n_stages))) {
       return(TRUE)

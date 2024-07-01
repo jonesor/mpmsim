@@ -97,7 +97,7 @@
 #'   functions.
 #' @export
 model_survival <- function(params, age = NULL, model, truncate = 0.01) {
-  #Coerce model type to lower case to avoid irritation
+  # Coerce model type to lower case to avoid irritation
   model <- tolower(model)
 
   if (is.null(age)) {
