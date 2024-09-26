@@ -168,8 +168,6 @@ summary(lambdaVals)
 
 ## Conclusion
 
-## Conclusion
-
 This vignette has provided a comprehensive guide to generating Lefkovitch matrix population models (MPMs) based on life history archetypes. By using the `rand_lefko_mpm` and `rand_lefko_set` functions, users can create single MPMs or large sets of MPMs tailored to specific research needs. The ability to impose constraints on these models allows for precise control over their properties, ensuring that generated MPMs meet defined criteria, such as specific population growth rates.
 
 The flexibility and power of these functions facilitate the exploration of population dynamics under various scenarios, aiding in hypothesis testing in studies of population biology and life history theory. Additionally, tight integration with the `Rcompadre` package facilitates the use of generated models, enhancing their utility in both theoretical and applied ecological research.
