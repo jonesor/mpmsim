@@ -37,8 +37,8 @@
 #'   * Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 #'   * Exponential: \eqn{h_x = c}
 #'   * Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
-#'   * Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1)}
-#'   * Weibull-Makeham: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1) + c}
+#'   * Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)}}
+#'   * Weibull-Makeham: \eqn{h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)} + c}
 #'
 #'   In the output, the probability of survival (`px`) (and death (`qx`))
 #'   represent the probability of individuals that enter the age interval

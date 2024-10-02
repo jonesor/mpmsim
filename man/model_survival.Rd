@@ -55,8 +55,8 @@ represents age.
 \item Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 \item Exponential: \eqn{h_x = c}
 \item Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
-\item Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1)}
-\item Weibull-Makeham: \eqn{h_x = b_0  b_1  (b_1  x)^(b_0 - 1) + c}
+\item Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)}}
+\item Weibull-Makeham: \eqn{h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)} + c}
 }
 
 In the output, the probability of survival (\code{px}) (and death (\code{qx}))
