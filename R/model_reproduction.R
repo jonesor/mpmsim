@@ -1,16 +1,19 @@
-#' Model fertility with age using set functional forms
+#' Model reproductive output with age using set functional forms
 #'
-#' This function computes fertility based on the logistic, step, von
-#' Bertalanffy, Hadwiger, and normal models. The logistic model assumes that
-#' fertility increases sigmoidally with age from maturity until a maximum
-#' fertility is reached. The step model assumes that fertility is zero before
-#' the age of maturity and then remains constant. The von Bertalanffy model
-#' assumes that, after maturity, fertility increases asymptotically with age
-#' until a maximum fertility is reached. In this formulation, the model is set
-#' up so that fertility is 0 at the 'age of maturity - 1', and increases from
-#' that point. The Hadwiger model is rather complex and is intended to model
-#' human fertility with a characteristic hump-shaped fertility. For all models,
-#' the output ensures that fertility is zero before the age at maturity.
+#' This function computes reproductive output (often referred to as fertility in
+#' human demography and fecundity in population biology) based on the logistic,
+#' step, von Bertalanffy, Hadwiger, and normal models. The logistic model
+#' assumes that reproductive output increases sigmoidally with age from maturity
+#' until a maximum is reached. The step model assumes that reproductive output
+#' is zero before the age of maturity and then remains constant. The von
+#' Bertalanffy model assumes that, after maturity, reproductive output increases
+#' asymptotically with age until a maximum is reached. In this formulation, the
+#' model is set up so that reproductive output is 0 at the 'age of maturity -
+#' 1', and increases from that point. The Hadwiger model, while originally
+#' intended to model human fertility with a characteristic hump-shaped curve, is
+#' applied here to model fecundity (actual offspring production). For all
+#' models, the output ensures that reproductive output is zero before the age at
+#' maturity.
 #'
 #'
 #' @param params A numeric vector of parameters for the selected model. The
@@ -18,13 +21,14 @@
 #' @param age A numeric vector representing age. For use in creation of MPMs and
 #'   life tables, these should be integers.
 #' @param maturity A non-negative numeric value indicating the age at maturity.
-#'   Whatever model is used, the fertility is forced to be 0 below the age of
-#'   maturity.
+#'   Whatever model is used, the reproductive output is forced to be 0 below the
+#'   age of maturity.
 #' @param model A character string specifying the model to use. Must be one of
 #'   "logistic", "step", "vonbertalanffy","normal" or "hadwiger".
 #'
-#' @return A numeric vector representing the computed fertility values.
-#' @details The required parameters varies depending on the fertility model. The
+#' @return A numeric vector representing the computed reproductive output
+#'   values.
+#' @details The required parameters varies depending on the model used. The
 #'   parameters are provided as a vector and the parameters must be provided in
 #'   the order mentioned here.
 #'
@@ -40,35 +44,36 @@
 #'
 #'
 #' @references Bertalanffy, L. von (1938) A quantitative theory of organic
-#' growth (inquiries on growth laws. II). Human Biology 10:181–213.
+#'   growth (inquiries on growth laws. II). Human Biology 10:181–213.
 #'
-#' Peristera, P. & Kostaki, A. (2007) Modeling fertility in modern populations.
-#' Demographic Research. 16. Article 6, 141-194 \doi{10.4054/DemRes.2007.16.6}
+#'   Peristera, P. & Kostaki, A. (2007) Modeling fertility in modern
+#'   populations. Demographic Research. 16. Article 6, 141-194
+#'   \doi{10.4054/DemRes.2007.16.6}
 #'
 #' @examples
-#' # Compute fertility using the step model
-#' model_fertility(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
+#' # Compute reproductive output using the step model
+#' model_reproduction(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
 #'
-#' # Compute fertility using the logistic model
-#' model_fertility(
+#' # Compute reproductive output using the logistic model
+#' model_reproduction(
 #'   age = 0:20, params = c(A = 10, k = 0.5, x_m = 8), maturity =
 #'     0, model = "logistic"
 #' )
 #'
-#' # Compute fertility using the von Bertalanffy model
-#' model_fertility(
+#' # Compute reproductive output using the von Bertalanffy model
+#' model_reproduction(
 #'   age = 0:20, params = c(A = 10, k = .3), maturity = 2, model =
 #'     "vonbertalanffy"
 #' )
 #'
-#' # Compute fertility using the normal model
-#' model_fertility(
+#' # Compute reproductive output using the normal model
+#' model_reproduction(
 #'   age = 0:20, params = c(A = 10, mu = 4, sd = 2), maturity = 0,
 #'   model = "normal"
 #' )
 #'
-#' # Compute fertility using the Hadwiger model
-#' model_fertility(
+#' # Compute reproductive output using the Hadwiger model
+#' model_reproduction(
 #'   age = 0:50, params = c(a = 0.91, b = 3.85, C = 29.78),
 #'   maturity = 0, model = "hadwiger"
 #' )
@@ -80,7 +85,7 @@
 #' @export
 
 
-model_fertility <- function(params, age = NULL, maturity = 0,
+model_reproduction <- function(params, age = NULL, maturity = 0,
                             model = "logistic") {
   # Coerce model type to lower case to avoid irritation
   model <- tolower(model)
@@ -122,7 +127,6 @@ model_fertility <- function(params, age = NULL, maturity = 0,
   if (model == "hadwiger" && length(params) != 3) {
     stop("Invalid number of parameters for selected model.")
   }
-
 
   if (model == "logistic") {
     # params: max_fert, k, midpoint_age
@@ -189,3 +193,16 @@ model_fertility <- function(params, age = NULL, maturity = 0,
     return(out)
   }
 }
+
+
+#' @rdname model_reproduction
+#' @examples
+#' model_fertility(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
+#' @export
+model_fertility <- model_reproduction
+
+#' @rdname model_reproduction
+#' @examples
+#' model_fecundity(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
+#' @export
+model_fecundity <- model_reproduction

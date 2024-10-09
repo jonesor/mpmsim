@@ -21,9 +21,9 @@ set.seed(42)
 
 Lefkovitch matrix population models (MPMs) were introduced by Leonard Lefkovitch in his 1965 paper titled "The Study of Population Growth in Organisms Grouped by Stages" published in Biometrics. This paper extended the concept of Leslie MPMs, which are structured by age, to stage-structured populations, providing a framework that has been widely used in ecology, evolution and conservation studies.
 
-In a Lefkovitch MPM, the square matrix is used to model population growth across discrete projection intervals, typically representing years. Each matrix element represents either a transition probability between different stages or the fertility of a stage across the projection interval. The MPM can be divided into submatrices: one for survival/growth (the U matrix), one for sexual reproduction (the F matrix) and one for asexual reproduction (the C matrix), such that A = U + F + C.  Occasionally, these reproduction matrices are lumped together as a reproduction matrix, R (i.e. R = F + C). 
+In a Lefkovitch MPM, the square matrix is used to model population growth across discrete projection intervals, typically representing years. Each matrix element represents either a transition probability between different stages or the reproductive output of a stage across the projection interval. The MPM can be divided into submatrices: one for survival/growth (the U matrix), one for sexual reproduction (the F matrix) and one for asexual reproduction (the C matrix), such that A = U + F + C.  Occasionally, these reproduction matrices are lumped together as a reproduction matrix, R (i.e. R = F + C). 
 
-The elements of the U matrix represent survival or growth from stage-to-stage between time steps. Therefore the column sums of the U submatrix cannot exceed 1. The fertility elements, in the the F and C (or R) submatrices are do not have an upper bound and indicate the number of new individuals each stage can produce in each time interval.
+The elements of the U matrix represent survival or growth from stage-to-stage between time steps. Therefore the column sums of the U submatrix cannot exceed 1. The reproductive output elements, in the the F and C (or R) submatrices are do not have an upper bound and indicate the number of new individuals each stage can produce in each time interval.
 
 Zero entries in the matrices indicating that those transitions do not occur.
 
@@ -76,38 +76,39 @@ In all these archetypes, fecundity is placed in the top row of the matrix. In Ta
 
 ## 2. Generate a random Lefkovitch MPM based on an archetype
 
-In `mpmsim` the function `rand_lefko_mpm` can be used to generate a random MPM that conforms to one of the above four life cycle archetypes. The function allows for the generation of random MPMs based on these archetypes, with survival and growth (the U matrix) based on draws from a Dirichlet distribution to ensure biological plausibility. For flexibility, the function is quite flexible with fertility
+In `mpmsim` the function `rand_lefko_mpm` can be used to generate a random MPM that conforms to one of the above four life cycle archetypes. The function allows for the generation of random MPMs based on these archetypes, with survival and growth (the U matrix) based on draws from a Dirichlet distribution to ensure biological plausibility. For flexibility, the function is quite flexible with reproductive output
 
 The function is straightforward, in the following example, I create a three-stage MPM, based on Archetype 2. I set fecundity, arbitrarily to be 5. By default, if only a single value is given, this is placed in the top-right hand corner of the F matrix. Also, by default, all reproduction is assumed to be sexual.
 
 ```{r}
 rand_lefko_mpm(n_stages = 3, fecundity = 5, archetype = 2)
 ```
-To allow a random element to reproduction, users can provide fertility information as a list of two matrices of numeric values, both with the same dimension as `n_stages`, to provide lower and upper limits of mean fecundity for the entire matrix model. Fertility values are then drawn from a uniform distribution between the two values. Users should use 0 for both lower and upper limits in cases with no reproduction.
+
+To allow a random element to reproduction, users can provide reproductive output information as a list of two matrices of numeric values, both with the same dimension as `n_stages`, to provide lower and upper limits of mean fecundity for the entire matrix model. reproductive output values are then drawn from a uniform distribution between the two values. Users should use 0 for both lower and upper limits in cases with no reproduction.
 
 The following code provides an example:
 
 ```{r}
-lower_fert <- matrix(c(
+lower_reprod <- matrix(c(
   0, 0, 0,
   0, 0, 0,
   0, 0, 0
 ), nrow = 3, ncol = 3, byrow = TRUE)
-upper_fert <- matrix(c(
+upper_reprod <- matrix(c(
   0, 4, 20,
   0, 0, 0,
   0, 0, 0
 ), nrow = 3, ncol = 3, byrow = TRUE)
 
 rand_lefko_mpm(
-  n_stages = 3, fecundity = list(lower_fert, upper_fert),
+  n_stages = 3, fecundity = list(lower_reprod, upper_reprod),
   archetype = 2
 )
 ```
 
 ## 3. Generate sets of Lefkovitch matrices
 
-It is sometimes desirable to create large numbers of MPMs with particular properties in order to test hypotheses. For stage-based (Lefkovitch) MPMs, this can be implemented using the function `rand_lefko_set`. This function acts as a wrapper for the previously described function and generates a set of Lefkovitch MPMs based on a defined life cycle archetype and specified fertility. For example, users may wish to generate MPMs for different life history archetypes to explore how life cycle structure may influence population dynamics. By specifying the number of stages, fecundity values, and archetypes, users can produce MPMs that are tailored to their specific research needs. This capability is useful for exploring the effects of life history traits on population dynamics, testing ecological and evolutionary hypotheses, and for teaching purposes.
+It is sometimes desirable to create large numbers of MPMs with particular properties in order to test hypotheses. For stage-based (Lefkovitch) MPMs, this can be implemented using the function `rand_lefko_set`. This function acts as a wrapper for the previously described function and generates a set of Lefkovitch MPMs based on a defined life cycle archetype and specified reproductive output. For example, users may wish to generate MPMs for different life history archetypes to explore how life cycle structure may influence population dynamics. By specifying the number of stages, fecundity values, and archetypes, users can produce MPMs that are tailored to their specific research needs. This capability is useful for exploring the effects of life history traits on population dynamics, testing ecological and evolutionary hypotheses, and for teaching purposes.
 
 The function returns either a `list` or a `CompadreDB` object depending on the `output` argument. If the output is set as a `CompadreDB` object, the archetype of the MPM is included as a column of metadata.
 

@@ -93,8 +93,8 @@
 #'   model = "WeibullMakeham"
 #' )
 #'
-#' @seealso [model_fertility()] to model age-specific fertility using various
-#'   functions.
+#' @seealso [model_reproduction()] to model age-specific reproductive output
+#'   using various functions.
 #' @export
 model_survival <- function(params, age = NULL, model, truncate = 0.01) {
   # Coerce model type to lower case to avoid irritation
@@ -223,7 +223,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
 
 #' @rdname model_survival
 #' @examples
-#' model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
+#' model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 #' @export
 model_mortality <- model_survival
 

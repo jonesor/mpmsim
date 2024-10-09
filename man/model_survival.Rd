@@ -94,7 +94,7 @@ model_mortality(
   model = "WeibullMakeham"
 )
 
-model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
+model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 }
 \references{
 Cox, D.R. & Oakes, D. (1984) Analysis of Survival Data. Chapman
@@ -114,11 +114,11 @@ Vaupel, J., Manton, K. & Stallard, E. (1979) The impact of heterogeneity in
 individual frailty on the dynamics of mortality. Demography, 16, 439–454.
 }
 \seealso{
-\code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various
-functions.
+\code{\link[=model_reproduction]{model_reproduction()}} to model age-specific reproductive output
+using various functions.
 
 Other trajectories: 
-\code{\link{model_fertility}()}
+\code{\link{model_reproduction}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

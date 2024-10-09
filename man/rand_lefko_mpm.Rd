@@ -10,7 +10,8 @@ rand_lefko_mpm(n_stages, fecundity, archetype = 1, split = TRUE)
 \arguments{
 \item{n_stages}{An integer defining the number of stages for the MPM.}
 
-\item{fecundity}{Fecundity is the average number of offspring produced.
+\item{fecundity}{Fecundity measures reproductive output as the average number
+of offspring produced.
 Values can be provided in 4 ways:
 \itemize{
 \item An numeric vector of length 1 to provide a single fecundity measure to
@@ -35,15 +36,15 @@ particular age class, use a value of 0 for both the lower and upper limit.}
 based on Takada et al. 2018. An integer between 1 and 4.}
 
 \item{split}{\code{TRUE}/\code{FALSE}, indicating whether the matrix produced should be
-split into a survival matrix and a fertility matrix. If true, then the
-output becomes a list with a matrix in each element. Otherwise, the output
-is a single matrix. Default is \code{TRUE}}
+split into a survival matrix and a reproductive output matrix. If true,
+then the output becomes a list with a matrix in each element. Otherwise,
+the output is a single matrix. Default is \code{TRUE}.}
 }
 \value{
 Returns a random matrix population model with characteristics
 determined by the archetype selected and fecundity vector. If split = TRUE,
-the matrix is split into separate fertility and a growth/survival matrices,
-returned as a list.
+the matrix is split into separate reproductive output and growth/survival
+matrices, returned as a list.
 }
 \description{
 Generates a random matrix population model (MPM) with element values based on
@@ -73,9 +74,10 @@ similar to archetype 2.
 }
 }
 \details{
-In all 4 of these Archetypes, fecundity is placed as a single element on the
-top right of the matrix, if it is a single value. If it is a vector of length
-\code{n_stages} then the fertility vector spans the entire top row of the matrix.
+In all 4 of these Archetypes, reproductive output (fecundity) is placed as a
+single element on the top right of the matrix, if it is a single value. If it
+is a vector of length \code{n_stages} then the fecundity vector spans the entire
+top row of the matrix.
 
 The function is constrained to only output ergodic matrices.
 }

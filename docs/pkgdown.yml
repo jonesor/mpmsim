@@ -1,11 +1,11 @@
-pandoc: 3.1.11
+pandoc: '3.2'
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   error_propagation: error_propagation.html
   generate_lefkovitch_models: generate_lefkovitch_models.html
   generate_leslie_models: generate_leslie_models.html
-last_built: 2024-07-01T14:32Z
+last_built: 2024-10-09T14:04Z
 urls:
   reference: https://jonesor.github.io/mpmsim/reference
   article: https://jonesor.github.io/mpmsim/articles

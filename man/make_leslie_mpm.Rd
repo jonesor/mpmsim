@@ -6,7 +6,7 @@
 \usage{
 make_leslie_mpm(
   survival = NULL,
-  fertility = NULL,
+  fecundity = NULL,
   n_stages = NULL,
   lifetable = NULL,
   split = FALSE
@@ -18,15 +18,15 @@ stage along the lower off-diagonal of the matrix, with the final value
 being in the lower-right corner of the matrix. If only one value is
 provided, this is applied to all survival elements.}
 
-\item{fertility}{a numeric vector of length n_stages representing the
-fertility rate of each stage. If only one value is provided, this is
-applied to all fertility elements.}
+\item{fecundity}{a numeric vector of length n_stages representing the
+reproductive output of each stage. If only one value is provided, this is
+applied to all fecundity elements.}
 
 \item{n_stages}{a numeric value representing the number of stages in the
 matrix}
 
 \item{lifetable}{a life table containing columns \code{px} (age-specific survival)
-and \code{fert} (age-specific fertility)}
+and \code{fecundity} (age-specific fecundity).}
 
 \item{split}{a logical argument indicating whether the output matrix should
 be split into separate A, U and F matrices (where A = U + F).}
@@ -36,24 +36,24 @@ A matrix of size n_stages x n_stages representing the Leslie matrix
 }
 \description{
 The function creates a Leslie matrix from inputs of number of stages,
-fertility (the top row of the matrix), and survival probability (the value in
+fecundity (the top row of the matrix), and survival probability (the value in
 the sub-diagonal).
 }
 \examples{
 make_leslie_mpm(
-  survival = 0.5, fertility = c(0.1, 0.2, 0.3),
+  survival = 0.5, fecundity = c(0.1, 0.2, 0.3),
   n_stages = 3, split = FALSE
 )
 make_leslie_mpm(
-  survival = c(0.5, 0.6, 0.7), fertility = c(0.1, 0.2, 0.3),
+  survival = c(0.5, 0.6, 0.7), fecundity = c(0.1, 0.2, 0.3),
   n_stages = 3
 )
 make_leslie_mpm(
-  survival = seq(0.1, 0.7, length.out = 4), fertility = 0.1,
+  survival = seq(0.1, 0.7, length.out = 4), fecundity = 0.1,
   n_stages = 4
 )
 make_leslie_mpm(
-  survival = c(0.8, 0.3, 0.2, 0.1, 0.05), fertility = 0.2,
+  survival = c(0.8, 0.3, 0.2, 0.1, 0.05), fecundity = 0.2,
   n_stages = 5
 )
 
@@ -71,7 +71,7 @@ Population Mathematics. Biometrika, 35(3-4), 213–245.
 \seealso{
 \itemize{
 \item \code{\link[=model_survival]{model_survival()}} to model age-specific survival using mortality models.
-\item \code{\link[=model_fertility]{model_fertility()}} to model age-specific fertility using various
+\item \code{\link[=model_reproduction]{model_reproduction()}} to model age-specific reproductive output using various
 functions.
 }
 

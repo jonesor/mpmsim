@@ -76,7 +76,7 @@
       <img src="" class="logo" alt=""><h1>Generate Leslie matrices</h1>
                         <h4 data-toc-skip class="author">Owen Jones</h4>
             
-            <h4 data-toc-skip class="date">2024-07-01</h4>
+            <h4 data-toc-skip class="date">2024-10-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/generate_leslie_models.Rmd" class="external-link"><code>vignettes/generate_leslie_models.Rmd</code></a></small>
       <div class="d-none name"><code>generate_leslie_models.Rmd</code></div>
@@ -89,15 +89,17 @@
 </h2>
 <p>Leslie matrix models, named after Patrick Leslie who first introduced
 them in the 1940s, are a type of matrix population model (MPM) used to
-describe demography of age structured populations. They are commonly
+describe the demography of age structured populations. They are commonly
 used in studies of wildlife, conservation and evolutionary biology.</p>
-<p>In a Leslie MPM the square matrix is used to model discrete,
-age-structured population growth with a projection interval, typically
+<p>In a Leslie MPM, the square matrix is used to model discrete,
+age-structured population growth with a projection interval, most often
 representing years, as a time step. Each element in the matrix
-represents a transition probability between different age classes, or
-indicates the fertility of the age class. The information in the MPM can
-be split into two submatrices, representing survival/growth and
-reproduction (the fertility vector), respectively.</p>
+represents a transition probability between different age classes or
+indicates the average reproductive output (often referred to as
+fecundity in population biology and fertility in human demography) of
+the age class. The information in the MPM can be split into two
+submatrices, representing survival/growth and reproduction
+(fecundity/fertility), respectively.</p>
 <ul>
 <li><p><strong>Survival Probabilities</strong>: The subdiagonal
 (immediately below the main diagonal) of the MPM consists of survival
@@ -106,10 +108,11 @@ of one age class will survive to the next age class. These probabilities
 can be understood as an age trajectory of survival that can be modelled
 using a mathematical model describing how age-specific mortality changes
 with age.</p></li>
-<li><p><strong>Fertility</strong>: The first row of the MPM contains the
-reproductive rates of each age class. These entries indicate how many
-new individuals each age class can expect to produce in each projection
-interval.</p></li>
+<li><p><strong>Reproductive Output</strong>: The first row of the MPM
+contains the reproductive output of each age class. These entries
+indicate how many new individuals each age class can expect to produce
+in each projection interval, representing actual offspring production in
+ecological contexts (fecundity).</p></li>
 </ul>
 <p>All other entries in the MPM are typically zero, indicating that
 those transitions are impossible.</p>
@@ -128,23 +131,23 @@ theoretical and applied ecology.</p>
 <h2 id="aims">Aims<a class="anchor" aria-label="anchor" href="#aims"></a>
 </h2>
 <p>The purpose of this vignette is to illustrate how to simulate sets of
-Leslie MPMs based on known functional forms of mortality and fertility.
-There are several reasons why one would want to do this, including, but
-not limited to:</p>
+Leslie MPMs based on known functional forms of mortality and
+reproductive output. There are several reasons why one would want to do
+this, including, but not limited to:</p>
 <ul>
 <li>Exploring how senescence parameters influence dynamics.</li>
 <li>To obtain MPMs based on parameter estimates of mortality and
-fertility obtained from the literature.</li>
+reproduction obtained from the literature.</li>
 <li>To generate MPMs with defined properties for teaching purposes.</li>
 </ul>
 <p>In the following sections, this document will:</p>
 <ol style="list-style-type: decimal">
-<li>Explain the basics of mortality and fertility trajectories.</li>
+<li>Explain the basics of mortality and reproduction trajectories.</li>
 <li>Show how to produce life tables reflecting trajectories of mortality
-and fertility.</li>
+and reproduction.</li>
 <li>Show how to produce MPMs from these life tables.</li>
 <li>Show how to generate sets of many MPMs based on defined mortality
-and fertility characteristics.</li>
+and reproduction characteristics.</li>
 </ol>
 </div>
 <div class="section level2">
@@ -195,9 +198,11 @@ exponentially. <span class="math inline">\(h_x = a_0
 <p>These are illustrated below.</p>
 <p><img src="generate_leslie_models_files/figure-html/unnamed-chunk-2-1.png" width="768"></p>
 <p>In addition to these functional forms of mortality, there are, of
-course, functional forms that have been used to model fertility. The
-<code>model_fertility</code> function handles five types: logistic,
-step, von Bertalanffy, Normal and Hadwiger.</p>
+course, functional forms that have been used to model reproductive
+output (e.g. fertility/fecundity). The <code>model_reproduction</code>
+function (and its synonyms <code>model_fedundity</code> and
+<code>model_fertility</code>) handles five types: logistic, step, von
+Bertalanffy, Normal and Hadwiger.</p>
 <ul>
 <li>Logistic: Fertility initially increases rapidly with age then slows
 to plateau as it approaches a maximum value. <span class="math inline">\(f_x = A / (1 + exp(-k  (x - x_m)))\)</span>
@@ -274,7 +279,7 @@ column (<code>fert</code>) directly to the life table produced earlier,
 as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">lt1</span> <span class="op">&lt;-</span> <span class="va">lt1</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>fert <span class="op">=</span> <span class="fu"><a href="../reference/model_fertility.html">model_fertility</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>fert <span class="op">=</span> <span class="fu"><a href="../reference/model_reproduction.html">model_reproduction</a></span><span class="op">(</span></span>
 <span>    age <span class="op">=</span> <span class="va">x</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
 <span>    maturity <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>    model <span class="op">=</span> <span class="st">"step"</span></span>
@@ -297,14 +302,14 @@ it.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">lt1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">fert</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Step fertility, maturity at age 3"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Step reproduction, maturity at age 3"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="generate_leslie_models_files/figure-html/unnamed-chunk-7-1.png" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="from-life-table-to-mpm">3. From life table to MPM<a class="anchor" aria-label="anchor" href="#from-life-table-to-mpm"></a>
 </h2>
 <p>Users can now turn these life tables, containing age-specific
-survival and fertility trajectories, into Leslie matrices using the
+survival and reproductive trajectories, into Leslie matrices using the
 <code>make_leslie_mpm</code> function. These MPMs can be large or small
 depending on the maximum life span of the population: as mentioned
 above, the population is modelled until less than 1% of a cohort remains
@@ -475,28 +480,12 @@ operations with the <code>compadreDB</code> object.</p>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>This vignette, has demonstrated the process of generating sets of
-Leslie matrices using functional forms of mortality and fertility. By
-following the steps outlined, users can simulate complex population
-dynamics scenarios, explore the influence of different parameters on
-demographic trajectories, and produce matrices for various applications,
-from theoretical studies to practical teaching tools.</p>
-<p>The vignette started by introducing Leslie matrix models and their
-significance in studying age-structured population dynamics
-comprehensively. It then detailed the functional forms of mortality and
-fertility, providing examples of how to model these vital rates. Using
-these models, it showed how to create life tables that form the basis
-for constructing Leslie matrices.</p>
-<p>The vignette also demonstrated how to produce multiple Leslie
-matrices with specific properties using the <code>rand_leslie_set</code>
-function. This allows for the generation of large datasets necessary for
-hypothesis testing and various other advanced analyses. Additionally,
-the vignette highlighted methods to summarise the simulated
-matrices.</p>
-<p>Overall, this vignette serves as a comprehensive guide for
-researchers and educators looking to employ Leslie matrix models in
-their work, providing the tools and knowledge needed to simulate and
-study population dynamics effectively.</p>
+<p>This vignette demonstrated how to generate Leslie matrices using
+functional forms of mortality and reproduction, allowing users to
+simulate virtual species with varied life histories. These matrices can
+be used to explore how life history or parameter differences affect
+population dynamics and support various research or educational
+applications.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

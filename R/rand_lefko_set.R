@@ -13,21 +13,21 @@
 #' @param n_models An integer indicating the number of MPMs to generate.
 #' @param n_stages The number of stages for the MPMs. Default is `3`.
 #' @param archetype The archetype of the MPMs. Default is `1`.
-#' @param fecundity Fecundity is the average number of offspring produced.
+#' @param reproduction The average number of offspring produced (fecundity).
 #'   Values can be provided in 4 ways:
-#'   - An numeric vector of length 1 providing a single fecundity measure to the
-#'   top right corner of the matrix model only.
+#'   - An numeric vector of length 1 providing a single measure of reproduction
+#'   to the top right corner of the matrix model only.
 #'   - A numeric vector of integers of length equal to `n_stages` to provide
-#'   fecundity estimates for the whole top row of the matrix model. Use 0 for
+#'   reproduction estimates for the whole top row of the matrix model. Use 0 for
 #'   cases with no reproduction.
 #'   - A matrix of numeric values of the same dimension as `n_stages` to provide
-#'   fecundity estimates for the entire matrix model. Use 0 for cases with no
+#'   reproduction estimates for the entire matrix model. Use 0 for cases with no
 #'   reproduction.
 #'   - A list of two matrices of numeric values, both with the same dimension as
-#'   `n_stages`, to provide lower and upper limits of mean fecundity for the
+#'   `n_stages`, to provide lower and upper limits of mean reproduction for the
 #'   entire matrix model.
 #'
-#'   In the latter case, a fecundity value will be drawn from a uniform
+#'   In the latter case, a reproduction value will be drawn from a uniform
 #'   distribution for the defined range. If there is no reproduction in a
 #'   particular age class, use a value of 0 for both the lower and upper limit.
 #'
@@ -79,7 +79,7 @@
 #'
 #' # Basic operation, without splitting matrices and with no constraints
 #' rand_lefko_set(
-#'   n_models = 3, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   n_models = 3, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
 #'   archetype = 4, output = "Type5"
 #' )
 #'
@@ -90,7 +90,7 @@
 #'     1.1
 #' )
 #' rand_lefko_set(
-#'   n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   n_models = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, output = "Type5"
 #' )
 #'
@@ -102,7 +102,7 @@
 #' )
 #'
 #' rand_lefko_set(
-#'   n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   n_models = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, output = "Type5"
 #' )
 #'
@@ -117,7 +117,7 @@
 #'   upper = c(1.1, 5.0, 7.0)
 #' )
 #' rand_lefko_set(
-#'   n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   n_models = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, output = "Type5"
 #' )
 #'
@@ -128,7 +128,7 @@
 #' @export rand_lefko_set
 
 rand_lefko_set <- function(n_models = 5, n_stages = 3, archetype = 1,
-                           fecundity = 1.5,
+                           reproduction = 1.5,
                            output = "Type1", max_surv = 0.99,
                            constraint = NULL, attempts = 1000) {
   # Check if n is a positive integer
@@ -153,7 +153,7 @@ rand_lefko_set <- function(n_models = 5, n_stages = 3, archetype = 1,
     # Generate an MPM
     mpm_out <- rand_lefko_mpm(
       n_stages = n_stages, archetype = archetype,
-      fecundity = fecundity, split = splitValue
+      reproduction = reproduction, split = splitValue
     )
 
     # Check whether survival values are acceptable

@@ -19,7 +19,7 @@
 #' @param mat_F A matrix that describes reproduction.
 #' @param sample_size either (1) a single matrix of sample sizes for each
 #'   element of the MPM, (2) a list of two named matrices ("`mat_F_ss`",
-#'   "`mat_U_ss`") containing sample sizes for the survival and fertility
+#'   "`mat_U_ss`") containing sample sizes for the survival and fecundity
 #'   submatrices of the MPM or (3) a single value applied to the whole matrix
 #' @param FUN A function to apply to each simulated matrix population model.
 #'   This function must take, as input, a single matrix population model (i.e.,

@@ -24,10 +24,6 @@ mortality model to be used. Options are \code{gompertz}, \code{gompertzmakeham},
 \code{exponential}, \code{siler}, \code{weibull}, and \code{weibullmakeham}. See
 \code{model_mortality}. These names are not case-sensitive.}
 
-\item{fertility_model}{A character string specifying the name of the
-fertility model to be used. Options are \code{logistic}, \code{step},
-\code{vonBertalanffy}, \code{normal} and \code{hadwiger.} See \code{?model_fertility}.}
-
 \item{mortality_params}{A two-column dataframe with a number of rows equal to
 the number of parameters in the mortality model. The required order of the
 parameters depends on the selected \code{mortality_model} (see
@@ -44,31 +40,6 @@ of the random uniform distribution from which the parameters are drawn. If
 deviation of a random normal distribution from which the parameter values
 are drawn.
 }}
-
-\item{fertility_params}{A two-column dataframe with a number of rows equal to
-the number of parameters in the fertility model. The required order of the
-parameters depends on the selected \code{fertility_model} (see
-\code{?model_mortality}):
-\itemize{
-\item For \code{logistic}: \code{A}, \code{k}, \code{x_m}
-\item For \code{step}: \code{A}
-\item For \code{vonBertalanffy}: \code{A}, \code{k}
-\item For \code{normal}: \code{A}, \code{mu}, \code{sd}
-\item For \code{hadwiger}: \code{a}, \code{b}, \code{C}
-If \code{dist_type} is \code{uniform} these rows represent the lower and upper limits
-of the random uniform distribution from which the parameters are drawn. If
-\code{dist_type} is \code{normal}, the columns represent the mean and standard
-deviation of a random normal distribution from which the parameter values
-are drawn.
-}}
-
-\item{fertility_maturity_params}{A vector with two elements defining the
-distribution from which age at maturity is drawn for the models. The models
-will coerce fertility to be zero before this point. If \code{dist_type} is
-\code{uniform} these values represent the lower and upper limits of the random
-uniform distribution from which the parameters are drawn. If \code{dist_type} is
-\code{normal}, the values represent the mean and standard deviation of a random
-normal distribution from which the parameter values are drawn.}
 
 \item{dist_type}{A character string specifying the type of distribution to
 draw parameters from. Default is \code{uniform}. Supported types are \code{uniform}
@@ -93,8 +64,38 @@ Default is \code{Type1}.
 }}
 
 \item{scale_output}{A logical argument. If \code{TRUE} the resulting MPMs or life
-tables are scaled by adjusting fertility so that the population growth rate
-(lambda) is 1. Default is \code{FALSE}.}
+tables are scaled by adjusting reproductive output so that the population
+growth rate (lambda) is 1. Default is \code{FALSE}.}
+
+\item{reproduction_model}{A character string specifying the name of the model
+to be used for reproductive output. Options are \code{logistic}, \code{step},
+\code{vonBertalanffy}, \code{normal} and \code{hadwiger.} See \code{?model_reproduction}.}
+
+\item{reproduction_params}{A two-column dataframe with a number of rows equal to
+the number of parameters in the fertility model. The required order of the
+parameters depends on the selected \code{reproduction_model} (see
+\code{?model_reproduction}):
+\itemize{
+\item For \code{logistic}: \code{A}, \code{k}, \code{x_m}
+\item For \code{step}: \code{A}
+\item For \code{vonBertalanffy}: \code{A}, \code{k}
+\item For \code{normal}: \code{A}, \code{mu}, \code{sd}
+\item For \code{hadwiger}: \code{a}, \code{b}, \code{C}
+If \code{dist_type} is \code{uniform} these rows represent the lower and upper limits
+of the random uniform distribution from which the parameters are drawn. If
+\code{dist_type} is \code{normal}, the columns represent the mean and standard
+deviation of a random normal distribution from which the parameter values
+are drawn.
+}}
+
+\item{reproduction_maturity_params}{A vector with two elements defining the
+distribution from which age at maturity is drawn for the models. The models
+will coerce reproductive output to be zero before this point. If
+\code{dist_type} is \code{uniform} these values represent the lower and upper limits
+of the random uniform distribution from which the parameters are drawn. If
+\code{dist_type} is \code{normal}, the values represent the mean and standard
+deviation of a random normal distribution from which the parameter values
+are drawn.}
 }
 \value{
 Returns a \code{CompadreDB} object or \code{list} containing MPMs or life
@@ -109,8 +110,8 @@ to produce the MPM are included in the metadata.
 }
 \description{
 Generates a set of Leslie matrix population models (MPMs) based on defined
-mortality and fertility models, and using model parameters randomly drawn
-from specified distributions.
+mortality and reproductive output models, and using model parameters randomly
+drawn from specified distributions.
 }
 \examples{
 
@@ -119,7 +120,7 @@ mortParams <- data.frame(
   maxVal = c(0.14, 0.15, 0.1)
 )
 
-fertParams <- data.frame(
+reproductionParams <- data.frame(
   minVal = c(10, 0.5, 8),
   maxVal = c(11, 0.9, 10)
 )
@@ -129,10 +130,10 @@ maturityParam <- c(0, 0)
 rand_leslie_set(
   n_models = 5,
   mortality_model = "gompertzmakeham",
-  fertility_model = "normal",
+  reproduction_model = "normal",
   mortality_params = mortParams,
-  fertility_params = fertParams,
-  fertility_maturity_params = maturityParam,
+  reproduction_params = fertParams,
+  reproduction_maturity_params = maturityParam,
   dist_type = "uniform",
   output = "Type1"
 )

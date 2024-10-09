@@ -1,17 +1,17 @@
 #' Generate a set of random Leslie Matrix Population Models
 #'
 #' Generates a set of Leslie matrix population models (MPMs) based on defined
-#' mortality and fertility models, and using model parameters randomly drawn
-#' from specified distributions.
+#' mortality and reproductive output models, and using model parameters randomly
+#' drawn from specified distributions.
 #'
 #' @param n_models An integer indicating the number of MPMs to generate.
 #' @param mortality_model A character string specifying the name of the
 #'   mortality model to be used. Options are `gompertz`, `gompertzmakeham`,
 #'   `exponential`, `siler`, `weibull`, and `weibullmakeham`. See
 #'   `model_mortality`. These names are not case-sensitive.
-#' @param fertility_model A character string specifying the name of the
-#'   fertility model to be used. Options are `logistic`, `step`,
-#'   `vonBertalanffy`, `normal` and `hadwiger.` See `?model_fertility`.
+#' @param reproduction_model A character string specifying the name of the model
+#'   to be used for reproductive output. Options are `logistic`, `step`,
+#'   `vonBertalanffy`, `normal` and `hadwiger.` See `?model_reproduction`.
 #' @param mortality_params A two-column dataframe with a number of rows equal to
 #'   the number of parameters in the mortality model. The required order of the
 #'   parameters depends on the selected `mortality_model` (see
@@ -26,10 +26,10 @@
 #'   `dist_type` is `normal`, the columns represent the mean and standard
 #'   deviation of a random normal distribution from which the parameter values
 #'   are drawn.
-#' @param fertility_params A two-column dataframe with a number of rows equal to
-#'   the number of parameters in the fertility model. The required order of the
-#'   parameters depends on the selected `fertility_model` (see
-#'   `?model_mortality`):
+#' @param reproduction_params A two-column dataframe with a number of rows equal to
+#'   the number of parameters in the reproduction model. The required order of the
+#'   parameters depends on the selected `reproduction_model` (see
+#'   `?model_reproduction`):
 #'   - For `logistic`: \code{A}, \code{k}, \code{x_m}
 #'   - For `step`: \code{A}
 #'   - For `vonBertalanffy`: \code{A}, \code{k}
@@ -40,13 +40,14 @@
 #'   `dist_type` is `normal`, the columns represent the mean and standard
 #'   deviation of a random normal distribution from which the parameter values
 #'   are drawn.
-#' @param fertility_maturity_params A vector with two elements defining the
+#' @param reproduction_maturity_params A vector with two elements defining the
 #'   distribution from which age at maturity is drawn for the models. The models
-#'   will coerce fertility to be zero before this point. If `dist_type` is
-#'   `uniform` these values represent the lower and upper limits of the random
-#'   uniform distribution from which the parameters are drawn. If `dist_type` is
-#'   `normal`, the values represent the mean and standard deviation of a random
-#'   normal distribution from which the parameter values are drawn.
+#'   will coerce reproductive output to be zero before this point. If
+#'   `dist_type` is `uniform` these values represent the lower and upper limits
+#'   of the random uniform distribution from which the parameters are drawn. If
+#'   `dist_type` is `normal`, the values represent the mean and standard
+#'   deviation of a random normal distribution from which the parameter values
+#'   are drawn.
 #' @param dist_type A character string specifying the type of distribution to
 #'   draw parameters from. Default is `uniform`. Supported types are `uniform`
 #'   and `normal`.
@@ -68,8 +69,8 @@
 #'   Default is `Type1`.
 #'
 #' @param scale_output A logical argument. If `TRUE` the resulting MPMs or life
-#'   tables are scaled by adjusting fertility so that the population growth rate
-#'   (lambda) is 1. Default is `FALSE`.
+#'   tables are scaled by adjusting reproductive output so that the population
+#'   growth rate (lambda) is 1. Default is `FALSE`.
 #'
 #' @return Returns a `CompadreDB` object or `list` containing MPMs or life
 #'   tables generated using the specified model with parameters drawn from
@@ -93,7 +94,7 @@
 #'   maxVal = c(0.14, 0.15, 0.1)
 #' )
 #'
-#' fertParams <- data.frame(
+#' reproductionParams <- data.frame(
 #'   minVal = c(10, 0.5, 8),
 #'   maxVal = c(11, 0.9, 10)
 #' )
@@ -103,10 +104,10 @@
 #' rand_leslie_set(
 #'   n_models = 5,
 #'   mortality_model = "gompertzmakeham",
-#'   fertility_model = "normal",
+#'   reproduction_model = "normal",
 #'   mortality_params = mortParams,
-#'   fertility_params = fertParams,
-#'   fertility_maturity_params = maturityParam,
+#'   reproduction_params = reproductionParams,
+#'   reproduction_maturity_params = maturityParam,
 #'   dist_type = "uniform",
 #'   output = "Type1"
 #' )
@@ -115,15 +116,15 @@
 #'
 
 rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
-                            fertility_model = "step",
-                            mortality_params, fertility_params,
-                            fertility_maturity_params,
+                            reproduction_model = "step",
+                            mortality_params, reproduction_params,
+                            reproduction_maturity_params,
                             dist_type = "uniform", output = "type1",
                             scale_output = FALSE) {
   # Argument Validation -----------
 
   mortality_model <- tolower(mortality_model)
-  fertility_model <- tolower(fertility_model)
+  reproduction_model <- tolower(reproduction_model)
 
   # Validate n_models
   if (!is.numeric(n_models) || length(n_models) != 1 || n_models <= 0) {
@@ -142,14 +143,14 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     ))
   }
 
-  # Validate fertility_model
-  valid_fertility_models <- c(
+  # Validate reproduction_model
+  valid_reproduction_models <- c(
     "logistic", "step", "vonbertalanffy",
     "normal", "hadwiger"
   )
-  if (!is.character(fertility_model) || !(fertility_model %in%
-    valid_fertility_models)) {
-    stop("fertility_model must be one of ", paste(valid_fertility_models,
+  if (!is.character(reproduction_model) || !(reproduction_model %in%
+    valid_reproduction_models)) {
+    stop("reproduction_model must be one of ", paste(valid_reproduction_models,
       collapse = ", "
     ))
   }
@@ -174,28 +175,28 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
   }
 
 
-  # Validate fertility_params
-  expected_fertility_rows <- switch(fertility_model,
+  # Validate reproduction_params
+  expected_reproduction_rows <- switch(reproduction_model,
     "logistic" = 3,
     "step" = 1,
     "vonbertalanffy" = 2,
     "normal" = 3,
     "hadwiger" = 3,
-    stop("Invalid fertility_model")
+    stop("Invalid reproduction_model")
   )
-  if (!is.data.frame(fertility_params) || ncol(fertility_params) != 2 ||
-    nrow(fertility_params) != expected_fertility_rows) {
+  if (!is.data.frame(reproduction_params) || ncol(reproduction_params) != 2 ||
+    nrow(reproduction_params) != expected_reproduction_rows) {
     stop(paste(
-      "fertility_params must be a dataframe with 2 columns and",
-      expected_fertility_rows, "rows for the", fertility_model,
-      "fertility_model"
+      "reproduction_params must be a dataframe with 2 columns and",
+      expected_reproduction_rows, "rows for the", reproduction_model,
+      "reproduction_model"
     ))
   }
 
-  # Validate fertility_maturity_params
-  if (!is.numeric(fertility_maturity_params) ||
-    length(fertility_maturity_params) != 2) {
-    stop("fertility_maturity_params must be a numeric vector with two elements")
+  # Validate reproduction_maturity_params
+  if (!is.numeric(reproduction_maturity_params) ||
+    length(reproduction_maturity_params) != 2) {
+    stop("reproduction_maturity_params must be a numeric vector with two elements")
   }
 
   # Validate dist_type
@@ -222,7 +223,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
   lifeTables <- list()
 
   mortalityParameters <- list()
-  fertilityParameters <- list()
+  reproductionParameters <- list()
   maturityParameters <- list()
   scaling_factorParameters <- list()
 
@@ -379,228 +380,228 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
       all individuals die within 1 year.")
     }
 
-    # Fertility part:
+    # Reproduction part:
     # Logistic, Step, vonBertalanffy, Normal, Hadwiger
-    if (fertility_model == "logistic") {
+    if (reproduction_model == "logistic") {
       if (dist_type == "uniform") {
-        fertility_params_draw <- c(
+        reproduction_params_draw <- c(
           A = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           ),
           k = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           ),
           x_m = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           )
         )
 
-        fertility_maturity_params_draw <- runif(1,
-          min = fertility_maturity_params[1],
-          max = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- runif(1,
+          min = reproduction_maturity_params[1],
+          max = reproduction_maturity_params[2]
         )
       }
       if (dist_type == "normal") {
-        fertility_params_draw <- c(
+        reproduction_maturity_params <- c(
           A = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           ),
           k = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           ),
           x_m = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           )
         )
 
-        fertility_maturity_params_draw <- rnorm(1,
-          mean = fertility_maturity_params[1],
-          sd = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- rnorm(1,
+          mean = reproduction_maturity_params[1],
+          sd = reproduction_maturity_params[2]
         )
       }
     }
 
 
-    if (fertility_model == "step") {
+    if (reproduction_model == "step") {
       if (dist_type == "uniform") {
-        fertility_params_draw <- c(A = runif(1,
-          min = fertility_params[1, 1],
-          max = fertility_params[1, 2]
+        reproduction_params_draw <- c(A = runif(1,
+          min = reproduction_params[1, 1],
+          max = reproduction_params[1, 2]
         ))
-        fertility_maturity_params_draw <- runif(1,
-          min = fertility_maturity_params[1],
-          max = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- runif(1,
+          min = reproduction_maturity_params[1],
+          max = reproduction_maturity_params[2]
         )
       }
       if (dist_type == "normal") {
-        fertility_params_draw <- c(A = rnorm(1,
-          mean = fertility_params[1, 1],
-          sd = fertility_params[1, 2]
+        reproduction_params_draw <- c(A = rnorm(1,
+          mean = reproduction_params[1, 1],
+          sd = reproduction_params[1, 2]
         ))
-        fertility_maturity_params_draw <- rnorm(1,
-          mean = fertility_maturity_params[1],
-          sd = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- rnorm(1,
+          mean = reproduction_maturity_params[1],
+          sd = reproduction_maturity_params[2]
         )
       }
     }
 
-    if (fertility_model == "vonbertalanffy") {
+    if (reproduction_model == "vonbertalanffy") {
       if (dist_type == "uniform") {
-        fertility_params_draw <- c(
+        reproduction_params_draw <- c(
           A = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           ),
           k = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           )
         )
 
-        fertility_maturity_params_draw <- runif(1,
-          min = fertility_maturity_params[1],
-          max = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- runif(1,
+          min = reproduction_maturity_params[1],
+          max = reproduction_maturity_params[2]
         )
       }
       if (dist_type == "normal") {
-        fertility_params_draw <- c(
+        reproduction_params_draw <- c(
           A = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           ),
           k = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           )
         )
 
-        fertility_maturity_params_draw <- rnorm(1,
-          mean = fertility_maturity_params[1],
-          sd = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- rnorm(1,
+          mean = reproduction_maturity_params[1],
+          sd = reproduction_maturity_params[2]
         )
       }
     }
 
-    if (fertility_model == "normal") {
+    if (reproduction_model == "normal") {
       if (dist_type == "uniform") {
-        fertility_params_draw <- c(
+        reproduction_params_draw <- c(
           A = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           ),
           mu = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           ),
           sd = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           )
         )
 
-        fertility_maturity_params_draw <- runif(1,
-          min = fertility_maturity_params[1],
-          max = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- runif(1,
+          min = reproduction_maturity_params[1],
+          max = reproduction_maturity_params[2]
         )
       }
       if (dist_type == "normal") {
-        fertility_params_draw <- c(
+        reproduction_params_draw <- c(
           A = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           ),
           mu = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           ),
           sd = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           )
         )
 
-        fertility_maturity_params_draw <- rnorm(1,
-          mean = fertility_maturity_params[1],
-          sd = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- rnorm(1,
+          mean = reproduction_maturity_params[1],
+          sd = reproduction_maturity_params[2]
         )
       }
     }
 
-    if (fertility_model == "hadwiger") {
+    if (reproduction_model == "hadwiger") {
       if (dist_type == "uniform") {
-        fertility_params_draw <- c(
+        reproduction_params_draw <- c(
           a = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           ),
           b = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           ),
           C = runif(1,
-            min = fertility_params[1, 1],
-            max = fertility_params[1, 2]
+            min = reproduction_params[1, 1],
+            max = reproduction_params[1, 2]
           )
         )
 
-        fertility_maturity_params_draw <- runif(1,
-          min = fertility_maturity_params[1],
-          max = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- runif(1,
+          min = reproduction_maturity_params[1],
+          max = reproduction_maturity_params[2]
         )
       }
       if (dist_type == "normal") {
-        fertility_params_draw <- c(
+        reproduction_params_draw <- c(
           a = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           ),
           b = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           ),
           C = rnorm(1,
-            mean = fertility_params[1, 1],
-            sd = fertility_params[1, 2]
+            mean = reproduction_params[1, 1],
+            sd = reproduction_params[1, 2]
           )
         )
 
-        fertility_maturity_params_draw <- rnorm(1,
-          mean = fertility_maturity_params[1],
-          sd = fertility_maturity_params[2]
+        reproduction_maturity_params_draw <- rnorm(1,
+          mean = reproduction_maturity_params[1],
+          sd = reproduction_maturity_params[2]
         )
       }
     }
 
 
 
-    # Add fertility to life table
+    # Add reproduction to life table
     lifeTables[[i]] <- lifeTables[[i]] |>
-      mutate(fert = model_fertility(
+      mutate(reproduction = model_reproduction(
         age = x,
-        params = fertility_params_draw,
-        maturity = fertility_maturity_params_draw,
-        model = fertility_model
+        params = reproduction_params_draw,
+        maturity = reproduction_maturity_params_draw,
+        model = reproduction_model
       ))
 
-    # Add the fertility parameters to a parameters data frame
-    fertilityParameters[[i]] <- fertility_params_draw
-    maturityParameters[[i]] <- fertility_maturity_params_draw
+    # Add the reproduction parameters to a parameters data frame
+    reproductionParameters[[i]] <- reproduction_params_draw
+    maturityParameters[[i]] <- reproduction_maturity_params_draw
 
 
-    # Scale fertility to ensure population growth is at the target
+    # Scale reproduction to ensure population growth is at the target
     if (scale_output == TRUE && output == "Type6") {
       # Calculate R0
-      R0 <- sum(lifeTables[[i]]$lx * lifeTables[[i]]$fert)
+      R0 <- sum(lifeTables[[i]]$lx * lifeTables[[i]]$reproduction)
 
       # Calculate T
       genTime <- sum(lifeTables[[i]]$x * lifeTables[[i]]$lx *
-        lifeTables[[i]]$fert) / R0
+        lifeTables[[i]]$reproduction) / R0
 
       # Calculate the target R0 for the desired lambda
       targetLambda <- 1
@@ -609,7 +610,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
       # Determine the scaling factor
       scaling_factor <- target_R0 / R0
 
-      lifeTables[[i]]$fert <- lifeTables[[i]]$fert * scaling_factor
+      lifeTables[[i]]$reproduction <- lifeTables[[i]]$reproduction * scaling_factor
 
       # Add the scaling parameter to a parameters data frame
       scaling_factorParameters[[i]] <- scaling_factor
@@ -620,7 +621,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     if (output != "Type6") {
       leslieMatrices[[i]] <- make_leslie_mpm(
         survival = lifeTables[[i]]$px,
-        fertility = lifeTables[[i]]$fert,
+        reproduction = lifeTables[[i]]$reproduction,
         n_stages = nrow(lifeTables[[i]]),
         split = TRUE
       )
@@ -665,9 +666,9 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
   # the CompadreDB
   if (output %in% c("Type1", "Type2")) {
     mortalityParameters_df <- as.data.frame(do.call(rbind, mortalityParameters))
-    fertilityParameterss_df <- as.data.frame(do.call(
+    reproductionParameterss_df <- as.data.frame(do.call(
       rbind,
-      fertilityParameters
+      reproductionParameters
     ))
     maturityParameters_df <- as.data.frame(do.call(rbind, maturityParameters))
     scaling_factorParameters_df <- as.data.frame(
@@ -675,13 +676,13 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     )
 
     colnames(maturityParameters_df) <- "age_at_maturity"
-    colnames(scaling_factorParameters_df) <- "fertility_scaling"
+    colnames(scaling_factorParameters_df) <- "reproduction_scaling"
 
     compadre_metadata <- bind_cols(
       mortality_model = mortality_model,
       mortalityParameters_df,
-      fertility_model = fertility_model,
-      fertilityParameterss_df,
+      reproduction_model = reproduction_model,
+      reproductionParameterss_df,
       scaling_factorParameters_df
     )
   }

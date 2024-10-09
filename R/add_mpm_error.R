@@ -58,7 +58,7 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #' @param mat_F matrix of mean fecundity values
 #' @param sample_size either (1) a single matrix of sample sizes for each
 #'   element of the MPM, (2) a list of two named matrices ("`mat_F_ss`",
-#'   "`mat_U_ss`") containing sample sizes for the survival and fertility
+#'   "`mat_U_ss`") containing sample sizes for the survival and fecundity
 #'   submatrices of the MPM or (3) a single value applied to the whole matrix
 #' @param split logical, whether to split the output into survival and fecundity
 #'   matrices or not
@@ -73,7 +73,7 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #'
 #' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
-#'   fertility = c(0, 1.2, 2.4),
+#'   fecundity = c(0, 1.2, 2.4),
 #'   n_stages = 3, split = TRUE
 #' )
 #' ssMat <- matrix(10, nrow = 3, ncol = 3)
@@ -273,16 +273,17 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' @param mat_F A list of F submatrices, or a single F submatrix.
 #' @param sample_size either (1) a single matrix of sample sizes for each
 #'   element of every MPM, (2) a list of two named matrices ("`mat_F_ss`",
-#'   "`mat_U_ss`") containing sample sizes for the survival and fertility
-#'   submatrices of every MPM or (3) a single value applied to the every element
-#'   of every matrix.
-#' @param split logical, whether to split the output into survival and fecundity
-#'   matrices or not. Defaults to `TRUE`.
+#'   "`mat_U_ss`") containing sample sizes for the survival and reproductive
+#'   output submatrices of every MPM or (3) a single value applied to the every
+#'   element of every matrix.
+#' @param split logical, whether to split the output into survival and
+#'   reproductive output matrices or not. Defaults to `TRUE`.
 #' @param by_type A logical indicating whether the matrices should be returned
 #'   in a list by type (A, U, F, C). If split is `FALSE`, then `by_type` must
 #'   also be `FALSE`. Defaults to `TRUE`.
-#' @return list of matrices of survival and fecundity if `split = TRUE`,
-#'   otherwise a single matrix of the sum of survival and fecundity.
+#' @return list of matrices of survival and reproductive output if `split =
+#'   TRUE`, otherwise a single matrix of the sum of survival and reproductive
+#'   output.
 #' @details if any `sample_size` input is 0, it is assumed that the estimate for
 #'   the element(s) concerned is known without error.
 #' @family errors
@@ -304,7 +305,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' # Also works with a single matrix.
 #' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
-#'   fertility = c(0, 1.2, 2.4),
+#'   fecundity = c(0, 1.2, 2.4),
 #'   n_stages = 3, split = TRUE
 #' )
 #'
