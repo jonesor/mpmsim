@@ -48,21 +48,22 @@ $$
 0.1 & 5.0 \\
 0.2 & 0.4 \
 \end{bmatrix}
-, 
-
+$$
+$$
 \mathbf{U} = \begin{bmatrix}
 0.1 & 0.0 \\
 0.2 & 0.4 \
 \end{bmatrix}
-,
+$$
 
+$$
 \mathbf{F} = \begin{bmatrix}
 0.0 & 5.0 \\
 0.0 & 0.0 \
 \end{bmatrix}
 $$
 
-We an enter these matrices into R as follows:
+We an enter these matrices into R as follows, first entering the **U** and **F** matrices, and then summing them to get the **A** matrix.
 
 ```{r}
 matU <- matrix(c(
@@ -74,9 +75,20 @@ matF <- matrix(c(
   0.0, 5.0,
   0.0, 0.0
 ), byrow = TRUE, nrow = 2)
+
+matA <- matU + matF
 ```
 
-If the sample size used to estimate each element of the matrix is `20` individuals, we can estimate the 95% CI for $\lambda$ using the `compute_ci()` function. This function requires several arguments: `mat_U` and `mat_F` represent the survival/growth matrix and fertility matrix respectively, and `sample_size` specifies the number of individuals used to estimate each element (in this case, `20`). The argument `FUN` defines the function to be applied to the resulting **A** matrix to calculate the desired metric. In this example, we use the `eigs` function from the `popdemo` package to compute $\lambda$. The `what` argument is passed to `eigs`, telling the function that we want to calculate `lambda`.
+
+The estimated population growth rate ($\lambda$) can be calculated using the `eigs` function from the `popdemo` package like this:
+
+```{r}
+popdemo::eigs(matA, what = "lambda")
+```
+
+We can now estimate the 95% CI for this estimate, based on a knowledge of the sample size(s) used to parameterise the MPM.
+
+If the sample size used to estimate each element of the matrix is `20` individuals, we can estimate the 95% CI for $\lambda$ using the `compute_ci()` function. This function requires several arguments: `mat_U` and `mat_F` represent the survival/growth matrix and fertility matrix respectively, and `sample_size` specifies the number of individuals used to estimate each element (in this case, `20`). The argument `FUN` defines the function to be applied to the resulting **A** matrix to calculate the desired metric. 
 
 ```{r}
 compute_ci(
@@ -96,6 +108,7 @@ distLambda_20 <- compute_ci(
 )
 hist(distLambda_20$estimates)
 ```
+
 ## Sample sizes that vary across the MPM
 
 In the above example, it is assumed that the sample size used to make the parameter estimates (i.e. each element of the matrix model) was the same throughout the model. However, sample size might vary across different parts of the matrix or submatrices due to variations in data availability or biological processes. For example, data on survival and growth (represented in the **U** matrix) might be more abundant because these processes can often be tracked more easily in field studies. In contrast, fertility data (represented in the **F** matrix) may be harder to collect, especially for species with complex reproductive cycles, leading to smaller sample sizes. Additionally, environmental factors or study limitations can result in unequal sampling efforts across different life stages, contributing to varying sample sizes in the matrix elements. 
@@ -131,93 +144,82 @@ compute_ci(
 
 ## Exploring the impact of sample size
 
-What if the sample size was considerably larger, at 100?
+Sample size is critical in determining the precision of statistical estimates. In demographic studies, small sample sizes can lead to high variability in estimates of measures like $\lambda$, making it difficult to make strong inferences. Larger sample sizes reduce this variability, as seen in the narrower confidence intervals around $\lambda$ when we increase the sample size from 20 (calculated above) to 100. The following example demonstrates the effect of sample size on population growth rate estimates using simulated demographic matrices.
 
-```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
+```{r compareDist2, fig.height = 6, fig.width = 6, fig.align = "center"}
 distLambda_100 <- compute_ci(
   mat_U = matU, mat_F = matF,
   sample_size = 100, FUN = popdemo::eigs, what = "lambda",
   dist.out = TRUE
 )
-```
 
-Comparing those two distributions, it is unsurprising that the posterior distribution with a large sample size is narrower than that of a small sample size.
-
-```{r compareDist2, fig.height = 6, fig.width = 6, fig.align = "center"}
 par(mfrow = c(2, 1))
 hist(distLambda_20$estimates, xlim = c(0, 1.75))
 hist(distLambda_100$estimates, xlim = c(0, 1.75))
 ```
 
-One could use this approach to conduct a power analysis by simulation. For example one could ask, "What sample size would I require in order to detect a 20% change in population growth rate?" 
 
-```{r}
-observedLambda <- popdemo::eigs(matU + matF, what = "lambda")
-reducedLambda <- observedLambda * 0.8
+This approach can be used to perform a form of power analysis by simulation, a technique for determining the sample size required to detect an effect with a specified statistical power and significance level. For instance, one might ask, 'What sample size is needed to confidently conclude that the population growth rate is above 1.0? 
 
+The following code creates a plot to visualize how the precision of $\lambda$ estimates improves as sample size increases. It first defines a set of sample sizes to iterate over, then it uses `compute_ci` to calculate the confidence intervals (CIs) for $\lambda$ estimated from MPMs based on these sample sizes. It then plots $\lambda$ estimates and their CIs, along with a reference line at $\lambda = 1$. The goal is to show that as the sample size increases, the width of the CIs shrinks, increasing our confidence in the value of $\lambda$.
 
-simDist <- compute_ci(
-  mat_U = matU, mat_F = matF,
-  sample_size = 50, FUN = popdemo::eigs, what = "lambda",
-  dist.out = TRUE
-)$estimates
-hist(simDist)
-abline(v = observedLambda, lty = 2, lwd = 2)
-abline(v = reducedLambda, lty = 2, lwd = 2, col = "red")
-sum(simDist < observedLambda) / length(simDist)
-```
+In this case, a sample size of approximately 70 appears sufficient. However, sample size likely has greater importance for the more elastic elements of the MPM. Therefore, focusing on these elements could help users better understand the specific sample size requirements for their system. This targeted approach would lead to a more nuanced study design, allowing for optimized sampling efforts in the areas where precision matters most.
 
-## When sample size varies across the MPM
+```{r poweranalysis, fig.height = 6, fig.width = 6, fig.align = "center", warning=FALSE}
+# Define sample sizes to iterate over
+sample_sizes <- seq(10,100,10)
 
-If the sample size varies among elements of the MPM, for example, with a sample size of 15 for fertility and 40 for survival/growth processes, we first define the sample sizes in two separate matrices: one representing fertility and the other representing survival/growth. These matrices are then combined into a list for subsequent use.
+# Lambda value for reference
+matA <- matF + matU
+true_lambda <- popdemo::eigs(matA, what = "lambda")
 
-Following this setup, we can proceed to calculate the confidence intervals in the same manner as before, passing the list of sample size matrices as an argument to `compute_ci`.
-
-```{r}
-# Define sample sizes for F
-mat_F_ss <- matrix(c(
-  0.0, 15,  
-  0.0, 0.0  
-), byrow = TRUE, nrow = 2)
-
-# Define the sample sizes for U
-mat_U_ss <- matrix(c(
-  40, 40,
-  40, 40
-), byrow = TRUE, nrow = 2)
-
-# Combine sample sizes into list
-sampleSizes <- list(mat_U_ss = mat_U_ss, mat_F_ss = mat_F_ss)
-
-# Calculate CI for lambda
-compute_ci(
-  mat_U = matU, mat_F = matF, sample_size = sampleSizes,
-  FUN = popdemo::eigs, what = "lambda"
+# Initialize an empty data frame with predefined columns
+ci_results <- data.frame(
+  sample_size = sample_sizes,
+  ci_lower = numeric(length(sample_sizes)),
+  ci_upper = numeric(length(sample_sizes)),
+  estimate_mean = numeric(length(sample_sizes))
 )
+
+# Loop through each sample size and calculate the confidence interval for lambda
+for (i in seq_along(sample_sizes)) {
+  n <- sample_sizes[i]
+  
+  # Compute CI for the current sample size
+  dist_lambda <- compute_ci(
+    mat_U = matU, mat_F = matF,
+    sample_size = n, FUN = popdemo::eigs, what = "lambda",
+    dist.out = TRUE
+  )
+  
+  # Calculate 95% CI from the distribution
+  ci_results$ci_lower[i] <- quantile(dist_lambda$estimates, 0.025)
+  ci_results$ci_upper[i] <- quantile(dist_lambda$estimates, 0.975)
+  ci_results$estimate_mean[i] <- mean(dist_lambda$estimates)
+}
+
+# Calculate error bars
+ci_lower_error <- ci_results$estimate_mean - ci_results$ci_lower
+ci_upper_error <- ci_results$ci_upper - ci_results$estimate_mean
+
+# Create the plot
+plot(ci_results$sample_size, ci_results$estimate_mean,
+     ylim = range(ci_results$ci_lower, ci_results$ci_upper),
+     pch = 19, xlab = "Sample Size", ylab = "Lambda Estimate",
+     main = "Effect of Sample Size on Lambda Estimate Precision")
+
+# Add error bars and reference line
+arrows(ci_results$sample_size, ci_results$ci_lower, ci_results$sample_size, ci_results$ci_upper,
+       angle = 90, code = 3, length = 0.05, col = "blue")
+abline(h = 1, lty = 2)
 ```
 
 
-What if the sample size was higher for some elements than others? No problem, the `sample_size` argument accepts a matrix of sample sizes (or a list of matrices labelled as `mat_U_ss` and `mat_F_ss`).
+## Conclusion
 
-```{r}
-sample_size_mat <- matrix(c(
-  20, 100,
-  20, 20
-), byrow = TRUE, nrow = 2)
+This vignette demonstrates how sampling error propagates through MPMs, influencing metrics like population growth rate, and provides a practical method for estimating confidence intervals (CIs) for these metrics using `compute_ci`. By applying tools like `compute_ci`, users can also evaluate the effect of sample size on estimate precision, using this information to optimize data collection efforts and improve the reliability of demographic estimates.
 
-distLambda_variable <- compute_ci(
-  mat_U = matU, mat_F = matF,
-  sample_size = sample_size_mat,
-  FUN = popdemo::eigs, what = "lambda",
-  dist.out = TRUE
-)
-hist(distLambda_variable$estimates)
-```
+## Addendum
 
-```{r compareDist3, fig.height = 9, fig.width = 6, fig.align = "center"}
-par(mfrow = c(3, 1))
-hist(distLambda_20$estimates, xlim = c(0, 1.75))
-hist(distLambda_100$estimates, xlim = c(0, 1.75))
-hist(distLambda_variable$estimates, xlim = c(0, 1.75))
-```
+The `compute_ci` function is intended for metrics that rely on the full **A** matrix. However, some metrics, like `life_expect_mean` from the `Rage` package, only require the **U** matrix. For these metrics, users should use the `compute_ci_U` function, which works similarly to `compute_ci`, but is specifically designed for metrics that focus on survival and growth processes within the **U** matrix.
 
