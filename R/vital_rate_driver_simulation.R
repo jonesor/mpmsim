@@ -54,11 +54,11 @@ inverse_logit <- function(x) {
 #' Calculate driven vital rates
 #'
 #' This function calculates new values for a vital rate, such as survival or
-#' fecundity that is being influenced by a driver (e.g., weather). It does this
+#' reproduction that is being influenced by a driver (e.g., weather). It does this
 #' by using a driver variable and a baseline value, along with a specified slope
 #' for the relationship between the driver variable and the vital rate. The
 #' function works on a linearised scale, using logit for survival and log for
-#' fecundity, and takes into account the error standard deviation.
+#' reproduction, and takes into account the error standard deviation.
 #'
 #' The relationship between the driver variable and the vital rate is assumed to
 #' be linear:
@@ -70,9 +70,9 @@ inverse_logit <- function(x) {
 #' $$d_b$$ is the baseline driver and $$E$$ is the error.
 #'
 #' The input vital rate(s) (`baseline_value`) can be a single-element vector
-#' representing a single vital rate (e.g., survival probability or fecundity), a
+#' representing a single vital rate (e.g., survival probability or reproduction), a
 #' longer vector representing a series of vital rates (e.g., several survival
-#' probabilities or fecundity values), or a matrix of values (e.g., a U or F
+#' probabilities or reproduction values), or a matrix of values (e.g., a U or F
 #' submatrix of a matrix population model). The `slope`s of the relationship
 #' between the vital rate (`baseline_value`) and the driver can be provided as a
 #' single value, which is applied to all elements of the input vital rates, or
@@ -142,13 +142,13 @@ inverse_logit <- function(x) {
 #' # with a series of drivers, and matrices of slopes and errors
 #'
 #' lt1 <- model_survival(params = c(b_0 = 0.4, b_1 = 0.5), model = "Gompertz")
-#' lt1$fert <- model_fertility(
+#' lt1$reproduction <- model_reproduction(
 #'   age = 0:max(lt1$x), params = c(A = 10),
 #'   maturity = 3, model = "step"
 #' )
 #'
 #' mats <- make_leslie_mpm(
-#'   survival = lt1$px, fertility = lt1$fert, n_stages =
+#'   survival = lt1$px, reproduction = lt1$fert, n_stages =
 #'     nrow(lt1), split = TRUE
 #' )
 #' mats$mat_U

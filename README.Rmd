@@ -282,7 +282,6 @@ p <- plot_matrix(rMPM$mat_U)
 p + ggplot2::scale_fill_gradient(low = "black", high = "yellow")
 ```
 
-<!--
 ```{r, include=FALSE}
 ggplot2::ggsave("man/figures/plot_a_matrix01.png", width = 300, height = 300, units = "px")
 ```
@@ -290,7 +289,6 @@ ggplot2::ggsave("man/figures/plot_a_matrix01.png", width = 300, height = 300, un
 ```{r echo=FALSE, fig.align='center', fig.cap=''}
 knitr::include_graphics("man/figures/plot_a_matrix01.png")
 ```
--->
 
 ## References
 

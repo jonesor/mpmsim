@@ -19,7 +19,7 @@
 #' matDim <- 10
 #' A1 <- make_leslie_mpm(
 #'   survival = seq(0.1, 0.7, length.out = matDim),
-#'   fertility = seq(0.1, 0.7, length.out = matDim),
+#'   reproduction = seq(0.1, 0.7, length.out = matDim),
 #'   n_stages = matDim
 #' )
 #' plot_matrix(A1, zero_na = TRUE, na_colour = "black")

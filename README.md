@@ -6,13 +6,13 @@
 <!-- badges: start -->
 <!--- BE CAREFUL WITH THE FORMATTING --->
 
-| Project                                                                                                                                                                                                | Main                                                                                                                                                                   | Devel                                                                                                                                                                                    |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)                                                                                | [![R-CMD-check](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml) | [![R-CMD-check-devel](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml) |
-| [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) | [![Codecov test coverage](https://codecov.io/gh/jonesor/mpmsim/branch/main/graph/badge.svg)](https://app.codecov.io/gh/jonesor/mpmsim?branch=main)                     |                                                                                                                                                                                          |
-| ![](http://cranlogs.r-pkg.org/badges/grand-total/mpmsim)                                                                                                                                               |                                                                                                                                                                        |                                                                                                                                                                                          |
-| ![](http://cranlogs.r-pkg.org/badges/mpmsim)                                                                                                                                                           |                                                                                                                                                                        |                                                                                                                                                                                          |
-| [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/mpmsim)](https://cran.r-project.org/package=mpmsim)                                                                                         |                                                                                                                                                                        |                                                                                                                                                                                          |
+| Project | Main | Devel |
+|----|----|----|
+| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html) | [![R-CMD-check](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml) | [![R-CMD-check-devel](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml) |
+| [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) | [![Codecov test coverage](https://codecov.io/gh/jonesor/mpmsim/branch/main/graph/badge.svg)](https://app.codecov.io/gh/jonesor/mpmsim?branch=main) |  |
+| ![](http://cranlogs.r-pkg.org/badges/grand-total/mpmsim) |  |  |
+| ![](http://cranlogs.r-pkg.org/badges/mpmsim) |  |  |
+| [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/mpmsim)](https://cran.r-project.org/package=mpmsim) |  |  |
 
 <!-- badges: end -->
 
@@ -70,17 +70,18 @@ model (Leslie, 1945) where the stages represent discrete age classes
 (usually years of life).
 
 In a Leslie matrix, survival is represented in the lower sub-diagonal
-and the lower-right-hand corner element, while fertility is shown in the
-top row. Both survival and fertility have a length equal to the number
-of stages in the model. Users can specify both survival and fertility as
-either a single value or a vector of values, with a length equal to the
-dimensions of the matrix model. If these arguments are single values,
-the value is repeated along the survival/fertility sequence.
+and the lower-right-hand corner element, while reproduction is shown in
+the top row. Both survival and reproduction have a length equal to the
+number of stages in the model. Users can specify both survival and
+reproduction as either a single value or a vector of values, with a
+length equal to the dimensions of the matrix model. If these arguments
+are single values, the value is repeated along the survival/reproduction
+sequence.
 
 ``` r
 make_leslie_mpm(
   survival = seq(0.1, 0.45, length.out = 4),
-  fertility = c(0, 0, 2.4, 5), n_stages = 4, split = FALSE
+  reproduction = c(0, 0, 2.4, 5), n_stages = 4, split = FALSE
 )
 #>      [,1]      [,2]      [,3] [,4]
 #> [1,]  0.0 0.0000000 2.4000000 5.00
@@ -89,7 +90,7 @@ make_leslie_mpm(
 #> [4,]  0.0 0.0000000 0.3333333 0.45
 ```
 
-### Using functional forms for mortality and fertility
+### Using functional forms for mortality and reproduction
 
 Users can generate Leslie matrices with particular functional forms of
 mortality by first making a data frame of a simplified life table that
@@ -117,26 +118,26 @@ For example to produce a life table based on Gompertz mortality:
 #> 6 5 1.4778112 0.03928123 0.8413767 0.1586233
 ```
 
-Users can also use a functional form for fertility (see
-`?model_fertility`), including, logistic, step, von Bertalanffy, Normal
-and Hadwiger.
+Users can also use a functional form for reproduction (see
+`?model_reproduction`), including, logistic, step, von Bertalanffy,
+Normal and Hadwiger.
 
 Here a simple step function is assumed.
 
 ``` r
 survival <- surv_prob$px
-fertility <- model_fertility(
+reproduction <- model_reproduction(
   age = 0:(length(survival) - 1),
   params = c(A = 5), maturity = 2, model = "step"
 )
 ```
 
-Subsequently, these survival and fertility values can be applied to the
-Leslie matrix as follows.
+Subsequently, these survival and reproduction values can be applied to
+the Leslie matrix as follows.
 
 ``` r
 make_leslie_mpm(
-  survival = survival, fertility = fertility,
+  survival = survival, reproduction = reproduction,
   n_stages = length(survival), split = FALSE
 )
 #>           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
@@ -155,24 +156,26 @@ Users can generate large numbers of plausible Leslie matrices using the
 
 The arguments for this function include the number of models
 (`n_models`), the type of mortality (e.g. `GompertzMakeham`) and
-fertility (e.g. `step`). The specific parameters for mortality and
-fertility are provided as defined distributions from which parameters
+reproduction (e.g. `step`). The specific parameters for mortality and
+reproduction are provided as defined distributions from which parameters
 can be drawn at random. The type of distribution is defined with the
 `dist_type` argument and can be `uniform` or `normal`, and the
 distributions are defined using the `mortality_params` and
-`fertility_params` arguments, which accept data frames of distribution
-parameters.
+`reproduction_params` arguments, which accept data frames of
+distribution parameters.
 
 For example, the following code produces a list of five Leslie matrices
-that have Gompertz-Makeham mortality characteristics and where fertility
-is a step function.
+that have Gompertz-Makeham mortality characteristics and where
+reproduction is a step function.
 
 First, we define the limits of a uniform distributions for the Gompertz
-mortality and step fertility functions.
+mortality and step reproduction functions.
 
 ``` r
-mortParams <- data.frame(minVal = c(0.05, 0.08, 0.7),
-                         maxVal = c(0.14, 0.15, 0.7))
+mortParams <- data.frame(
+  minVal = c(0.05, 0.08, 0.7),
+  maxVal = c(0.14, 0.15, 0.7)
+)
 
 fertParams <- data.frame(minVal = 4, maxVal = 6)
 ```
@@ -181,7 +184,7 @@ We also set maturity to be drawn from a distribution ranging from 0 to
 3.
 
 ``` r
-maturityParams <- c(0,3)
+maturityParams <- c(0, 3)
 ```
 
 Now we produce the models. We output as “`Type5`” which is a simple list
@@ -190,13 +193,13 @@ submatrices (e.g. the U and F matrices), or as a `CompadreDB` object.
 
 ``` r
 outputMPMs <- rand_leslie_set(
-      n_models = 5, mortality_model = "GompertzMakeham", fertility_model = "step",
-      mortality_params = mortParams,
-      fertility_params = fertParams,
-      fertility_maturity_params = maturityParams, 
-      dist_type = "uniform",
-      output = "Type5"
-    )
+  n_models = 5, mortality_model = "GompertzMakeham", reproduction_model = "step",
+  mortality_params = mortParams,
+  reproduction_params = fertParams,
+  reproduction_maturity_params = maturityParams,
+  dist_type = "uniform",
+  output = "Type5"
+)
 
 outputMPMs
 #> [[1]]
@@ -248,7 +251,7 @@ outputMPMs
 ### Generate single random Lefkovitch MPMs
 
 The `rand_lefko_mpm` function can be used to generate a random
-Lefkovitch matrix population model (MPM) (Lefkovitch, 1965). with
+Lefkovitch matrix population model (MPM) (Lefkovitch, 1965), with
 element values based on defined life history archetypes.
 
 The function draws survival and transition/growth probabilities from a
@@ -271,7 +274,7 @@ model.
 
 ``` r
 (rMPM <- rand_lefko_mpm(
-  n_stages = 3, fecundity = 20,
+  n_stages = 3, reproduction = 20,
   archetype = 2, split = TRUE
 ))
 #> $mat_A
@@ -309,7 +312,7 @@ returns a `list` object.
 library(popbio)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 rand_lefko_set(
-  n_models = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df,
+  n_models = 5, n_stages = 4, reproduction = 8, archetype = 1, constraint = constrain_df,
   output = "Type5"
 )
 #> [[1]]
@@ -379,9 +382,11 @@ eigs(rMPM$mat_A, what = "lambda")
 Users can calculate the 95% CI, assuming a sample size of 10, like this:
 
 ``` r
-compute_ci(mat_U = rMPM$mat_U, mat_F = rMPM$mat_F, 
-           sample_size = 10, 
-           FUN = eigs, what = "lambda")
+compute_ci(
+  mat_U = rMPM$mat_U, mat_F = rMPM$mat_F,
+  sample_size = 10,
+  FUN = eigs, what = "lambda"
+)
 #>      2.5%     97.5% 
 #> 0.8384508 3.4177693
 ```
@@ -422,7 +427,7 @@ sample size of 1000, and then with a sample size of seven.
 ``` r
 mats <- make_leslie_mpm(
   survival = c(0.3, 0.5, 0.8),
-  fertility = c(0, 2.2, 4.4),
+  reproduction = c(0, 2.2, 4.4),
   n_stages = 3, split = TRUE
 )
 

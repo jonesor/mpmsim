@@ -1,7 +1,7 @@
 # Create test matrices
 set.seed(123)
 mats <- suppressWarnings(rand_lefko_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  n = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
   archetype = 4, output = "Type1"
 ))
 
@@ -41,7 +41,7 @@ test_that("summarise_mpms function works correctly", {
 })
 
 mats <- rand_lefko_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  n = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
   archetype = 4, output = "Type3"
 )
 
@@ -55,7 +55,7 @@ test_that("error produced if input is not CompadreDB", {
 # Make some NA MPMs
 set.seed(123)
 mats <- rand_lefko_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  n = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
   archetype = 4, output = "Type5"
 )
 

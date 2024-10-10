@@ -405,7 +405,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
         )
       }
       if (dist_type == "normal") {
-        reproduction_maturity_params <- c(
+        reproduction_params_draw <- c(
           A = rnorm(1,
             mean = reproduction_params[1, 1],
             sd = reproduction_params[1, 2]
