@@ -21,7 +21,7 @@ set.seed(42)
 
 Leslie matrix models, named after Patrick Leslie who first introduced them in the 1940s, are a type of matrix population model (MPM) used to describe the demography of age structured populations. They are commonly used in studies of wildlife, conservation and evolutionary biology.
 
-In a Leslie MPM, the square matrix is used to model discrete, age-structured population growth with a projection interval, most often representing years, as a time step. Each element in the matrix represents a transition probability between different age classes or indicates the average reproductive output (often referred to as fecundity in population biology and fertility in human demography) of the age class. The information in the MPM can be split into two submatrices, representing survival/growth and reproduction (fecundity/fertility), respectively.
+In a Leslie MPM, the square matrix is used to model discrete, age-structured population growth with a projection interval, most often representing years, as a time step. Each element in the matrix represents a transition probability between different age classes or indicates the average reproductive output (often referred to as fecundity in population biology and fertility in human demography) of the age class. The information in the MPM can be split into two submatrices, representing survival/growth and reproduction, respectively.
 
 
 * **Survival Probabilities**: The subdiagonal (immediately below the main diagonal) of the MPM consists of survival probabilities. Each entry here shows the probability that an individual of one age class will survive to the next age class. These probabilities can be understood as an age trajectory of survival that can be modelled using a mathematical model describing how age-specific mortality changes with age.
@@ -61,7 +61,7 @@ library(ggplot2)
 library(Rcompadre)
 ```
 
-## 1. Functional forms of mortality and fertility
+## 1. Functional forms of mortality and reproduction
 
 There are numerous published and well-used functional forms used to describe how mortality risk (hazard) changes with age. The `model_mortality` function (and its synonym `model_survival`) handles 6 of these models: Gompertz, Gompertz-Makeham, Weibull, Weibull-Makeham, Siler and Exponential. 
 
@@ -155,89 +155,89 @@ plotFF <- ggplot(FF, aes(x = x, y = hx)) +
 plotA + plotB + plotC + plotD + plotE + plotFF
 ```
 
-In addition to these functional forms of mortality, there are, of course, functional forms that have been used to model reproductive output (e.g. fertility/fecundity). The `model_reproduction` function (and its synonyms `model_fedundity` and `model_fertility`) handles five types: logistic, step, von Bertalanffy, Normal and Hadwiger.
+In addition to these functional forms of mortality, there are, of course, functional forms that have been used to model reproductive output. The `model_reproduction` function (and its synonyms `model_fedundity` and `model_fertility`) handles five types: logistic, step, von Bertalanffy, Normal and Hadwiger.
 
 
-* Logistic: Fertility initially increases rapidly with age then slows to plateau as it approaches a maximum value. $f_x = A / (1 + exp(-k  (x - x_m)))$
-* Step: Fertility is initially zero, then jumps to a particular level at a specified age, after which it remains constant. $f_x= \begin{cases} A, x \geq m \\ A, x <  m \end{cases}$
-* von Bertalanffy: This model is often used in growth dynamics but has been adapted for fertility to describe changes over age or time following a logistic growth form not limited by a strict upper asymptote. It shows how fertility rates might increase and then decrease, following a more smoothed, sigmoid curve. $f_x = A  (1 - exp(-k  (x - x_0)))$
-* Normal : Fertility is modelled as normal distribution to describe how fertility rates increase, peak, and then decreases in a bell curve around a mean age of reproductive capacity. $f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)$
+* Logistic: Reproductive output initially increases rapidly with age then slows to plateau as it approaches a maximum value. $f_x = A / (1 + exp(-k  (x - x_m)))$
+* Step: Reproductive output is initially zero, then jumps to a particular level at a specified age, after which it remains constant. $f_x= \begin{cases} A, x \geq m \\ A, x <  m \end{cases}$
+* von Bertalanffy: This model is often used in growth dynamics but has been adapted for reproduction to describe changes over age or time following a logistic growth form not limited by a strict upper asymptote. It shows how reproductive output might increase and then decrease, following a more smoothed, sigmoid curve. $f_x = A  (1 - exp(-k  (x - x_0)))$
+* Normal : Reproductive output is modelled as normal distribution to describe how reproductive output increases, peaks, and then decreases in a bell curve around a mean age of reproductive capacity. $f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)$
 * Hadwiger: The outcomes of this model is qualitatively similar to the normal distribution. $f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}$
 
 ```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8}
 baseDF <- data.frame(x = 0:20)
 
-# Compute fertility using the step model
+# Compute reproduction using the step model
 stepMod <- baseDF %>%
-  mutate(fert = model_reproduction(
+  mutate(reproduction = model_reproduction(
     age = x, params = c(A = 10), maturity = 6,
     model = "step"
   ))
 
-plotA <- ggplot(stepMod, aes(x = x, y = fert)) +
+plotA <- ggplot(stepMod, aes(x = x, y = reproduction)) +
   geom_line() +
   xlab("Age") +
-  ylab("Fertility") +
+  ylab("Reproduction") +
   ggtitle("A) Step")
 
-# Compute fertility using the logistic model
+# Compute reproduction using the logistic model
 logisticMod <- baseDF %>%
-  mutate(fert = model_fertility(
+  mutate(reproduction = model_reproduction(
     age = x, params = c(A = 10, k = 0.5, x_m = 8), maturity =
       0, model = "logistic"
   ))
 
-plotB <- ggplot(logisticMod, aes(x = x, y = fert)) +
+plotB <- ggplot(logisticMod, aes(x = x, y = reproduction)) +
   geom_line() +
   xlab("Age") +
-  ylab("Fertility") +
+  ylab("Reproduction") +
   ggtitle("B) Logistic")
 
-# Compute fertility using the von Bertalanffy model
+# Compute reproduction using the von Bertalanffy model
 
 vonBertMod <- baseDF %>%
-  mutate(fert = model_reproduction(
+  mutate(reproduction = model_reproduction(
     age = x, params = c(A = 10, k = .5), maturity = 2, model =
       "vonbertalanffy"
   ))
 
-plotC <- ggplot(logisticMod, aes(x = x, y = fert)) +
+plotC <- ggplot(logisticMod, aes(x = x, y = reproduction)) +
   geom_line() +
   xlab("Age") +
-  ylab("Fertility") +
+  ylab("Reproduction") +
   ggtitle("C) von Bertalanffy")
 
-# Compute fertility using the normal model
+# Compute reproduction using the normal model
 normalMod <- baseDF %>%
-  mutate(fert = model_reproduction(
+  mutate(reproduction = model_reproduction(
     age = x, params = c(A = 10, mu = 4, sd = 2), maturity = 0,
     model = "normal"
   ))
-plotD <- ggplot(normalMod, aes(x = x, y = fert)) +
+plotD <- ggplot(normalMod, aes(x = x, y = reproduction)) +
   geom_line() +
   xlab("Age") +
-  ylab("Fertility") +
+  ylab("Reproduction") +
   ggtitle("D) Normal")
 
-# Compute fertility using the Hadwiger model
+# Compute reproduction using the Hadwiger model
 hadwigerMod <- data.frame(x = 0:50) %>%
-  mutate(fert = model_reproduction(
+  mutate(reproduction = model_reproduction(
     age = x, params = c(a = 0.91, b = 3.85, C = 29.78),
     maturity = 0, model = "hadwiger"
   ))
-plotE <- ggplot(hadwigerMod, aes(x = x, y = fert)) +
+plotE <- ggplot(hadwigerMod, aes(x = x, y = reproduction)) +
   geom_line() +
   xlab("Age") +
-  ylab("Fertility") +
+  ylab("Reproduction") +
   ggtitle("E) hadwiger")
 
 
 plotA + plotB + plotC + plotD + plotE
 ```
 
-Collectively, these mortality and fertility functions offer a large scope for modelling the variety of demographic trajectories apparent across the tree of life.
+Collectively, these mortality and reproduction functions offer a large scope for modelling the variety of demographic trajectories apparent across the tree of life.
 
-## 2. Trajectories of mortality and fertility, and production of life tables
+## 2. Trajectories of mortality and reproductive output, and production of life tables
 
 To obtain a trajectory of mortality, users can use the `model_mortality` function, which takes as input the parameters of a specified mortality model. The output of this function is a standard life table `data.frame` including columns for age (`x`), age-specific hazard (`hx`), survivorship (`lx`), age-specific probability of death and survival (`qx` and `px`). By default, the life table is truncated at the age when the survivorship function declines below 0.01 (i.e. when only 1% of individuals in a cohort would remain alive).
 
@@ -254,12 +254,12 @@ ggplot(lt1, aes(x = x, y = hx)) +
 ```
 
 
-The `model_fertility` function is similar to the `model_mortality` function, as it has arguments for the type of fertility model, and its parameters. However, the output of the `model_fertility` function is a vector of fertility values rather than a `data.frame`. This allows us to add a fertility column (`fert`) directly to the life table produced earlier, as follows:
+The `model_reproduction` function is similar to the `model_mortality` function, as it has arguments for the type of reproduction model, and its parameters. However, the output of the `model_reproduction` function is a vector of reproductive output values rather than a `data.frame`. This allows us to add a reproduction column (`reproduction`) directly to the life table produced earlier, as follows:
 
 
 ```{r}
 (lt1 <- lt1 |>
-  mutate(fert = model_reproduction(
+  mutate(reproduction = model_reproduction(
     age = x, params = c(A = 3),
     maturity = 3,
     model = "step"
@@ -269,7 +269,7 @@ The `model_fertility` function is similar to the `model_mortality` function, as 
 Again, it can be useful to plot the relevant data to visualise it.
 
 ```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8}
-ggplot(lt1, aes(x = x, y = fert)) +
+ggplot(lt1, aes(x = x, y = reproduction)) +
   geom_line() +
   ggtitle("Step reproduction, maturity at age 3")
 ```
@@ -285,15 +285,15 @@ make_leslie_mpm(lifetable = lt1)
 
 ## 4. Produce sets of MPMs based on defined model characteristics
 
-It is sometimes desirable to create large numbers of MPMs with particular properties in order to test hypotheses. For Leslie MPMs, this can be implemented in a straightforward way using the function `rand_leslie_set`. This function generates a set of Leslie MPMs based on defined mortality and fertility models, and using model parameters that are randomly drawn from specified distributions. For example, users may wish to generate MPMs for Gompertz models to explore how rate of senescence influences population dynamics.
+It is sometimes desirable to create large numbers of MPMs with particular properties in order to test hypotheses. For Leslie MPMs, this can be implemented in a straightforward way using the function `rand_leslie_set`. This function generates a set of Leslie MPMs based on defined mortality and reproduction models, and using model parameters that are randomly drawn from specified distributions. For example, users may wish to generate MPMs for Gompertz models to explore how rate of senescence influences population dynamics.
 
 Users must first set up a data frame describing the distribution from which parameters will be drawn at random. The data frame has a number of rows equal to the number of parameters in the model, and two values to describe the distribution. In the case of a uniform distribution, these are the minimum and maximum parameter values, respectively and with a normal distribution they represent the mean and standard deviation. The parameters must be entered in the order they appear in the model equations (see `?model_mortality`). 
 
 For the Gompertz-Makeham model: $h_x = b_0 \mathrm{e}^{b_1  x} + c$
 
-The `output` argument defines the output as one of six types (`Type1` through `Type6`). These outputs include `CompadreDB` objects or `list` objects, and the MPMs can be split into the component submatrices (U and F, where the MPM, A = U + F). In the special case `Type6` the outputs are provided as a `list` of life tables rather than MPMs. If the output is set as a `CompadreDB` object, the mortality and fertility model parameters used to generate the MPM are included as metadata.
+The `output` argument defines the output as one of six types (`Type1` through `Type6`). These outputs include `CompadreDB` objects or `list` objects, and the MPMs can be split into the component submatrices (U and F, where the MPM, A = U + F). In the special case `Type6` the outputs are provided as a `list` of life tables rather than MPMs. If the output is set as a `CompadreDB` object, the mortality and reproduction model parameters used to generate the MPM are included as metadata.
 
-The following example illustrates the production of 50 Leslie MPMs output to a `CompadreDB` object based on the Gompertz-Makeham mortality model and a step fertility model with maturity beginning at age 0. An optional argument, `scale_output = TRUE` will scale the fertility in the output MPMs to ensure that population growth rate is lambda. The scaling algorithm is a simple scaling factor, by which the fertility part of the MPM (the F submatrix) is multiplied to ensure that population growth rate is 1, and yet the shape (but not the magnitude) of the fertility trajectory is maintained. This should be used with care: The desirability of such a manipulation strongly depends on the use the MPMs are put to.
+The following example illustrates the production of 50 Leslie MPMs output to a `CompadreDB` object based on the Gompertz-Makeham mortality model and a step reproduction model with maturity beginning at age 0. An optional argument, `scale_output = TRUE` will scale the reproduction in the output MPMs to ensure that population growth rate is lambda. The scaling algorithm is a simple scaling factor, by which the reproduction part of the MPM (the **F** submatrix) is multiplied to ensure that population growth rate is 1, and yet the shape (but not the magnitude) of the reproduction trajectory is maintained. This should be used with care: The desirability of such a manipulation strongly depends on the use the MPMs are put to.
 
 ```{r}
 mortParams <- data.frame(
@@ -301,7 +301,7 @@ mortParams <- data.frame(
   maxVal = c(0.05, 0.15, 0.2)
 )
 
-fertParams <- data.frame(
+reproductionParams <- data.frame(
   minVal = 2,
   maxVal = 10
 )
@@ -311,10 +311,10 @@ maturityParam <- c(0, 0)
 (myMatrices <- rand_leslie_set(
   n_models = 50,
   mortality_model = "GompertzMakeham",
-  fertility_model = "step",
+  reproduction_model = "step",
   mortality_params = mortParams,
-  fertility_params = fertParams,
-  fertility_maturity_params = maturityParam,
+  reproduction_params = reproductionParams,
+  reproduction_maturity_params = maturityParam,
   dist_type = "uniform",
   output = "Type1"
 ))

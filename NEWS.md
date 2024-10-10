@@ -1,3 +1,8 @@
+# mpmsim (development version)
+
+- Changed terminologies for reproduction to avoid confusion regarding the definitions of fecundity and fertility. We now refer to "reproduction" and have changed function and argument names accordingly. 
+- The new function `model_reproduction()` is synonymous with `model_fertility` and `model_fecundity`.
+
 # mpmsim 3.0.0
 
 - When sets of matrices are returned as `CompadreDB` objects, the archetype (Lefkovitch) or model parameters (Leslie), are now included as metadata.
