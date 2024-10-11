@@ -19,24 +19,24 @@ simulate_survival <- function(prob_survival, sample_size) {
   }
 }
 
-#' Simulate reproduction (fecundity)
+#' Simulate reproduction
 #'
-#' @param mean_fecundity mean value for reproductive output
+#' @param mean_reproductiom mean value for reproductive output
 #' @param sample_size sample size
-#' @return mean fecundity based on the simulated data
-#' @details if `sample_size` is 0, the output is simply `mean_fecundity`. i.e.
+#' @return mean reproductiom based on the simulated data
+#' @details if `sample_size` is 0, the output is simply `mean_reproductiom`. i.e.
 #'   it is assumed that the estimate is known without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
-#' simulate_fecundity(2, 100)
-#' simulate_fecundity(5, 1000)
+#' simulate_reproductiom(2, 100)
+#' simulate_reproductiom(5, 1000)
 #' @noRd
-simulate_fecundity <- function(mean_fecundity, sample_size) {
+simulate_reproductiom <- function(mean_reproductiom, sample_size) {
   if (sample_size == 0) {
-    return(mean_fecundity)
+    return(mean_reproductiom)
   }
   if (sample_size > 0) {
-    return(mean(rpois(sample_size, mean_fecundity)))
+    return(mean(rpois(sample_size, mean_reproductiom)))
   }
 }
 
@@ -46,7 +46,7 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #' Produces a matrix population model (MPM) based on expected values in the
 #' transition matrix and sample size. The expected values are provided in two
 #' submatrices `mat_U` for the growth/development and survival transitions and
-#' `mat_F` for the fecundity transitions. The output `mat_U` values are
+#' `mat_F` for the reproductive transitions. The output `mat_U` values are
 #' simulated based on expected probabilities, assuming a binomial process with a
 #' sample size defined by `sample_size`. The output `mat_F` values are simulated
 #' using a Poisson process with a sample size defined by `sample_size`.Thus
@@ -55,15 +55,15 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #' sample sizes will be more variable.
 #'
 #' @param mat_U matrix of mean survival/growth probabilities
-#' @param mat_F matrix of mean fecundity values
+#' @param mat_F matrix of mean reproductiom values
 #' @param sample_size either (1) a single matrix of sample sizes for each
 #'   element of the MPM, (2) a list of two named matrices ("`mat_F_ss`",
-#'   "`mat_U_ss`") containing sample sizes for the survival and fecundity
+#'   "`mat_U_ss`") containing sample sizes for the survival and reproductiom
 #'   submatrices of the MPM or (3) a single value applied to the whole matrix
-#' @param split logical, whether to split the output into survival and fecundity
+#' @param split logical, whether to split the output into survival and reproductiom
 #'   matrices or not
-#' @return list of matrices of survival and fecundity if `split = TRUE`,
-#'   otherwise a single matrix of the sum of survival and fecundity
+#' @return list of matrices of survival and reproductiom if `split = TRUE`,
+#'   otherwise a single matrix of the sum of survival and reproductiom
 #' @details if any `sample_size` input is 0, it is assumed that the estimate for
 #'   the element(s) concerned is known without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
@@ -73,7 +73,7 @@ simulate_fecundity <- function(mean_fecundity, sample_size) {
 #'
 #' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
-#'   fecundity = c(0, 1.2, 2.4),
+#'   reproductiom = c(0, 1.2, 2.4),
 #'   n_stages = 3, split = TRUE
 #' )
 #' ssMat <- matrix(10, nrow = 3, ncol = 3)
@@ -215,8 +215,8 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
     sample_size = sample_size_vector_U
   )
 
-  fecundity_results <- mapply(
-    FUN = simulate_fecundity, mean_fecundity = f_matrix_vector,
+  reproductiom_results <- mapply(
+    FUN = simulate_reproductiom, mean_reproductiom = f_matrix_vector,
     sample_size = sample_size_vector_F
   )
 
@@ -224,7 +224,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
     nrow = sqrt(length(u_matrix_vector)),
     ncol = sqrt(length(u_matrix_vector))
   )
-  mat_F_out <- matrix(fecundity_results,
+  mat_F_out <- matrix(reproductiom_results,
     nrow = sqrt(length(f_matrix_vector)),
     ncol = sqrt(length(u_matrix_vector))
   )
@@ -261,7 +261,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' Produces a list of matrix population models based on expected values in the
 #' transition matrix and sample size. The expected values are provided in lists
 #' of two submatrices: `mat_U` for the growth/development and survival
-#' transitions and `mat_F` for the fecundity transitions. The output `mat_U`
+#' transitions and `mat_F` for the reproductive transitions. The output `mat_U`
 #' values are simulated based on expected probabilities, assuming a binomial
 #' process with a sample size defined by `sample_size`. The output `mat_F`
 #' values are simulated using a Poisson process with a sample size defined by
@@ -292,7 +292,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' set.seed(42) # set seed for repeatability
 #'
 #' # First generate a set of MPMs
-#' mpm_set <- rand_lefko_set(n = 5, n_stages = 5, fecundity = c(
+#' mpm_set <- rand_lefko_set(n = 5, n_stages = 5, reproductiom = c(
 #'   0, 0, 4, 8, 10
 #' ), archetype = 4, output = "Type4")
 #'
@@ -305,7 +305,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' # Also works with a single matrix.
 #' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
-#'   fecundity = c(0, 1.2, 2.4),
+#'   reproductiom = c(0, 1.2, 2.4),
 #'   n_stages = 3, split = TRUE
 #' )
 #'
@@ -315,7 +315,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' # Sample size is a list of two matrices
 #' # here with a sample size of 20 for reproduction and 10 for growth/survival.
 #' mpm_set <- rand_lefko_set(
-#'   n = 5, n_stages = 3, fecundity = c(0, 2, 4),
+#'   n = 5, n_stages = 3, reproductiom = c(0, 2, 4),
 #'   archetype = 4, output = "Type4"
 #' )
 #'
