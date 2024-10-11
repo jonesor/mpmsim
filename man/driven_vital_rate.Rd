@@ -112,7 +112,7 @@ lt1$reproduction <- model_reproduction(
 )
 
 mats <- make_leslie_mpm(
-  survival = lt1$px, reproduction = lt1$fert, n_stages =
+  survival = lt1$px, reproduction = lt1$reproduction, n_stages =
     nrow(lt1), split = TRUE
 )
 mats$mat_U

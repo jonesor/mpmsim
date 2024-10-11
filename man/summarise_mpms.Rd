@@ -24,12 +24,12 @@ the U matrices.
 \description{
 Calculates and summarises various metrics from matrix population models
 (MPMs) including dimension (= age in Leslie matrices), lambda values, maximum
-fecundity values, maximum growth/survival transition probabilities, and
+reproduction values, maximum growth/survival transition probabilities, and
 minimum non-zero growth/survival transition probabilities
 }
 \examples{
 mats <- rand_lefko_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+  n = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
   archetype = 4, output = "Type1"
 )
 

@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Generate Leslie matrices • mpmsim</title>
+<title>Generating Leslie matrices • mpmsim</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Generate Leslie matrices">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Generating Leslie matrices">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,8 +34,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generate Lefkovitch matrices</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_leslie_models.html">Generate Leslie matrices</a></li>
+    <li><a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generating Lefkovitch matrices</a></li>
+    <li><a class="dropdown-item" href="../articles/generate_leslie_models.html">Generating Leslie matrices</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -58,10 +58,9 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Generate Leslie matrices</h1>
-                        <h4 data-toc-skip class="author">Owen Jones</h4>
+      <h1>Generating Leslie matrices</h1>
             
-            <h4 data-toc-skip class="date">2024-10-10</h4>
+            <h4 data-toc-skip class="date">2024-10-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/generate_leslie_models.Rmd" class="external-link"><code>vignettes/generate_leslie_models.Rmd</code></a></small>
       <div class="d-none name"><code>generate_leslie_models.Rmd</code></div>
@@ -72,9 +71,9 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Leslie matrix models, named after Patrick Leslie who first introduced
-them in the 1940s, are a type of matrix population model (MPM) used to
-describe the demography of age structured populations. They are commonly
+<p>Leslie matrix models, named after Patrick Leslie who introduced them
+in the 1940s, are a type of matrix population model (MPM) used to
+describe the demography of age-structured populations. They are commonly
 used in studies of wildlife, conservation and evolutionary biology.</p>
 <p>In a Leslie MPM, the square matrix is used to model discrete,
 age-structured population growth with a projection interval, most often
@@ -94,10 +93,9 @@ can be understood as an age trajectory of survival that can be modelled
 using a mathematical model describing how age-specific mortality changes
 with age.</p></li>
 <li><p><strong>Reproductive Output</strong>: The first row of the MPM
-contains the reproductive output of each age class. These entries
-indicate how many new individuals each age class can expect to produce
-in each projection interval, representing actual offspring production in
-ecological contexts (fecundity).</p></li>
+contains the reproductive output of each age class, representing the
+number of new individuals produced in each projection interval. This is
+often referred to as fecundity in ecological contexts.</p></li>
 </ul>
 <p>All other entries in the MPM are typically zero, indicating that
 those transitions are impossible.</p>
@@ -115,15 +113,17 @@ theoretical and applied ecology.</p>
 <div class="section level2">
 <h2 id="aims">Aims<a class="anchor" aria-label="anchor" href="#aims"></a>
 </h2>
-<p>The purpose of this vignette is to illustrate how to simulate sets of
-Leslie MPMs based on known functional forms of mortality and
-reproductive output. There are several reasons why one would want to do
-this, including, but not limited to:</p>
+<p>The aim of this vignette is to demonstrate how to simulate Leslie
+matrix population models (MPMs) using functional forms for mortality and
+reproduction. This simulation is useful for various purposes,
+including:</p>
 <ul>
-<li>Exploring how senescence parameters influence dynamics.</li>
-<li>To obtain MPMs based on parameter estimates of mortality and
-reproduction obtained from the literature.</li>
-<li>To generate MPMs with defined properties for teaching purposes.</li>
+<li>Investigating the influence of senescence parameters on population
+dynamics.</li>
+<li>Generating MPMs based on empirical parameter estimates of mortality
+and reproduction from the literature.</li>
+<li>Creating MPMs with specific properties for educational and research
+purposes.</li>
 </ul>
 <p>In the following sections, this document will:</p>
 <ol style="list-style-type: decimal">
@@ -188,7 +188,7 @@ exponentially.
 course, functional forms that have been used to model reproductive
 output. The <code>model_reproduction</code> function (and its synonyms
 <code>model_fedundity</code> and <code>model_fertility</code>) handles
-five types: logistic, step, von Bertalanffy, Normal and Hadwiger.</p>
+five types: logistic, step, von Bertalanffy, normal and Hadwiger.</p>
 <ul>
 <li>Logistic: Reproductive output initially increases rapidly with age
 then slows to plateau as it approaches a maximum value.
@@ -331,7 +331,8 @@ alive.</p>
 <span><span class="co">#&gt; [12,] 0.0000000 0.0000000 0.0000000 0.4401219 0.3669941</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="produce-sets-of-mpms-based-on-defined-model-characteristics">4. Produce sets of MPMs based on defined model characteristics<a class="anchor" aria-label="anchor" href="#produce-sets-of-mpms-based-on-defined-model-characteristics"></a>
+<h2 id="producing-sets-of-mpms-based-on-defined-model-characteristics">4. Producing sets of MPMs based on defined model
+characteristics<a class="anchor" aria-label="anchor" href="#producing-sets-of-mpms-based-on-defined-model-characteristics"></a>
 </h2>
 <p>It is sometimes desirable to create large numbers of MPMs with
 particular properties in order to test hypotheses. For Leslie MPMs, this
@@ -347,8 +348,9 @@ rows equal to the number of parameters in the model, and two values to
 describe the distribution. In the case of a uniform distribution, these
 are the minimum and maximum parameter values, respectively and with a
 normal distribution they represent the mean and standard deviation. The
-parameters must be entered in the order they appear in the model
-equations (see <code><a href="../reference/model_survival.html">?model_mortality</a></code>).</p>
+parameters should be entered in the order they appear in the model
+equations (see <code><a href="../reference/model_survival.html">?model_mortality</a></code>), with the exact order
+depending on the chosen mortality model.</p>
 <p>For the Gompertz-Makeham model:
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>x</mi></msub><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><msup><mi mathvariant="normal">e</mi><mrow><msub><mi>b</mi><mn>1</mn></msub><mi>x</mi></mrow></msup><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">h_x = b_0 \mathrm{e}^{b_1  x} + c</annotation></semantics></math></p>
 <p>The <code>output</code> argument defines the output as one of six
@@ -366,12 +368,12 @@ output to a <code>CompadreDB</code> object based on the Gompertz-Makeham
 mortality model and a step reproduction model with maturity beginning at
 age 0. An optional argument, <code>scale_output = TRUE</code> will scale
 the reproduction in the output MPMs to ensure that population growth
-rate is lambda. The scaling algorithm is a simple scaling factor, by
-which the reproduction part of the MPM (the <strong>F</strong>
-submatrix) is multiplied to ensure that population growth rate is 1, and
-yet the shape (but not the magnitude) of the reproduction trajectory is
-maintained. This should be used with care: The desirability of such a
-manipulation strongly depends on the use the MPMs are put to.</p>
+rate is lambda. The scaling algorithm multiplies the reproduction part
+of the MPM (the <strong>F</strong> submatrix) by a simple scaling factor
+to ensure the population growth rate is 1 while maintaining the shape
+(but not the magnitude) of the reproduction trajectory. This should be
+used with care: The desirability of such a manipulation strongly depends
+on the use the MPMs are put to.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mortParams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  minVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
@@ -472,7 +474,7 @@ operations with the <code>compadreDB</code> object.</p>
 functional forms of mortality and reproduction, allowing users to
 simulate virtual species with varied life histories. These matrices can
 be used to explore how life history or parameter differences affect
-population dynamics and support various research or educational
+population dynamics, supporting various research and educational
 applications.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

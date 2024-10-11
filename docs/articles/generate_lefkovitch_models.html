@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Generate Lefkovitch matrices • mpmsim</title>
+<title>Generating Lefkovitch matrices • mpmsim</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Generate Lefkovitch matrices">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Generating Lefkovitch matrices">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,8 +34,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generate Lefkovitch matrices</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_leslie_models.html">Generate Leslie matrices</a></li>
+    <li><a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generating Lefkovitch matrices</a></li>
+    <li><a class="dropdown-item" href="../articles/generate_leslie_models.html">Generating Leslie matrices</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -58,10 +58,9 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Generate Lefkovitch matrices</h1>
-                        <h4 data-toc-skip class="author">Owen Jones</h4>
+      <h1>Generating Lefkovitch matrices</h1>
             
-            <h4 data-toc-skip class="date">2024-10-10</h4>
+            <h4 data-toc-skip class="date">2024-10-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/generate_lefkovitch_models.Rmd" class="external-link"><code>vignettes/generate_lefkovitch_models.Rmd</code></a></small>
       <div class="d-none name"><code>generate_lefkovitch_models.Rmd</code></div>
@@ -73,37 +72,37 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>Lefkovitch matrix population models (MPMs) were introduced by Leonard
-Lefkovitch in his 1965 paper titled “The Study of Population Growth in
-Organisms Grouped by Stages” published in Biometrics. This paper
-extended the concept of Leslie MPMs, which are structured by age, to
-stage-structured populations, providing a framework that has been widely
-used in ecology, evolution and conservation studies.</p>
+Lefkovitch in his 1965 paper, “<em>The Study of Population Growth in
+Organisms Grouped by Stages</em>”, published in <em>Biometrics</em>..
+This paper extended the concept of Leslie MPMs, which are structured by
+age, to stage-structured populations, providing a framework that has
+been widely used in ecology, evolution and conservation studies.</p>
 <p>In a Lefkovitch MPM, the square matrix is used to model population
 growth across discrete projection intervals, typically representing
 years. Each matrix element represents either a transition probability
 between different stages or the reproductive output of a stage across
 the projection interval. The MPM can be divided into submatrices: one
-for survival/growth (the U matrix), one for sexual reproduction (the F
-matrix) and one for asexual reproduction (the <strong>C</strong>
-matrix), such that <strong>A</strong> = <strong>U</strong> +
-<strong>F</strong> + <strong>C</strong>. Occasionally, these
-reproduction matrices are lumped together as a reproduction matrix,
-<strong>R</strong> (i.e. <strong>R</strong> = <strong>F</strong> +
-<strong>C</strong>).</p>
+for survival/growth (the <strong>U</strong> matrix), one for sexual
+reproduction (the <strong>F</strong> matrix) and one for asexual
+reproduction (the <strong>C</strong> matrix), where <strong>A</strong> =
+<strong>U</strong> + <strong>F</strong> + <strong>C</strong>.
+Occasionally, these reproduction matrices are lumped together as a
+reproduction matrix, <strong>R</strong> (i.e. <strong>R</strong> =
+<strong>F</strong> + <strong>C</strong>).</p>
 <p>The elements of the <strong>U</strong> matrix represent survival or
 growth from stage-to-stage between time steps. Therefore the column sums
-of the U submatrix cannot exceed 1. The reproductive output elements, in
-the the <strong>F</strong> and <strong>C</strong> (or
-<strong>R</strong>) submatrices are do not have an upper bound and
-indicate the number of new individuals each stage can produce in each
-time interval.</p>
-<p>Zero entries in the matrices indicating that those transitions do not
+of the <strong>U</strong> submatrix cannot exceed 1. The reproductive
+output elements in the <strong>F</strong> and <strong>C</strong> (or
+<strong>R</strong>) submatrices do not have an upper bound and indicate
+the number of new individuals each stage can produce in each time
+interval.</p>
+<p>Zero entries in the matrices indicate that those transitions do not
 occur.</p>
 <p>To project population size and structure over time, the MPM is
 multiplied by a vector representing the current population structure
-(number of individuals in each stage). This results in a new vector
-showing the predicted population structure for the next time step. This
-process can be iterated to project population dynamics over multiple
+(number of individuals in each stage). This results in a new vector that
+shows the predicted population structure for the next time step. This
+process can be repeated to project population dynamics over multiple
 time steps.</p>
 <p>Lefkovitch models are useful for studying population dynamics under
 different scenarios, such as changes in survival or reproductive rates,
@@ -123,7 +122,7 @@ population dynamics.</li>
 <li>Generating MPMs with defined life cycle properties for teaching
 purposes.</li>
 </ul>
-<p>In the following sections, this document will:</p>
+<p>In the following sections, this vignette will:</p>
 <ol style="list-style-type: decimal">
 <li>Explain how life cycles can be categorised into Archetypes.</li>
 <li>Show how to generate a random Lefkovitch MPM based on an
@@ -171,7 +170,7 @@ assumption that stage-specific survival increases as individuals
 increase in size/developmental stage.</li>
 </ul>
 <p>In all these archetypes, reproduction is placed in the top row of the
-matrix. In Takada et al’s paper, reproduction was always placed in the
+matrix. In Takada et al.’s paper, reproduction was always placed in the
 top right of the MPM, meaning that only the “last” stage of the life
 cycle reproduced. This approach can be relaxed to allow reproduction
 from any stage.</p>
@@ -182,12 +181,16 @@ from any stage.</p>
 <p>In <code>mpmsim</code> the function <code>rand_lefko_mpm</code> can
 be used to generate a random MPM that conforms to one of the above four
 life cycle archetypes. The function allows for the generation of random
-MPMs based on these archetypes, with survival and growth (the U matrix)
-based on draws from a Dirichlet distribution to ensure biological
-plausibility. For flexibility, the function is quite flexible with
-reproductive output</p>
-<p>The function is straightforward, in the following example, I create a
-three-stage MPM, based on Archetype 2. I set reproduction, arbitrarily
+MPMs based on these archetypes, with survival and growth (the
+<strong>U</strong> matrix) based on draws from a Dirichlet distribution
+to ensure biological plausibility. The Dirichlet distribution is used to
+draw survival and growth values because it ensures that the sum of the
+probabilities for each stage is equal to 1, which is necessary for
+biologically realistic models. The function allows users to specify a
+wide range of reproductive output scenarios, offering flexibility in how
+reproduction is modelled across stages.</p>
+<p>The function is straightforward. In the following example, I create a
+three-stage MPM based on Archetype 2. I set reproduction, arbitrarily,
 to be 5. By default, if only a single value is given, this is placed in
 the top-right hand corner of the <strong>F</strong> matrix. Also, by
 default, all reproduction is assumed to be sexual.</p>
@@ -210,13 +213,13 @@ default, all reproduction is assumed to be sexual.</p>
 <span><span class="co">#&gt; [1,]    0    0    5</span></span>
 <span><span class="co">#&gt; [2,]    0    0    0</span></span>
 <span><span class="co">#&gt; [3,]    0    0    0</span></span></code></pre></div>
-<p>To allow a random element to reproduction, users can provide
-reproductive output information as a list of two matrices of numeric
-values, both with the same dimension as <code>n_stages</code>, to
-provide lower and upper limits of mean reproduction for the entire
-matrix model. reproductive output values are then drawn from a uniform
-distribution between the two values. Users should use 0 for both lower
-and upper limits in cases with no reproduction.</p>
+<p>To introduce variability in reproduction, users can provide
+reproductive output as a list of two matrices, with numeric values of
+the same dimensions as <code>n_stages</code>, representing the lower and
+upper limits of mean reproduction for the entire matrix model.
+Reproductive output values are then drawn from a uniform distribution
+between the two values. Users should use 0 for both lower and upper
+limits in cases with no reproduction.</p>
 <p>The following code provides an example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lower_reprod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -257,10 +260,10 @@ and upper limits in cases with no reproduction.</p>
 </h2>
 <p>It is sometimes desirable to create large numbers of MPMs with
 particular properties in order to test hypotheses. For stage-based
-(Lefkovitch) MPMs, this can be implemented using the function
-<code>rand_lefko_set</code>. This function acts as a wrapper for the
-previously described function and generates a set of Lefkovitch MPMs
-based on a defined life cycle archetype and specified reproductive
+(Lefkovitch) MPMs, this can be implemented using the
+<code>rand_lefko_set</code> function. This function acts as a wrapper
+for the previously described function and generates a set of Lefkovitch
+MPMs based on a defined life cycle archetype and specified reproductive
 output. For example, users may wish to generate MPMs for different life
 history archetypes to explore how life cycle structure may influence
 population dynamics. By specifying the number of stages, reproduction
@@ -281,10 +284,11 @@ archetype of the MPM is included as a column of metadata.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>After producing the output as a <code>CompadreDB</code> object, the
 matrices can be accessed using functions from the <code>RCompadre</code>
-R package. For example, to get the A matrix, or the U/F submatrices
-users can use the <code>matA</code>, <code>matU</code> or
-<code>matF</code> functions. The following code illustrates how to
-rapidly calculate population growth rate for all of the matrices.</p>
+R package. For example, to get the <strong>A</strong> matrix, or the
+<strong>U</strong>/<strong>F</strong> submatrices users can use the
+<code>matA</code>, <code>matU</code> or <code>matF</code> functions. The
+following code illustrates how to rapidly calculate population growth
+rate for all of the matrices.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Obtain the matrices</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Rcompadre/man/CompadreMatrixMethods.html" class="external-link">matA</a></span><span class="op">(</span><span class="va">myMatrices</span><span class="op">)</span></span>
@@ -302,17 +306,17 @@ operations with the <code>compadreDB</code> object.</p>
 <h2 id="constraining-the-output-matrices">4. Constraining the output matrices<a class="anchor" aria-label="anchor" href="#constraining-the-output-matrices"></a>
 </h2>
 <p>Critically, users can impose constraints on the “acceptable”
-properties of these randomly generated MPMs. For example, for some
-analyses it may be desirable to only obtain MPMs where the population
-growth rate is close to 1.</p>
+properties of these randomly generated MPMs. For example, in some
+analyses, it may be desirable to generate MPMs where the population
+growth rate is constrained to values near 1.</p>
 <p>This is handled by the <code>constraint</code> argument, which takes
 a data frame specifying the criteria for acceptable MPMs. The data frame
 must have four columns: <code>fun</code>, <code>arg</code>,
-<code>lower</code>, and <code>upper.</code> The <code>fun</code> column
+<code>lower</code>, and <code>upper</code>. The <code>fun</code> column
 contains the name of the function that calculates the metric to be
 constrained (e.g., <code>eigs</code>, from the <code>popdemo</code>
 package). The <code>arg</code> column specifies any additional argument
-that the function requires (e.g. <code>what = "lambda"</code> for the
+that the function requires (e.g., <code>what = "lambda"</code> for the
 <code>eigs</code> function), using <code>NA</code> if no additional
 argument is needed. The <code>lower</code> and <code>upper</code>
 columns set the bounds of the acceptable range for the metric.</p>
@@ -347,15 +351,15 @@ that the generated MPMs have a population growth rate (lambda) between
 <p>This vignette has provided a comprehensive guide to generating
 Lefkovitch matrix population models (MPMs) based on life history
 archetypes. By using the <code>rand_lefko_mpm</code> and
-<code>rand_lefko_set</code> functions, users can create either single
-MPMs or large sets of MPMs tailored to specific research needs. The
-ability to impose constraints on these models allows for precise control
-over their properties, ensuring that generated MPMs meet defined
-criteria, such as specific population growth rates.</p>
+<code>rand_lefko_set</code> functions, users can create individual MPMs
+or large sets of MPMs tailored to specific research needs. The ability
+to impose constraints on these models allows for precise control over
+their properties, ensuring that generated MPMs meet defined criteria,
+such as specific population growth rates.</p>
 <p>The flexibility and power of these functions facilitate the
 exploration of population dynamics under various scenarios, aiding in
 hypothesis testing in studies of population biology and life history
-theory. Additionally, tight integration with the <code>Rcompadre</code>
+theory. Additionally, tight integration with the <code>RCompadre</code>
 package facilitates the use of generated models, enhancing their utility
 in both theoretical and applied ecological research.</p>
 </div>

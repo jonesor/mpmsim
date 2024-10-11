@@ -1,7 +1,7 @@
 #' Create a Leslie matrix population model
 #'
 #' The function creates a Leslie matrix from inputs of number of stages,
-#' fecundity (the top row of the matrix), and survival probability (the value in
+#' reproduction (the top row of the matrix), and survival probability (the value in
 #' the sub-diagonal).
 #'
 #' @param survival a numeric value representing the survival probability of each
@@ -10,11 +10,11 @@
 #'   provided, this is applied to all survival elements.
 #' @param reproduction a numeric vector of length n_stages representing the
 #'   reproductive output of each stage. If only one value is provided, this is
-#'   applied to all fecundity elements.
+#'   applied to all reproduction elements.
 #' @param n_stages a numeric value representing the number of stages in the
 #'   matrix
 #' @param lifetable a life table containing columns `px` (age-specific survival)
-#'   and `fecundity` (age-specific fecundity).
+#'   and `reproduction` (age-specific reproduction).
 #' @param split a logical argument indicating whether the output matrix should
 #'   be split into separate A, U and F matrices (where A = U + F).
 #' @return A matrix of size n_stages x n_stages representing the Leslie matrix
@@ -130,7 +130,7 @@ make_leslie_mpm <- function(survival = NULL,
     sub_diagonal_elements <- (id_col - 1) * n_stages + id_row
     zero_matrix <- matrix(0, nrow = n_stages, ncol = n_stages)
 
-    # Make the F matrix (fecundity)
+    # Make the F matrix (reproduction)
     mat_F <- zero_matrix
     mat_F[1, ] <- reproduction
 

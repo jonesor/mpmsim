@@ -37,8 +37,8 @@
 #'   * Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 #'   * Exponential: \eqn{h_x = c}
 #'   * Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
-#'   * Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)}}
-#'   * Weibull-Makeham: \eqn{h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)} + c}
+#'   * Weibull: \eqn{h_x = b_0  b_1^{b_0}  \text{age}^{(b_0 - 1)}}
+#'   * Weibull-Makeham: \eqn{h_x = b_0  b_1^{b_0}  \text{age}^{(b_0 - 1)} + c}
 #'
 #'   In the output, the probability of survival (`px`) (and death (`qx`))
 #'   represent the probability of individuals that enter the age interval
@@ -190,7 +190,8 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b0 <- params[1]
     b1 <- params[2]
 
-    hx <- b0 * b1 * (b1 * age)^(b0 - 1)
+    #hx <- b0 * b1 * (b1 * age)^(b0 - 1) # anothert formulation
+    hx <- b0 * b1^b0 * age^(b0 - 1)
   }
 
   if (model == "weibullmakeham") {
@@ -203,7 +204,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b1 <- params[2]
     C <- params[3]
 
-    hx <- b0 * b1 * (b1 * age)^(b0 - 1) + C
+    hx <- b0 * b1^b0 * age^(b0 - 1) + C
   }
 
   # Cumulative hazard (Hx)

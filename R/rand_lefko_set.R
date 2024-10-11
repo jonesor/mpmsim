@@ -13,7 +13,7 @@
 #' @param n_models An integer indicating the number of MPMs to generate.
 #' @param n_stages The number of stages for the MPMs. Default is `3`.
 #' @param archetype The archetype of the MPMs. Default is `1`.
-#' @param reproduction The average number of offspring produced (fecundity).
+#' @param reproduction The average number of offspring produced.
 #'   Values can be provided in 4 ways:
 #'   - An numeric vector of length 1 providing a single measure of reproduction
 #'   to the top right corner of the matrix model only.

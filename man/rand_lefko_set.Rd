@@ -23,7 +23,7 @@ rand_lefko_set(
 
 \item{archetype}{The archetype of the MPMs. Default is \code{1}.}
 
-\item{reproduction}{The average number of offspring produced (fecundity).
+\item{reproduction}{The average number of offspring produced.
 Values can be provided in 4 ways:
 \itemize{
 \item An numeric vector of length 1 providing a single measure of reproduction

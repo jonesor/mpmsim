@@ -34,8 +34,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generate Lefkovitch matrices</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_leslie_models.html">Generate Leslie matrices</a></li>
+    <li><a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generating Lefkovitch matrices</a></li>
+    <li><a class="dropdown-item" href="../articles/generate_leslie_models.html">Generating Leslie matrices</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -60,6 +60,7 @@
 
       <h1>Sampling error and its propagation</h1>
             
+            <h4 data-toc-skip class="date">2024-10-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/error_propagation.Rmd" class="external-link"><code>vignettes/error_propagation.Rmd</code></a></small>
       <div class="d-none name"><code>error_propagation.Rmd</code></div>
@@ -83,10 +84,9 @@ binomial distribution, reflecting the probability of individual
 survival.</p>
 <p>The <code>compute_ci</code> function estimates a 95% confidence
 interval (95% CI) for any MPM-derived metric by generating a sampling
-distribution through resampling based on the given assumptions. The
-confidence interval is derived from the 2.5th and 97.5th percentiles of
-this distribution, where a narrower interval indicates greater
-precision.</p>
+distribution through resampling based on the given assumptions. The 95%
+CI is derived from the 2.5th and 97.5th percentiles of this
+distribution, where a narrower interval indicates greater precision.</p>
 <p>The width and shape of the sampling distribution are influenced by
 several factors, including the sample size used for estimating matrix
 elements, the matrix model’s structure, the assumptions underlying the
@@ -99,6 +99,24 @@ expectancy (e.g. calculated using using
 <code><a href="https://rdrr.io/pkg/Rage/man/life_expect.html" class="external-link">Rage::life_expect_mean</a></code>), the function
 <code>compute_ci_U</code> should be used.</p>
 <p>The following examples show how to use these functions.</p>
+</div>
+<div class="section level2">
+<h2 id="aims">Aims<a class="anchor" aria-label="anchor" href="#aims"></a>
+</h2>
+<p>The purpose of this vignette is to illustrate how to use
+<code>mpmsim</code> to assess and estimate sampling error in MPMs and
+how this uncertainty propagates into derived metrics. This approach is
+useful for several reasons, including:</p>
+<ul>
+<li>Estimating confidence intervals (CIs) for key demographic metrics,
+such as population growth rate using parametric bootstrapping
+methods.</li>
+<li>Exploring the impact of sample size on the precision of estimates
+for population growth rate and other metrics derived from MPMs.</li>
+<li>Evaluating the propagation of uncertainty across different matrix
+elements and submatrices (survival/growth vs. reproduction) in
+MPMs.</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="estimate-95-confidence-intervals">Estimate 95% Confidence Intervals<a class="anchor" aria-label="anchor" href="#estimate-95-confidence-intervals"></a>
@@ -136,7 +154,7 @@ survival or growth.</p>
 0.0 &amp; 0.0 \
 \end{bmatrix}
 </annotation></semantics></math></p>
-<p>We an enter these matrices into R as follows, first entering the
+<p>We can enter these matrices into R as follows, first entering the
 <strong>U</strong> and <strong>F</strong> matrices, and then summing
 them to get the <strong>A</strong> matrix.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -219,11 +237,11 @@ different data availability across biological processes.</p>
 split into <strong>U</strong> and <strong>F</strong> submatrices
 (<code>matU</code> and <code>matF</code>, respectively), but now assume
 that sample size varies between these components, with <code>40</code>
-individuals for <strong>U</strong> and `15 for <strong>F</strong>. Here,
-the sample size is consistent across all elements within the
-<strong>U</strong> matrix, but you could also assign different sample
-sizes to individual elements of the matrix, allowing for different
-sample sizes for different transitions.</p>
+individuals for <strong>U</strong> and <code>15</code> for
+<strong>F</strong>. Here, the sample size is consistent across all
+elements within the <strong>U</strong> matrix, but you could also assign
+different sample sizes to individual elements of the matrix, allowing
+for different sample sizes for different transitions.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define the sample sizes for U</span></span>
 <span><span class="va">mat_U_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -352,8 +370,8 @@ precision matters most.</p>
 </h2>
 <p>This vignette demonstrates how sampling error propagates through
 MPMs, influencing metrics like population growth rate, and provides a
-practical method for estimating confidence intervals (CIs) for these
-metrics using <code>compute_ci</code>. By applying tools like
+practical method for estimating confidence intervals for these metrics
+using <code>compute_ci</code>. By applying tools like
 <code>compute_ci</code>, users can also evaluate the effect of sample
 size on estimate precision, using this information to optimize data
 collection efforts and improve the reliability of demographic

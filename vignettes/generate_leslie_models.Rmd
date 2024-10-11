@@ -1,12 +1,13 @@
 ---
-title: "Generate Leslie matrices"
-author: "Owen Jones"
+title: "Generating Leslie matrices"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  pdf_document: default
+  rmarkdown::html_vignette: default
 vignette: >
-  %\VignetteIndexEntry{Generate Leslie matrices}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Generating Leslie matrices}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include = FALSE}
@@ -19,14 +20,14 @@ set.seed(42)
 
 ## Introduction
 
-Leslie matrix models, named after Patrick Leslie who first introduced them in the 1940s, are a type of matrix population model (MPM) used to describe the demography of age structured populations. They are commonly used in studies of wildlife, conservation and evolutionary biology.
+Leslie matrix models, named after Patrick Leslie who introduced them in the 1940s, are a type of matrix population model (MPM) used to describe the demography of age-structured populations. They are commonly used in studies of wildlife, conservation and evolutionary biology.
 
 In a Leslie MPM, the square matrix is used to model discrete, age-structured population growth with a projection interval, most often representing years, as a time step. Each element in the matrix represents a transition probability between different age classes or indicates the average reproductive output (often referred to as fecundity in population biology and fertility in human demography) of the age class. The information in the MPM can be split into two submatrices, representing survival/growth and reproduction, respectively.
 
 
 * **Survival Probabilities**: The subdiagonal (immediately below the main diagonal) of the MPM consists of survival probabilities. Each entry here shows the probability that an individual of one age class will survive to the next age class. These probabilities can be understood as an age trajectory of survival that can be modelled using a mathematical model describing how age-specific mortality changes with age.
 
-* **Reproductive Output**:  The first row of the MPM contains the reproductive output of each age class. These entries indicate how many new individuals each age class can expect to produce in each projection interval, representing actual offspring production in ecological contexts (fecundity).
+* **Reproductive Output**:  The first row of the MPM contains the reproductive output of each age class, representing the number of new individuals produced in each projection interval. This is often referred to as fecundity in ecological contexts.
 
 All other entries in the MPM are typically zero, indicating that those transitions are impossible.
 
@@ -36,11 +37,11 @@ Leslie matrices are useful for studying population dynamics under different scen
 
 ## Aims
 
-The purpose of this vignette is to illustrate how to simulate sets of Leslie MPMs based on known functional forms of mortality and reproductive output. There are several reasons why one would want to do this, including, but not limited to:
+The aim of this vignette is to demonstrate how to simulate Leslie matrix population models (MPMs) using functional forms for mortality and reproduction. This simulation is useful for various purposes, including:
 
-* Exploring how senescence parameters influence dynamics.
-* To obtain MPMs based on parameter estimates of mortality and reproduction obtained from the literature.
-* To generate MPMs with defined properties for teaching purposes.
+* Investigating the influence of senescence parameters on population dynamics.
+* Generating MPMs based on empirical parameter estimates of mortality and reproduction from the literature.
+* Creating MPMs with specific properties for educational and research purposes.
 
 In the following sections, this document will:
 
@@ -155,7 +156,7 @@ plotFF <- ggplot(FF, aes(x = x, y = hx)) +
 plotA + plotB + plotC + plotD + plotE + plotFF
 ```
 
-In addition to these functional forms of mortality, there are, of course, functional forms that have been used to model reproductive output. The `model_reproduction` function (and its synonyms `model_fedundity` and `model_fertility`) handles five types: logistic, step, von Bertalanffy, Normal and Hadwiger.
+In addition to these functional forms of mortality, there are, of course, functional forms that have been used to model reproductive output. The `model_reproduction` function (and its synonyms `model_fedundity` and `model_fertility`) handles five types: logistic, step, von Bertalanffy, normal and Hadwiger.
 
 
 * Logistic: Reproductive output initially increases rapidly with age then slows to plateau as it approaches a maximum value. $f_x = A / (1 + exp(-k  (x - x_m)))$
@@ -201,7 +202,7 @@ vonBertMod <- baseDF %>%
       "vonbertalanffy"
   ))
 
-plotC <- ggplot(logisticMod, aes(x = x, y = reproduction)) +
+plotC <- ggplot(vonBertMod, aes(x = x, y = reproduction)) +
   geom_line() +
   xlab("Age") +
   ylab("Reproduction") +
@@ -283,17 +284,17 @@ make_leslie_mpm(lifetable = lt1)
 ```
 
 
-## 4. Produce sets of MPMs based on defined model characteristics
+## 4. Producing sets of MPMs based on defined model characteristics
 
 It is sometimes desirable to create large numbers of MPMs with particular properties in order to test hypotheses. For Leslie MPMs, this can be implemented in a straightforward way using the function `rand_leslie_set`. This function generates a set of Leslie MPMs based on defined mortality and reproduction models, and using model parameters that are randomly drawn from specified distributions. For example, users may wish to generate MPMs for Gompertz models to explore how rate of senescence influences population dynamics.
 
-Users must first set up a data frame describing the distribution from which parameters will be drawn at random. The data frame has a number of rows equal to the number of parameters in the model, and two values to describe the distribution. In the case of a uniform distribution, these are the minimum and maximum parameter values, respectively and with a normal distribution they represent the mean and standard deviation. The parameters must be entered in the order they appear in the model equations (see `?model_mortality`). 
+Users must first set up a data frame describing the distribution from which parameters will be drawn at random. The data frame has a number of rows equal to the number of parameters in the model, and two values to describe the distribution. In the case of a uniform distribution, these are the minimum and maximum parameter values, respectively and with a normal distribution they represent the mean and standard deviation. The parameters should be entered in the order they appear in the model equations (see `?model_mortality`), with the exact order depending on the chosen mortality model.
 
 For the Gompertz-Makeham model: $h_x = b_0 \mathrm{e}^{b_1  x} + c$
 
 The `output` argument defines the output as one of six types (`Type1` through `Type6`). These outputs include `CompadreDB` objects or `list` objects, and the MPMs can be split into the component submatrices (**U** and **F**, where the MPM, **A** = **U** + **F**). In the special case `Type6` the outputs are provided as a `list` of life tables rather than MPMs. If the output is set as a `CompadreDB` object, the mortality and reproduction model parameters used to generate the MPM are included as metadata.
 
-The following example illustrates the production of 50 Leslie MPMs output to a `CompadreDB` object based on the Gompertz-Makeham mortality model and a step reproduction model with maturity beginning at age 0. An optional argument, `scale_output = TRUE` will scale the reproduction in the output MPMs to ensure that population growth rate is lambda. The scaling algorithm is a simple scaling factor, by which the reproduction part of the MPM (the **F** submatrix) is multiplied to ensure that population growth rate is 1, and yet the shape (but not the magnitude) of the reproduction trajectory is maintained. This should be used with care: The desirability of such a manipulation strongly depends on the use the MPMs are put to.
+The following example illustrates the production of 50 Leslie MPMs output to a `CompadreDB` object based on the Gompertz-Makeham mortality model and a step reproduction model with maturity beginning at age 0. An optional argument, `scale_output = TRUE` will scale the reproduction in the output MPMs to ensure that population growth rate is lambda. The scaling algorithm multiplies the reproduction part of the MPM (the **F** submatrix) by a simple scaling factor to ensure the population growth rate is 1 while maintaining the shape (but not the magnitude) of the reproduction trajectory. This should be used with care: The desirability of such a manipulation strongly depends on the use the MPMs are put to.
 
 ```{r}
 mortParams <- data.frame(
@@ -347,4 +348,4 @@ Users can examine the vignettes for the `Rcompadre` and `Rage` packages for addi
 
 ## Conclusion
 
-This vignette demonstrated how to generate Leslie matrices using functional forms of mortality and reproduction, allowing users to simulate virtual species with varied life histories. These matrices can be used to explore how life history or parameter differences affect population dynamics and support various research or educational applications.
+This vignette demonstrated how to generate Leslie matrices using functional forms of mortality and reproduction, allowing users to simulate virtual species with varied life histories. These matrices can be used to explore how life history or parameter differences affect population dynamics, supporting various research and educational applications.

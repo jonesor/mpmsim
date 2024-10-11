@@ -1,10 +1,13 @@
 ---
 title: "Sampling error and its propagation"
-output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
+output: 
+  pdf_document: default
+  rmarkdown::html_vignette: default
 vignette: >
-  %\VignetteIndexEntry{Sampling error and its propagation}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Error propagation}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r, include = FALSE}
@@ -24,13 +27,22 @@ Uncertainty in the individual elements of a matrix population model (MPM) can pr
 
 One approach to estimate this uncertainty is parametric bootstrapping, which generates a sampling distribution for the matrix model based on assumptions about the underlying demographic processes and uncertainties in individual matrix elements. For example, reproductive output can be modelled as a Poisson-distributed process, suitable for count-based data, while survival can be represented by a binomial distribution, reflecting the probability of individual survival.
 
-The `compute_ci` function estimates a 95% confidence interval (95% CI) for any MPM-derived metric by generating a sampling distribution through resampling based on the given assumptions. The confidence interval is derived from the 2.5th and 97.5th percentiles of this distribution, where a narrower interval indicates greater precision.
+The `compute_ci` function estimates a 95% confidence interval (95% CI) for any MPM-derived metric by generating a sampling distribution through resampling based on the given assumptions. The 95% CI is derived from the 2.5th and 97.5th percentiles of this distribution, where a narrower interval indicates greater precision.
 
 The width and shape of the sampling distribution are influenced by several factors, including the sample size used for estimating matrix elements, the matrix model's structure, the assumptions underlying the `compute_ci` function, and the distribution of uncertainties across matrix elements. To accurately assess the precision of MPM estimates, it is necessary to consider these factors when interpreting the results.
 
 For derived quantities that require only the U matrix, such as life expectancy (e.g. calculated using using `Rage::life_expect_mean`), the function `compute_ci_U` should be used.
 
 The following examples show how to use these functions.
+
+## Aims
+
+The purpose of this vignette is to illustrate how to use `mpmsim` to assess and estimate sampling error in MPMs and how this uncertainty propagates into derived metrics. This approach is useful for several reasons, including:
+
+* Estimating confidence intervals (CIs) for key demographic metrics, such as population growth rate using parametric bootstrapping methods.
+* Exploring the impact of sample size on the precision of estimates for population growth rate and other metrics derived from MPMs.
+* Evaluating the propagation of uncertainty across different matrix elements and submatrices (survival/growth vs. reproduction) in MPMs.
+
 
 ## Estimate 95% Confidence Intervals
 
@@ -63,7 +75,7 @@ $$
 \end{bmatrix}
 $$
 
-We an enter these matrices into R as follows, first entering the **U** and **F** matrices, and then summing them to get the **A** matrix.
+We can enter these matrices into R as follows, first entering the **U** and **F** matrices, and then summing them to get the **A** matrix.
 
 ```{r}
 matU <- matrix(c(
@@ -115,7 +127,7 @@ In the above example, it is assumed that the sample size used to make the parame
 
 To account for this, the `compute_ci` function allows flexibility in specifying sample size, which can be added in several ways to control how variability is modeled across different parts of the matrix. As an alternative to providing a single value to apply uniformly to all elements (as done above) you can provide a matrix specifying sample sizes for each element, or a list of matrices for distinct components (e.g., **U** and **F** matrices). This flexibility helps tailor the modeling of uncertainty to reflect different data availability across biological processes.
 
-For instance, in the following code, we use the same MPM as above, split into **U** and **F** submatrices (`matU` and `matF`, respectively), but now assume that sample size varies between these components, with `40` individuals for **U** and `15 for **F**. Here, the sample size is consistent across all elements within the **U** matrix, but you could also assign different sample sizes to individual elements of the matrix, allowing for different sample sizes for different transitions.
+For instance, in the following code, we use the same MPM as above, split into **U** and **F** submatrices (`matU` and `matF`, respectively), but now assume that sample size varies between these components, with `40` individuals for **U** and `15` for **F**. Here, the sample size is consistent across all elements within the **U** matrix, but you could also assign different sample sizes to individual elements of the matrix, allowing for different sample sizes for different transitions.
 
 ```{r}
 # Define the sample sizes for U
@@ -218,7 +230,7 @@ abline(h = 1, lty = 2)
 
 ## Conclusion
 
-This vignette demonstrates how sampling error propagates through MPMs, influencing metrics like population growth rate, and provides a practical method for estimating confidence intervals (CIs) for these metrics using `compute_ci`. By applying tools like `compute_ci`, users can also evaluate the effect of sample size on estimate precision, using this information to optimize data collection efforts and improve the reliability of demographic estimates.
+This vignette demonstrates how sampling error propagates through MPMs, influencing metrics like population growth rate, and provides a practical method for estimating confidence intervals for these metrics using `compute_ci`. By applying tools like `compute_ci`, users can also evaluate the effect of sample size on estimate precision, using this information to optimize data collection efforts and improve the reliability of demographic estimates.
 
 ## Addendum
 
