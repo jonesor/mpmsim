@@ -70,8 +70,8 @@ In a nutshell:
 
 * Gompertz: A mortality rate that increases exponentially with age. $h_x = b_0 \mathrm{e}^{b_1  x}$
 * Gompertz-Makeham: A mortality rate that increases exponentially with age, with an additional age-independent constant mortality. $h_x = b_0 \mathrm{e}^{b_1  x} + c$
-* Weibull: A mortality rate that scales with age, increasing at a rate that can either accelerate or decelerate, depending on the parameters of the model. $h_x = b_0  b_1  (b_1  x)^(b_0 - 1)$
-* Weibull-Makeham: as the basic Weibull, but with an additional age-independent constant mortality. $h_x = b_0  b_1  (b_1  x)^(b_0 - 1) + c$
+* Weibull: A mortality rate that scales with age, increasing at a rate that can either accelerate or decelerate, depending on the parameters of the model. $h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)}$
+* Weibull-Makeham: as the basic Weibull, but with an additional age-independent constant mortality. $h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)} + c$
 * Siler: A mortality model that separates mortality rates into two age-related components — juvenile mortality, which declines exponentially with age and adult mortality, which increases exponentially. $h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}$
 * Exponential: Constant mortality that is unchanging with age. $h_x = c$
 
@@ -161,9 +161,9 @@ In addition to these functional forms of mortality, there are, of course, functi
 
 * Logistic: Reproductive output initially increases rapidly with age then slows to plateau as it approaches a maximum value. $f_x = A / (1 + exp(-k  (x - x_m)))$
 * Step: Reproductive output is initially zero, then jumps to a particular level at a specified age, after which it remains constant. $f_x= \begin{cases} A, x \geq m \\ A, x <  m \end{cases}$
-* von Bertalanffy: This model is often used in growth dynamics but has been adapted for reproduction to describe changes over age or time following a logistic growth form not limited by a strict upper asymptote. It shows how reproductive output might increase and then decrease, following a more smoothed, sigmoid curve. $f_x = A  (1 - exp(-k  (x - x_0)))$
+* von Bertalanffy: This model is often used in growth dynamics but has been adapted for reproduction to describe changes over age or time following a logistic growth form not limited by a strict upper asymptote. It shows how reproductive output might increase and then decrease, following a sigmoid curve. $f_x = A  (1 - exp(-k  (x - x_0)))$
 * Normal : Reproductive output is modelled as normal distribution to describe how reproductive output increases, peaks, and then decreases in a bell curve around a mean age of reproductive capacity. $f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)$
-* Hadwiger: The outcomes of this model is qualitatively similar to the normal distribution. $f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}$
+* Hadwiger: The outcomes of this model are qualitatively similar to the normal distribution. $f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}$
 
 ```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8}
 baseDF <- data.frame(x = 0:20)

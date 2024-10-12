@@ -60,7 +60,7 @@
 
       <h1>Generating Leslie matrices</h1>
             
-            <h4 data-toc-skip class="date">2024-10-11</h4>
+            <h4 data-toc-skip class="date">2024-10-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/generate_leslie_models.Rmd" class="external-link"><code>vignettes/generate_leslie_models.Rmd</code></a></small>
       <div class="d-none name"><code>generate_leslie_models.Rmd</code></div>
@@ -166,11 +166,11 @@ age, with an additional age-independent constant mortality.
 <li>Weibull: A mortality rate that scales with age, increasing at a rate
 that can either accelerate or decelerate, depending on the parameters of
 the model.
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>x</mi></msub><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><msub><mi>b</mi><mn>1</mn></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mn>1</mn></msub><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mn>0</mn></msub><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">h_x = b_0  b_1  (b_1  x)^(b_0 - 1)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>x</mi></msub><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><msub><mi>b</mi><mn>1</mn></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mn>1</mn></msub><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mn>0</mn></msub><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)}</annotation></semantics></math>
 </li>
 <li>Weibull-Makeham: as the basic Weibull, but with an additional
 age-independent constant mortality.
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>x</mi></msub><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><msub><mi>b</mi><mn>1</mn></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mn>1</mn></msub><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mn>0</mn></msub><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">h_x = b_0  b_1  (b_1  x)^(b_0 - 1) + c</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>x</mi></msub><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><msub><mi>b</mi><mn>1</mn></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mn>1</mn></msub><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mn>0</mn></msub><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)} + c</annotation></semantics></math>
 </li>
 <li>Siler: A mortality model that separates mortality rates into two
 age-related components — juvenile mortality, which declines
@@ -202,7 +202,7 @@ particular level at a specified age, after which it remains constant.
 been adapted for reproduction to describe changes over age or time
 following a logistic growth form not limited by a strict upper
 asymptote. It shows how reproductive output might increase and then
-decrease, following a more smoothed, sigmoid curve.
+decrease, following a sigmoid curve.
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mi>A</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>−</mo><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f_x = A  (1 - exp(-k  (x - x_0)))</annotation></semantics></math>
 </li>
 <li>Normal : Reproductive output is modelled as normal distribution to
@@ -210,8 +210,8 @@ describe how reproductive output increases, peaks, and then decreases in
 a bell curve around a mean age of reproductive capacity.
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mi>A</mi><mo>×</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>x</mi><mo>−</mo><mi>μ</mi></mrow><mi>σ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mspace width="0.167em"></mspace><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)</annotation></semantics></math>
 </li>
-<li>Hadwiger: The outcomes of this model is qualitatively similar to the
-normal distribution.
+<li>Hadwiger: The outcomes of this model are qualitatively similar to
+the normal distribution.
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mfrac><mrow><mi>a</mi><mi>b</mi></mrow><mi>C</mi></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>C</mi><mi>x</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>3</mn><mn>2</mn></mfrac></msup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><mi>−</mi><msup><mi>b</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>C</mi><mi>x</mi></mfrac><mo>+</mo><mfrac><mi>x</mi><mi>C</mi></mfrac><mo>−</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}</annotation></semantics></math>
 </li>
 </ul>

@@ -5,7 +5,7 @@ articles:
   error_propagation: error_propagation.html
   generate_lefkovitch_models: generate_lefkovitch_models.html
   generate_leslie_models: generate_leslie_models.html
-last_built: 2024-10-11T20:50Z
+last_built: 2024-10-12T07:33Z
 urls:
   reference: https://jonesor.github.io/mpmsim/reference
   article: https://jonesor.github.io/mpmsim/articles
