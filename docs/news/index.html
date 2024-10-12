@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mpmsim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,9 +18,9 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/error_propagation.html">Sampling error and its propagation</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_lefkovitch_models.html">Generating Lefkovitch matrices</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_leslie_models.html">Generating Leslie matrices</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/generating_lefkovitch_models.html">Generating Lefkovitch models</a></li>
+    <li><a class="dropdown-item" href="../articles/generating_leslie_models.html">Generating Leslie models</a></li>
+    <li><a class="dropdown-item" href="../articles/sampling_error_propagation.html">Sampling error and its propagation</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -39,9 +39,10 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="mpmsim-development-version">mpmsim (development version)<a class="anchor" aria-label="anchor" href="#mpmsim-development-version"></a></h2>
-<ul><li>Changed terminologies for reproduction to avoid confusion regarding the definitions of fecundity and fertility. We now refer to “reproduction” and have changed function and argument names accordingly.</li>
-<li>The new function <code><a href="../reference/model_fecundity.html">model_reproduction()</a></code> is synonymous with <code>model_fertility</code> and <code>model_fecundity</code>.</li>
+<h2 class="pkg-version" data-toc-text="3.1.0" id="mpmsim-310">mpmsim 3.1.0<a class="anchor" aria-label="anchor" href="#mpmsim-310"></a></h2>
+<ul><li>Added function synonym: <code><a href="../reference/model_fecundity.html">model_reproduction()</a></code> is synonymous with <code>model_fertility</code> and <code>model_fecundity</code>.</li>
+<li>Improved documentation including to the three vignettes focussing on Leslie models, Lefkovitch models, and error propagation respectively.</li>
+<li>Fixed minor typographical errors in other documentation.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.0.0" id="mpmsim-300">mpmsim 3.0.0<a class="anchor" aria-label="anchor" href="#mpmsim-300"></a></h2><p class="text-muted">CRAN release: 2024-07-01</p>

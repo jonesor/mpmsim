@@ -1,11 +1,11 @@
 ---
-title: "Generating Lefkovitch matrices"
+title: "Generating Lefkovitch models"
 date: "`r Sys.Date()`"
 output: 
-  pdf_document: default
   rmarkdown::html_vignette: default
+  pdf_document: default
 vignette: >
-  %\VignetteIndexEntry{Generating Lefkovitch matrices}
+  %\VignetteIndexEntry{Generating Lefkovitch models}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

@@ -84,7 +84,6 @@
 #'   models.
 #' @export
 
-
 model_fecundity <- function(params, age = NULL, maturity = 0,
                             model = "logistic") {
   # Coerce model type to lower case to avoid irritation
@@ -194,15 +193,14 @@ model_fecundity <- function(params, age = NULL, maturity = 0,
   }
 }
 
+#' @rdname model_fecundity
+#' @examples
+#' model_reproduction(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
+#' @export
+model_reproduction <- model_fecundity
 
 #' @rdname model_fecundity
 #' @examples
 #' model_fertility(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
 #' @export
 model_fertility <- model_fecundity
-
-#' @rdname model_fecundity
-#' @examples
-#' model_reproduction(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
-#' @export
-model_reproduction <- model_fecundity

@@ -1,11 +1,11 @@
 ---
-title: "Generating Leslie matrices"
+title: "Generating Leslie models"
 date: "`r Sys.Date()`"
 output: 
-  pdf_document: default
   rmarkdown::html_vignette: default
+  pdf_document: default
 vignette: >
-  %\VignetteIndexEntry{Generating Leslie matrices}
+  %\VignetteIndexEntry{Generating Leslie models}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

@@ -1,7 +1,8 @@
-# mpmsim (development version)
+# mpmsim 3.1.0
 
-- Changed terminologies for reproduction to avoid confusion regarding the definitions of fecundity and fertility. We now refer to "reproduction" and have changed function and argument names accordingly. 
-- The new function `model_reproduction()` is synonymous with `model_fertility` and `model_fecundity`.
+- Added function synonym: `model_reproduction()` is synonymous with `model_fertility` and `model_fecundity`.
+- Improved documentation including to the three vignettes focussing on Leslie models, Lefkovitch models, and error propagation respectively.
+- Fixed minor typographical errors in other documentation.
 
 # mpmsim 3.0.0
 
