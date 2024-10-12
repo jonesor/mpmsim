@@ -9,7 +9,7 @@ rand_lefko_set(
   n_models = 5,
   n_stages = 3,
   archetype = 1,
-  reproduction = 1.5,
+  fecundity = 1.5,
   output = "Type1",
   max_surv = 0.99,
   constraint = NULL,
@@ -23,24 +23,24 @@ rand_lefko_set(
 
 \item{archetype}{The archetype of the MPMs. Default is \code{1}.}
 
-\item{reproduction}{The average number of offspring produced.
+\item{fecundity}{The average number of offspring produced (fecundity).
 Values can be provided in 4 ways:
 \itemize{
-\item An numeric vector of length 1 providing a single measure of reproduction
+\item An numeric vector of length 1 providing a single measure of fecundity
 to the top right corner of the matrix model only.
 \item A numeric vector of integers of length equal to \code{n_stages} to provide
-reproduction estimates for the whole top row of the matrix model. Use 0 for
-cases with no reproduction.
+fecundity estimates for the whole top row of the matrix model. Use 0 for
+cases with no fecundity.
 \item A matrix of numeric values of the same dimension as \code{n_stages} to provide
-reproduction estimates for the entire matrix model. Use 0 for cases with no
-reproduction.
+fecundity estimates for the entire matrix model. Use 0 for cases with no
+fecundity.
 \item A list of two matrices of numeric values, both with the same dimension as
-\code{n_stages}, to provide lower and upper limits of mean reproduction for the
+\code{n_stages}, to provide lower and upper limits of mean fecundity for the
 entire matrix model.
 }
 
-In the latter case, a reproduction value will be drawn from a uniform
-distribution for the defined range. If there is no reproduction in a
+In the latter case, a fecundity value will be drawn from a uniform
+distribution for the defined range. If there is no fecundity in a
 particular age class, use a value of 0 for both the lower and upper limit.}
 
 \item{output}{Character string indicating the type of output.
@@ -91,7 +91,7 @@ set.seed(42) # set seed for repeatability
 
 # Basic operation, without splitting matrices and with no constraints
 rand_lefko_set(
-  n_models = 3, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
+  n_models = 3, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, output = "Type5"
 )
 
@@ -102,7 +102,7 @@ constrain_df <- data.frame(
     1.1
 )
 rand_lefko_set(
-  n_models = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
+  n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df, output = "Type5"
 )
 
@@ -114,7 +114,7 @@ constrain_df <- data.frame(
 )
 
 rand_lefko_set(
-  n_models = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
+  n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df, output = "Type5"
 )
 
@@ -129,7 +129,7 @@ constrain_df <- data.frame(
   upper = c(1.1, 5.0, 7.0)
 )
 rand_lefko_set(
-  n_models = 10, n_stages = 5, reproduction = c(0, 0, 4, 8, 10),
+  n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df, output = "Type5"
 )
 

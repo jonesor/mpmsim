@@ -19,24 +19,24 @@ simulate_survival <- function(prob_survival, sample_size) {
   }
 }
 
-#' Simulate reproduction
+#' Simulate fecundity
 #'
-#' @param mean_reproduction mean value for reproductive output
+#' @param mean_fecundity mean value for reproductive output
 #' @param sample_size sample size
-#' @return mean reproduction based on the simulated data
-#' @details if `sample_size` is 0, the output is simply `mean_reproduction`. i.e.
+#' @return mean fecundity based on the simulated data
+#' @details if `sample_size` is 0, the output is simply `mean_fecundity`. i.e.
 #'   it is assumed that the estimate is known without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
 #' @examples
-#' simulate_reproduction(2, 100)
-#' simulate_reproduction(5, 1000)
+#' simulate_fecundity(2, 100)
+#' simulate_fecundity(5, 1000)
 #' @noRd
-simulate_reproduction <- function(mean_reproduction, sample_size) {
+simulate_fecundity <- function(mean_fecundity, sample_size) {
   if (sample_size == 0) {
-    return(mean_reproduction)
+    return(mean_fecundity)
   }
   if (sample_size > 0) {
-    return(mean(rpois(sample_size, mean_reproduction)))
+    return(mean(rpois(sample_size, mean_fecundity)))
   }
 }
 
@@ -55,15 +55,15 @@ simulate_reproduction <- function(mean_reproduction, sample_size) {
 #' sample sizes will be more variable.
 #'
 #' @param mat_U matrix of mean survival/growth probabilities
-#' @param mat_F matrix of mean reproduction values
+#' @param mat_F matrix of mean fecundity values
 #' @param sample_size either (1) a single matrix of sample sizes for each
 #'   element of the MPM, (2) a list of two named matrices ("`mat_F_ss`",
-#'   "`mat_U_ss`") containing sample sizes for the survival and reproduction
+#'   "`mat_U_ss`") containing sample sizes for the survival and fecundity
 #'   submatrices of the MPM or (3) a single value applied to the whole matrix
-#' @param split logical, whether to split the output into survival and reproduction
+#' @param split logical, whether to split the output into survival and fecundity
 #'   matrices or not
-#' @return list of matrices of survival and reproduction if `split = TRUE`,
-#'   otherwise a single matrix of the sum of survival and reproduction
+#' @return list of matrices of survival and fecundity if `split = TRUE`,
+#'   otherwise a single matrix of the sum of survival and fecundity
 #' @details if any `sample_size` input is 0, it is assumed that the estimate for
 #'   the element(s) concerned is known without error.
 #' @author Owen Jones <jones@biology.sdu.dk>
@@ -73,7 +73,7 @@ simulate_reproduction <- function(mean_reproduction, sample_size) {
 #'
 #' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
-#'   reproduction = c(0, 1.2, 2.4),
+#'   fecundity = c(0, 1.2, 2.4),
 #'   n_stages = 3, split = TRUE
 #' )
 #' ssMat <- matrix(10, nrow = 3, ncol = 3)
@@ -215,8 +215,8 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
     sample_size = sample_size_vector_U
   )
 
-  reproduction_results <- mapply(
-    FUN = simulate_reproduction, mean_reproduction = f_matrix_vector,
+  fecundity_results <- mapply(
+    FUN = simulate_fecundity, mean_fecundity = f_matrix_vector,
     sample_size = sample_size_vector_F
   )
 
@@ -224,7 +224,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
     nrow = sqrt(length(u_matrix_vector)),
     ncol = sqrt(length(u_matrix_vector))
   )
-  mat_F_out <- matrix(reproduction_results,
+  mat_F_out <- matrix(fecundity_results,
     nrow = sqrt(length(f_matrix_vector)),
     ncol = sqrt(length(u_matrix_vector))
   )
@@ -292,7 +292,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' set.seed(42) # set seed for repeatability
 #'
 #' # First generate a set of MPMs
-#' mpm_set <- rand_lefko_set(n = 5, n_stages = 5, reproduction = c(
+#' mpm_set <- rand_lefko_set(n = 5, n_stages = 5, fecundity = c(
 #'   0, 0, 4, 8, 10
 #' ), archetype = 4, output = "Type4")
 #'
@@ -305,7 +305,7 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' # Also works with a single matrix.
 #' mats <- make_leslie_mpm(
 #'   survival = c(0.1, 0.2, 0.5),
-#'   reproduction = c(0, 1.2, 2.4),
+#'   fecundity = c(0, 1.2, 2.4),
 #'   n_stages = 3, split = TRUE
 #' )
 #'
@@ -313,9 +313,9 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 #' add_mpm_error(mat_U = mats$mat_U, mat_F = mats$mat_F, sample_size = 20)
 #'
 #' # Sample size is a list of two matrices
-#' # here with a sample size of 20 for reproduction and 10 for growth/survival.
+#' # here with a sample size of 20 for fecundity and 10 for growth/survival.
 #' mpm_set <- rand_lefko_set(
-#'   n = 5, n_stages = 3, reproduction = c(0, 2, 4),
+#'   n = 5, n_stages = 3, fecundity = c(0, 2, 4),
 #'   archetype = 4, output = "Type4"
 #' )
 #'

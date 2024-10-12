@@ -32,11 +32,11 @@
 #'   parameters are provided as a vector and the parameters must be provided in
 #'   the order mentioned here.
 #'
-#'   * logistic: \eqn{f_x = A / (1 + exp(-k  (x - x_m)))}
-#'   * step: \eqn{f_x=
+#'   * Logistic: \eqn{f_x = A / (1 + exp(-k  (x - x_m)))}
+#'   * Step: \eqn{f_x=
 #'   \begin{cases} A, x \geq m \\ A, x <  m \end{cases}}
 #'   * von Bertalanffy: \eqn{f_x = A  (1 - exp(-k  (x - x_0)))}
-#'   * normal: \eqn{f_x = A \times \exp\left(
+#'   * Normal: \eqn{f_x = A \times \exp\left(
 #'   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)}
 #'   * Hadwiger: \eqn{f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )
 #'    ^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2
@@ -52,28 +52,28 @@
 #'
 #' @examples
 #' # Compute reproductive output using the step model
-#' model_reproduction(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
+#' model_fecundity(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
 #'
 #' # Compute reproductive output using the logistic model
-#' model_reproduction(
+#' model_fecundity(
 #'   age = 0:20, params = c(A = 10, k = 0.5, x_m = 8), maturity =
 #'     0, model = "logistic"
 #' )
 #'
 #' # Compute reproductive output using the von Bertalanffy model
-#' model_reproduction(
+#' model_fecundity(
 #'   age = 0:20, params = c(A = 10, k = .3), maturity = 2, model =
 #'     "vonbertalanffy"
 #' )
 #'
 #' # Compute reproductive output using the normal model
-#' model_reproduction(
+#' model_fecundity(
 #'   age = 0:20, params = c(A = 10, mu = 4, sd = 2), maturity = 0,
 #'   model = "normal"
 #' )
 #'
 #' # Compute reproductive output using the Hadwiger model
-#' model_reproduction(
+#' model_fecundity(
 #'   age = 0:50, params = c(a = 0.91, b = 3.85, C = 29.78),
 #'   maturity = 0, model = "hadwiger"
 #' )
@@ -85,7 +85,7 @@
 #' @export
 
 
-model_reproduction <- function(params, age = NULL, maturity = 0,
+model_fecundity <- function(params, age = NULL, maturity = 0,
                             model = "logistic") {
   # Coerce model type to lower case to avoid irritation
   model <- tolower(model)
@@ -195,14 +195,14 @@ model_reproduction <- function(params, age = NULL, maturity = 0,
 }
 
 
-#' @rdname model_reproduction
+#' @rdname model_fecundity
 #' @examples
 #' model_fertility(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
 #' @export
-model_fertility <- model_reproduction
+model_fertility <- model_fecundity
 
-#' @rdname model_reproduction
+#' @rdname model_fecundity
 #' @examples
-#' model_fecundity(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
+#' model_reproduction(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
 #' @export
-model_fecundity <- model_reproduction
+model_reproduction <- model_fecundity

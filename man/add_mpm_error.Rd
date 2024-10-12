@@ -49,7 +49,7 @@ the element(s) concerned is known without error.
 set.seed(42) # set seed for repeatability
 
 # First generate a set of MPMs
-mpm_set <- rand_lefko_set(n = 5, n_stages = 5, reproduction = c(
+mpm_set <- rand_lefko_set(n = 5, n_stages = 5, fecundity = c(
   0, 0, 4, 8, 10
 ), archetype = 4, output = "Type4")
 
@@ -62,7 +62,7 @@ add_mpm_error(
 # Also works with a single matrix.
 mats <- make_leslie_mpm(
   survival = c(0.1, 0.2, 0.5),
-  reproduction = c(0, 1.2, 2.4),
+  fecundity = c(0, 1.2, 2.4),
   n_stages = 3, split = TRUE
 )
 
@@ -70,9 +70,9 @@ mats <- make_leslie_mpm(
 add_mpm_error(mat_U = mats$mat_U, mat_F = mats$mat_F, sample_size = 20)
 
 # Sample size is a list of two matrices
-# here with a sample size of 20 for reproduction and 10 for growth/survival.
+# here with a sample size of 20 for fecundity and 10 for growth/survival.
 mpm_set <- rand_lefko_set(
-  n = 5, n_stages = 3, reproduction = c(0, 2, 4),
+  n = 5, n_stages = 3, fecundity = c(0, 2, 4),
   archetype = 4, output = "Type4"
 )
 

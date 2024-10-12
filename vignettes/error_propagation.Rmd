@@ -48,7 +48,7 @@ The purpose of this vignette is to illustrate how to use `mpmsim` to assess and 
 
 We can estimate the 95% CI for any metric derived from a matrix population model. In this example, we focus on the population growth rate, $\lambda$. 
 
-Consider a matrix model **A**, which is composed of submatrices **U** (survival/growth) and **F** (reproduction), such that **A** = **U** + **F**. 
+Consider a matrix model **A**, which is composed of submatrices **U** (survival/growth) and **F** (sexual reproduction), such that **A** = **U** + **F**. 
 
 The methods require that the matrix model be split into its component submatrices because the underlying processes are governed by distributions with different statistical properties: individual survival is treated as a binary process (0 = dies, 1 = survives), whereas individual reproduction follows a Poisson distribution.
 

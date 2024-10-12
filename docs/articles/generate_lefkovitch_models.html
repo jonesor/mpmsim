@@ -88,7 +88,8 @@ reproduction (the <strong>C</strong> matrix), where <strong>A</strong> =
 <strong>U</strong> + <strong>F</strong> + <strong>C</strong>.
 Occasionally, these reproduction matrices are lumped together as a
 reproduction matrix, <strong>R</strong> (i.e. <strong>R</strong> =
-<strong>F</strong> + <strong>C</strong>).</p>
+<strong>F</strong> + <strong>C</strong>). Reproduction is often termed
+fecundity in the population biology literature.</p>
 <p>The elements of the <strong>U</strong> matrix represent survival or
 growth from stage-to-stage between time steps. Therefore the column sums
 of the <strong>U</strong> submatrix cannot exceed 1. The reproductive
@@ -169,11 +170,11 @@ stage (slow progression, e.g., trees).</li>
 assumption that stage-specific survival increases as individuals
 increase in size/developmental stage.</li>
 </ul>
-<p>In all these archetypes, reproduction is placed in the top row of the
-matrix. In Takada et al.’s paper, reproduction was always placed in the
-top right of the MPM, meaning that only the “last” stage of the life
-cycle reproduced. This approach can be relaxed to allow reproduction
-from any stage.</p>
+<p>In all these archetypes, fecundity is placed in the top row of the
+matrix. In Takada et al.’s paper, fecundity was always placed in the top
+right of the MPM, meaning that only the “last” stage of the life cycle
+reproduced. This approach can be relaxed to allow reproduction from any
+stage.</p>
 </div>
 <div class="section level2">
 <h2 id="generate-a-random-lefkovitch-mpm-based-on-an-archetype">2. Generate a random Lefkovitch MPM based on an archetype<a class="anchor" aria-label="anchor" href="#generate-a-random-lefkovitch-mpm-based-on-an-archetype"></a>
@@ -187,15 +188,15 @@ to ensure biological plausibility. The Dirichlet distribution is used to
 draw survival and growth values because it ensures that the sum of the
 probabilities for each stage is equal to 1, which is necessary for
 biologically realistic models. The function allows users to specify a
-wide range of reproductive output scenarios, offering flexibility in how
-reproduction is modelled across stages.</p>
+wide range of reproductive output scenarios , offering flexibility in
+how fecundity is modelled across stages.</p>
 <p>The function is straightforward. In the following example, I create a
-three-stage MPM based on Archetype 2. I set reproduction, arbitrarily,
-to be 5. By default, if only a single value is given, this is placed in
-the top-right hand corner of the <strong>F</strong> matrix. Also, by
-default, all reproduction is assumed to be sexual.</p>
+three-stage MPM based on Archetype 2. I set fecundity, arbitrarily, to
+be 5. By default, if only a single value is given, this is placed in the
+top-right hand corner of the <strong>F</strong> matrix. Also, by
+default, all fecundity is assumed to be sexual.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rand_lefko_mpm.html">rand_lefko_mpm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">3</span>, reproduction <span class="op">=</span> <span class="fl">5</span>, archetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rand_lefko_mpm.html">rand_lefko_mpm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">5</span>, archetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $mat_A</span></span>
 <span><span class="co">#&gt;             [,1]       [,2]       [,3]</span></span>
 <span><span class="co">#&gt; [1,] 0.005877166 0.10766181 5.72412770</span></span>
@@ -213,13 +214,13 @@ default, all reproduction is assumed to be sexual.</p>
 <span><span class="co">#&gt; [1,]    0    0    5</span></span>
 <span><span class="co">#&gt; [2,]    0    0    0</span></span>
 <span><span class="co">#&gt; [3,]    0    0    0</span></span></code></pre></div>
-<p>To introduce variability in reproduction, users can provide
-reproductive output as a list of two matrices, with numeric values of
-the same dimensions as <code>n_stages</code>, representing the lower and
-upper limits of mean reproduction for the entire matrix model.
-Reproductive output values are then drawn from a uniform distribution
-between the two values. Users should use 0 for both lower and upper
-limits in cases with no reproduction.</p>
+<p>To introduce variability in fecundity, users can provide reproductive
+output as a list of two matrices, with numeric values of the same
+dimensions as <code>n_stages</code>, representing the lower and upper
+limits of mean fecundity for the entire matrix model. Reproductive
+output values are then drawn from a uniform distribution between the two
+values. Users should use 0 for both lower and upper limits in cases with
+no fecundity.</p>
 <p>The following code provides an example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lower_reprod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -234,7 +235,7 @@ limits in cases with no reproduction.</p>
 <span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/rand_lefko_mpm.html">rand_lefko_mpm</a></span><span class="op">(</span></span>
-<span>  n_stages <span class="op">=</span> <span class="fl">3</span>, reproduction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lower_reprod</span>, <span class="va">upper_reprod</span><span class="op">)</span>,</span>
+<span>  n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lower_reprod</span>, <span class="va">upper_reprod</span><span class="op">)</span>,</span>
 <span>  archetype <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; $mat_A</span></span>
@@ -266,7 +267,7 @@ for the previously described function and generates a set of Lefkovitch
 MPMs based on a defined life cycle archetype and specified reproductive
 output. For example, users may wish to generate MPMs for different life
 history archetypes to explore how life cycle structure may influence
-population dynamics. By specifying the number of stages, reproduction
+population dynamics. By specifying the number of stages, fecundity
 values, and archetypes, users can produce MPMs that are tailored to
 their specific research needs. This capability is useful for exploring
 the effects of life history traits on population dynamics, testing
@@ -279,7 +280,7 @@ archetype of the MPM is included as a column of metadata.</p>
 <code>CompadreDB</code> object.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myMatrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rand_lefko_set.html">rand_lefko_set</a></span><span class="op">(</span></span>
-<span>  n <span class="op">=</span> <span class="fl">100</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, reproduction <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">100</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>  archetype <span class="op">=</span> <span class="fl">4</span>, output <span class="op">=</span> <span class="st">"Type1"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>After producing the output as a <code>CompadreDB</code> object, the
@@ -331,7 +332,7 @@ that the generated MPMs have a population growth rate (lambda) between
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">myMatrices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rand_lefko_set.html">rand_lefko_set</a></span><span class="op">(</span></span>
-<span>  n <span class="op">=</span> <span class="fl">100</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, reproduction <span class="op">=</span> <span class="fl">12</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">100</span>, n_stages <span class="op">=</span> <span class="fl">3</span>, fecundity <span class="op">=</span> <span class="fl">12</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>,</span>
 <span>  archetype <span class="op">=</span> <span class="fl">4</span>, output <span class="op">=</span> <span class="st">"Type1"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>We can check that it has worked by examining the matrices.</p>

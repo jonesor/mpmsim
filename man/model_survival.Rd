@@ -55,8 +55,8 @@ represents age.
 \item Gompertz-Makeham: \eqn{h_x = b_0 \mathrm{e}^{b_1  x} + c}
 \item Exponential: \eqn{h_x = c}
 \item Siler: \eqn{h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}}
-\item Weibull: \eqn{h_x = b_0  b_1^{b_0}  \text{age}^{(b_0 - 1)}}
-\item Weibull-Makeham: \eqn{h_x = b_0  b_1^{b_0}  \text{age}^{(b_0 - 1)} + c}
+\item Weibull: \eqn{h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)}}
+\item Weibull-Makeham: \eqn{h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)} + c}
 }
 
 In the output, the probability of survival (\code{px}) (and death (\code{qx}))
@@ -114,11 +114,11 @@ Vaupel, J., Manton, K. & Stallard, E. (1979) The impact of heterogeneity in
 individual frailty on the dynamics of mortality. Demography, 16, 439–454.
 }
 \seealso{
-\code{\link[=model_reproduction]{model_reproduction()}} to model age-specific reproductive output
+\code{\link[=model_fecundity]{model_fecundity()}} to model age-specific reproductive output
 using various functions.
 
 Other trajectories: 
-\code{\link{model_reproduction}()}
+\code{\link{model_fecundity}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

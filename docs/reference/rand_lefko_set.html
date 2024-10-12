@@ -70,7 +70,7 @@ parameter.</p>
 <span>  n_models <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  n_stages <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  archetype <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  reproduction <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  fecundity <span class="op">=</span> <span class="fl">1.5</span>,</span>
 <span>  output <span class="op">=</span> <span class="st">"Type1"</span>,</span>
 <span>  max_surv <span class="op">=</span> <span class="fl">0.99</span>,</span>
 <span>  constraint <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -94,21 +94,21 @@ parameter.</p>
 <dd><p>The archetype of the MPMs. Default is <code>1</code>.</p></dd>
 
 
-<dt id="arg-reproduction">reproduction<a class="anchor" aria-label="anchor" href="#arg-reproduction"></a></dt>
-<dd><p>The average number of offspring produced.
-Values can be provided in 4 ways:</p><ul><li><p>An numeric vector of length 1 providing a single measure of reproduction
+<dt id="arg-fecundity">fecundity<a class="anchor" aria-label="anchor" href="#arg-fecundity"></a></dt>
+<dd><p>The average number of offspring produced (fecundity).
+Values can be provided in 4 ways:</p><ul><li><p>An numeric vector of length 1 providing a single measure of fecundity
 to the top right corner of the matrix model only.</p></li>
 <li><p>A numeric vector of integers of length equal to <code>n_stages</code> to provide
-reproduction estimates for the whole top row of the matrix model. Use 0 for
-cases with no reproduction.</p></li>
+fecundity estimates for the whole top row of the matrix model. Use 0 for
+cases with no fecundity.</p></li>
 <li><p>A matrix of numeric values of the same dimension as <code>n_stages</code> to provide
-reproduction estimates for the entire matrix model. Use 0 for cases with no
-reproduction.</p></li>
+fecundity estimates for the entire matrix model. Use 0 for cases with no
+fecundity.</p></li>
 <li><p>A list of two matrices of numeric values, both with the same dimension as
-<code>n_stages</code>, to provide lower and upper limits of mean reproduction for the
+<code>n_stages</code>, to provide lower and upper limits of mean fecundity for the
 entire matrix model.</p></li>
-</ul><p>In the latter case, a reproduction value will be drawn from a uniform
-distribution for the defined range. If there is no reproduction in a
+</ul><p>In the latter case, a fecundity value will be drawn from a uniform
+distribution for the defined range. If there is no fecundity in a
 particular age class, use a value of 0 for both the lower and upper limit.</p></dd>
 
 
@@ -181,7 +181,7 @@ matrices. Population Ecology, 60(1), 37–47.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Basic operation, without splitting matrices and with no constraints</span></span></span>
 <span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">3</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, reproduction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">3</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
@@ -216,7 +216,7 @@ matrices. Population Ecology, 60(1), 37–47.</p>
 <span class="r-in"><span>    <span class="fl">1.1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, reproduction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
@@ -308,7 +308,7 @@ matrices. Population Ecology, 60(1), 37–47.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, reproduction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
@@ -403,7 +403,7 @@ matrices. Population Ecology, 60(1), 37–47.</p>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">5.0</span>, <span class="fl">7.0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rand_lefko_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, reproduction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, output <span class="op">=</span> <span class="st">"Type5"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>

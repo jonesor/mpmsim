@@ -27,7 +27,7 @@
 #'
 #' In all 4 of these Archetypes, reproductive output is placed as a
 #' single element on the top right of the matrix, if it is a single value. If it
-#' is a vector of length `n_stages` then the reproduction vector spans the entire
+#' is a vector of length `n_stages` then the fecundity vector spans the entire
 #' top row of the matrix.
 #'
 #' The function is constrained to only output ergodic matrices.
@@ -45,24 +45,24 @@
 #' matrices. Population Ecology, 60(1), 37–47.
 #'
 #' @param n_stages An integer defining the number of stages for the MPM.
-#' @param reproduction Reproduction measures reproductive output as the average number
-#'   of offspring produced.
+#' @param fecundity A measure of reproductive output. The average number
+#'   of offspring produced per projection interval from each stage.
 #'   Values can be provided in 4 ways:
-#'   - An numeric vector of length 1 to provide a single reproduction measure to
+#'   - An numeric vector of length 1 to provide a single fecundity measure to
 #'   the top right corner of the matrix model only.
 #'   - A numeric vector of integers of length equal to `n_stages` to provide
-#'   reproduction estimates for the whole top row of the matrix model. Use 0 for
-#'   cases with no reproduction.
+#'   fecundity estimates for the whole top row of the matrix model. Use 0 for
+#'   cases with no fecundity.
 #'   - A matrix of numeric values of the same dimension as `n_stages` to provide
-#'   reproduction estimates for the entire matrix model. Use 0 for cases with no
-#'   reproduction.
+#'   fecundity estimates for the entire matrix model. Use 0 for cases with no
+#'   fecundity.
 #'   - A list of two matrices of numeric values, both with the same dimension as
-#'   `n_stages`, to provide lower and upper limits of mean reproduction for the
+#'   `n_stages`, to provide lower and upper limits of mean fecundity for the
 #'   entire matrix model. Use 0 for both lower and upper limits in cases with no
-#'   reproduction.
+#'   fecundity.
 #'
-#'   In the latter case, a reproduction value will be drawn from a uniform
-#'   distribution for the defined range. If there is no reproduction in a
+#'   In the latter case, a fecundity value will be drawn from a uniform
+#'   distribution for the defined range. If there is no fecundity in a
 #'   particular age class, use a value of 0 for both the lower and upper limit.
 #' @param archetype Indication of which life history archetype should be used,
 #'   based on Takada et al. 2018. An integer between 1 and 4.
@@ -72,7 +72,7 @@
 #'   the output is a single matrix. Default is `TRUE`.
 #'
 #' @return Returns a random matrix population model with characteristics
-#'   determined by the archetype selected and reproduction vector. If split = TRUE,
+#'   determined by the archetype selected and fecundity vector. If split = TRUE,
 #'   the matrix is split into separate reproductive output and growth/survival
 #'   matrices, returned as a list.
 #' @family Lefkovitch matrices
@@ -84,16 +84,16 @@
 #' @examples
 #' set.seed(42) # set seed for repeatability
 #'
-#' rand_lefko_mpm(n_stages = 2, reproduction = 20, archetype = 1, split = FALSE)
-#' rand_lefko_mpm(n_stages = 2, reproduction = 20, archetype = 2, split = TRUE)
-#' rand_lefko_mpm(n_stages = 3, reproduction = 20, archetype = 3, split = FALSE)
-#' rand_lefko_mpm(n_stages = 4, reproduction = 20, archetype = 4, split = TRUE)
+#' rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
+#' rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
+#' rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
+#' rand_lefko_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
 #' rand_lefko_mpm(
-#'   n_stages = 5, reproduction = c(0, 0, 4, 8, 10), archetype = 4,
+#'   n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4,
 #'   split = TRUE
 #' )
-#' # Using a range of values for reproduction
-#' rand_lefko_mpm(n_stages = 2, reproduction = 20, archetype = 1, split = TRUE)
+#' # Using a range of values for fecundity
+#' rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
 #'
 #' @seealso [rand_lefko_set()] which is a wrapper for this function allowing the
 #'   generation of large numbers of random matrices of this type.
@@ -102,7 +102,7 @@
 
 
 rand_lefko_mpm <- function(n_stages,
-                           reproduction,
+                           fecundity,
                            archetype = 1,
                            split = TRUE) {
   # Check that n_stages is an integer greater than 0
@@ -122,29 +122,29 @@ rand_lefko_mpm <- function(n_stages,
     stop("archetype must be an integer between 1 and 4.")
   }
 
-  # Function to validate reproduction argument
-  validate_reproduction <- function(reproduction, n_stages) {
-    # Check if reproduction is a single numeric value
-    if (is.numeric(reproduction) && length(reproduction) == 1) {
+  # Function to validate fecundity argument
+  validate_fecundity <- function(fecundity, n_stages) {
+    # Check if fecundity is a single numeric value
+    if (is.numeric(fecundity) && length(fecundity) == 1) {
       return(TRUE)
     }
 
-    # Check if reproduction is a numeric vector of length n_stages
-    if (is.numeric(reproduction) && length(reproduction) == n_stages) {
+    # Check if fecundity is a numeric vector of length n_stages
+    if (is.numeric(fecundity) && length(fecundity) == n_stages) {
       return(TRUE)
     }
 
-    # Check if reproduction is a square matrix with dimension n_stages
-    if (is.matrix(reproduction) && all(dim(reproduction) == c(n_stages, n_stages))) {
+    # Check if fecundity is a square matrix with dimension n_stages
+    if (is.matrix(fecundity) && all(dim(fecundity) == c(n_stages, n_stages))) {
       return(TRUE)
     }
 
-    # Check if reproduction is a list of two matrices, each with dimension n_stages
-    if (is.list(reproduction) && length(reproduction) == 2 &&
-      is.matrix(reproduction[[1]]) && all(dim(reproduction[[1]]) ==
+    # Check if fecundity is a list of two matrices, each with dimension n_stages
+    if (is.list(fecundity) && length(fecundity) == 2 &&
+      is.matrix(fecundity[[1]]) && all(dim(fecundity[[1]]) ==
       c(n_stages, n_stages)) &&
-      is.matrix(reproduction[[2]]) &&
-      all(dim(reproduction[[2]]) == c(n_stages, n_stages))) {
+      is.matrix(fecundity[[2]]) &&
+      all(dim(fecundity[[2]]) == c(n_stages, n_stages))) {
       return(TRUE)
     }
 
@@ -152,21 +152,21 @@ rand_lefko_mpm <- function(n_stages,
     return(FALSE)
   }
 
-  if (!validate_reproduction(reproduction, n_stages)) {
-    stop("Invalid reproduction input. See ?rand_lefko_mpm")
+  if (!validate_fecundity(fecundity, n_stages)) {
+    stop("Invalid fecundity input. See ?rand_lefko_mpm")
   }
 
-  if (inherits(reproduction, "list")) {
-    if (!all(reproduction[[2]] - reproduction[[1]] >= 0)) {
-      stop("Invalid matrix input: the values in the lower bound reproduction matrix
-      should be less than or equal to the values in the upper bound reproduction
+  if (inherits(fecundity, "list")) {
+    if (!all(fecundity[[2]] - fecundity[[1]] >= 0)) {
+      stop("Invalid matrix input: the values in the lower bound fecundity matrix
+      should be less than or equal to the values in the upper bound fecundity
            matrix.")
     }
   }
 
-  if (inherits(reproduction, "matrix")) {
-    if (!all(reproduction >= 0)) {
-      stop("Invalid matrix input: reproduction values must not be negative.")
+  if (inherits(fecundity, "matrix")) {
+    if (!all(fecundity >= 0)) {
+      stop("Invalid matrix input: fecundity values must not be negative.")
     }
   }
 
@@ -191,7 +191,7 @@ rand_lefko_mpm <- function(n_stages,
       b <- mat_U
       mat_U <- mat_U[, order(colSums(b))]
     }
-    # Archetype 3 - reproduction is in top right corner only. Non-zero transitions
+    # Archetype 3 - fecundity is in top right corner only. Non-zero transitions
     # only on diagonal and subdiagonal.
     if (archetype == 3) {
       if (n_stages == 2) {
@@ -210,7 +210,7 @@ rand_lefko_mpm <- function(n_stages,
       mat_U <- mat_U[1:n_stages, 1:n_stages]
     }
 
-    # Archetype 4 - As in archetype 3, reproduction is in top right corner only.
+    # Archetype 4 - As in archetype 3, fecundity is in top right corner only.
     # Non-zero transitions only on diagonal and subdiagonal. However in
     # addition, there is also a rule of increasing survival from stage to stage
     # as in Archetype 2.
@@ -235,41 +235,41 @@ rand_lefko_mpm <- function(n_stages,
       mat_U[mat_U == 1] <- surv
     }
 
-    # reproduction
-    if (inherits(reproduction, "numeric")) {
+    # fecundity
+    if (inherits(fecundity, "numeric")) {
       # Create an empty matrix to initialise.
       mat_F <- matrix(0, nrow = n_stages, ncol = n_stages)
-      # Calculate reproduction and place in top row. In the Takada archetypes,
-      # reproduction is ONLY placed in the top right. Here, if the length of the
-      # reproduction vector (reproduction) is 1, then that is exactly what we do...
+      # Calculate fecundity and place in top row. In the Takada archetypes,
+      # fecundity is ONLY placed in the top right. Here, if the length of the
+      # fecundity vector is 1, then that is exactly what we do...
 
-      if (length(reproduction) == 1) {
-        mat_F[1, n_stages] <- reproduction
+      if (length(fecundity) == 1) {
+        mat_F[1, n_stages] <- fecundity
       }
 
-      # ... if the length is >1, then the reproduction vector of length n_stages is
+      # ... if the length is >1, then the fecundity vector of length n_stages is
       # added to the top row.
-      if (length(reproduction) > 1) {
-        mat_F[1, ] <- reproduction
+      if (length(fecundity) > 1) {
+        mat_F[1, ] <- fecundity
       }
     }
 
-    # if reproduction is a list of matrices (lower and upper values for reproduction)
-    # then values for mean reproduction are drawn from a uniform distribution.
-    if (inherits(reproduction, "list")) {
+    # if fecundity is a list of matrices (lower and upper values for fecundity)
+    # then values for mean fecundity are drawn from a uniform distribution.
+    if (inherits(fecundity, "list")) {
       mat_F <- matrix(
         runif(n_stages^2,
-          min = reproduction[[1]],
-          max = reproduction[[2]]
+          min = fecundity[[1]],
+          max = fecundity[[2]]
         ),
         nrow = n_stages, ncol = n_stages
       )
     }
 
-    # if reproduction is a matrix (of mean reproduction values))
+    # if fecundity is a matrix (of mean fecundity values))
     # we just use that matrix
-    if (inherits(reproduction, "matrix")) {
-      mat_F <- reproduction
+    if (inherits(fecundity, "matrix")) {
+      mat_F <- fecundity
     }
 
     # Check ergodicity

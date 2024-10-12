@@ -5,7 +5,7 @@ test_that("Check function works correctly across all output types", {
     rand_lefko_set(
       n_models = 10,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type1"
     )
@@ -17,7 +17,7 @@ test_that("Check function works correctly across all output types", {
     rand_lefko_set(
       n_models = 10,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type2"
     )
@@ -28,7 +28,7 @@ test_that("Check function works correctly across all output types", {
     rand_lefko_set(
       n_models = 10,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type3"
     )
@@ -39,7 +39,7 @@ test_that("Check function works correctly across all output types", {
     rand_lefko_set(
       n_models = 10,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type4"
     )
@@ -50,7 +50,7 @@ test_that("Check function works correctly across all output types", {
     rand_lefko_set(
       n_models = 10,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type5"
     )
@@ -60,7 +60,7 @@ test_that("Check function works correctly across all output types", {
     rand_lefko_set(
       n_models = 10,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type6"
     )
@@ -73,7 +73,7 @@ test_that("Error is produced if n is not a positive integer", {
     rand_lefko_set(
       n = 0,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type3"
     )
@@ -87,7 +87,7 @@ test_that("Output with Type3 is a list", {
     rand_lefko_set(
       n_models = 10,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type3"
     ),
@@ -102,7 +102,7 @@ test_that("Check output of Type5 is a list of matrices (part 1)", {
     is.matrix(rand_lefko_set(
       n_models = 10,
       n_stages = 5,
-      reproduction = c(0, 0, 4, 8, 10),
+      fecundity = c(0, 0, 4, 8, 10),
       archetype = 4,
       output = "Type5"
     )[[1]])
@@ -111,7 +111,7 @@ test_that("Check output of Type5 is a list of matrices (part 1)", {
   x <- rand_lefko_set(
     n_models = 10,
     n_stages = 5,
-    reproduction = c(0, 0, 4, 8, 10),
+    fecundity = c(0, 0, 4, 8, 10),
     archetype = 4,
     output = "Type5"
   )
@@ -134,7 +134,7 @@ test_that("Check output of Type5 is a list of matrices when there is a
   x <- rand_lefko_set(
     n_models = 10,
     n_stages = 5,
-    reproduction = c(0, 0, 4, 8, 10),
+    fecundity = c(0, 0, 4, 8, 10),
     archetype = 4,
     constraint = constrain_df,
     output = "Type5"
@@ -153,7 +153,7 @@ test_that("Check output of Type5 is a list of matrices when there is a
   x <- rand_lefko_set(
     n_models = 10,
     n_stages = 5,
-    reproduction = c(0, 0, 4, 8, 10),
+    fecundity = c(0, 0, 4, 8, 10),
     archetype = 4,
     constraint = constrain_df,
     output = "Type5"

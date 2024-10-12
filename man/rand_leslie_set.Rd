@@ -7,10 +7,10 @@
 rand_leslie_set(
   n_models = 5,
   mortality_model = "gompertz",
-  reproduction_model = "step",
+  fecundity_model = "step",
   mortality_params,
-  reproduction_params,
-  reproduction_maturity_params,
+  fecundity_params,
+  fecundity_maturity_params,
   dist_type = "uniform",
   output = "type1",
   scale_output = FALSE
@@ -24,9 +24,9 @@ mortality model to be used. Options are \code{gompertz}, \code{gompertzmakeham},
 \code{exponential}, \code{siler}, \code{weibull}, and \code{weibullmakeham}. See
 \code{model_mortality}. These names are not case-sensitive.}
 
-\item{reproduction_model}{A character string specifying the name of the model
+\item{fecundity_model}{A character string specifying the name of the model
 to be used for reproductive output. Options are \code{logistic}, \code{step},
-\code{vonBertalanffy}, \code{normal} and \code{hadwiger.} See \code{?model_reproduction}.}
+\code{vonBertalanffy}, \code{normal} and \code{hadwiger.} See \code{?model_fecundity}.}
 
 \item{mortality_params}{A two-column dataframe with a number of rows equal to
 the number of parameters in the mortality model. The required order of the
@@ -45,10 +45,10 @@ deviation of a random normal distribution from which the parameter values
 are drawn.
 }}
 
-\item{reproduction_params}{A two-column dataframe with a number of rows equal to
-the number of parameters in the reproduction model. The required order of the
-parameters depends on the selected \code{reproduction_model} (see
-\code{?model_reproduction}):
+\item{fecundity_params}{A two-column dataframe with a number of rows equal to
+the number of parameters in the fecundity model. The required order of the
+parameters depends on the selected \code{fecundity_model} (see
+\code{?model_fecundity}):
 \itemize{
 \item For \code{logistic}: \code{A}, \code{k}, \code{x_m}
 \item For \code{step}: \code{A}
@@ -62,7 +62,7 @@ deviation of a random normal distribution from which the parameter values
 are drawn.
 }}
 
-\item{reproduction_maturity_params}{A vector with two elements defining the
+\item{fecundity_maturity_params}{A vector with two elements defining the
 distribution from which age at maturity is drawn for the models. The models
 will coerce reproductive output to be zero before this point. If
 \code{dist_type} is \code{uniform} these values represent the lower and upper limits
@@ -120,7 +120,7 @@ mortParams <- data.frame(
   maxVal = c(0.14, 0.15, 0.1)
 )
 
-reproductionParams <- data.frame(
+fecundityParams <- data.frame(
   minVal = c(10, 0.5, 8),
   maxVal = c(11, 0.9, 10)
 )
@@ -130,10 +130,10 @@ maturityParam <- c(0, 0)
 rand_leslie_set(
   n_models = 5,
   mortality_model = "gompertzmakeham",
-  reproduction_model = "normal",
+  fecundity_model = "normal",
   mortality_params = mortParams,
-  reproduction_params = reproductionParams,
-  reproduction_maturity_params = maturityParam,
+  fecundity_params = fecundityParams,
+  fecundity_maturity_params = maturityParam,
   dist_type = "uniform",
   output = "Type1"
 )

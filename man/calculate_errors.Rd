@@ -10,11 +10,11 @@ calculate_errors(mat_U, mat_F, sample_size, type = "sem", calculate_A = TRUE)
 \arguments{
 \item{mat_U}{matrix of mean survival probabilities}
 
-\item{mat_F}{matrix of mean reproduction values}
+\item{mat_F}{matrix of mean fecundity values}
 
 \item{sample_size}{either (1) a single matrix of sample sizes for each
 element of the MPM, (2) a list of two named matrices ("\code{mat_F_ss}",
-"\code{mat_U_ss}") containing sample sizes for the survival and reproduction
+"\code{mat_U_ss}") containing sample sizes for the survival and fecundity
 submatrices of the MPM or (3) a single value applied to the whole matrix}
 
 \item{type}{A character string indicating the type of error to calculate.
@@ -31,7 +31,7 @@ matrices.
 }
 \description{
 Given two submatrices of a matrix population model (\code{mat_U} and \code{mat_F}, the
-growth/survival matrix and the reproduction matrix respectively) and a sample
+growth/survival matrix and the fecundity matrix respectively) and a sample
 size, or matrix/matrices of sample sizes, this function calculates the
 standard error or 95\% confidence interval (95\%CI) for each element of the
 matrix. These calculations assume that \code{mat_U} is the result of binomial

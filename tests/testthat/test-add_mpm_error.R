@@ -1,6 +1,6 @@
 mats <- make_leslie_mpm(
   survival = c(0.1, 0.2, 0.5),
-  reproduction = c(0, 1.2, 2.4),
+  fecundity = c(0, 1.2, 2.4),
   n_stages = 3,
   split = TRUE
 )
@@ -30,7 +30,7 @@ test_that("Checkadd_mpm_error functions correctly", {
 
 mats <- make_leslie_mpm(
   survival = c(0.1, 0.2, 0.5),
-  reproduction = c(0, 1.2, 2.4),
+  fecundity = c(0, 1.2, 2.4),
   n_stages = 3,
   split = TRUE
 )
@@ -359,7 +359,7 @@ test_that("Check that add_mpm_error produces a list", {
 mpm_set <- rand_lefko_set(
   n = 5,
   n_stages = 5,
-  reproduction = c(
+  fecundity = c(
     0, 0, 4, 8,
     10
   ),

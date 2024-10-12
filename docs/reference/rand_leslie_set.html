@@ -54,10 +54,10 @@ drawn from specified distributions.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rand_leslie_set</span><span class="op">(</span></span>
 <span>  n_models <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  mortality_model <span class="op">=</span> <span class="st">"gompertz"</span>,</span>
-<span>  reproduction_model <span class="op">=</span> <span class="st">"step"</span>,</span>
+<span>  fecundity_model <span class="op">=</span> <span class="st">"step"</span>,</span>
 <span>  <span class="va">mortality_params</span>,</span>
-<span>  <span class="va">reproduction_params</span>,</span>
-<span>  <span class="va">reproduction_maturity_params</span>,</span>
+<span>  <span class="va">fecundity_params</span>,</span>
+<span>  <span class="va">fecundity_maturity_params</span>,</span>
 <span>  dist_type <span class="op">=</span> <span class="st">"uniform"</span>,</span>
 <span>  output <span class="op">=</span> <span class="st">"type1"</span>,</span>
 <span>  scale_output <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -79,10 +79,10 @@ mortality model to be used. Options are <code>gompertz</code>, <code>gompertzmak
 <code>model_mortality</code>. These names are not case-sensitive.</p></dd>
 
 
-<dt id="arg-reproduction-model">reproduction_model<a class="anchor" aria-label="anchor" href="#arg-reproduction-model"></a></dt>
+<dt id="arg-fecundity-model">fecundity_model<a class="anchor" aria-label="anchor" href="#arg-fecundity-model"></a></dt>
 <dd><p>A character string specifying the name of the model
 to be used for reproductive output. Options are <code>logistic</code>, <code>step</code>,
-<code>vonBertalanffy</code>, <code>normal</code> and <code>hadwiger.</code> See <code><a href="model_reproduction.html">?model_reproduction</a></code>.</p></dd>
+<code>vonBertalanffy</code>, <code>normal</code> and <code>hadwiger.</code> See <code><a href="model_fecundity.html">?model_fecundity</a></code>.</p></dd>
 
 
 <dt id="arg-mortality-params">mortality_params<a class="anchor" aria-label="anchor" href="#arg-mortality-params"></a></dt>
@@ -102,11 +102,11 @@ are drawn.</p></li>
 </ul></dd>
 
 
-<dt id="arg-reproduction-params">reproduction_params<a class="anchor" aria-label="anchor" href="#arg-reproduction-params"></a></dt>
+<dt id="arg-fecundity-params">fecundity_params<a class="anchor" aria-label="anchor" href="#arg-fecundity-params"></a></dt>
 <dd><p>A two-column dataframe with a number of rows equal to
-the number of parameters in the reproduction model. The required order of the
-parameters depends on the selected <code>reproduction_model</code> (see
-<code><a href="model_reproduction.html">?model_reproduction</a></code>):</p><ul><li><p>For <code>logistic</code>: <code>A</code>, <code>k</code>, <code>x_m</code></p></li>
+the number of parameters in the fecundity model. The required order of the
+parameters depends on the selected <code>fecundity_model</code> (see
+<code><a href="model_fecundity.html">?model_fecundity</a></code>):</p><ul><li><p>For <code>logistic</code>: <code>A</code>, <code>k</code>, <code>x_m</code></p></li>
 <li><p>For <code>step</code>: <code>A</code></p></li>
 <li><p>For <code>vonBertalanffy</code>: <code>A</code>, <code>k</code></p></li>
 <li><p>For <code>normal</code>: <code>A</code>, <code>mu</code>, <code>sd</code></p></li>
@@ -119,7 +119,7 @@ are drawn.</p></li>
 </ul></dd>
 
 
-<dt id="arg-reproduction-maturity-params">reproduction_maturity_params<a class="anchor" aria-label="anchor" href="#arg-reproduction-maturity-params"></a></dt>
+<dt id="arg-fecundity-maturity-params">fecundity_maturity_params<a class="anchor" aria-label="anchor" href="#arg-fecundity-maturity-params"></a></dt>
 <dd><p>A vector with two elements defining the
 distribution from which age at maturity is drawn for the models. The models
 will coerce reproductive output to be zero before this point. If
@@ -189,7 +189,7 @@ to produce the MPM are included in the metadata.</p>
 <span class="r-in"><span>  maxVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.14</span>, <span class="fl">0.15</span>, <span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">reproductionParams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">fecundityParams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  minVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">0.5</span>, <span class="fl">8</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  maxVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">11</span>, <span class="fl">0.9</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -199,24 +199,24 @@ to produce the MPM are included in the metadata.</p>
 <span class="r-in"><span><span class="fu">rand_leslie_set</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  n_models <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>  mortality_model <span class="op">=</span> <span class="st">"gompertzmakeham"</span>,</span></span>
-<span class="r-in"><span>  reproduction_model <span class="op">=</span> <span class="st">"normal"</span>,</span></span>
+<span class="r-in"><span>  fecundity_model <span class="op">=</span> <span class="st">"normal"</span>,</span></span>
 <span class="r-in"><span>  mortality_params <span class="op">=</span> <span class="va">mortParams</span>,</span></span>
-<span class="r-in"><span>  reproduction_params <span class="op">=</span> <span class="va">reproductionParams</span>,</span></span>
-<span class="r-in"><span>  reproduction_maturity_params <span class="op">=</span> <span class="va">maturityParam</span>,</span></span>
+<span class="r-in"><span>  fecundity_params <span class="op">=</span> <span class="va">fecundityParams</span>,</span></span>
+<span class="r-in"><span>  fecundity_maturity_params <span class="op">=</span> <span class="va">maturityParam</span>,</span></span>
 <span class="r-in"><span>  dist_type <span class="op">=</span> <span class="st">"uniform"</span>,</span></span>
 <span class="r-in"><span>  output <span class="op">=</span> <span class="st">"Type1"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A COM(P)ADRE database ('CompadreDB') object with ?? SPECIES and 5 MATRICES.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   mat        mortality_model    b_0    b_1     C reproduction_model     A    mu</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.113  0.148    0.1 normal              10.4  10.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.061<span style="text-decoration: underline;">6</span> 0.037<span style="text-decoration: underline;">4</span>   0.1 normal              10.1  10.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.046<span style="text-decoration: underline;">9</span> 0.148    0.1 normal              10.3  10.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.050<span style="text-decoration: underline;">9</span> 0.117    0.1 normal              10.8  10.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.095<span style="text-decoration: underline;">6</span> 0.111    0.1 normal              10.7  10.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: sd &lt;dbl&gt;, reproduction_scaling &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   mat        mortality_model    b_0    b_1     C fecundity_model     A    mu</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.113  0.148    0.1 normal           10.4  10.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.061<span style="text-decoration: underline;">6</span> 0.037<span style="text-decoration: underline;">4</span>   0.1 normal           10.1  10.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.046<span style="text-decoration: underline;">9</span> 0.148    0.1 normal           10.3  10.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.050<span style="text-decoration: underline;">9</span> 0.117    0.1 normal           10.8  10.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span> gompertzmakeham 0.095<span style="text-decoration: underline;">6</span> 0.111    0.1 normal           10.7  10.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: sd &lt;dbl&gt;, fecundity_scaling &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
