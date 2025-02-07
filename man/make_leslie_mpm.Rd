@@ -39,6 +39,14 @@ The function creates a Leslie matrix from inputs of number of stages,
 fecundity (the top row of the matrix), and survival probability (the value in
 the sub-diagonal).
 }
+\details{
+Note that the simulations assume a post-breeding census, thus avoiding the
+often overlooked issue of unnacounted survival to reproduction highlighted by
+Kendall et al. (2019). Furthermore, the simulations assume no covariance
+among matrix elements (e.g. between reproduction and survival), and therefore
+do not allow the users to capture trade offs directly. This capability is
+roadmapped for a future package release.
+}
 \examples{
 make_leslie_mpm(
   survival = 0.5, fecundity = c(0.1, 0.2, 0.3),
@@ -67,6 +75,10 @@ mathematics. Biometrika, 33 (3), 183–212.
 
 Leslie, P. H. (1948). Some Further Notes on the Use of Matrices in
 Population Mathematics. Biometrika, 35(3-4), 213–245.
+
+Kendall, B. E., Fujiwara, M., Diaz-Lopez, J., Schneider, S., Voigt, J., &
+Wiesner, S. (2019). Persistent problems in the construction of matrix
+population models. Ecological Modelling, 406, 33–43.
 }
 \seealso{
 \itemize{

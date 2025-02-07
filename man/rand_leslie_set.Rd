@@ -75,20 +75,19 @@ are drawn.}
 draw parameters from. Default is \code{uniform}. Supported types are \code{uniform}
 and \code{normal}.}
 
-\item{output}{Character string indicating the type of output. Output can be
-one of the following types:
+\item{output}{Character string indicating the type of output.
 \itemize{
-\item \code{Type1}: A \code{compadreDB} Object containing MPMs split into the submatrices
-(i.e. A, U, F and C).
-\item \code{Type2}: A \code{compadreDB} Object containing MPMs that are not split into
-submatrices (i.e. only the A matrix is included).
-\item \code{Type3}: A \code{list} of MPMs arranged so that each element of the list
+\item \code{Type1} or \code{cdb_split}: A \code{compadreDB} Object containing MPMs split into
+the submatrices (i.e. A, U, F and C).
+\item \code{Type2} or \code{cdb_A}: A \code{compadreDB} Object containing MPMs that are not
+split into submatrices (i.e. only the A matrix is included).
+\item \code{Type3}: A \code{list_split1} of MPMs arranged so that each element of the list
 contains a model and associated submatrices (i.e. the nth element contains
 the nth A matrix alongside the nth U and F matrices).
-\item \code{Type4}: A \code{list} of MPMs arranged so that the list contains 3 lists for
-the A matrix and the U and F submatrices respectively.
-\item \code{Type5}: A \code{list} of MPMs, including only the A matrix.
-\item \code{Type6}: A \code{list} of life tables.
+\item \code{Type4}: A \code{list_split2} of MPMs arranged so that the list contains 3 lists
+for the A  matrix and the U and F submatrices respectively.
+\item \code{Type5} or \code{list_A}: A \code{list} of MPMs, including only the A matrix.
+\item \code{Type6} or \code{lifetable}: A \code{list} of life tables.
 
 Default is \code{Type1}.
 }}

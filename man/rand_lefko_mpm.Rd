@@ -80,6 +80,13 @@ is a vector of length \code{n_stages} then the fecundity vector spans the entire
 top row of the matrix.
 
 The function is constrained to only output ergodic matrices.
+
+Note that the simulations assume a post-breeding census, thus avoiding the
+often overlooked issue of unnacounted survival to reproduction highlighted by
+Kendall et al. (2019). Furthermore, the simulations assume no covariance
+among matrix elements (e.g. between reproduction and survival), and therefore
+do not allow the users to capture trade offs directly. This capability is
+roadmapped for a future package release.
 }
 \examples{
 set.seed(42) # set seed for repeatability
@@ -106,6 +113,10 @@ by stages. Biometrics, 21(1), 1.
 Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on
 elasticity analyses in a ternary plot using randomly generated population
 matrices. Population Ecology, 60(1), 37–47.
+
+Kendall, B. E., Fujiwara, M., Diaz-Lopez, J., Schneider, S., Voigt, J., &
+Wiesner, S. (2019). Persistent problems in the construction of matrix
+population models. Ecological Modelling, 406, 33–43.
 }
 \seealso{
 \code{\link[=rand_lefko_set]{rand_lefko_set()}} which is a wrapper for this function allowing the

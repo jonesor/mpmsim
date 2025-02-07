@@ -45,16 +45,16 @@ particular age class, use a value of 0 for both the lower and upper limit.}
 
 \item{output}{Character string indicating the type of output.
 \itemize{
-\item \code{Type1}: A \code{compadreDB} Object containing MPMs split into the submatrices
-(i.e. A, U, F and C).
-\item \code{Type2}: A \code{compadreDB} Object containing MPMs that are not split into
-submatrices (i.e. only the A matrix is included).
-\item \code{Type3}: A \code{list} of MPMs arranged so that each element of the list
+\item \code{Type1} or \code{cdb_split}: A \code{compadreDB} Object containing MPMs split into
+the submatrices (i.e. A, U, F and C).
+\item \code{Type2} or \code{cdb_A}: A \code{compadreDB} Object containing MPMs that are not
+split into submatrices (i.e. only the A matrix is included).
+\item \code{Type3}: A \code{list_split1} of MPMs arranged so that each element of the list
 contains a model and associated submatrices (i.e. the nth element contains
 the nth A matrix alongside the nth U and F matrices).
-\item \code{Type4}: A \code{list} of MPMs arranged so that the list contains 3 lists for
-the A  matrix and the U and F submatrices respectively.
-\item \code{Type5}: A \code{list} of MPMs, including only the A matrix.
+\item \code{Type4}: A \code{list_split2} of MPMs arranged so that the list contains 3 lists
+for the A  matrix and the U and F submatrices respectively.
+\item \code{Type5} or \code{list_A}: A \code{list} of MPMs, including only the A matrix.
 }}
 
 \item{max_surv}{The maximum acceptable survival value, calculated across all
@@ -131,6 +131,19 @@ constrain_df <- data.frame(
 rand_lefko_set(
   n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
   archetype = 4, constraint = constrain_df, output = "Type5"
+)
+
+# Constraints based on user-defined functions are also possible...
+# User-defined function to calculate survival from the first stage
+simpleFun <- function(x){sum(x[,1])}
+
+# Define the constraint, based on the user-defined function
+constrain_df <- data.frame(
+fun = "simpleFun", arg = NA, lower = 0.75, upper =1)
+
+rand_lefko_set(
+n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+archetype = 4, output = "Type5", constraint = constrain_df
 )
 
 }
