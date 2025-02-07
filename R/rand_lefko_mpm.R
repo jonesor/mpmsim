@@ -32,6 +32,15 @@
 #'
 #' The function is constrained to only output ergodic matrices.
 #'
+#' Note that the simulations assume a post-breeding census, thus avoiding the
+#' often overlooked issue of unnacounted survival to reproduction highlighted by
+#' Kendall et al. (2019). Furthermore, the simulations assume no covariance
+#' among matrix elements (e.g. between reproduction and survival), and therefore
+#' do not allow the users to capture trade offs directly. This capability is
+#' roadmapped for a future package release.
+#'
+#'
+#'
 #' @references
 #'
 #' Caswell, H. (2001). Matrix Population Models: Construction, Analysis, and
@@ -43,6 +52,10 @@
 #' Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on
 #' elasticity analyses in a ternary plot using randomly generated population
 #' matrices. Population Ecology, 60(1), 37–47.
+#'
+#' Kendall, B. E., Fujiwara, M., Diaz-Lopez, J., Schneider, S., Voigt, J., &
+#' Wiesner, S. (2019). Persistent problems in the construction of matrix
+#' population models. Ecological Modelling, 406, 33–43.
 #'
 #' @param n_stages An integer defining the number of stages for the MPM.
 #' @param fecundity A measure of reproductive output. The average number

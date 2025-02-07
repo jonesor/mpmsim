@@ -2,15 +2,15 @@
 % Please edit documentation in R/model_reproduction.R
 \name{model_fecundity}
 \alias{model_fecundity}
-\alias{model_fertility}
 \alias{model_reproduction}
+\alias{model_fertility}
 \title{Model reproductive output with age using set functional forms}
 \usage{
 model_fecundity(params, age = NULL, maturity = 0, model = "logistic")
 
-model_fertility(params, age = NULL, maturity = 0, model = "logistic")
-
 model_reproduction(params, age = NULL, maturity = 0, model = "logistic")
+
+model_fertility(params, age = NULL, maturity = 0, model = "logistic")
 }
 \arguments{
 \item{params}{A numeric vector of parameters for the selected model. The
@@ -90,8 +90,8 @@ model_fecundity(
   maturity = 0, model = "hadwiger"
 )
 
-model_fertility(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
 model_reproduction(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
+model_fertility(age = 0:20, params = c(A = 10), maturity = 2, model = "step")
 }
 \references{
 Bertalanffy, L. von (1938) A quantitative theory of organic

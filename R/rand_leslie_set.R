@@ -51,20 +51,19 @@
 #' @param dist_type A character string specifying the type of distribution to
 #'   draw parameters from. Default is `uniform`. Supported types are `uniform`
 #'   and `normal`.
-#' @param output Character string indicating the type of output. Output can be
-#'   one of the following types:
+#' @param output Character string indicating the type of output.
 #'
-#' * `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
-#'   (i.e. A, U, F and C).
-#' * `Type2`: A `compadreDB` Object containing MPMs that are not split into
-#'   submatrices (i.e. only the A matrix is included).
-#' * `Type3`: A `list` of MPMs arranged so that each element of the list
-#'   contains a model and associated submatrices (i.e. the nth element contains
-#'   the nth A matrix alongside the nth U and F matrices).
-#' * `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for
-#'   the A matrix and the U and F submatrices respectively.
-#' * `Type5`: A `list` of MPMs, including only the A matrix.
-#' * `Type6`: A `list` of life tables.
+#' * `Type1` or `cdb_split`: A `compadreDB` Object containing MPMs split into
+#' the submatrices (i.e. A, U, F and C).
+#' * `Type2` or `cdb_A`: A `compadreDB` Object containing MPMs that are not
+#' split into submatrices (i.e. only the A matrix is included).
+#' * `Type3`: A `list_split1` of MPMs arranged so that each element of the list
+#' contains a model and associated submatrices (i.e. the nth element contains
+#' the nth A matrix alongside the nth U and F matrices).
+#' * `Type4`: A `list_split2` of MPMs arranged so that the list contains 3 lists
+#' for the A  matrix and the U and F submatrices respectively.
+#' * `Type5` or `list_A`: A `list` of MPMs, including only the A matrix.
+#' * `Type6` or `lifetable`: A `list` of life tables.
 #'
 #'   Default is `Type1`.
 #'
@@ -205,18 +204,23 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     stop("dist_type must be one of ", paste(valid_dist_types, collapse = ", "))
   }
 
-  # Validate output
-  valid_outputs <- c(
-    "Type1",
-    "Type2",
-    "Type3",
-    "Type4",
-    "Type5",
-    "Type6"
-  )
-  if (!is.character(output) || !(output %in% valid_outputs)) {
-    stop("output must be Type1 to Type6")
+  # Validate and standardize the output type
+  if (output %in% c("cdb_split", "Type1")) {
+    output <- "Type1"
+  } else if (output %in% c("cdb_A", "Type2")) {
+    output <- "Type2"
+  } else if (output %in% c("list_split1", "Type3")) {
+    output <- "Type3"
+  } else if (output %in% c("list_split2", "Type4")) {
+    output <- "Type4"
+  } else if (output %in% c("list_A", "Type5")) {
+    output <- "Type5"
+  } else if (output %in% c("lifetable", "Type6")) {
+    output <- "Type6"
+  }else {
+    stop("Invalid output type.")
   }
+
 
   # Function begins -----
   # Set up null lists to hold outputs

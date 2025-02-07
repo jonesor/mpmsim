@@ -2,8 +2,8 @@
 title: "Generating Leslie models"
 date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_vignette: default
   pdf_document: default
+  rmarkdown::html_vignette: default
 vignette: >
   %\VignetteIndexEntry{Generating Leslie models}
   %\VignetteEncoding{UTF-8}
@@ -159,8 +159,8 @@ plotA + plotB + plotC + plotD + plotE + plotFF
 In addition to these functional forms of mortality, there are, of course, functional forms that have been used to model reproductive output. The `model_fecundity` function (and its synonyms `model_fedundity` and `model_reproduction`) handles five types: logistic, step, von Bertalanffy, normal and Hadwiger. Some of these models originate from human demography, where *fertility* is used for realised reproductive output and *fecundity* refers to reproductive potential. In ecology and population biology, however, *fecundity* typically describes actual reproductive output. Since `mpmsim` is designed for population biologists, we will use the terms *fecundity*, or simply *reproduction/reproductive output*.
 
 
-* Logistic: Reproductive output initially increases rapidly with age then slows to plateau as it approaches a maximum value. $f_x = A / (1 + exp(-k  (x - x_m)))$
 * Step: Reproductive output is initially zero, then jumps to a particular level at a specified age, after which it remains constant. $f_x= \begin{cases} A, x \geq m \\ A, x <  m \end{cases}$
+* Logistic: Reproductive output initially increases rapidly with age then slows to plateau as it approaches a maximum value. $f_x = A / (1 + exp(-k  (x - x_m)))$
 * von Bertalanffy: This model is often used in growth dynamics but has been adapted for reproduction to describe changes over age or time following a logistic growth form not limited by a strict upper asymptote. It shows how reproductive output might increase and then decrease, following a sigmoid curve. $f_x = A  (1 - exp(-k  (x - x_0)))$
 * Normal : Reproductive output is modelled as normal distribution to describe how reproductive output increases, peaks, and then decreases in a bell curve around a mean age of reproductive capacity. $f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)$
 * Hadwiger: The outcomes of this model are qualitatively similar to the normal distribution. $f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}$
@@ -236,11 +236,12 @@ plotE <- ggplot(hadwigerMod, aes(x = x, y = fecundity)) +
 plotA + plotB + plotC + plotD + plotE
 ```
 
-Collectively, these mortality and fecundity functions offer a large scope for modelling the variety of demographic trajectories apparent across the tree of life.
+Collectively, these mortality and fecundity functions offer a large scope of options for modelling the variety of demographic trajectories apparent across the tree of life.
 
 ## 2. Trajectories of mortality and reproductive output, and production of life tables
 
-To obtain a trajectory of mortality, users can use the `model_mortality` function, which takes as input the parameters of a specified mortality model. The output of this function is a standard life table `data.frame` including columns for age (`x`), age-specific hazard (`hx`), survivorship (`lx`), age-specific probability of death and survival (`qx` and `px`). By default, the life table is truncated at the age when the survivorship function declines below 0.01 (i.e. when only 1% of individuals in a cohort would remain alive).
+To obtain a trajectory of mortality, users can use the `model_mortality` function, which takes as input the parameters of a specified mortality model. The output of this function is a standard life table `data.frame` including columns for age (`x`), age-specific hazard (`hx`), survivorship (`lx`, the probability of surviving from birth (age 0) to age 
+`x`), age-specific probability of death and survival (`qx` and `px`). By default, the life table is truncated at the age when the survivorship function declines below 0.01 (i.e. when only 1% of individuals in a cohort would remain alive).
 
 ```{r}
 (lt1 <- model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz"))

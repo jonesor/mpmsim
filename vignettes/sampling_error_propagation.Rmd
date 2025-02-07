@@ -2,8 +2,8 @@
 title: "Sampling error and its propagation"
 date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_vignette: default
   pdf_document: default
+  rmarkdown::html_vignette: default
 vignette: >
   %\VignetteIndexEntry{Sampling error and its propagation}
   %\VignetteEncoding{UTF-8}
@@ -25,11 +25,11 @@ set.seed(42)
 
 Uncertainty in the individual elements of a matrix population model (MPM) can propagate, affecting the accuracy of metrics derived from the model, such as population growth rate, generation time, etc.
 
-One approach to estimate this uncertainty is parametric bootstrapping, which generates a sampling distribution for the matrix model based on assumptions about the underlying demographic processes and uncertainties in individual matrix elements. For example, reproductive output can be modelled as a Poisson-distributed process, suitable for count-based data, while survival can be represented by a binomial distribution, reflecting the probability of individual survival.
+One approach to estimate this uncertainty is parametric bootstrapping, a resampling method that explicitly assumes statistical distributions for matrix elements and generates a range of possible matrices based on these assumptions. For example, reproductive output can be modeled as a Poisson-distributed process, suitable for count-based data, while survival can be represented by a binomial distribution, reflecting the probability of individual survival. These assumptions allow for more realistic variability in parameter estimates compared to nonparametric methods. Note that this approach does not assume that the initial matrices represent the "true" parameters; rather, it treats them as estimates with associated uncertainty. The parametric bootstrap is used precisely to quantify this uncertainty by resampling based on these estimated parameters.
 
-The `compute_ci` function estimates a 95% confidence interval (95% CI) for any MPM-derived metric by generating a sampling distribution through resampling based on the given assumptions. The 95% CI is derived from the 2.5th and 97.5th percentiles of this distribution, where a narrower interval indicates greater precision.
+The `compute_ci` function uses parametric bootstrapping to estimate a 95% confidence interval (95% CI) for any MPM-derived metric. Specifically, it repeatedly samples matrix elements from their assumed distributions, generating a sampling distribution of the metric of interest. The 95% CI is calculated from the 2.5th and 97.5th percentiles of this distribution, providing an empirical range that quantifies uncertainty. 
 
-The width and shape of the sampling distribution are influenced by several factors, including the sample size used for estimating matrix elements, the matrix model's structure, the assumptions underlying the `compute_ci` function, and the distribution of uncertainties across matrix elements. To accurately assess the precision of MPM estimates, it is necessary to consider these factors when interpreting the results.
+The width and shape of the sampling distribution—and consequently, the confidence intervals—are influenced by several factors, including the sample size used for estimating matrix elements, the matrix model's structure, the assumptions underlying the `compute_ci` function, and the distribution of uncertainties across matrix elements. A narrower confidence interval indicates greater precision, but this precision depends on the quality of the underlying assumptions. To accurately assess the reliability of MPM estimates, it is necessary to carefully consider these factors when interpreting the results.
 
 The following examples show how to use these functions.
 
@@ -50,7 +50,7 @@ Consider a matrix model **A**, which is composed of submatrices **U** (survival/
 
 The methods require that the matrix model be split into its component submatrices because the underlying processes are governed by distributions with different statistical properties: individual survival is treated as a binary process (0 = dies, 1 = survives), whereas individual reproduction follows a Poisson distribution.
 
-In this example, the matrix is simple, with only the top-right element representing reproduction, while all other elements represent survival or growth.
+In this example, the matrix is simple, with only the top-right element representing reproduction, while all other elements represent survival or growth. The method assumes that the matrices represent the true values, for which we wish to calculate confidence intervals.
 
 
 $$
@@ -108,7 +108,7 @@ compute_ci(
 ```
 
 
-We can examine the sampling distribution of these $\lambda$ estimates estimates by using the argument `dist.out = TRUE`.
+We can examine the sampling distribution of these $\lambda$ estimates by using the argument `dist.out = TRUE`.
 
 ```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
 distLambda_20 <- compute_ci(

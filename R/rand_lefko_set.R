@@ -33,16 +33,16 @@
 #'
 #' @param output Character string indicating the type of output.
 #'
-#' * `Type1`: A `compadreDB` Object containing MPMs split into the submatrices
-#'   (i.e. A, U, F and C).
-#' * `Type2`: A `compadreDB` Object containing MPMs that are not split into
-#' submatrices (i.e. only the A matrix is included).
-#' * `Type3`: A `list` of MPMs arranged so that each element of the list
+#' * `Type1` or `cdb_split`: A `compadreDB` Object containing MPMs split into
+#' the submatrices (i.e. A, U, F and C).
+#' * `Type2` or `cdb_A`: A `compadreDB` Object containing MPMs that are not
+#' split into submatrices (i.e. only the A matrix is included).
+#' * `Type3`: A `list_split1` of MPMs arranged so that each element of the list
 #' contains a model and associated submatrices (i.e. the nth element contains
 #' the nth A matrix alongside the nth U and F matrices).
-#' * `Type4`: A `list` of MPMs arranged so that the list contains 3 lists for
-#' the A  matrix and the U and F submatrices respectively.
-#' * `Type5`: A `list` of MPMs, including only the A matrix.
+#' * `Type4`: A `list_split2` of MPMs arranged so that the list contains 3 lists
+#' for the A  matrix and the U and F submatrices respectively.
+#' * `Type5` or `list_A`: A `list` of MPMs, including only the A matrix.
 #'
 #'
 #' @param max_surv The maximum acceptable survival value, calculated across all
@@ -121,6 +121,19 @@
 #'   archetype = 4, constraint = constrain_df, output = "Type5"
 #' )
 #'
+#' # Constraints based on user-defined functions are also possible...
+#' # User-defined function to calculate survival from the first stage
+#' simpleFun <- function(x){sum(x[,1])}
+#'
+#' # Define the constraint, based on the user-defined function
+#' constrain_df <- data.frame(
+#' fun = "simpleFun", arg = NA, lower = 0.75, upper =1)
+#'
+#' rand_lefko_set(
+#' n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#' archetype = 4, output = "Type5", constraint = constrain_df
+#' )
+#'
 #' @seealso [rand_lefko_mpm()] which this function is essentially a wrapper for.
 #' @family Lefkovitch matrices
 #' @importFrom Rcompadre cdb_build_cdb
@@ -136,6 +149,22 @@ rand_lefko_set <- function(n_models = 5, n_stages = 3, archetype = 1,
     .Machine$double.eps^0.5 || n_models <= 0) {
     stop("n_models must be a positive integer")
   }
+
+  # Validate and standardize the output type
+  if (output %in% c("cdb_split", "Type1")) {
+    output <- "Type1"
+  } else if (output %in% c("cdb_A", "Type2")) {
+    output <- "Type2"
+  } else if (output %in% c("list_split1", "Type3")) {
+    output <- "Type3"
+  } else if (output %in% c("list_split2", "Type4")) {
+    output <- "Type4"
+  } else if (output %in% c("list_A", "Type5")) {
+    output <- "Type5"
+  } else {
+    stop("Invalid output type.")
+  }
+
 
   # Set up empty list of desired length
   output_list <- vector("list", n_models)
