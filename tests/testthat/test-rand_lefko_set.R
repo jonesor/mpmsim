@@ -55,8 +55,6 @@ test_that("Check function works correctly across all output types", {
       output = "Type5"
     )
   )
-
-
 })
 
 

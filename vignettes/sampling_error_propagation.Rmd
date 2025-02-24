@@ -25,7 +25,7 @@ set.seed(42)
 
 Uncertainty in the individual elements of a matrix population model (MPM) can propagate, affecting the accuracy of metrics derived from the model, such as population growth rate, generation time, etc.
 
-One approach to estimate this uncertainty is parametric bootstrapping, a resampling method that explicitly assumes statistical distributions for matrix elements and generates a range of possible matrices based on these assumptions. For example, reproductive output can be modeled as a Poisson-distributed process, suitable for count-based data, while survival can be represented by a binomial distribution, reflecting the probability of individual survival. These assumptions allow for more realistic variability in parameter estimates compared to nonparametric methods. Note that this approach does not assume that the initial matrices represent the "true" parameters; rather, it treats them as estimates with associated uncertainty. The parametric bootstrap is used precisely to quantify this uncertainty by resampling based on these estimated parameters.
+One approach to estimate this uncertainty is parametric bootstrapping, a resampling method that explicitly assumes statistical distributions for matrix elements and generates a range of possible matrices based on these assumptions. For example, reproductive output can be modelled as a Poisson-distributed process, suitable for count-based data, while survival can be represented by a binomial distribution, reflecting the probability of individual survival. These assumptions allow for more realistic variability in parameter estimates compared to nonparametric methods. Note that this approach does not assume that the initial matrices represent the "true" parameters; rather, it treats them as estimates with associated uncertainty. The parametric bootstrap is used precisely to quantify this uncertainty by resampling based on these estimated parameters.
 
 The `compute_ci` function uses parametric bootstrapping to estimate a 95% confidence interval (95% CI) for any MPM-derived metric. Specifically, it repeatedly samples matrix elements from their assumed distributions, generating a sampling distribution of the metric of interest. The 95% CI is calculated from the 2.5th and 97.5th percentiles of this distribution, providing an empirical range that quantifies uncertainty. 
 
@@ -136,8 +136,8 @@ mat_U_ss <- matrix(c(
 
 # Define sample sizes for F
 mat_F_ss <- matrix(c(
-  0.0, 15,  
-  0.0, 0.0  
+  0.0, 15,
+  0.0, 0.0
 ), byrow = TRUE, nrow = 2)
 
 # Combine sample sizes into list
@@ -177,7 +177,7 @@ In this case, a sample size of approximately 70 appears sufficient. However, sam
 
 ```{r poweranalysis, fig.height = 6, fig.width = 6, fig.align = "center", warning=FALSE}
 # Define sample sizes to iterate over
-sample_sizes <- seq(10,100,10)
+sample_sizes <- seq(10, 100, 10)
 
 # Lambda value for reference
 matA <- matF + matU
@@ -194,14 +194,14 @@ ci_results <- data.frame(
 # Loop through each sample size and calculate the CI for lambda
 for (i in seq_along(sample_sizes)) {
   n <- sample_sizes[i]
-  
+
   # Compute CI for the current sample size
   dist_lambda <- compute_ci(
     mat_U = matU, mat_F = matF,
     sample_size = n, FUN = popdemo::eigs, what = "lambda",
     dist.out = TRUE
   )
-  
+
   # Calculate 95% CI from the distribution
   ci_results$ci_lower[i] <- quantile(dist_lambda$estimates, 0.025)
   ci_results$ci_upper[i] <- quantile(dist_lambda$estimates, 0.975)
@@ -214,14 +214,16 @@ ci_upper_error <- ci_results$ci_upper - ci_results$estimate_mean
 
 # Create the plot
 plot(ci_results$sample_size, ci_results$estimate_mean,
-     ylim = range(ci_results$ci_lower, ci_results$ci_upper),
-     pch = 19, xlab = "Sample Size", ylab = "Lambda Estimate",
-     main = "Effect of Sample Size on Lambda Estimate Precision")
+  ylim = range(ci_results$ci_lower, ci_results$ci_upper),
+  pch = 19, xlab = "Sample Size", ylab = "Lambda Estimate",
+  main = "Effect of Sample Size on Lambda Estimate Precision"
+)
 
 # Add error bars and reference line
-arrows(ci_results$sample_size, ci_results$ci_lower, 
-       ci_results$sample_size, ci_results$ci_upper,
-       angle = 90, code = 3, length = 0.05, col = "blue")
+arrows(ci_results$sample_size, ci_results$ci_lower,
+  ci_results$sample_size, ci_results$ci_upper,
+  angle = 90, code = 3, length = 0.05, col = "blue"
+)
 abline(h = 1, lty = 2)
 ```
 

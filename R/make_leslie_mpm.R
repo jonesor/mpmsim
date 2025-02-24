@@ -5,7 +5,7 @@
 #' the sub-diagonal).
 #'
 #' Note that the simulations assume a post-breeding census, thus avoiding the
-#' often overlooked issue of unnacounted survival to reproduction highlighted by
+#' often overlooked issue of unaccounted survival to reproduction highlighted by
 #' Kendall et al. (2019). Furthermore, the simulations assume no covariance
 #' among matrix elements (e.g. between reproduction and survival), and therefore
 #' do not allow the users to capture trade offs directly. This capability is

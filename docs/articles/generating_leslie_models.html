@@ -8,8 +8,8 @@
 <title>Generating Leslie models • mpmsim</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Generating Leslie models">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mpmsim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
 
       <h1>Generating Leslie models</h1>
             
-            <h4 data-toc-skip class="date">2024-10-12</h4>
+            <h4 data-toc-skip class="date">2025-02-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jonesor/mpmsim/blob/HEAD/vignettes/generating_leslie_models.Rmd" class="external-link"><code>vignettes/generating_leslie_models.Rmd</code></a></small>
       <div class="d-none name"><code>generating_leslie_models.Rmd</code></div>
@@ -198,13 +198,13 @@ actual reproductive output. Since <code>mpmsim</code> is designed for
 population biologists, we will use the terms <em>fecundity</em>, or
 simply <em>reproduction/reproductive output</em>.</p>
 <ul>
-<li>Logistic: Reproductive output initially increases rapidly with age
-then slows to plateau as it approaches a maximum value.
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mi>A</mi><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>−</mo><msub><mi>x</mi><mi>m</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f_x = A / (1 + exp(-k  (x - x_m)))</annotation></semantics></math>
-</li>
 <li>Step: Reproductive output is initially zero, then jumps to a
 particular level at a specified age, after which it remains constant.
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mi>A</mi><mo>,</mo><mi>x</mi><mo>≥</mo><mi>m</mi></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>A</mi><mo>,</mo><mi>x</mi><mo>&lt;</mo><mi>m</mi></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">f_x= \begin{cases} A, x \geq m \\ A, x &lt;  m \end{cases}</annotation></semantics></math>
+</li>
+<li>Logistic: Reproductive output initially increases rapidly with age
+then slows to plateau as it approaches a maximum value.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mi>A</mi><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>−</mo><msub><mi>x</mi><mi>m</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f_x = A / (1 + exp(-k  (x - x_m)))</annotation></semantics></math>
 </li>
 <li>von Bertalanffy: This model is often used in growth dynamics but has
 been adapted for reproduction to describe changes over age or time
@@ -225,8 +225,8 @@ the normal distribution.
 </ul>
 <p><img src="generating_leslie_models_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
 <p>Collectively, these mortality and fecundity functions offer a large
-scope for modelling the variety of demographic trajectories apparent
-across the tree of life.</p>
+scope of options for modelling the variety of demographic trajectories
+apparent across the tree of life.</p>
 </div>
 <div class="section level2">
 <h2 id="trajectories-of-mortality-and-reproductive-output-and-production-of-life-tables">2. Trajectories of mortality and reproductive output, and production
@@ -237,7 +237,8 @@ of life tables<a class="anchor" aria-label="anchor" href="#trajectories-of-morta
 parameters of a specified mortality model. The output of this function
 is a standard life table <code>data.frame</code> including columns for
 age (<code>x</code>), age-specific hazard (<code>hx</code>),
-survivorship (<code>lx</code>), age-specific probability of death and
+survivorship (<code>lx</code>, the probability of surviving from birth
+(age 0) to age <code>x</code>), age-specific probability of death and
 survival (<code>qx</code> and <code>px</code>). By default, the life
 table is truncated at the age when the survivorship function declines
 below 0.01 (i.e. when only 1% of individuals in a cohort would remain

@@ -71,16 +71,16 @@ library(mpmsim)
 
 The `make_leslie_mpm` function can be used to generate a Leslie matrix model (Leslie, 1945) where the stages represent discrete age classes (usually years of life). 
 
-In a Leslie matrix, survival is represented in the lower sub-diagonal and the lower-right-hand corner element, while reproduction is shown in the top row. Both survival and reproduction have a length equal to the number of stages in the model. Users can specify both survival and reproduction as either a single value or a vector of values, with a length equal to the dimensions of the matrix model. If these arguments are single values, the value is repeated along the survival/reproduction sequence.
+In a Leslie matrix, survival is represented in the lower sub-diagonal and the lower-right-hand corner element, while fecundity (reproduction) is shown in the top row. Both survival and fecundity have a length equal to the number of stages in the model. Users can specify both survival and fecundity as either a single value or a vector of values, with a length equal to the dimensions of the matrix model. If these arguments are single values, the value is repeated along the survival/fecundity sequence.
 
 ```{r}
 make_leslie_mpm(
   survival = seq(0.1, 0.45, length.out = 4),
-  reproduction = c(0, 0, 2.4, 5), n_stages = 4, split = FALSE
+  fecundity = c(0, 0, 2.4, 5), n_stages = 4, split = FALSE
 )
 ```
 
-### Using functional forms for mortality and reproduction
+### Using functional forms for mortality and fecundity
 
 Users can generate Leslie matrices with particular functional forms of mortality by first making a data frame of a simplified life table that includes age and survival probability within each age interval. The `model_mortality` function can handle the following models: Gompertz, Gompertz-Makeham, Weibull, Weibull-Makeham, Siler and Exponential. 
 
@@ -92,23 +92,23 @@ For example to produce a life table based on Gompertz mortality:
 (surv_prob <- model_mortality(params = c(0.2, 0.4), model = "Gompertz"))
 ```
 
-Users can also use a functional form for reproduction (see `?model_reproduction`), including, logistic, step, von Bertalanffy, Normal and Hadwiger. 
+Users can also use a functional form for fecundity (see `?model_fecundity`), including, logistic, step, von Bertalanffy, Normal and Hadwiger. 
 
 Here a simple step function is assumed. 
 
 ```{r}
 survival <- surv_prob$px
-reproduction <- model_reproduction(
+fecundity <- model_fecundity(
   age = 0:(length(survival) - 1),
   params = c(A = 5), maturity = 2, model = "step"
 )
 ```
 
-Subsequently, these survival and reproduction values can be applied to the Leslie matrix as follows. 
+Subsequently, these survival and fecundity values can be applied to the Leslie matrix as follows. 
 
 ```{r}
 make_leslie_mpm(
-  survival = survival, reproduction = reproduction,
+  survival = survival, fecundity = fecundity,
   n_stages = length(survival), split = FALSE
 )
 ```
@@ -118,11 +118,11 @@ make_leslie_mpm(
 
 Users can generate large numbers of plausible Leslie matrices using the `rand_leslie_set` function.
 
-The arguments for this function include the number of models (`n_models`), the type of mortality (e.g. `GompertzMakeham`) and reproduction (e.g. `step`). The specific parameters for mortality and reproduction are provided as defined distributions from which parameters can be drawn at random. The type of distribution is defined with the `dist_type` argument and can be `uniform` or `normal`, and the distributions are defined using the `mortality_params` and `reproduction_params` arguments, which accept data frames of distribution parameters. 
+The arguments for this function include the number of models (`n_models`), the type of mortality (e.g. `GompertzMakeham`) and reproduction (e.g. `step`). The specific parameters for mortality and reproduction are provided as defined distributions from which parameters can be drawn at random. The type of distribution is defined with the `dist_type` argument and can be `uniform` or `normal`, and the distributions are defined using the `mortality_params` and `fecundity_params` arguments, which accept data frames of distribution parameters. 
 
 For example, the following code produces a list of five Leslie matrices that have Gompertz-Makeham mortality characteristics and where reproduction is a step function.
 
-First, we define the limits of a uniform distributions for the Gompertz mortality and step reproduction functions. 
+First, we define the limits of a uniform distributions for the Gompertz mortality and step fecundity functions. 
 
 ```{r}
 mortParams <- data.frame(
@@ -130,7 +130,7 @@ mortParams <- data.frame(
   maxVal = c(0.14, 0.15, 0.7)
 )
 
-fertParams <- data.frame(minVal = 4, maxVal = 6)
+fecParams <- data.frame(minVal = 4, maxVal = 6)
 ```
 
 We also set maturity to be drawn from a distribution ranging from 0 to 3.
@@ -143,10 +143,10 @@ Now we produce the models. We output as "`Type5`" which is a simple list of the 
 
 ```{r}
 outputMPMs <- rand_leslie_set(
-  n_models = 5, mortality_model = "GompertzMakeham", reproduction_model = "step",
+  n_models = 5, mortality_model = "GompertzMakeham", fecundity_model = "step",
   mortality_params = mortParams,
-  reproduction_params = fertParams,
-  reproduction_maturity_params = maturityParams,
+  fecundity_params = fecParams,
+  fecundity_maturity_params = maturityParams,
   dist_type = "uniform",
   output = "Type5"
 )
@@ -168,7 +168,7 @@ In the following example, I split the output matrices into the `U` and `F` subma
 
 ```{r}
 (rMPM <- rand_lefko_mpm(
-  n_stages = 3, reproduction = 20,
+  n_stages = 3, fecundity = 20,
   archetype = 2, split = TRUE
 ))
 ```
@@ -182,7 +182,7 @@ The `rand_lefko_set` function can be used to quickly generate large numbers of L
 library(popbio)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 rand_lefko_set(
-  n_models = 5, n_stages = 4, reproduction = 8, archetype = 1, constraint = constrain_df,
+  n_models = 5, n_stages = 4, fecundity = 8, archetype = 1, constraint = constrain_df,
   output = "Type5"
 )
 ```
@@ -235,7 +235,7 @@ To illustrate use of the function, the following code first generates a 3-stage 
 ```{r}
 mats <- make_leslie_mpm(
   survival = c(0.3, 0.5, 0.8),
-  reproduction = c(0, 2.2, 4.4),
+  fecundity = c(0, 2.2, 4.4),
   n_stages = 3, split = TRUE
 )
 

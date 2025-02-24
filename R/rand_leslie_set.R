@@ -217,7 +217,7 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     output <- "Type5"
   } else if (output %in% c("lifetable", "Type6")) {
     output <- "Type6"
-  }else {
+  } else {
     stop("Invalid output type.")
   }
 
@@ -659,8 +659,6 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
         leslieMatrices[[i]] <- mpm
       }
     }
-
-
   }
 
   if (scale_output == FALSE) {

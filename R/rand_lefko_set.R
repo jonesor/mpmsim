@@ -123,15 +123,18 @@
 #'
 #' # Constraints based on user-defined functions are also possible...
 #' # User-defined function to calculate survival from the first stage
-#' simpleFun <- function(x){sum(x[,1])}
+#' simpleFun <- function(x) {
+#'   sum(x[, 1])
+#' }
 #'
 #' # Define the constraint, based on the user-defined function
 #' constrain_df <- data.frame(
-#' fun = "simpleFun", arg = NA, lower = 0.75, upper =1)
+#'   fun = "simpleFun", arg = NA, lower = 0.75, upper = 1
+#' )
 #'
 #' rand_lefko_set(
-#' n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-#' archetype = 4, output = "Type5", constraint = constrain_df
+#'   n_models = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+#'   archetype = 4, output = "Type5", constraint = constrain_df
 #' )
 #'
 #' @seealso [rand_lefko_mpm()] which this function is essentially a wrapper for.
