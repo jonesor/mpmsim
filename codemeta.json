@@ -92,6 +92,12 @@
   "softwareRequirements": {
     "1": {
       "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 4.1.0"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
       "provider": {
@@ -102,7 +108,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
-    "2": {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
@@ -114,12 +120,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ggplot2"
     },
-    "3": {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "grDevices",
       "name": "grDevices"
     },
-    "4": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "popbio",
       "name": "popbio",
@@ -131,7 +137,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=popbio"
     },
-    "5": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "popdemo",
       "name": "popdemo",
@@ -143,7 +149,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=popdemo"
     },
-    "6": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "Rage",
       "name": "Rage",
@@ -155,7 +161,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rage"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "Rcompadre",
       "name": "Rcompadre",
@@ -167,7 +173,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rcompadre"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "reshape",
       "name": "reshape",
@@ -179,14 +185,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=reshape"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
     "SystemRequirements": null
   },
-  "fileSize": "1198.379KB",
+  "fileSize": "1198.922KB",
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
   "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md",
   "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main"],

@@ -43,10 +43,12 @@
 #' set.seed(42) # set seed for repeatability
 #'
 #' # Basic operation, without splitting matrices and with no constraints
+#' suppressWarnings({
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, split = FALSE, by_type = FALSE, as_compadre = FALSE
 #' )
+#' })
 #'
 #' # Constrain outputs to A matrices with lambda between 0.9 and 1.1
 #' library(popbio)
@@ -54,10 +56,12 @@
 #'   fun = "lambda", arg = NA, lower = 0.9, upper =
 #'     1.1
 #' )
+#' suppressWarnings({
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
+#' })
 #'
 #' # As above, but using popdemo::eigs function instead of popbio::lambda
 #' # to illustrate use of argument
@@ -66,10 +70,12 @@
 #'   fun = "eigs", arg = "lambda", lower = 0.9, upper =
 #'     1.1
 #' )
+#' suppressWarnings({
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
+#' })
 #'
 #' # Multiple constraints
 #' # Constrain outputs to A matrices with lambda between 0.9 and 1.1, generation
@@ -81,10 +87,12 @@
 #'   lower = c(0.9, 3.0, 1.0),
 #'   upper = c(1.1, 5.0, 7.0)
 #' )
+#' suppressWarnings({
 #' generate_mpm_set(
 #'   n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
 #'   archetype = 4, constraint = constrain_df, as_compadre = FALSE
 #' )
+#' })
 #'
 #' @seealso [random_mpm()] which this function is essentially a wrapper for.
 #' @family Lefkovitch matrices
