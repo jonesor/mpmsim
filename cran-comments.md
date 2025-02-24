@@ -8,6 +8,6 @@
 - R-hub aarch64-apple-darwin20 (r-devel)
 - R-hub x86_64-w64-mingw32 (r-devel)
 
-── mpmsim 3.1.0, Install OK with no notes on all test environments
+── mpmsim 3.2.0, Install OK with no notes on all test environments
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔

@@ -7,13 +7,13 @@
   "codeRepository": "https://github.com/jonesor/mpmsim",
   "issueTracker": "https://github.com/jonesor/mpmsim/issues",
   "license": "https://spdx.org/licenses/CC-BY-SA-4.0",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.1 (2024-06-14)",
+  "runtimePlatform": "R version 4.4.2 (2024-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -186,7 +186,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "366.429KB",
+  "fileSize": "1198.379KB",
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
   "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md",
   "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main"],
