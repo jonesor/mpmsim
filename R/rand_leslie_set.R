@@ -585,13 +585,15 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
 
 
     # Add fecundity to life table
-    lifeTables[[i]] <- lifeTables[[i]] |>
-      mutate(fecundity = model_fecundity(
+    lifeTables[[i]] <- mutate(
+      lifeTables[[i]],
+      fecundity = model_fecundity(
         age = x,
         params = fecundity_params_draw,
         maturity = fecundity_maturity_params_draw,
         model = fecundity_model
-      ))
+      )
+    )
 
     # Add the fecundity parameters to a parameters data frame
     fecundityParameters[[i]] <- fecundity_params_draw
