@@ -82,31 +82,31 @@ The function is constrained to only output ergodic matrices.
 \examples{
 set.seed(42) # set seed for repeatability
 suppressWarnings({
-random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
+  random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
 })
 
 suppressWarnings({
-random_mpm(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
+  random_mpm(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
 })
 
 suppressWarnings({
-random_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
+  random_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
 })
 
 suppressWarnings({
-random_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
+  random_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
 })
 
 suppressWarnings({
-random_mpm(
-  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4,
-  split = TRUE
-)
+  random_mpm(
+    n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4,
+    split = TRUE
+  )
 })
 
 # Using a range of values for fecundity
 suppressWarnings({
-random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
+  random_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
 })
 
 }

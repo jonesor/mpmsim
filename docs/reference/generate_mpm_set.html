@@ -150,10 +150,10 @@ of attempts can be altered with the <code>attempts</code> parameter.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Basic operation, without splitting matrices and with no constraints</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, split <span class="op">=</span> <span class="cn">FALSE</span>, by_type <span class="op">=</span> <span class="cn">FALSE</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    archetype <span class="op">=</span> <span class="fl">4</span>, split <span class="op">=</span> <span class="cn">FALSE</span>, by_type <span class="op">=</span> <span class="cn">FALSE</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]      [,4]       [,5]</span>
@@ -243,10 +243,10 @@ of attempts can be altered with the <code>attempts</code> parameter.</p>
 <span class="r-in"><span>    <span class="fl">1.1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[1]]</span>
@@ -507,10 +507,10 @@ of attempts can be altered with the <code>attempts</code> parameter.</p>
 <span class="r-in"><span>    <span class="fl">1.1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[1]]</span>
@@ -770,10 +770,10 @@ of attempts can be altered with the <code>attempts</code> parameter.</p>
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">5.0</span>, <span class="fl">7.0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">generate_mpm_set</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n <span class="op">=</span> <span class="fl">10</span>, n_stages <span class="op">=</span> <span class="fl">5</span>, fecundity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    archetype <span class="op">=</span> <span class="fl">4</span>, constraint <span class="op">=</span> <span class="va">constrain_df</span>, as_compadre <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_list[[1]]</span>

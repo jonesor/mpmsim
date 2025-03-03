@@ -73,10 +73,10 @@ set.seed(42) # set seed for repeatability
 
 # Basic operation, without splitting matrices and with no constraints
 suppressWarnings({
-generate_mpm_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, split = FALSE, by_type = FALSE, as_compadre = FALSE
-)
+  generate_mpm_set(
+    n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+    archetype = 4, split = FALSE, by_type = FALSE, as_compadre = FALSE
+  )
 })
 
 # Constrain outputs to A matrices with lambda between 0.9 and 1.1
@@ -86,10 +86,10 @@ constrain_df <- data.frame(
     1.1
 )
 suppressWarnings({
-generate_mpm_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, as_compadre = FALSE
-)
+  generate_mpm_set(
+    n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+    archetype = 4, constraint = constrain_df, as_compadre = FALSE
+  )
 })
 
 # As above, but using popdemo::eigs function instead of popbio::lambda
@@ -100,10 +100,10 @@ constrain_df <- data.frame(
     1.1
 )
 suppressWarnings({
-generate_mpm_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, as_compadre = FALSE
-)
+  generate_mpm_set(
+    n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+    archetype = 4, constraint = constrain_df, as_compadre = FALSE
+  )
 })
 
 # Multiple constraints
@@ -117,10 +117,10 @@ constrain_df <- data.frame(
   upper = c(1.1, 5.0, 7.0)
 )
 suppressWarnings({
-generate_mpm_set(
-  n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
-  archetype = 4, constraint = constrain_df, as_compadre = FALSE
-)
+  generate_mpm_set(
+    n = 10, n_stages = 5, fecundity = c(0, 0, 4, 8, 10),
+    archetype = 4, constraint = constrain_df, as_compadre = FALSE
+  )
 })
 
 }

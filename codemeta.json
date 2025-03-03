@@ -192,7 +192,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1198.922KB",
+  "fileSize": "1199.199KB",
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
   "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md",
   "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main"],
