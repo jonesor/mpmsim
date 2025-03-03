@@ -61,12 +61,10 @@ plot_matrix <- function(mat, zero_na = FALSE, legend = FALSE,
   colnames(df) <- c("x", "y", "value")
 
   if (zero_na) {
-    df <- df |>
-      mutate(value = ifelse(value == 0, NA, value))
+    df <- mutate(df, value = ifelse(value == 0, NA, value))
   }
 
-  df <- df |>
-    mutate(y = rev(y))
+  df <- mutate(df, y = rev(y))
 
   p <- ggplot(df, aes(x = x, y = y, fill = value)) +
     geom_tile() +
