@@ -165,9 +165,7 @@ matrices. Population Ecology, 60(1), 37–47.
 \code{\link[=rand_lefko_mpm]{rand_lefko_mpm()}} which this function is essentially a wrapper for.
 
 Other Lefkovitch matrices: 
-\code{\link{generate_mpm_set}()},
-\code{\link{rand_lefko_mpm}()},
-\code{\link{random_mpm}()}
+\code{\link{rand_lefko_mpm}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}

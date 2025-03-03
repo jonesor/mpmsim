@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
 set.seed(42)
 ```
 
@@ -77,7 +78,7 @@ In a nutshell:
 
 These are illustrated below.
 
-```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8}
+```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8, dpi = 72}
 require(patchwork)
 A <- model_mortality(
   params = c(b_0 = 0.01, b_1 = 0.5),
@@ -165,7 +166,7 @@ In addition to these functional forms of mortality, there are, of course, functi
 * Normal : Reproductive output is modelled as normal distribution to describe how reproductive output increases, peaks, and then decreases in a bell curve around a mean age of reproductive capacity. $f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)$
 * Hadwiger: The outcomes of this model are qualitatively similar to the normal distribution. $f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}$
 
-```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8}
+```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8, dpi = 72}
 baseDF <- data.frame(x = 0:20)
 
 # Compute fecundity using the step model
@@ -270,7 +271,7 @@ The `model_fecundity` function is similar to the `model_mortality` function, as 
 
 Again, it can be useful to plot the relevant data to visualise it.
 
-```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8}
+```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8, dpi = 72}
 ggplot(lt1, aes(x = x, y = fecundity)) +
   geom_line() +
   ggtitle("Step fecundity, maturity at age 3")

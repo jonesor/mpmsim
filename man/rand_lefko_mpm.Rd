@@ -123,9 +123,7 @@ population models. Ecological Modelling, 406, 33–43.
 generation of large numbers of random matrices of this type.
 
 Other Lefkovitch matrices: 
-\code{\link{generate_mpm_set}()},
-\code{\link{rand_lefko_set}()},
-\code{\link{random_mpm}()}
+\code{\link{rand_lefko_set}()}
 }
 \author{
 Owen Jones \href{mailto:jones@biology.sdu.dk}{jones@biology.sdu.dk}
