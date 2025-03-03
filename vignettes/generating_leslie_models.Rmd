@@ -78,7 +78,7 @@ In a nutshell:
 
 These are illustrated below.
 
-```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8, dpi = 72}
+```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8, dpi = 72, fig.alt="Examples of mortality functions used in mpmsim's model_mortality function"}
 require(patchwork)
 A <- model_mortality(
   params = c(b_0 = 0.01, b_1 = 0.5),
@@ -166,7 +166,7 @@ In addition to these functional forms of mortality, there are, of course, functi
 * Normal : Reproductive output is modelled as normal distribution to describe how reproductive output increases, peaks, and then decreases in a bell curve around a mean age of reproductive capacity. $f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)$
 * Hadwiger: The outcomes of this model are qualitatively similar to the normal distribution. $f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}$
 
-```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8, dpi = 72}
+```{r echo = FALSE, message=FALSE, fig.height=4, fig.width =8, dpi = 72, fig.alt="Examples of mortality functions used in mpmsim's model_reproduction function"}
 baseDF <- data.frame(x = 0:20)
 
 # Compute fecundity using the step model
@@ -250,7 +250,7 @@ To obtain a trajectory of mortality, users can use the `model_mortality` functio
 
 It can be useful to explore the impact of parameters on the mortality hazard (`hx`) graphically, especially for users who are unfamiliar with the chosen models.
 
-```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8}
+```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8, fig.alt="An illustration of Gompertz mortality"}
 ggplot(lt1, aes(x = x, y = hx)) +
   geom_line() +
   ggtitle("Gompertz mortality (b_0 = 0.1, b_1 = 0.2)")
@@ -271,7 +271,7 @@ The `model_fecundity` function is similar to the `model_mortality` function, as 
 
 Again, it can be useful to plot the relevant data to visualise it.
 
-```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8, dpi = 72}
+```{r echo = TRUE, message=FALSE, fig.height=4, fig.width =8, dpi = 72, fig.alt="An illustration of step mortality"}
 ggplot(lt1, aes(x = x, y = fecundity)) +
   geom_line() +
   ggtitle("Step fecundity, maturity at age 3")

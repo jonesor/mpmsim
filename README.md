@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mpmsim <img src="man/figures/logo_mpmsim.png" align="right" height="100" style="float:right; height:100px;">
+# mpmsim <img src="man/figures/logo_mpmsim.png" alt="mpmsim package logo, featuring a stylized matrix population model diagram" align="right" height="100" style="float:right; height:100px;">
 
 <!-- badges: start -->
 <!--- BE CAREFUL WITH THE FORMATTING --->
@@ -524,7 +524,7 @@ p <- plot_matrix(rMPM$mat_U)
 p + ggplot2::scale_fill_gradient(low = "black", high = "yellow")
 ```
 
-<img src="man/figures/plot_a_matrix01.png" style="display: block; margin: auto;" />
+<img src="man/figures/plot_a_matrix01.png" alt="A visualised matrix model" style="display: block; margin: auto;" />
 
 ## References
 

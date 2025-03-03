@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 set.seed(42)
 ```
 
-# mpmsim  <img src="man/figures/logo_mpmsim.png" align="right" height="100" style="float:right; height:100px;">
+# mpmsim  <img src="man/figures/logo_mpmsim.png" alt="mpmsim package logo, featuring a stylized matrix population model diagram" align="right" height="100" style="float:right; height:100px;">
 
 
 <!-- badges: start -->
@@ -286,7 +286,7 @@ p + ggplot2::scale_fill_gradient(low = "black", high = "yellow")
 ggplot2::ggsave("man/figures/plot_a_matrix01.png", width = 300, height = 300, units = "px")
 ```
 
-```{r echo=FALSE, fig.align='center', fig.cap=''}
+```{r echo=FALSE, fig.align='center', fig.cap='', fig.alt="A visualised matrix model"}
 knitr::include_graphics("man/figures/plot_a_matrix01.png")
 ```
 

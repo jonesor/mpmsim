@@ -110,7 +110,7 @@ compute_ci(
 
 We can examine the sampling distribution of these $\lambda$ estimates by using the argument `dist.out = TRUE`.
 
-```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
+```{r, fig.height = 4, fig.width = 6, fig.align = "center", fig.alt="Histogram of lambda estimates with a sample size of 20"}
 distLambda_20 <- compute_ci(
   mat_U = matU, mat_F = matF,
   sample_size = 20, FUN = popdemo::eigs, what = "lambda",
@@ -156,7 +156,7 @@ compute_ci(
 
 Sample size is critical in determining the precision of statistical estimates. In demographic studies, small sample sizes can lead to high uncertainty in estimates of derived measures like $\lambda$, making it difficult to make strong inferences. Larger sample sizes reduce this uncertainty, as seen in the narrower confidence intervals around $\lambda$ when we increase the sample size from 20 (calculated above) to 100 (below). 
 
-```{r compareDist2, fig.height = 6, fig.width = 6, fig.align = "center"}
+```{r compareDist2, fig.height = 6, fig.width = 6, fig.align = "center", fig.alt="Histograms of lambda estimates with a sample size of 20 and 100"}
 distLambda_100 <- compute_ci(
   mat_U = matU, mat_F = matF,
   sample_size = 100, FUN = popdemo::eigs, what = "lambda",
@@ -175,7 +175,7 @@ The following code creates a plot to visualize how the precision of $\lambda$ es
 
 In this case, a sample size of approximately 70 appears sufficient. However, sample size likely has greater importance for the more elastic elements of the MPM. Therefore, focusing on these elements could help users better understand the specific sample size requirements for their system. This targeted approach would lead to a more nuanced study design, allowing for optimized sampling efforts in the areas where precision matters most.
 
-```{r poweranalysis, fig.height = 6, fig.width = 6, fig.align = "center", warning=FALSE}
+```{r poweranalysis, fig.height = 6, fig.width = 6, fig.align = "center", warning=FALSE, fig.alt="Effect of Sample Size on Lambda Estimate Precision"}
 # Define sample sizes to iterate over
 sample_sizes <- seq(10, 100, 10)
 

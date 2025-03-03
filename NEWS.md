@@ -1,6 +1,7 @@
 # mpmsim 3.2.0
 
 - minor bug fixes and documentation improvements.
+- removed deprecated functions `generate_mpm_set()` and `random_mpm()`
 
 # mpmsim 3.1.0
 

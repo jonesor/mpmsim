@@ -166,9 +166,7 @@ matrices. Population Ecology, 60(1), 37–47.</p>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="rand_lefko_mpm.html">rand_lefko_mpm()</a></code> which this function is essentially a wrapper for.</p>
 <p>Other Lefkovitch matrices:
-<code><a href="generate_mpm_set.html">generate_mpm_set</a>()</code>,
-<code><a href="rand_lefko_mpm.html">rand_lefko_mpm</a>()</code>,
-<code><a href="random_mpm.html">random_mpm</a>()</code></p></div>
+<code><a href="rand_lefko_mpm.html">rand_lefko_mpm</a>()</code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -303,6 +301,10 @@ matrices. Population Ecology, 60(1), 37–47.</p>
 <span class="r-in"><span><span class="co"># As above, but using popdemo::eigs function instead of popbio::lambda</span></span></span>
 <span class="r-in"><span><span class="co"># to illustrate use of argument</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Welcome to popdemo! This is version 1.3-0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Use ?popdemo for an intro, or browseVignettes('popdemo') for vignettes</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Citation for popdemo is here: doi.org/10.1111/j.2041-210X.2012.00222.x</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Development and legacy versions are here: github.com/iainmstott/popdemo</span>
 <span class="r-in"><span><span class="va">constrain_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  fun <span class="op">=</span> <span class="st">"eigs"</span>, arg <span class="op">=</span> <span class="st">"lambda"</span>, lower <span class="op">=</span> <span class="fl">0.9</span>, upper <span class="op">=</span> <span class="fl">1.1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
