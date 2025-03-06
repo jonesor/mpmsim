@@ -5,7 +5,7 @@
   "description": "Allows users to simulate matrix population models with particular characteristics based on aspects of life history such as mortality trajectories and fertility trajectories. Also allows the exploration of sampling error due to small sample size.",
   "name": "mpmsim: Simulation of Matrix Population Models with Defined Life History\n    Characteristics",
   "codeRepository": "https://github.com/jonesor/mpmsim",
-  "issueTracker": "https://github.com/jonesor/mpmsim/issues",
+  "issueTracker": "https://github.com/jonesor/mpmsim/issues/",
   "license": "https://spdx.org/licenses/CC-BY-SA-4.0",
   "version": "3.2.0",
   "programmingLanguage": {
@@ -13,7 +13,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.2 (2024-10-31)",
+  "runtimePlatform": "R version 4.4.3 (2025-02-28)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -186,10 +186,10 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1249.592KB",
-  "relatedLink": ["https://jonesor.github.io/mpmsim", "https://CRAN.R-project.org/package=mpmsim"],
+  "fileSize": "362.482KB",
+  "relatedLink": ["https://jonesor.github.io/mpmsim/", "https://CRAN.R-project.org/package=mpmsim"],
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
   "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md",
-  "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main"],
+  "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/jonesor/mpmsim"],
   "developmentStatus": "https://www.repostatus.org/#active"
 }
