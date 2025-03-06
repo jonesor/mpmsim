@@ -1,9 +1,7 @@
 ---
 title: "Generating Lefkovitch models"
 date: "`r Sys.Date()`"
-output: 
-  pdf_document: default
-  rmarkdown::html_vignette: default
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Generating Lefkovitch models}
   %\VignetteEncoding{UTF-8}

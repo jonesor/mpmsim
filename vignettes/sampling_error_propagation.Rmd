@@ -1,9 +1,7 @@
 ---
 title: "Sampling error and its propagation"
 date: "`r Sys.Date()`"
-output: 
-  pdf_document: default
-  rmarkdown::html_vignette: default
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Sampling error and its propagation}
   %\VignetteEncoding{UTF-8}

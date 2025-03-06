@@ -1,9 +1,7 @@
 ---
 title: "Generating Leslie models"
 date: "`r Sys.Date()`"
-output: 
-  pdf_document: default
-  rmarkdown::html_vignette: default
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Generating Leslie models}
   %\VignetteEncoding{UTF-8}

@@ -10,8 +10,8 @@ Description: Allows users to simulate matrix population models with
     mortality trajectories and fertility trajectories. Also allows the
     exploration of sampling error due to small sample size.
 License: CC BY-SA 4.0
-URL: https://jonesor.github.io/mpmsim
-BugReports: https://github.com/jonesor/mpmsim/issues
+URL: https://jonesor.github.io/mpmsim/
+BugReports: https://github.com/jonesor/mpmsim/issues/
 Imports: 
     dplyr,
     ggplot2,
