@@ -1,8 +1,3 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
-# Name (appears on badge, keep it short)
-name: R-CMD-check-devel
-
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
@@ -10,7 +5,7 @@ on:
     branches: [devel]
   pull_request:
 
-name: R-CMD-check.yaml
+name: R-CMD-check-devel.yaml
 
 permissions: read-all
 
