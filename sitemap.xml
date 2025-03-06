@@ -1,0 +1,27 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://jonesor.github.io/mpmsim/404.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/articles/generating_lefkovitch_models.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/articles/generating_leslie_models.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/articles/index.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/articles/sampling_error_propagation.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/authors.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/index.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/news/index.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/add_mpm_error.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/calculate_errors.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/compute_ci.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/compute_ci_U.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/driven_vital_rate.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/index.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/make_leslie_mpm.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/model_fecundity.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/model_survival.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/mpmsim-package.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/plot_matrix.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/rand_lefko_mpm.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/rand_lefko_set.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/rand_leslie_set.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/reorganise_matrices.html</loc></url>
+<url><loc>https://jonesor.github.io/mpmsim/reference/summarise_mpms.html</loc></url>
+</urlset>
+
