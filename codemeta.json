@@ -186,7 +186,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "362.482KB",
+  "fileSize": "362.192KB",
   "relatedLink": ["https://jonesor.github.io/mpmsim/", "https://CRAN.R-project.org/package=mpmsim"],
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
   "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md",

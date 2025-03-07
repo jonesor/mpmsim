@@ -14,9 +14,6 @@
 | ![](http://cranlogs.r-pkg.org/badges/mpmsim) |  |  |
 | [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/mpmsim)](https://cran.r-project.org/package=mpmsim) |  |  |
 
-[![R-CMD-check](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/jonesor/mpmsim/graph/badge.svg)](https://app.codecov.io/gh/jonesor/mpmsim)
 <!-- badges: end -->
 
 `mpmsim` contains tools for generating random or semi-random matrix
