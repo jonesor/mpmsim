@@ -11,8 +11,8 @@ Allows users to simulate matrix population models with particular characteristic
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/jonesor/mpmsim}
-  \item Report bugs at \url{https://github.com/jonesor/mpmsim/issues}
+  \item \url{https://jonesor.github.io/mpmsim/}
+  \item Report bugs at \url{https://github.com/jonesor/mpmsim/issues/}
 }
 
 }
