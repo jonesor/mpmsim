@@ -57,10 +57,10 @@
 #' the submatrices (i.e. A, U, F and C).
 #' * `Type2` or `cdb_A`: A `compadreDB` Object containing MPMs that are not
 #' split into submatrices (i.e. only the A matrix is included).
-#' * `Type3`: A `list_split1` of MPMs arranged so that each element of the list
+#' * `Type3` or `list_split1`: A list of MPMs arranged so that each element of the list
 #' contains a model and associated submatrices (i.e. the nth element contains
 #' the nth A matrix alongside the nth U and F matrices).
-#' * `Type4`: A `list_split2` of MPMs arranged so that the list contains 3 lists
+#' * `Type4` or `list_split2`: A list of MPMs arranged so that the list contains 3 lists
 #' for the A  matrix and the U and F submatrices respectively.
 #' * `Type5` or `list_A`: A `list` of MPMs, including only the A matrix.
 #' * `Type6` or `lifetable`: A `list` of life tables.
