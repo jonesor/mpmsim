@@ -5,7 +5,7 @@ articles:
   generating_lefkovitch_models: generating_lefkovitch_models.html
   generating_leslie_models: generating_leslie_models.html
   sampling_error_propagation: sampling_error_propagation.html
-last_built: 2025-05-20T08:25Z
+last_built: 2025-05-20T13:12Z
 urls:
   reference: https://jonesor.github.io/mpmsim/reference
   article: https://jonesor.github.io/mpmsim/articles
