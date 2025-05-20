@@ -81,10 +81,10 @@ and \code{normal}.}
 the submatrices (i.e. A, U, F and C).
 \item \code{Type2} or \code{cdb_A}: A \code{compadreDB} Object containing MPMs that are not
 split into submatrices (i.e. only the A matrix is included).
-\item \code{Type3}: A \code{list_split1} of MPMs arranged so that each element of the list
+\item \code{Type3} or \code{list_split1}: A list of MPMs arranged so that each element of the list
 contains a model and associated submatrices (i.e. the nth element contains
 the nth A matrix alongside the nth U and F matrices).
-\item \code{Type4}: A \code{list_split2} of MPMs arranged so that the list contains 3 lists
+\item \code{Type4} or \code{list_split2}: A list of MPMs arranged so that the list contains 3 lists
 for the A  matrix and the U and F submatrices respectively.
 \item \code{Type5} or \code{list_A}: A \code{list} of MPMs, including only the A matrix.
 \item \code{Type6} or \code{lifetable}: A \code{list} of life tables.
