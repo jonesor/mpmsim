@@ -126,7 +126,7 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem",
   }
 
   if (type != "sem" && type != "CI95") {
-    stop("type must be one of 'sem', 'sd', or 'CI95'.")
+    stop("type must be one of 'sem', or 'CI95'.")
   }
 
   # Sample size matrices
@@ -197,7 +197,7 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem",
     out <- list(
       "mat_U" = mat_U, ",mat_U_error" = mat_U_error,
       "mat_F" = mat_F, "mat_F_error" = mat_F_error,
-      "mat_A" = mat_F, "mat_A_error" = mat_A_error
+      "mat_A" = mat_A, "mat_A_error" = mat_A_error
     )
   }
 
