@@ -7,13 +7,13 @@
   "codeRepository": "https://github.com/jonesor/mpmsim",
   "issueTracker": "https://github.com/jonesor/mpmsim/issues/",
   "license": "https://spdx.org/licenses/CC-BY-SA-4.0",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.3 (2025-02-28)",
+  "runtimePlatform": "R version 4.5.0 (2025-04-11)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -186,10 +186,10 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "362.192KB",
+  "fileSize": "766.105KB",
   "relatedLink": ["https://jonesor.github.io/mpmsim/", "https://CRAN.R-project.org/package=mpmsim"],
   "releaseNotes": "https://github.com/jonesor/mpmsim/blob/master/NEWS.md",
   "readme": "https://github.com/jonesor/mpmsim/blob/main/README.md",
-  "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/jonesor/mpmsim"],
+  "contIntegration": ["https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check.yaml", "https://github.com/jonesor/mpmsim/actions/workflows/R-CMD-check-devel.yaml", "https://app.codecov.io/gh/jonesor/mpmsim?branch=main"],
   "developmentStatus": "https://www.repostatus.org/#active"
 }
