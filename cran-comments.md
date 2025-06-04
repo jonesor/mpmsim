@@ -1,13 +1,13 @@
 ## R CMD check results
 
-* This update improves vignettes and documentation.
+* This update is a patch. 
 
 ## Test environments
-- R-hub x86_64-pc-linux-gnu (r-devel)
-- R-hub x86_64-apple-darwin20 (r-devel)
-- R-hub aarch64-apple-darwin20 (r-devel)
-- R-hub x86_64-w64-mingw32 (r-devel)
+- R-hub linux: ubuntu-latest (r-devel)
+- R-hub macos: macos-13 (r-devel)
+- R-hub macos-arm64: macos-latest (r-devel)
+- R-hub windows: windows-latest (r-devel)
 
-── mpmsim 3.2.0, Install OK with no notes on all test environments
+── mpmsim 3.2.1, Install OK with no notes on all test environments
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
