@@ -1,4 +1,6 @@
-# mpmsim (development version)
+# mpmsim 3.2.1
+
+- minor bug fixes.
 
 # mpmsim 3.2.0
 
