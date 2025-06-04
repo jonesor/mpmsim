@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+<meta name="date" content="2025-06-04" />
+
+<title>Generating Lefkovitch models</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Generating Lefkovitch models</h1>
+<h4 class="date">2025-06-04</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Lefkovitch matrix population models (MPMs) were introduced by Leonard
+Lefkovitch in his 1965 paper, “<em>The Study of Population Growth in
+Organisms Grouped by Stages</em>”, published in <em>Biometrics</em>..
+This paper extended the concept of Leslie MPMs, which are structured by
+age, to stage-structured populations, providing a framework that has
+been widely used in ecology, evolution and conservation studies.</p>
+<p>In a Lefkovitch MPM, the square matrix is used to model population
+growth across discrete projection intervals, typically representing
+years. Each matrix element represents either a transition probability
+between different stages or the reproductive output of a stage across
+the projection interval. The MPM can be divided into submatrices: one
+for survival/growth (the <strong>U</strong> matrix), one for sexual
+reproduction (the <strong>F</strong> matrix) and one for asexual
+reproduction (the <strong>C</strong> matrix), where <strong>A</strong> =
+<strong>U</strong> + <strong>F</strong> + <strong>C</strong>.
+Occasionally, these reproduction matrices are lumped together as a
+reproduction matrix, <strong>R</strong> (i.e. <strong>R</strong> =
+<strong>F</strong> + <strong>C</strong>). Reproduction is often termed
+fecundity in the population biology literature.</p>
+<p>The elements of the <strong>U</strong> matrix represent survival or
+growth from stage-to-stage between time steps. Therefore the column sums
+of the <strong>U</strong> submatrix cannot exceed 1. The reproductive
+output elements in the <strong>F</strong> and <strong>C</strong> (or
+<strong>R</strong>) submatrices do not have an upper bound and indicate
+the number of new individuals each stage can produce in each time
+interval.</p>
+<p>Zero entries in the matrices indicate that those transitions do not
+occur.</p>
+<p>To project population size and structure over time, the MPM is
+multiplied by a vector representing the current population structure
+(number of individuals in each stage). This results in a new vector that
+shows the predicted population structure for the next time step. This
+process can be repeated to project population dynamics over multiple
+time steps.</p>
+<p>Lefkovitch models are useful for studying population dynamics under
+different scenarios, such as changes in survival or reproductive rates,
+or different management strategies. They have broad applications in both
+theoretical and applied ecology.</p>
+</div>
+<div id="aims" class="section level2">
+<h2>Aims</h2>
+<p>The purpose of this vignette is to illustrate how to simulate
+stage-based (Lefkovitch) MPMs based on defined life history archetypes.
+There are several reasons why one would want to do this, including, but
+not limited to:</p>
+<ul>
+<li>Exploring how life history or life cycle structure influences
+population dynamics.</li>
+<li>Generating MPMs with defined life cycle properties for teaching
+purposes.</li>
+</ul>
+<p>In the following sections, this vignette will:</p>
+<ol style="list-style-type: decimal">
+<li>Explain how life cycles can be categorised into Archetypes.</li>
+<li>Show how to generate a random Lefkovitch MPM based on an
+archetype.</li>
+<li>Show how to rapidly produce sets of many random MPMs.</li>
+<li>Show how to constrain the MPMs by matrix properties.</li>
+</ol>
+</div>
+<div id="preparation" class="section level2">
+<h2>Preparation</h2>
+<p>Before beginning, users will need to load the required packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(mpmsim)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(Rage)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(Rcompadre)</span></code></pre></div>
+</div>
+<div id="life-cycle-archetypes-and-generating-an-mpm" class="section level2">
+<h2>1. Life cycle archetypes and generating an MPM</h2>
+<p>In stage-based (Lefkovitch) matrix population models (MPMs),
+different life cycle types can be represented by various structural
+forms of the matrices. These life cycle types can be captured using
+different life history archetypes, which define the transitions between
+stages and the survival probabilities in the population.</p>
+<p>The life history archetypes, based on Takada et al. (2018), are as
+follows:</p>
+<ul>
+<li>Archetype 1: All elements are positive, meaning transitions from/to
+any stage are possible. This model represents a life history where
+individuals can progress and retrogress rapidly.</li>
+<li>Archetype 2: Similar to Archetype 1, but with the survival
+probability increasing monotonically as individuals advance to later
+stages. This model also allows for rapid progression and retrogression
+but with more realistic stage-specific survival probabilities.</li>
+<li>Archetype 3: Positive non-zero elements for survival are only
+allowed on the diagonal and lower sub-diagonal of the matrix. This model
+represents a life cycle where retrogression is not allowed, and
+progression can only happen to the immediately larger/more developed
+stage (slow progression, e.g., trees).</li>
+<li>Archetype 4: Similar to Archetype 3 but with the additional
+assumption that stage-specific survival increases as individuals
+increase in size/developmental stage.</li>
+</ul>
+<p>In all these archetypes, fecundity is placed in the top row of the
+matrix. In Takada et al.’s paper, fecundity was always placed in the top
+right of the MPM, meaning that only the “last” stage of the life cycle
+reproduced. This approach can be relaxed to allow reproduction from any
+stage.</p>
+</div>
+<div id="generate-a-random-lefkovitch-mpm-based-on-an-archetype" class="section level2">
+<h2>2. Generate a random Lefkovitch MPM based on an archetype</h2>
+<p>In <code>mpmsim</code> the function <code>rand_lefko_mpm</code> can
+be used to generate a random MPM that conforms to one of the above four
+life cycle archetypes. The function allows for the generation of random
+MPMs based on these archetypes, with survival and growth (the
+<strong>U</strong> matrix) based on draws from a Dirichlet distribution
+to ensure biological plausibility. The Dirichlet distribution is used to
+draw survival and growth values because it ensures that the sum of the
+probabilities for each stage is equal to 1, which is necessary for
+biologically realistic models. The function allows users to specify a
+wide range of reproductive output scenarios , offering flexibility in
+how fecundity is modelled across stages.</p>
+<p>The function is straightforward. In the following example, I create a
+three-stage MPM based on Archetype 2. I set fecundity, arbitrarily, to
+be 5. By default, if only a single value is given, this is placed in the
+top-right hand corner of the <strong>F</strong> matrix. Also, by
+default, all fecundity is assumed to be sexual.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">rand_lefko_mpm</span>(<span class="at">n_stages =</span> <span class="dv">3</span>, <span class="at">fecundity =</span> <span class="dv">5</span>, <span class="at">archetype =</span> <span class="dv">2</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; $mat_A</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;             [,1]       [,2]       [,3]</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; [1,] 0.005877166 0.10766181 5.72412770</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; [2,] 0.509913175 0.03602856 0.06736799</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; [3,] 0.287840153 0.74138349 0.19955576</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; $mat_U</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;             [,1]       [,2]       [,3]</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; [1,] 0.005877166 0.10766181 0.72412770</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; [2,] 0.509913175 0.03602856 0.06736799</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; [3,] 0.287840153 0.74138349 0.19955576</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; $mat_F</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; [1,]    0    0    5</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; [2,]    0    0    0</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; [3,]    0    0    0</span></span></code></pre></div>
+<p>To introduce variability in fecundity, users can provide reproductive
+output as a list of two matrices, with numeric values of the same
+dimensions as <code>n_stages</code>, representing the lower and upper
+limits of mean fecundity for the entire matrix model. Reproductive
+output values are then drawn from a uniform distribution between the two
+values. Users should use 0 for both lower and upper limits in cases with
+no fecundity.</p>
+<p>The following code provides an example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>lower_reprod <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>upper_reprod <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">20</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="fu">rand_lefko_mpm</span>(</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">n_stages =</span> <span class="dv">3</span>, <span class="at">fecundity =</span> <span class="fu">list</span>(lower_reprod, upper_reprod),</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="at">archetype =</span> <span class="dv">2</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; $mat_A</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;           [,1]      [,2]       [,3]</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0873477 2.6402006 15.2043937</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; [2,] 0.4082913 0.1851252  0.5516964</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; [3,] 0.3924441 0.1736190  0.1107596</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; $mat_U</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt;           [,1]      [,2]      [,3]</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0873477 0.5799473 0.3249008</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; [2,] 0.4082913 0.1851252 0.5516964</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; [3,] 0.3924441 0.1736190 0.1107596</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; $mat_F</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt;      [,1]     [,2]     [,3]</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; [1,]    0 2.060253 14.87949</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; [2,]    0 0.000000  0.00000</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; [3,]    0 0.000000  0.00000</span></span></code></pre></div>
+</div>
+<div id="generate-sets-of-lefkovitch-matrices" class="section level2">
+<h2>3. Generate sets of Lefkovitch matrices</h2>
+<p>It is sometimes desirable to create large numbers of MPMs with
+particular properties in order to test hypotheses. For stage-based
+(Lefkovitch) MPMs, this can be implemented using the
+<code>rand_lefko_set</code> function. This function acts as a wrapper
+for the previously described function and generates a set of Lefkovitch
+MPMs based on a defined life cycle archetype and specified reproductive
+output. For example, users may wish to generate MPMs for different life
+history archetypes to explore how life cycle structure may influence
+population dynamics. By specifying the number of stages, fecundity
+values, and archetypes, users can produce MPMs that are tailored to
+their specific research needs. This capability is useful for exploring
+the effects of life history traits on population dynamics, testing
+ecological and evolutionary hypotheses, and for teaching purposes.</p>
+<p>The function returns either a <code>list</code> or a
+<code>CompadreDB</code> object depending on the <code>output</code>
+argument. If the output is set as a <code>CompadreDB</code> object, the
+archetype of the MPM is included as a column of metadata.</p>
+<p>The following code shows how users can generate 100 matrices in a
+<code>CompadreDB</code> object.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>myMatrices <span class="ot">&lt;-</span> <span class="fu">rand_lefko_set</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">100</span>, <span class="at">n_stages =</span> <span class="dv">3</span>, <span class="at">fecundity =</span> <span class="dv">12</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">archetype =</span> <span class="dv">4</span>, <span class="at">output =</span> <span class="st">&quot;Type1&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>)</span></code></pre></div>
+<p>After producing the output as a <code>CompadreDB</code> object, the
+matrices can be accessed using functions from the <code>RCompadre</code>
+R package. For example, to get the <strong>A</strong> matrix, or the
+<strong>U</strong>/<strong>F</strong> submatrices users can use the
+<code>matA</code>, <code>matU</code> or <code>matF</code> functions. The
+following code illustrates how to rapidly calculate population growth
+rate for all of the matrices.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Obtain the matrices</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matA</span>(myMatrices)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># Calculate lambda for each matrix</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>lambdaVals <span class="ot">&lt;-</span> <span class="fu">sapply</span>(x, popdemo<span class="sc">::</span>eigs, <span class="at">what =</span> <span class="st">&quot;lambda&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">summary</span>(lambdaVals)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  0.7378  1.1395  1.4965  1.4653  1.7106  2.1926</span></span></code></pre></div>
+<p>Users can examine the vignettes for the <code>Rcompadre</code> and
+<code>Rage</code> packages for additional insight into other potential
+operations with the <code>compadreDB</code> object.</p>
+</div>
+<div id="constraining-the-output-matrices" class="section level2">
+<h2>4. Constraining the output matrices</h2>
+<p>Critically, users can impose constraints on the “acceptable”
+properties of these randomly generated MPMs. For example, in some
+analyses, it may be desirable to generate MPMs where the population
+growth rate is constrained to values near 1.</p>
+<p>This is handled by the <code>constraint</code> argument, which takes
+a data frame specifying the criteria for acceptable MPMs. The data frame
+must have four columns: <code>fun</code>, <code>arg</code>,
+<code>lower</code>, and <code>upper</code>. The <code>fun</code> column
+contains the name of the function that calculates the metric to be
+constrained (e.g., <code>eigs</code>, from the <code>popdemo</code>
+package). The <code>arg</code> column specifies any additional argument
+that the function requires (e.g., <code>what = &quot;lambda&quot;</code> for the
+<code>eigs</code> function), using <code>NA</code> if no additional
+argument is needed. The <code>lower</code> and <code>upper</code>
+columns set the bounds of the acceptable range for the metric.</p>
+<p>Here’s an example of how to use the constraint argument to ensure
+that the generated MPMs have a population growth rate (lambda) between
+0.9 and 1.1.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(popdemo)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>constrain_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">fun =</span> <span class="st">&quot;eigs&quot;</span>, <span class="at">arg =</span> <span class="st">&quot;lambda&quot;</span>, <span class="at">lower =</span> <span class="fl">0.9</span>, <span class="at">upper =</span> <span class="fl">1.1</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>myMatrices <span class="ot">&lt;-</span> <span class="fu">rand_lefko_set</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">100</span>, <span class="at">n_stages =</span> <span class="dv">3</span>, <span class="at">fecundity =</span> <span class="dv">12</span>, <span class="at">constraint =</span> constrain_df,</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="at">archetype =</span> <span class="dv">4</span>, <span class="at">output =</span> <span class="st">&quot;Type1&quot;</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>)</span></code></pre></div>
+<p>We can check that it has worked by examining the matrices.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Obtain the matrices</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matA</span>(myMatrices)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Calculate lambda for each matrix</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>lambdaVals <span class="ot">&lt;-</span> <span class="fu">sapply</span>(x, popdemo<span class="sc">::</span>eigs, <span class="at">what =</span> <span class="st">&quot;lambda&quot;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">summary</span>(lambdaVals)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;  0.9019  0.9612  1.0148  1.0115  1.0635  1.0984</span></span></code></pre></div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>This vignette has provided a comprehensive guide to generating
+Lefkovitch matrix population models (MPMs) based on life history
+archetypes. By using the <code>rand_lefko_mpm</code> and
+<code>rand_lefko_set</code> functions, users can create individual MPMs
+or large sets of MPMs tailored to specific research needs. The ability
+to impose constraints on these models allows for precise control over
+their properties, ensuring that generated MPMs meet defined criteria,
+such as specific population growth rates.</p>
+<p>The flexibility and power of these functions facilitate the
+exploration of population dynamics under various scenarios, aiding in
+hypothesis testing in studies of population biology and life history
+theory. Additionally, tight integration with the <code>RCompadre</code>
+package facilitates the use of generated models, enhancing their utility
+in both theoretical and applied ecological research.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
