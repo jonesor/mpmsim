@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2025-06-04" />
+<meta name="date" content="2025-07-01" />
 
 <title>Generating Leslie models</title>
 
@@ -338,7 +338,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <h1 class="title toc-ignore">Generating Leslie models</h1>
-<h4 class="date">2025-06-04</h4>
+<h4 class="date">2025-07-01</h4>
 
 
 
@@ -461,16 +461,13 @@ simply <em>reproduction/reproductive output</em>.</p>
 <ul>
 <li>Step: Reproductive output is initially zero, then jumps to a
 particular level at a specified age, after which it remains constant.
-<span class="math inline">\(f_x= \begin{cases} A, x \geq m \\ A, x
+<span class="math inline">\(f_x= \begin{cases} A, x \geq m \\ 0, x
 &lt;  m \end{cases}\)</span></li>
 <li>Logistic: Reproductive output initially increases rapidly with age
 then slows to plateau as it approaches a maximum value. <span class="math inline">\(f_x = A / (1 + exp(-k  (x - x_m)))\)</span></li>
 <li>von Bertalanffy: This model is often used in growth dynamics but has
-been adapted for reproduction to describe changes over age or time
-following a logistic growth form not limited by a strict upper
-asymptote. It shows how reproductive output might increase and then
-decrease, following a sigmoid curve. <span class="math inline">\(f_x =
-A  (1 - exp(-k  (x - x_0)))\)</span></li>
+been adapted here to represent an archetype where reproductive output
+increases asymptotically towards a maximum value with age. <span class="math inline">\(f_x = A  (1 - exp(-k  (x - x_0)))\)</span></li>
 <li>Normal : Reproductive output is modelled as normal distribution to
 describe how reproductive output increases, peaks, and then decreases in
 a bell curve around a mean age of reproductive capacity. <span class="math inline">\(f_x = A \times
