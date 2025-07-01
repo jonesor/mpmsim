@@ -200,17 +200,15 @@ simply <em>reproduction/reproductive output</em>.</p>
 <ul>
 <li>Step: Reproductive output is initially zero, then jumps to a
 particular level at a specified age, after which it remains constant.
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mi>A</mi><mo>,</mo><mi>x</mi><mo>≥</mo><mi>m</mi></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>A</mi><mo>,</mo><mi>x</mi><mo>&lt;</mo><mi>m</mi></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">f_x= \begin{cases} A, x \geq m \\ A, x &lt;  m \end{cases}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mi>A</mi><mo>,</mo><mi>x</mi><mo>≥</mo><mi>m</mi></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mn>0</mn><mo>,</mo><mi>x</mi><mo>&lt;</mo><mi>m</mi></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">f_x= \begin{cases} A, x \geq m \\ 0, x &lt;  m \end{cases}</annotation></semantics></math>
 </li>
 <li>Logistic: Reproductive output initially increases rapidly with age
 then slows to plateau as it approaches a maximum value.
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mi>A</mi><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>−</mo><msub><mi>x</mi><mi>m</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f_x = A / (1 + exp(-k  (x - x_m)))</annotation></semantics></math>
 </li>
 <li>von Bertalanffy: This model is often used in growth dynamics but has
-been adapted for reproduction to describe changes over age or time
-following a logistic growth form not limited by a strict upper
-asymptote. It shows how reproductive output might increase and then
-decrease, following a sigmoid curve.
+been adapted here to represent an archetype where reproductive output
+increases asymptotically towards a maximum value with age.
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>x</mi></msub><mo>=</mo><mi>A</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>−</mo><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f_x = A  (1 - exp(-k  (x - x_0)))</annotation></semantics></math>
 </li>
 <li>Normal : Reproductive output is modelled as normal distribution to
