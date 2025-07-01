@@ -53,7 +53,7 @@ the order mentioned here.
 \itemize{
 \item Logistic: \eqn{f_x = A / (1 + exp(-k  (x - x_m)))}
 \item Step: \eqn{f_x=
-  \begin{cases} A, x \geq m \\ A, x <  m \end{cases}}
+  \begin{cases} A, x \geq m \\ 0, x <  m \end{cases}}
 \item von Bertalanffy: \eqn{f_x = A  (1 - exp(-k  (x - x_0)))}
 \item Normal: \eqn{f_x = A \times \exp\left(
   -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)}
