@@ -1,0 +1,235 @@
+# Generate random Lefkovitch matrix population models (MPMs) based on life history archetypes
+
+Generates a random matrix population model (MPM) with element values
+based on defined life history archetypes. Survival and transition/growth
+probabilities from any particular stage are restricted to be less than
+or equal to 1 by drawing from a Dirichlet distribution. The user can
+specify archetypes (from Takada et al. 2018) to restrict the MPMs in
+other ways:
+
+- Archetype 1: all elements are positive, although they may be very
+  small. Therefore, transition from/to any stage is possible. This model
+  describes a life history where individuals can progress and retrogress
+  rapidly.
+
+- Archetype 2: has the same form as archetype 1 (transition from/to any
+  stage is possible), but the survival probability (column sums of the
+  survival matrix) increases monotonously as the individuals advance to
+  later stages. This model, as the one in the first archetype, also
+  allows for rapid progression and retrogression, but is more realistic
+  in that stage-specific survival probability increases with stage
+  advancement.
+
+- Archetype 3: positive non-zero elements for survival are only allowed
+  on the diagonal and lower sub-diagonal of the matrix This model
+  represents the life cycle of a species where retrogression is not
+  allowed, and progression can only happen to the immediately
+  larger/more developed stage (slow progression, e.g., trees).
+
+- Archetype 4: This archetype has the same general form as archetype 3,
+  but with the further assumption that stage-specific survival increases
+  as individuals increase in size/developmental stage. In this respect
+  it is similar to archetype 2.
+
+## Usage
+
+``` r
+rand_lefko_mpm(n_stages, fecundity, archetype = 1, split = TRUE)
+```
+
+## Arguments
+
+- n_stages:
+
+  An integer defining the number of stages for the MPM.
+
+- fecundity:
+
+  A measure of reproductive output. The average number of offspring
+  produced per projection interval from each stage. Values can be
+  provided in 4 ways:
+
+  - An numeric vector of length 1 to provide a single fecundity measure
+    to the top right corner of the matrix model only.
+
+  - A numeric vector of integers of length equal to `n_stages` to
+    provide fecundity estimates for the whole top row of the matrix
+    model. Use 0 for cases with no fecundity.
+
+  - A matrix of numeric values of the same dimension as `n_stages` to
+    provide fecundity estimates for the entire matrix model. Use 0 for
+    cases with no fecundity.
+
+  - A list of two matrices of numeric values, both with the same
+    dimension as `n_stages`, to provide lower and upper limits of mean
+    fecundity for the entire matrix model. Use 0 for both lower and
+    upper limits in cases with no fecundity.
+
+  In the latter case, a fecundity value will be drawn from a uniform
+  distribution for the defined range. If there is no fecundity in a
+  particular age class, use a value of 0 for both the lower and upper
+  limit.
+
+- archetype:
+
+  Indication of which life history archetype should be used, based on
+  Takada et al. 2018. An integer between 1 and 4.
+
+- split:
+
+  `TRUE`/`FALSE`, indicating whether the matrix produced should be split
+  into a survival matrix and a reproductive output matrix. If true, then
+  the output becomes a list with a matrix in each element. Otherwise,
+  the output is a single matrix. Default is `TRUE`.
+
+## Value
+
+Returns a random matrix population model with characteristics determined
+by the archetype selected and fecundity vector. If split = TRUE, the
+matrix is split into separate reproductive output and growth/survival
+matrices, returned as a list.
+
+## Details
+
+In all 4 of these Archetypes, reproductive output is placed as a single
+element on the top right of the matrix, if it is a single value. If it
+is a vector of length `n_stages` then the fecundity vector spans the
+entire top row of the matrix.
+
+The function is constrained to only output ergodic matrices.
+
+Note that the simulations assume a post-breeding census, thus avoiding
+the often overlooked issue of unaccounted survival to reproduction
+highlighted by Kendall et al. (2019). Furthermore, the simulations
+assume no covariance among matrix elements (e.g. between reproduction
+and survival), and therefore do not allow the users to capture trade
+offs directly. This capability is roadmapped for a future package
+release.
+
+## References
+
+Caswell, H. (2001). Matrix Population Models: Construction, Analysis,
+and Interpretation. Sinauer.
+
+Lefkovitch, L. P. (1965). The study of population growth in organisms
+grouped by stages. Biometrics, 21(1), 1.
+
+Takada, T., Kawai, Y., & Salguero-Gómez, R. (2018). A cautionary note on
+elasticity analyses in a ternary plot using randomly generated
+population matrices. Population Ecology, 60(1), 37–47.
+
+Kendall, B. E., Fujiwara, M., Diaz-Lopez, J., Schneider, S., Voigt, J.,
+& Wiesner, S. (2019). Persistent problems in the construction of matrix
+population models. Ecological Modelling, 406, 33–43.
+
+## See also
+
+[`rand_lefko_set()`](https://jonesor.github.io/mpmsim/reference/rand_lefko_set.md)
+which is a wrapper for this function allowing the generation of large
+numbers of random matrices of this type.
+
+Other Lefkovitch matrices:
+[`rand_lefko_set()`](https://jonesor.github.io/mpmsim/reference/rand_lefko_set.md)
+
+## Author
+
+Owen Jones <jones@biology.sdu.dk>
+
+## Examples
+
+``` r
+set.seed(42) # set seed for repeatability
+
+rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = FALSE)
+#>            [,1]       [,2]
+#> [1,] 0.73066610 20.0402850
+#> [2,] 0.06797628  0.7190785
+rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 2, split = TRUE)
+#> $mat_A
+#>           [,1]        [,2]
+#> [1,] 0.5129277 20.78121699
+#> [2,] 0.2895418  0.04959239
+#> 
+#> $mat_U
+#>           [,1]       [,2]
+#> [1,] 0.5129277 0.78121699
+#> [2,] 0.2895418 0.04959239
+#> 
+#> $mat_F
+#>      [,1] [,2]
+#> [1,]    0   20
+#> [2,]    0    0
+#> 
+rand_lefko_mpm(n_stages = 3, fecundity = 20, archetype = 3, split = FALSE)
+#>            [,1]      [,2]       [,3]
+#> [1,] 0.26019259 0.0000000 20.0000000
+#> [2,] 0.09187956 0.8172080  0.0000000
+#> [3,] 0.00000000 0.1640643  0.1762325
+rand_lefko_mpm(n_stages = 4, fecundity = 20, archetype = 4, split = TRUE)
+#> $mat_A
+#>            [,1]       [,2]      [,3]       [,4]
+#> [1,] 0.24002446 0.00000000 0.0000000 20.0000000
+#> [2,] 0.03254107 0.05480185 0.0000000  0.0000000
+#> [3,] 0.00000000 0.62726117 0.7851646  0.0000000
+#> [4,] 0.00000000 0.00000000 0.0786406  0.9661587
+#> 
+#> $mat_U
+#>            [,1]       [,2]      [,3]      [,4]
+#> [1,] 0.24002446 0.00000000 0.0000000 0.0000000
+#> [2,] 0.03254107 0.05480185 0.0000000 0.0000000
+#> [3,] 0.00000000 0.62726117 0.7851646 0.0000000
+#> [4,] 0.00000000 0.00000000 0.0786406 0.9661587
+#> 
+#> $mat_F
+#>      [,1] [,2] [,3] [,4]
+#> [1,]    0    0    0   20
+#> [2,]    0    0    0    0
+#> [3,]    0    0    0    0
+#> [4,]    0    0    0    0
+#> 
+rand_lefko_mpm(
+  n_stages = 5, fecundity = c(0, 0, 4, 8, 10), archetype = 4,
+  split = TRUE
+)
+#> $mat_A
+#>             [,1]      [,2]      [,3]      [,4]       [,5]
+#> [1,] 0.008672344 0.0000000 4.0000000 8.0000000 10.0000000
+#> [2,] 0.027810843 0.2560970 0.0000000 0.0000000  0.0000000
+#> [3,] 0.000000000 0.5284182 0.1992335 0.0000000  0.0000000
+#> [4,] 0.000000000 0.0000000 0.6157474 0.3219698  0.0000000
+#> [5,] 0.000000000 0.0000000 0.0000000 0.6398980  0.9915655
+#> 
+#> $mat_U
+#>             [,1]      [,2]      [,3]      [,4]      [,5]
+#> [1,] 0.008672344 0.0000000 0.0000000 0.0000000 0.0000000
+#> [2,] 0.027810843 0.2560970 0.0000000 0.0000000 0.0000000
+#> [3,] 0.000000000 0.5284182 0.1992335 0.0000000 0.0000000
+#> [4,] 0.000000000 0.0000000 0.6157474 0.3219698 0.0000000
+#> [5,] 0.000000000 0.0000000 0.0000000 0.6398980 0.9915655
+#> 
+#> $mat_F
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    0    0    4    8   10
+#> [2,]    0    0    0    0    0
+#> [3,]    0    0    0    0    0
+#> [4,]    0    0    0    0    0
+#> [5,]    0    0    0    0    0
+#> 
+# Using a range of values for fecundity
+rand_lefko_mpm(n_stages = 2, fecundity = 20, archetype = 1, split = TRUE)
+#> $mat_A
+#>           [,1]        [,2]
+#> [1,] 0.2558635 20.54431954
+#> [2,] 0.0543606  0.07233605
+#> 
+#> $mat_U
+#>           [,1]       [,2]
+#> [1,] 0.2558635 0.54431954
+#> [2,] 0.0543606 0.07233605
+#> 
+#> $mat_F
+#>      [,1] [,2]
+#> [1,]    0   20
+#> [2,]    0    0
+#> 
+```
