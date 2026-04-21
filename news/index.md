@@ -2,6 +2,26 @@
 
 ## mpmsim (development version)
 
+- Fixed typo in
+  [`calculate_errors()`](https://jonesor.github.io/mpmsim/reference/calculate_errors.md):
+  the `mat_U_error` element in the returned list was incorrectly named
+  `,mat_U_error` when `type = "sem"`, causing `NULL` to be returned on
+  access.
+- Fixed broken vectorisation in
+  [`driven_vital_rate()`](https://jonesor.github.io/mpmsim/reference/driven_vital_rate.md):
+  conditions `length(slope > 1)` and `length(error_sd > 1)` were always
+  evaluating to `TRUE` regardless of input, preventing correct handling
+  of matrix inputs.
+- Fixed wrong parameter row indices in
+  [`rand_leslie_set()`](https://jonesor.github.io/mpmsim/reference/rand_leslie_set.md)
+  for the Siler mortality model (`b_0` and `b_1` were drawn from the
+  same ranges as `a_0` and `a_1`) and for multi-parameter fecundity
+  models (`logistic`, `vonBertalanffy`, `normal`, `hadwiger`), where all
+  parameters were incorrectly drawn from the first row of
+  `fecundity_params`.
+- Removed orphaned expression in internal function
+  `add_mpm_error_indiv()` that had no effect.
+
 ## mpmsim 3.2.1
 
 CRAN release: 2025-06-05
