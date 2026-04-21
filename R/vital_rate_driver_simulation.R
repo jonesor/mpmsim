@@ -239,13 +239,13 @@ driven_vital_rate <- function(driver, # vector (can be a single element)
   # Vectorise all matrices as necessary
   baseline_value_vect <- as.vector(baseline_value)
 
-  if (length(slope > 1)) {
+  if (length(slope) > 1) {
     slope_vect <- as.vector(slope)
   } else {
     slope_vect <- rep(slope, length(baseline_value_vect))
   }
 
-  if (length(error_sd > 1)) {
+  if (length(error_sd) > 1) {
     error_sd_vect <- as.vector(error_sd)
   } else {
     error_sd_vect <- rep(error_sd, length(baseline_value_vect))

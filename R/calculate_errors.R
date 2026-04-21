@@ -198,7 +198,7 @@ calculate_errors <- function(mat_U, mat_F, sample_size, type = "sem",
     mat_A_error <- sqrt(mat_U_error^2 + mat_F_error^2)
 
     out <- list(
-      "mat_U" = mat_U, ",mat_U_error" = mat_U_error,
+      "mat_U" = mat_U, "mat_U_error" = mat_U_error,
       "mat_F" = mat_F, "mat_F_error" = mat_F_error,
       "mat_A" = mat_A, "mat_A_error" = mat_A_error
     )

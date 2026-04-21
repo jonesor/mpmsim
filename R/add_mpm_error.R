@@ -239,8 +239,6 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
   if (any(over_one)) {
     mat_U_out[, over_one] <- mat_U_out[, over_one] / col_sums[over_one]
   }
-  mat_U_out
-
 
   if (split) {
     return(list(

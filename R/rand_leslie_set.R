@@ -335,12 +335,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             max = mortality_params[3, 2]
           ),
           b_0 = runif(1,
-            min = mortality_params[1, 1],
-            max = mortality_params[1, 2]
+            min = mortality_params[4, 1],
+            max = mortality_params[4, 2]
           ),
           b_1 = runif(1,
-            min = mortality_params[2, 1],
-            max = mortality_params[2, 2]
+            min = mortality_params[5, 1],
+            max = mortality_params[5, 2]
           )
         )
       }
@@ -359,12 +359,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             sd = mortality_params[3, 2]
           ),
           b_0 = rnorm(1,
-            mean = mortality_params[1, 1],
-            sd = mortality_params[1, 2]
+            mean = mortality_params[4, 1],
+            sd = mortality_params[4, 2]
           ),
           b_1 = rnorm(1,
-            mean = mortality_params[2, 1],
-            sd = mortality_params[2, 2]
+            mean = mortality_params[5, 1],
+            sd = mortality_params[5, 2]
           )
         )
       }
@@ -394,12 +394,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             max = fecundity_params[1, 2]
           ),
           k = runif(1,
-            min = fecundity_params[1, 1],
-            max = fecundity_params[1, 2]
+            min = fecundity_params[2, 1],
+            max = fecundity_params[2, 2]
           ),
           x_m = runif(1,
-            min = fecundity_params[1, 1],
-            max = fecundity_params[1, 2]
+            min = fecundity_params[3, 1],
+            max = fecundity_params[3, 2]
           )
         )
 
@@ -415,12 +415,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             sd = fecundity_params[1, 2]
           ),
           k = rnorm(1,
-            mean = fecundity_params[1, 1],
-            sd = fecundity_params[1, 2]
+            mean = fecundity_params[2, 1],
+            sd = fecundity_params[2, 2]
           ),
           x_m = rnorm(1,
-            mean = fecundity_params[1, 1],
-            sd = fecundity_params[1, 2]
+            mean = fecundity_params[3, 1],
+            sd = fecundity_params[3, 2]
           )
         )
 
@@ -463,8 +463,8 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             max = fecundity_params[1, 2]
           ),
           k = runif(1,
-            min = fecundity_params[1, 1],
-            max = fecundity_params[1, 2]
+            min = fecundity_params[2, 1],
+            max = fecundity_params[2, 2]
           )
         )
 
@@ -480,8 +480,8 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             sd = fecundity_params[1, 2]
           ),
           k = rnorm(1,
-            mean = fecundity_params[1, 1],
-            sd = fecundity_params[1, 2]
+            mean = fecundity_params[2, 1],
+            sd = fecundity_params[2, 2]
           )
         )
 
@@ -500,12 +500,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             max = fecundity_params[1, 2]
           ),
           mu = runif(1,
-            min = fecundity_params[1, 1],
-            max = fecundity_params[1, 2]
+            min = fecundity_params[2, 1],
+            max = fecundity_params[2, 2]
           ),
           sd = runif(1,
-            min = fecundity_params[1, 1],
-            max = fecundity_params[1, 2]
+            min = fecundity_params[3, 1],
+            max = fecundity_params[3, 2]
           )
         )
 
@@ -521,12 +521,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             sd = fecundity_params[1, 2]
           ),
           mu = rnorm(1,
-            mean = fecundity_params[1, 1],
-            sd = fecundity_params[1, 2]
+            mean = fecundity_params[2, 1],
+            sd = fecundity_params[2, 2]
           ),
           sd = rnorm(1,
-            mean = fecundity_params[1, 1],
-            sd = fecundity_params[1, 2]
+            mean = fecundity_params[3, 1],
+            sd = fecundity_params[3, 2]
           )
         )
 
@@ -545,12 +545,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             max = fecundity_params[1, 2]
           ),
           b = runif(1,
-            min = fecundity_params[1, 1],
-            max = fecundity_params[1, 2]
+            min = fecundity_params[2, 1],
+            max = fecundity_params[2, 2]
           ),
           C = runif(1,
-            min = fecundity_params[1, 1],
-            max = fecundity_params[1, 2]
+            min = fecundity_params[3, 1],
+            max = fecundity_params[3, 2]
           )
         )
 
@@ -566,12 +566,12 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
             sd = fecundity_params[1, 2]
           ),
           b = rnorm(1,
-            mean = fecundity_params[1, 1],
-            sd = fecundity_params[1, 2]
+            mean = fecundity_params[2, 1],
+            sd = fecundity_params[2, 2]
           ),
           C = rnorm(1,
-            mean = fecundity_params[1, 1],
-            sd = fecundity_params[1, 2]
+            mean = fecundity_params[3, 1],
+            sd = fecundity_params[3, 2]
           )
         )
 
