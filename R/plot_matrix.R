@@ -56,7 +56,6 @@ plot_matrix <- function(mat, zero_na = FALSE, legend = FALSE,
   }
 
 
-
   df <- melt(t(mat))
   colnames(df) <- c("x", "y", "value")
 

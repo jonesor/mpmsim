@@ -318,7 +318,6 @@ test_that("function works correctly for all fecundity_model types,
 })
 
 
-
 test_that("fecundity_model validation works", {
   expect_error(rand_leslie_set(
     n_models = 5, mortality_model = "Gompertz", fecundity_model = "invalid",

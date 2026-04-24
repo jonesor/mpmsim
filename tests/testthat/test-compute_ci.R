@@ -135,7 +135,6 @@ test_that("Check errors are produced when matrices are incorrectly specified", {
   )
 
 
-
   expect_error(
     compute_ci(
       mat_U = matrix(0.2, nrow = 3, ncol = 2), mat_F = matF,

@@ -252,7 +252,6 @@ add_mpm_error_indiv <- function(mat_U, mat_F, sample_size, split = TRUE) {
 }
 
 
-
 #' Add sampling error to matrix population models (MPMs) based on expected
 #' values of transition rates and sample sizes
 #'

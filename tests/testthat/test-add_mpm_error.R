@@ -27,7 +27,6 @@ test_that("Checkadd_mpm_error functions correctly", {
 })
 
 
-
 mats <- make_leslie_mpm(
   survival = c(0.1, 0.2, 0.5),
   fecundity = c(0, 1.2, 2.4),
@@ -222,7 +221,6 @@ test_that("Check that error is produced when mat_U has negative elements", {
     )
   )
 })
-
 
 
 mat_F2 <- mats$mat_F

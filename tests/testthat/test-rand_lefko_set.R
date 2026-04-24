@@ -71,7 +71,6 @@ test_that("Error is produced if n is not a positive integer", {
 })
 
 
-
 test_that("Output with Type3 is a list", {
   expect_type(
     rand_lefko_set(
@@ -107,7 +106,6 @@ test_that("Check output of Type5 is a list of matrices (part 1)", {
   )
   expect_true(inherits(x, "list"))
 })
-
 
 
 test_that("Check output of Type5 is a list of matrices when there is a

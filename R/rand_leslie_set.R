@@ -583,7 +583,6 @@ rand_leslie_set <- function(n_models = 5, mortality_model = "gompertz",
     }
 
 
-
     # Add fecundity to life table
     lifeTables[[i]] <- mutate(
       lifeTables[[i]],
