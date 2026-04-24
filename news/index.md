@@ -1,6 +1,6 @@
 # Changelog
 
-## mpmsim (development version)
+## mpmsim 3.3.0
 
 - Fixed typo in
   [`calculate_errors()`](https://jonesor.github.io/mpmsim/reference/calculate_errors.md):

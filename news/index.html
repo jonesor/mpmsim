@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mpmsim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.2.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="mpmsim-development-version">mpmsim (development version)<a class="anchor" aria-label="anchor" href="#mpmsim-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="3.3.0" id="mpmsim-330">mpmsim 3.3.0<a class="anchor" aria-label="anchor" href="#mpmsim-330"></a></h2>
 <ul><li>Fixed typo in <code><a href="../reference/calculate_errors.html">calculate_errors()</a></code>: the <code>mat_U_error</code> element in the returned list was incorrectly named <code>,mat_U_error</code> when <code>type = "sem"</code>, causing <code>NULL</code> to be returned on access.</li>
 <li>Fixed broken vectorisation in <code><a href="../reference/driven_vital_rate.html">driven_vital_rate()</a></code>: conditions <code>length(slope &gt; 1)</code> and <code>length(error_sd &gt; 1)</code> were always evaluating to <code>TRUE</code> regardless of input, preventing correct handling of matrix inputs.</li>
 <li>Fixed wrong parameter row indices in <code><a href="../reference/rand_leslie_set.html">rand_leslie_set()</a></code> for the Siler mortality model (<code>b_0</code> and <code>b_1</code> were drawn from the same ranges as <code>a_0</code> and <code>a_1</code>) and for multi-parameter fecundity models (<code>logistic</code>, <code>vonBertalanffy</code>, <code>normal</code>, <code>hadwiger</code>), where all parameters were incorrectly drawn from the first row of <code>fecundity_params</code>.</li>
