@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^CONDUCT\.md$
 ^README-.*\.png$
+^README\.html$
 ^cran-comments\.md$
 README.Rmd
 ^_pkgdown\.yml$
@@ -17,3 +18,5 @@ README_files
 ^doc$
 ^Meta$
 ^dev$
+^\.positai$
+^\.claude$
