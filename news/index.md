@@ -2,6 +2,8 @@
 
 ## mpmsim 3.3.0
 
+CRAN release: 2026-04-24
+
 - Fixed typo in
   [`calculate_errors()`](https://jonesor.github.io/mpmsim/reference/calculate_errors.md):
   the `mat_U_error` element in the returned list was incorrectly named
