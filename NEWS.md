@@ -1,4 +1,4 @@
-# mpmsim (development version)
+# mpmsim 3.3.0
 
 - Fixed typo in `calculate_errors()`: the `mat_U_error` element in the returned list was incorrectly named `,mat_U_error` when `type = "sem"`, causing `NULL` to be returned on access.
 - Fixed broken vectorisation in `driven_vital_rate()`: conditions `length(slope > 1)` and `length(error_sd > 1)` were always evaluating to `TRUE` regardless of input, preventing correct handling of matrix inputs.
