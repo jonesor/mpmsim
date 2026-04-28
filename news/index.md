@@ -78,7 +78,7 @@ CRAN release: 2024-07-01
   which calculates confidence intervals for traits derived from matrix
   models where only the U submatrix is used. For example, life
   expectancy (using the function
-  [`Rage::life_expect_mean()`](https://rdrr.io/pkg/Rage/man/life_expect.html)).
+  [`Rage::life_expect_mean()`](https://jonesor.github.io/Rage/reference/life_expect.html)).
 - Added a vignette for generating Leslie matrices.
 - Added a vignette for generating Lefkovitch matrices.
 
