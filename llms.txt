@@ -13,6 +13,7 @@ You can install the latest stable version of `mpmsim` from CRAN like
 this:
 
 ``` r
+
 install.packages("mpmsim")
 ```
 
@@ -22,6 +23,7 @@ The package is being developed (here) on GitHub. You can install the
 latest development version of `mpmsim` like this:
 
 ``` r
+
 # install package 'remotes' if necessary
 # will already be installed if 'devtools' is installed
 install.packages("remotes")
@@ -35,6 +37,7 @@ functionality, available on different GitHub “branches”. To install from
 one of these branches, use the following syntax:
 
 ``` r
+
 # install from the 'dev' branch
 remotes::install_github("jonesor/mpmsim", ref = "dev")
 ```
@@ -44,6 +47,7 @@ remotes::install_github("jonesor/mpmsim", ref = "dev")
 First, load the package.
 
 ``` r
+
 library(mpmsim)
 ```
 
@@ -63,6 +67,7 @@ are single values, the value is repeated along the survival/fecundity
 sequence.
 
 ``` r
+
 make_leslie_mpm(
   survival = seq(0.1, 0.45, length.out = 4),
   fecundity = c(0, 0, 2.4, 5), n_stages = 4, split = FALSE
@@ -92,6 +97,7 @@ cohort would remain alive).
 For example to produce a life table based on Gompertz mortality:
 
 ``` r
+
 (surv_prob <- model_mortality(params = c(0.2, 0.4), model = "Gompertz"))
 #>   x        hx         lx        qx        px
 #> 1 0 0.2000000 1.00000000 0.2205623 0.7794377
@@ -109,6 +115,7 @@ including, logistic, step, von Bertalanffy, Normal and Hadwiger.
 Here a simple step function is assumed.
 
 ``` r
+
 survival <- surv_prob$px
 fecundity <- model_fecundity(
   age = 0:(length(survival) - 1),
@@ -120,6 +127,7 @@ Subsequently, these survival and fecundity values can be applied to the
 Leslie matrix as follows.
 
 ``` r
+
 make_leslie_mpm(
   survival = survival, fecundity = fecundity,
   n_stages = length(survival), split = FALSE
@@ -156,6 +164,7 @@ First, we define the limits of a uniform distributions for the Gompertz
 mortality and step fecundity functions.
 
 ``` r
+
 mortParams <- data.frame(
   minVal = c(0.05, 0.08, 0.7),
   maxVal = c(0.14, 0.15, 0.7)
@@ -168,6 +177,7 @@ We also set maturity to be drawn from a distribution ranging from 0 to
 3.
 
 ``` r
+
 maturityParams <- c(0, 3)
 ```
 
@@ -176,6 +186,7 @@ of the main A matrix model, but outputs can also be split into
 submatrices (e.g. the U and F matrices), or as a `CompadreDB` object.
 
 ``` r
+
 outputMPMs <- rand_leslie_set(
   n_models = 5, mortality_model = "GompertzMakeham", fecundity_model = "step",
   mortality_params = mortParams,
@@ -257,6 +268,7 @@ In the following example, I split the output matrices into the `U` and
 model.
 
 ``` r
+
 (rMPM <- rand_lefko_mpm(
   n_stages = 3, fecundity = 20,
   archetype = 2, split = TRUE
@@ -293,6 +305,7 @@ We set the argument `output = "Type5"` to ensure that the function
 returns a `list` object.
 
 ``` r
+
 library(popbio)
 constrain_df <- data.frame(fun = "lambda", arg = NA, lower = 0.9, upper = 1.1)
 rand_lefko_set(
@@ -358,6 +371,7 @@ estimate.
 The point estimate for population growth rate (lambda) is 2.539.
 
 ``` r
+
 library(popdemo)
 eigs(rMPM$mat_A, what = "lambda")
 #> [1] 2.539016
@@ -366,6 +380,7 @@ eigs(rMPM$mat_A, what = "lambda")
 Users can calculate the 95% CI, assuming a sample size of 10, like this:
 
 ``` r
+
 compute_ci(
   mat_U = rMPM$mat_U, mat_F = rMPM$mat_F,
   sample_size = 10,
@@ -410,6 +425,7 @@ passes the U and F matrices from this Leslie matrix to the
 sample size of 1000, and then with a sample size of seven.
 
 ``` r
+
 mats <- make_leslie_mpm(
   survival = c(0.3, 0.5, 0.8),
   fecundity = c(0, 2.2, 4.4),
@@ -439,6 +455,7 @@ A list of an arbitrary number of matrices can be generated easily using
 `replicate`, as follows.
 
 ``` r
+
 replicate(
   n = 5,
   add_mpm_error(
@@ -495,6 +512,7 @@ with, for example, `scale_fill_gradient` or similar.
 Here’s the matrix:
 
 ``` r
+
 rMPM$mat_U
 #>           [,1]       [,2]      [,3]
 #> [1,] 0.2070973 0.33155927 0.4132432
@@ -505,6 +523,7 @@ rMPM$mat_U
 And here’s the plot:
 
 ``` r
+
 p <- plot_matrix(rMPM$mat_U)
 p + ggplot2::scale_fill_gradient(low = "black", high = "yellow")
 ```

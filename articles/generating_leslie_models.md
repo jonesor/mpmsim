@@ -72,6 +72,7 @@ In the following sections, this document will:
 Before beginning, users will need to load the required packages.
 
 ``` r
+
 library(mpmsim)
 library(dplyr)
 library(Rage)
@@ -90,22 +91,23 @@ Siler and Exponential.
 In a nutshell:
 
 - Gompertz: A mortality rate that increases exponentially with age.
-  $h_{x} = b_{0}e^{b_{1}x}$
+  $`h_x = b_0 \mathrm{e}^{b_1  x}`$
 - Gompertz-Makeham: A mortality rate that increases exponentially with
   age, with an additional age-independent constant mortality.
-  $h_{x} = b_{0}e^{b_{1}x} + c$
+  $`h_x = b_0 \mathrm{e}^{b_1  x} + c`$
 - Weibull: A mortality rate that scales with age, increasing at a rate
   that can either accelerate or decelerate, depending on the parameters
-  of the model. $h_{x} = b_{0}b_{1}\left( b_{1}x \right)^{(b_{0} - 1)}$
+  of the model. $`h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)}`$
 - Weibull-Makeham: as the basic Weibull, but with an additional
   age-independent constant mortality.
-  $h_{x} = b_{0}b_{1}\left( b_{1}x \right)^{(b_{0} - 1)} + c$
+  $`h_x = b_0  b_1  (b_1  x)^{(b_0 - 1)} + c`$
 - Siler: A mortality model that separates mortality rates into two
   age-related components — juvenile mortality, which declines
   exponentially with age and adult mortality, which increases
-  exponentially. $h_{x} = a_{0}e^{- a_{1}x} + c + b_{0}e^{b_{1}x}$
+  exponentially.
+  $`h_x = a_0 \mathrm{e}^{-a_1  x} + c + b_0 \mathrm{e}^{b_1 x}`$
 - Exponential: Constant mortality that is unchanging with age.
-  $h_{x} = c$
+  $`h_x = c`$
 
 These are illustrated below.
 
@@ -126,24 +128,21 @@ or simply *reproduction/reproductive output*.
 
 - Step: Reproductive output is initially zero, then jumps to a
   particular level at a specified age, after which it remains constant.
-  $f_{x} = \left\{ \begin{array}{l}
-  {A,x \geq m} \\
-  {0,x < m}
-  \end{array} \right.$
+  $`f_x= \begin{cases} A, x \geq m \\ 0, x <  m \end{cases}`$
 - Logistic: Reproductive output initially increases rapidly with age
   then slows to plateau as it approaches a maximum value.
-  $f_{x} = A/\left( 1 + exp\left( - k\left( x - x_{m} \right) \right) \right)$
+  $`f_x = A / (1 + exp(-k  (x - x_m)))`$
 - von Bertalanffy: This model is often used in growth dynamics but has
   been adapted here to represent an archetype where reproductive output
   increases asymptotically towards a maximum value with age.
-  $f_{x} = A\left( 1 - exp\left( - k\left( x - x_{0} \right) \right) \right)$
+  $`f_x = A  (1 - exp(-k  (x - x_0)))`$
 - Normal : Reproductive output is modelled as normal distribution to
   describe how reproductive output increases, peaks, and then decreases
   in a bell curve around a mean age of reproductive capacity.
-  $f_{x} = A \times \exp\left( - \frac{1}{2}\left( \frac{x - \mu}{\sigma} \right)^{2}\, \right)$
+  $`f_x = A \times \exp\left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\,\right)`$
 - Hadwiger: The outcomes of this model are qualitatively similar to the
   normal distribution.
-  $f_{x} = \frac{ab}{C}\left( \frac{C}{x} \right)^{\frac{3}{2}}\exp\left\{ - b^{2}\left( \frac{C}{x} + \frac{x}{C} - 2 \right) \right\}$
+  $`f_x = \frac{ab}{C} \left (\frac{C}{x}  \right )^\frac{3}{2} \exp \left \{ -b^2  \left ( \frac{C}{x}+\frac{x}{C}-2 \right ) \right \}`$
 
 ![Examples of mortality functions used in mpmsim's model_reproduction
 function](generating_leslie_models_files/figure-html/unnamed-chunk-3-1.png)
@@ -165,6 +164,7 @@ survivorship function declines below 0.01 (i.e. when only 1% of
 individuals in a cohort would remain alive).
 
 ``` r
+
 (lt1 <- model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz"))
 #>     x        hx         lx        qx        px
 #> 1   0 0.1000000 1.00000000 0.1051240 0.8948760
@@ -186,6 +186,7 @@ hazard (`hx`) graphically, especially for users who are unfamiliar with
 the chosen models.
 
 ``` r
+
 ggplot(lt1, aes(x = x, y = hx)) +
   geom_line() +
   ggtitle("Gompertz mortality (b_0 = 0.1, b_1 = 0.2)")
@@ -202,6 +203,7 @@ allows us to add a fecundity column (`fecundity`) directly to the life
 table produced earlier, as follows:
 
 ``` r
+
 (lt1 <- lt1 |>
   mutate(fecundity = model_fecundity(
     age = x, params = c(A = 3),
@@ -226,6 +228,7 @@ table produced earlier, as follows:
 Again, it can be useful to plot the relevant data to visualise it.
 
 ``` r
+
 ggplot(lt1, aes(x = x, y = fecundity)) +
   geom_line() +
   ggtitle("Step fecundity, maturity at age 3")
@@ -243,6 +246,7 @@ on the maximum life span of the population: as mentioned above, the
 population is modelled until less than 1% of a cohort remains alive.
 
 ``` r
+
 make_leslie_mpm(lifetable = lt1)
 #>           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
 #>  [1,] 0.000000 0.0000000 0.0000000 3.0000000 3.0000000 3.0000000 3.0000000
@@ -294,7 +298,7 @@ equations (see
 [`?model_mortality`](https://jonesor.github.io/mpmsim/reference/model_survival.md)),
 with the exact order depending on the chosen mortality model.
 
-For the Gompertz-Makeham model: $h_{x} = b_{0}e^{b_{1}x} + c$
+For the Gompertz-Makeham model: $`h_x = b_0 \mathrm{e}^{b_1  x} + c`$
 
 The `output` argument defines the output as one of six types (`Type1`
 through `Type6`). These outputs include `CompadreDB` objects or `list`
@@ -317,6 +321,7 @@ trajectory. This should be used with care: The desirability of such a
 manipulation strongly depends on the use the MPMs are put to.
 
 ``` r
+
 mortParams <- data.frame(
   minVal = c(0, 0.01, 0.1),
   maxVal = c(0.05, 0.15, 0.2)
@@ -369,6 +374,7 @@ are working with Leslie MPMs, the dimension of the MPMs is indicative of
 the maximum age reached by individuals in the population.
 
 ``` r
+
 summarise_mpms(myMatrices)
 #> Summary of matrix dimension:
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -397,6 +403,7 @@ get the A matrix, or the U/F submatrices users can use the `matA`,
 rapidly calculate population growth rate for all of the matrices.
 
 ``` r
+
 # Obtain the matrices
 x <- matA(myMatrices)
 

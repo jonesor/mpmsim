@@ -154,6 +154,7 @@ Owen Jones <jones@biology.sdu.dk>
 ## Examples
 
 ``` r
+
 mortParams <- data.frame(
   minVal = c(0, 0.01, 0.1),
   maxVal = c(0.14, 0.15, 0.1)

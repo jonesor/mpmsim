@@ -67,6 +67,7 @@ In the following sections, this vignette will:
 Before beginning, users will need to load the required packages.
 
 ``` r
+
 library(mpmsim)
 library(dplyr)
 library(Rage)
@@ -128,6 +129,7 @@ top-right hand corner of the **F** matrix. Also, by default, all
 fecundity is assumed to be sexual.
 
 ``` r
+
 rand_lefko_mpm(n_stages = 3, fecundity = 5, archetype = 2)
 #> $mat_A
 #>             [,1]       [,2]       [,3]
@@ -158,6 +160,7 @@ should use 0 for both lower and upper limits in cases with no fecundity.
 The following code provides an example:
 
 ``` r
+
 lower_reprod <- matrix(c(
   0, 0, 0,
   0, 0, 0,
@@ -216,6 +219,7 @@ The following code shows how users can generate 100 matrices in a
 `CompadreDB` object.
 
 ``` r
+
 myMatrices <- rand_lefko_set(
   n = 100, n_stages = 3, fecundity = 12,
   archetype = 4, output = "Type1"
@@ -229,6 +233,7 @@ get the **A** matrix, or the **U**/**F** submatrices users can use the
 to rapidly calculate population growth rate for all of the matrices.
 
 ``` r
+
 # Obtain the matrices
 x <- matA(myMatrices)
 
@@ -265,6 +270,7 @@ the generated MPMs have a population growth rate (lambda) between 0.9
 and 1.1.
 
 ``` r
+
 library(popdemo)
 
 constrain_df <- data.frame(
@@ -280,6 +286,7 @@ myMatrices <- rand_lefko_set(
 We can check that it has worked by examining the matrices.
 
 ``` r
+
 # Obtain the matrices
 x <- matA(myMatrices)
 

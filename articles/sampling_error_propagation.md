@@ -58,7 +58,7 @@ reasons, including:
 
 We can estimate the 95% CI for any metric derived from a matrix
 population model. In this example, we focus on the population growth
-rate, $\lambda$.
+rate, $`\lambda`$.
 
 Consider a matrix model **A**, which is composed of submatrices **U**
 (survival/growth) and **F** (sexual reproduction), such that **A** =
@@ -75,23 +75,31 @@ representing reproduction, while all other elements represent survival
 or growth. The method assumes that the matrices represent the true
 values, for which we wish to calculate confidence intervals.
 
-$$\mathbf{A} = \begin{bmatrix}
+``` math
+\mathbf{A} = \begin{bmatrix}
 0.1 & 5.0 \\
-0.2 & {0.4\ }
-\end{bmatrix}$$$$\mathbf{U} = \begin{bmatrix}
+0.2 & 0.4 \
+\end{bmatrix}
+```
+``` math
+\mathbf{U} = \begin{bmatrix}
 0.1 & 0.0 \\
-0.2 & {0.4\ }
-\end{bmatrix}$$
+0.2 & 0.4 \
+\end{bmatrix}
+```
 
-$$\mathbf{F} = \begin{bmatrix}
+``` math
+\mathbf{F} = \begin{bmatrix}
 0.0 & 5.0 \\
-0.0 & {0.0\ }
-\end{bmatrix}$$
+0.0 & 0.0 \
+\end{bmatrix}
+```
 
 We can enter these matrices into R as follows, first entering the **U**
 and **F** matrices, and then summing them to get the **A** matrix.
 
 ``` r
+
 matU <- matrix(c(
   0.1, 0.0,
   0.2, 0.4
@@ -105,10 +113,11 @@ matF <- matrix(c(
 matA <- matU + matF
 ```
 
-The estimated population growth rate ($\lambda$) can be calculated using
-the `eigs` function from the `popdemo` package like this:
+The estimated population growth rate ($`\lambda`$) can be calculated
+using the `eigs` function from the `popdemo` package like this:
 
 ``` r
+
 popdemo::eigs(matA, what = "lambda")
 #> [1] 1.261187
 ```
@@ -117,7 +126,7 @@ We can now estimate the 95% CI for this estimate, based on a knowledge
 of the sample size(s) used to parameterise the MPM.
 
 If the sample size used to estimate each element of the matrix is `20`
-individuals, we can estimate the 95% CI for $\lambda$ using the
+individuals, we can estimate the 95% CI for $`\lambda`$ using the
 `compute_ci` function. This function requires several arguments: `mat_U`
 and `mat_F` represent the survival/growth matrix and reproductive output
 matrix respectively, and `sample_size` specifies the number of
@@ -126,6 +135,7 @@ argument `FUN` defines the function to be applied to the resulting **A**
 matrix to calculate the desired metric.
 
 ``` r
+
 compute_ci(
   mat_U = matU, mat_F = matF, sample_size = 20,
   FUN = popdemo::eigs, what = "lambda"
@@ -134,10 +144,11 @@ compute_ci(
 #> 0.7097788 1.7020301
 ```
 
-We can examine the sampling distribution of these $\lambda$ estimates by
-using the argument `dist.out = TRUE`.
+We can examine the sampling distribution of these $`\lambda`$ estimates
+by using the argument `dist.out = TRUE`.
 
 ``` r
+
 distLambda_20 <- compute_ci(
   mat_U = matU, mat_F = matF,
   sample_size = 20, FUN = popdemo::eigs, what = "lambda",
@@ -184,6 +195,7 @@ also assign different sample sizes to individual elements of the matrix,
 allowing for different sample sizes for different transitions.
 
 ``` r
+
 # Define the sample sizes for U
 mat_U_ss <- matrix(c(
   40, 40,
@@ -212,13 +224,14 @@ compute_ci(
 
 Sample size is critical in determining the precision of statistical
 estimates. In demographic studies, small sample sizes can lead to high
-uncertainty in estimates of derived measures like $\lambda$, making it
+uncertainty in estimates of derived measures like $`\lambda`$, making it
 difficult to make strong inferences. Larger sample sizes reduce this
 uncertainty, as seen in the narrower confidence intervals around
-$\lambda$ when we increase the sample size from 20 (calculated above) to
-100 (below).
+$`\lambda`$ when we increase the sample size from 20 (calculated above)
+to 100 (below).
 
 ``` r
+
 distLambda_100 <- compute_ci(
   mat_U = matU, mat_F = matF,
   sample_size = 100, FUN = popdemo::eigs, what = "lambda",
@@ -240,13 +253,13 @@ level. For instance, one might ask, ’What sample size is needed to
 confidently conclude that the population growth rate is above 1.0?
 
 The following code creates a plot to visualize how the precision of
-$\lambda$ estimates improves as sample size increases. It first defines
-a set of sample sizes to iterate over, then it uses `compute_ci` to
-calculate the confidence intervals (CIs) for $\lambda$ estimated from
-MPMs based on these sample sizes. It then plots $\lambda$ estimates and
-their CIs, along with a reference line at $\lambda = 1$. The goal is to
-show that as the sample size increases, the width of the CIs shrinks,
-increasing our confidence in the value of $\lambda$.
+$`\lambda`$ estimates improves as sample size increases. It first
+defines a set of sample sizes to iterate over, then it uses `compute_ci`
+to calculate the confidence intervals (CIs) for $`\lambda`$ estimated
+from MPMs based on these sample sizes. It then plots $`\lambda`$
+estimates and their CIs, along with a reference line at $`\lambda = 1`$.
+The goal is to show that as the sample size increases, the width of the
+CIs shrinks, increasing our confidence in the value of $`\lambda`$.
 
 In this case, a sample size of approximately 70 appears sufficient.
 However, sample size likely has greater importance for the more elastic
@@ -257,6 +270,7 @@ design, allowing for optimized sampling efforts in the areas where
 precision matters most.
 
 ``` r
+
 # Define sample sizes to iterate over
 sample_sizes <- seq(10, 100, 10)
 
