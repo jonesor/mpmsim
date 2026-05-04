@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jonesor/mpmsim/blob/v3.2.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jonesor/mpmsim/blob/v3.1.0/DESCRIPTION)
 
 Jones O (2026). *mpmsim: Simulation of Matrix Population Models with
 Defined Life History Characteristics*. R package version 3.3.0,
