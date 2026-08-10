@@ -1,5 +1,16 @@
 # Changelog
 
+## mpmsim 3.3.1.9000
+
+- Fixed
+  [`model_mortality()`](https://jonesor.github.io/mpmsim/reference/model_survival.md)
+  and
+  [`model_survival()`](https://jonesor.github.io/mpmsim/reference/model_survival.md)
+  for Weibull and Weibull-Makeham hazards with `b_0 < 1`, where
+  survivorship could collapse immediately because the cumulative hazard
+  was approximated from a hazard function that is infinite at age 0
+  despite being integrable.
+
 ## mpmsim 3.3.0
 
 CRAN release: 2026-04-24

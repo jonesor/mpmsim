@@ -8,16 +8,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jonesor/mpmsim/blob/v3.3.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jonesor/mpmsim/blob/main/DESCRIPTION)
 
 Jones O (2026). *mpmsim: Simulation of Matrix Population Models with
-Defined Life History Characteristics*. R package version 3.3.0,
+Defined Life History Characteristics*. R package version 3.3.1.9000,
 <https://jonesor.github.io/mpmsim/>.
 
     @Manual{,
       title = {mpmsim: Simulation of Matrix Population Models with Defined Life History Characteristics},
       author = {Owen Jones},
       year = {2026},
-      note = {R package version 3.3.0},
+      note = {R package version 3.3.1.9000},
       url = {https://jonesor.github.io/mpmsim/},
     }

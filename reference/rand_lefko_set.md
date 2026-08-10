@@ -261,7 +261,7 @@ rand_lefko_set(
 # As above, but using popdemo::eigs function instead of popbio::lambda
 # to illustrate use of argument
 library(popdemo)
-#> Welcome to popdemo! This is version 1.3-3
+#> Welcome to popdemo! This is version 1.3-4
 #> Use ?popdemo for an intro, or browseVignettes('popdemo') for vignettes
 #> Citation for popdemo is here: doi.org/10.1111/j.2041-210X.2012.00222.x
 #> Development and legacy versions are here: github.com/iainmstott/popdemo
