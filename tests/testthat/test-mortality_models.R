@@ -93,8 +93,46 @@ test_that("Check model_survival functions correctly", {
   )
 
   expect_silent(
+    model_mortality(
+      params = c(b_0 = 0.5, b_1 = 0.1),
+      model = "Weibull"
+    )
+  )
+
+  expect_silent(
+    model_mortality(
+      params = c(b_0 = 0.5, b_1 = 0.1, c = 0.2),
+      model = "WeibullMakeham"
+    )
+  )
+
+  expect_silent(
     model_mortality(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
   )
+})
+
+test_that("Decreasing-hazard Weibull models produce valid life tables", {
+  weibull_lt <- model_mortality(
+    params = c(b_0 = 0.5, b_1 = 0.1),
+    model = "Weibull"
+  )
+
+  expect_gt(nrow(weibull_lt), 1)
+  expect_equal(weibull_lt$lx[1], 1)
+  expect_true(all(is.finite(weibull_lt$lx)))
+  expect_true(all(diff(weibull_lt$lx) <= 0))
+  expect_equal(weibull_lt$lx[2], exp(-(0.1)^0.5))
+
+  weibull_makeham_lt <- model_mortality(
+    params = c(b_0 = 0.5, b_1 = 0.1, C = 0.2),
+    model = "WeibullMakeham"
+  )
+
+  expect_gt(nrow(weibull_makeham_lt), 1)
+  expect_equal(weibull_makeham_lt$lx[1], 1)
+  expect_true(all(is.finite(weibull_makeham_lt$lx)))
+  expect_true(all(diff(weibull_makeham_lt$lx) <= 0))
+  expect_equal(weibull_makeham_lt$lx[2], exp(-((0.1)^0.5 + 0.2)))
 })
 
 test_that("Check model_survival fails/warns gracefully with incorrect age

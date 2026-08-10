@@ -1,3 +1,7 @@
+# mpmsim 3.3.1.9000
+
+- Fixed `model_mortality()` and `model_survival()` for Weibull and Weibull-Makeham hazards with `b_0 < 1`, where survivorship could collapse immediately because the cumulative hazard was approximated from a hazard function that is infinite at age 0 despite being integrable.
+
 # mpmsim 3.3.0
 
 - Fixed typo in `calculate_errors()`: the `mat_U_error` element in the returned list was incorrectly named `,mat_U_error` when `type = "sem"`, causing `NULL` to be returned on access.

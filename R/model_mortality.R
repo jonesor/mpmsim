@@ -140,6 +140,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b1 <- params[2]
 
     hx <- b0 * exp(b1 * age)
+    Hx <- exact_cumulative_hazard(age = age, model = model, params = params)
   }
 
   if (model == "exponential") {
@@ -151,6 +152,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b0 <- params[1]
 
     hx <- rep(b0, length(age))
+    Hx <- exact_cumulative_hazard(age = age, model = model, params = params)
   }
 
   if (model == "gompertzmakeham") {
@@ -164,6 +166,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     C <- params[3]
 
     hx <- b0 * exp(b1 * age) + C
+    Hx <- exact_cumulative_hazard(age = age, model = model, params = params)
   }
 
   if (model == "siler") {
@@ -179,6 +182,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b1 <- params[5]
 
     hx <- a0 * exp(-a1 * age) + C + b0 * exp(b1 * age)
+    Hx <- exact_cumulative_hazard(age = age, model = model, params = params)
   }
 
   if (model == "weibull") {
@@ -191,6 +195,7 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     b1 <- params[2]
 
     hx <- b0 * b1 * (b1 * age)^(b0 - 1)
+    Hx <- exact_cumulative_hazard(age = age, model = model, params = params)
   }
 
   if (model == "weibullmakeham") {
@@ -204,10 +209,8 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
     C <- params[3]
 
     hx <- b0 * b1 * (b1 * age)^(b0 - 1) + C
+    Hx <- exact_cumulative_hazard(age = age, model = model, params = params)
   }
-
-  # Cumulative hazard (Hx)
-  Hx <- cumulative_auc(x = age, y = hx)
 
   # Survivorship (lx)
   lx <- exp(-Hx)
@@ -226,6 +229,75 @@ model_survival <- function(params, age = NULL, model, truncate = 0.01) {
 #' model_survival(params = c(b_0 = 0.1, b_1 = 0.2), model = "Gompertz")
 #' @export
 model_mortality <- model_survival
+
+exact_cumulative_hazard <- function(age, model, params) {
+  is_zero <- function(x) isTRUE(all.equal(x, 0))
+
+  if (model == "gompertz") {
+    b0 <- params[1]
+    b1 <- params[2]
+
+    if (is_zero(b1)) {
+      return(b0 * age)
+    }
+
+    return((b0 / b1) * (exp(b1 * age) - 1))
+  }
+
+  if (model == "exponential") {
+    b0 <- params[1]
+    return(b0 * age)
+  }
+
+  if (model == "gompertzmakeham") {
+    b0 <- params[1]
+    b1 <- params[2]
+    C <- params[3]
+
+    if (is_zero(b1)) {
+      return((b0 + C) * age)
+    }
+
+    return((b0 / b1) * (exp(b1 * age) - 1) + C * age)
+  }
+
+  if (model == "siler") {
+    a0 <- params[1]
+    a1 <- params[2]
+    C <- params[3]
+    b0 <- params[4]
+    b1 <- params[5]
+
+    early_life <- if (is_zero(a1)) {
+      a0 * age
+    } else {
+      (a0 / a1) * (1 - exp(-a1 * age))
+    }
+
+    senescence <- if (is_zero(b1)) {
+      b0 * age
+    } else {
+      (b0 / b1) * (exp(b1 * age) - 1)
+    }
+
+    return(early_life + C * age + senescence)
+  }
+
+  if (model == "weibull") {
+    b0 <- params[1]
+    b1 <- params[2]
+    return((b1 * age)^b0)
+  }
+
+  if (model == "weibullmakeham") {
+    b0 <- params[1]
+    b1 <- params[2]
+    C <- params[3]
+    return((b1 * age)^b0 + C * age)
+  }
+
+  stop("model type not recognised")
+}
 
 #' Utility function to calculate the cumulative area under the curve (AUC) from
 #' x and y data
